@@ -22,11 +22,15 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
+define('VPROF', FALSE);// run varien profiler?
 
 /**
  * Error reporting
@@ -39,7 +43,6 @@ AO::register('original_include_path', get_include_path());
  * Set include path
  */
 $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
 $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
 $paths[] = BP . DS . 'lib';
 
@@ -59,6 +62,7 @@ final class Mage extends AO {
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AO {
+
     /**
      * Registry collection
      *
@@ -85,7 +89,7 @@ class AO {
 
     public static function getVersion()
     {
-        return '1.3.0';
+        return '1.0.0';
     }
 
     /**
@@ -409,34 +413,41 @@ class AO {
     }
 
     /**
-     * Initialize and retrieve application
+     * Initialize an application
      *
      * @param   string $code
      * @param   string $type
      * @param   string|array $options
+     */
+    public static function initApp($code = '', $type = 'store', $options=array())
+    {
+        if (VPROF) Varien_Profiler::start('mage::app::construct');
+        self::$_app = new Mage_Core_Model_App();
+        if (VPROF) Varien_Profiler::stop('mage::app::construct');
+
+        Mage::setRoot();
+        Mage::register('events', new Varien_Event_Collection());
+
+
+        if (VPROF) Varien_Profiler::start('mage::app::register_config');
+        Mage::register('config', new Mage_Core_Model_Config());
+        if (VPROF) Varien_Profiler::stop('mage::app::register_config');
+
+        if (VPROF) Varien_Profiler::start('mage::app::init');
+        self::$_app->init($code, $type, $options);
+        if (VPROF) Varien_Profiler::stop('mage::app::init');
+
+        self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+    }
+
+
+    /**
+     * Initialize and retrieve application
+     *
      * @return  Mage_Core_Model_App
      */
-    public static function app($code = '', $type = 'store', $options=array())
+    public static function app()
     {
-        if (null === self::$_app) {
-            Varien_Profiler::start('mage::app::construct');
-            self::$_app = new Mage_Core_Model_App();
-            Varien_Profiler::stop('mage::app::construct');
-
-            Mage::setRoot();
-            Mage::register('events', new Varien_Event_Collection());
-
-
-            Varien_Profiler::start('mage::app::register_config');
-            Mage::register('config', new Mage_Core_Model_Config());
-            Varien_Profiler::stop('mage::app::register_config');
-
-            Varien_Profiler::start('mage::app::init');
-            self::$_app->init($code, $type, $options);
-            Varien_Profiler::stop('mage::app::init');
-
-            self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-        }
         return self::$_app;
     }
 
@@ -453,7 +464,7 @@ class AO {
             Varien_Profiler::start('mage');
 
             Varien_Profiler::start('mage::app');
-            self::app($code, $type, $options);
+            self::initApp($code, $type, $options);
             Varien_Profiler::stop('mage::app');
 
             Varien_Profiler::start('mage::dispatch');

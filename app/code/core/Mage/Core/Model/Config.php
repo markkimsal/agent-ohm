@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -203,6 +206,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          * Load configuration from DB
          */
         if ($localConfigLoaded) {
+            //AO-TODO: Create an admin interface to apply resource updates
             //no need to install new apps every single page request.
             /*
             Varien_Profiler::start('dbUpdates');
@@ -244,7 +248,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if ($disableLocalModules) {
             set_include_path(
                 // excluded '/app/code/local'
-                BP . DS . 'app' . DS . 'code' . DS . 'community' . PS .
                 BP . DS . 'app' . DS . 'code' . DS . 'core' . PS .
                 BP . DS . 'lib' . PS .
                 Mage::registry('original_include_path')
