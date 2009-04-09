@@ -241,7 +241,8 @@ class Mage_Core_Model_Design_Package
 
 	public function getTheme($type)
 	{
-		if (empty($this->_theme[$type])) {
+		static $customThemeCache = array();
+		if (!isset($this->_theme[$type])) {
 			$this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type, $this->getStore());
 			if ($type!=='default' && empty($this->_theme[$type])) {
 				$this->_theme[$type] = $this->getTheme('default');
@@ -251,15 +252,17 @@ class Mage_Core_Model_Design_Package
 
 				// "locale", "layout", "template"
 			}
+
+			//_checkUserAgentAgainstRegexps returns false sometimes
+			//this doesn't mean that we should check it again and again for the 
+			//same type
+			if (!isset($this->_theme[$type])) {
+				// set exception value for theme, if defined in config
+				$customThemeType = $this->_checkUserAgentAgainstRegexps("design/theme/{$type}_ua_regexp");
+				if ($customThemeType)
+				$this->_theme[$type] = $customThemeType;
+			}
 		}
-
-		// + "default", "skin"
-
-		// set exception value for theme, if defined in config
-        $customThemeType = $this->_checkUserAgentAgainstRegexps("design/theme/{$type}_ua_regexp");
-        if ($customThemeType) {
-            $this->_theme[$type] = $customThemeType;
-        }
 
 		return $this->_theme[$type];
 	}
