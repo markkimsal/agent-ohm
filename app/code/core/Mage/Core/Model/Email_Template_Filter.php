@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
@@ -155,7 +158,9 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 
         if (!self::$_urlInstance) {
             self::$_urlInstance = Mage::getModel('core/url')->setStore(
-                Mage::app()->getStore(Mage::getDesign()->getStore())->getId()
+
+        		Mage::app()->getStore(Mage_Core_Model_Design_Package::getDesign()->getStore()->getId())
+//                Mage::app()->getStore(Mage::getDesign()->getStore())->getId()
             );
         }
         $_urlInstanceOldStore = null;

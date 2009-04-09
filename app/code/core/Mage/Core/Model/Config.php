@@ -888,6 +888,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			return $this->_classNameCache[$groupRootNode][$group][$class];
 		}
 
+		/*
+		$className = 'mage_'.$group.'_'.$groupType.'_'.$class;
+		$className = uc_words($className);
+		$this->_classNameCache[$groupRootNode][$group][$class] = $className;
+		return $className;
+		// */
+
 		//$config = $this->getNode($groupRootNode.'/'.$group);
 		$config = $this->_xml->global->{$groupType.'s'}->{$group};
 
@@ -905,6 +912,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			}
 			$className = uc_words($className);
 		}
+//		var_dump($config);
+//		var_dump($className);
+//		exit();
 
 		$this->_classNameCache[$groupRootNode][$group][$class] = $className;
 		return $className;

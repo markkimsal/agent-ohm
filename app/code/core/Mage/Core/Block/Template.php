@@ -174,7 +174,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
             $params['_area'] = $area;
         }
 
-        $templateName = Mage::getDesign()->getTemplateFilename($this->getTemplate(), $params);
+        $templateName = Mage_Core_Model_Design_Package::getDesign()->getTemplateFilename($this->getTemplate(), $params);
 		$templateName = $this->scrunchName($templateName, 5);
 		//var_dump($templateName);
 		//var_dump(get_class($this));

@@ -260,10 +260,12 @@ class AO {
      *
      * @return Mage_Core_Model_Design_Package
      */
+	/*
     public static function getDesign()
     {
         return AO::getSingleton('core/design_package');
     }
+	 */
 
     /**
      * Get a config object

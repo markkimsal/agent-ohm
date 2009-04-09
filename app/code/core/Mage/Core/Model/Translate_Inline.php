@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -40,10 +43,16 @@ class Mage_Core_Model_Translate_Inline
     protected $_isScriptInserted = false;
     protected $_isAjaxRequest = null;
 
+	public $design = null;
+
+	public function __construct($args) {
+		$this->design = Mage_Core_Model_Design_Package::getDesign();
+	}
+
     public function isAllowed($storeId=null)
     {
         if (is_null($this->_isAllowed)) {
-            if (Mage::getDesign()->getArea()==='adminhtml') {
+            if ($this->design->getArea()==='adminhtml') {
                 $active = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
                 $active = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
@@ -67,7 +76,8 @@ class Mage_Core_Model_Translate_Inline
         $resource = Mage::getResourceModel('core/translate_string');
         /* @var $resource Mage_Core_Model_Mysql4_Translate_String */
         foreach ($translate as $t) {
-            if (Mage::getDesign()->getArea() == 'adminhtml') {
+			$d = Mage_Core_Model_Design_Package::getDesign();
+            if ($this->design->getArea() == 'adminhtml') {
                 $storeId = 0;
             }
             elseif (empty($t['perstore'])) {
@@ -100,7 +110,8 @@ class Mage_Core_Model_Translate_Inline
     {
         if (!$this->isAllowed()) {
             // TODO: move translations from exceptions and errors to output
-            if (Mage::getDesign()->getArea()==='adminhtml') {
+			$d = Mage_Core_Model_Design_Package::getDesign();
+            if ($this->design->getArea()==='adminhtml') {
                 $this->stripInlineTranslations($bodyArray);
             }
             return;
@@ -126,7 +137,7 @@ class Mage_Core_Model_Translate_Inline
 
         $baseJsUrl = Mage::getBaseUrl('js');
         $ajaxUrl = Mage::getUrl('core/ajax/translate', array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
-        $trigImg = Mage::getDesign()->getSkinUrl('images/fam_book_open.png');
+        $trigImg = $this->design->getSkinUrl('images/fam_book_open.png');
 
         ob_start();
 ?>

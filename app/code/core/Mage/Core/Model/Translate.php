@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 /**
@@ -169,6 +172,8 @@ class Mage_Core_Model_Translate
      */
     public function setConfig($config)
     {
+		$d = Mage_Core_Model_Design_Package::getDesign();
+
         $this->_config = $config;
         if (!isset($this->_config[self::CONFIG_KEY_LOCALE])) {
             $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
@@ -177,10 +182,10 @@ class Mage_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_PACKAGE])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = Mage::getDesign()->getPackageName();
+            $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = $d->getPackageName();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = Mage::getDesign()->getTheme('locale');
+            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $d->getTheme('locale');
         }
         return $this;
     }

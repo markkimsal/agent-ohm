@@ -22,8 +22,10 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
-
 
 class Mage_Core_Model_Design_Package
 {
@@ -71,6 +73,23 @@ class Mage_Core_Model_Design_Package
 	protected $_rootDir;
 
 	protected $_config = null;
+
+	protected static $_singleton = null;
+
+	/**
+	 * Return a singleton of Design_Package
+	 */
+	public static function getDesign() {
+		//namespace
+		$_s = Mage_Core_Model_Design_Package::$_singleton;
+		if ($_s === null) {
+			$_s = AO::getModel('core/design_package');
+
+	        $_s->setStore(Mage::app()->getStore());
+		}
+		Mage_Core_Model_Design_Package::$_singleton = $_s;
+		return Mage_Core_Model_Design_Package::$_singleton;
+	}
 
 	/**
 	 * Set store

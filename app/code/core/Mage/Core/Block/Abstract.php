@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -740,7 +743,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getSkinUrl($file=null, array $params=array())
     {
-        return Mage::getDesign()->getSkinUrl($file, $params);
+
+        return Mage_Core_Model_Design_Package::getDesign()->getSkinUrl($file, $params);
+//        return Mage::getDesign()->getSkinUrl($file, $params);
     }
 
     /**
