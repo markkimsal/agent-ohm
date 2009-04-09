@@ -977,16 +977,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	public function getModelInstance($modelClass='', $constructArguments=array())
 	{
+
 		$className = $this->getModelClassName($modelClass);
-		if (class_exists($className)) {
-			if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
-			$obj = new $className($constructArguments);
-			if (VPROF) Varien_Profiler::stop('CORE::create_object_of::'.$className);
-			return $obj;
-		} else {
-			#throw Mage::exception('Mage_Core', Mage::helper('core')->__('Model class does not exist: %s', $modelClass));
-			return false;
-		}
+        //AB seems slightly slower with this commented out, probably
+        //has to do with internal class not found error handling
+        class_exists($className);
+        if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
+        $obj = new $className($constructArguments);
+        if (VPROF) Varien_Profiler::stop('CORE::create_object_of::'.$className);
+        return $obj;
 	}
 
 	public function getNodeClassInstance($path)
