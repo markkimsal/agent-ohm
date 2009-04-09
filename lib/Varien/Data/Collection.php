@@ -490,6 +490,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
         return new $this->_itemObjectClass();
     }
 
+
     /**
      * Render sql select conditions
      *

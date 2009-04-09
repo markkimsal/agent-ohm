@@ -384,13 +384,14 @@ class Mage_Core_Model_App
         $this->_website  = null;
         $this->_websites = array();
 
-        $websiteCollection = Mage::getModel('core/website')->getCollection()
+        $websiteCollection = Mage::getResourceModel('core/website_collection')
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG))
             ->setLoadDefault(true);
         $groupCollection = Mage::getModel('core/store_group')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store_Group::CACHE_TAG))
             ->setLoadDefault(true);
-        $storeCollection = Mage::getModel('core/store')->getCollection()
+
+        $storeCollection = Mage::getResourceModel('core/store_collection')
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store::CACHE_TAG))
             ->setLoadDefault(true);
 

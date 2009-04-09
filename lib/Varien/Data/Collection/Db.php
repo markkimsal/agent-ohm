@@ -646,7 +646,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         if (is_array($data)) {
             foreach ($data as $row) {
-                $item = $this->getNewEmptyItem();
+                $item = $this->getNewItem($row);
                 if ($this->getIdFieldName()) {
                     $item->setIdFieldName($this->getIdFieldName());
                 }
@@ -797,4 +797,15 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
         return array();
     }
+
+    /**
+     *  allow for callbacks to constructor using data row
+     *
+     * @return Varien_Object
+     */
+    public function getNewItem($row)
+    {
+        return new $this->_itemObjectClass($row);
+    }
+
 }

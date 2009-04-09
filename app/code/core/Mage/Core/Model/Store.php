@@ -98,6 +98,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_isAdminSecure = null;
     protected $_isFrontSecure = null;
 
+    public $storeId   = -1;
+    public $storeCode = '';
+    public $_storeConfig = NULL;
+
     protected function _construct()
     {
         $this->_init('core/store');
@@ -113,6 +117,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             'web/secure/base_link_url',
             'general/locale/code'
         );
+    }
+
+    /**
+     *
+     */
+    public function __construct($datarec) {
+        self::_construct();
+        $this->storeId   = (int)$datarec['store_id'];
+        $this->storeCode = $datarec['code'];
+        $this->loadConfig($this->storeCode);
     }
 
     /**
@@ -157,12 +171,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             foreach (Mage::getConfig()->getNode()->stores->children() as $storeCode=>$store) {
                 if ((int)$store->system->store->id==$code) {
                     $code = $storeCode;
+                    $this->_storeConfig = $store;
                     break;
                 }
             }
         } else {
             $store = Mage::getConfig()->getNode()->stores->{$code};
+            $this->_storeConfig = $store;
         }
+
+
         if (!empty($store)) {
             $this->setCode($code);
             $id = (int)$store->system->store->id;
@@ -179,7 +197,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getCode()
     {
-        return $this->_getData('code');
+        return $this->storeCode;
     }
 
     /**
@@ -191,14 +209,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getConfig($path)
     {
-        static $config ; if (!$config) $config = Mage::getConfig(); 
+//        static $config ; if (!$config) $config = Mage::getConfig(); 
         if (isset($this->_configCache[$path])) {
             return $this->_configCache[$path];
         }
 
 		$code = $this->getCode();
         $fullPath = 'stores/'.$code.'/'.$path;
-        $data = $config->getNode($fullPath);
+        //$data = $config->getNode($fullPath);
+        $data = $this->_storeConfig->descend($path);
 //        $data = $config->getNode()->stores->{$code}->descend($path);
         if (!$data && !Mage::isInstalled()) {
             $data = $config->getNode('default/' . $path);
