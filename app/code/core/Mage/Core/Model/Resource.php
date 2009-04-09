@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -71,11 +74,15 @@ class Mage_Core_Model_Resource
         if (isset($this->_connections[$name])) {
             return $this->_connections[$name];
         }
-        $connConfig = AO::getConfig()->getResourceConnectionConfig($name);
-        if (!$connConfig || !$connConfig->is('active', 1)) {
+        // Trying to remove custom simplexml element classes.:app/code/core/Mage/Core/Model/Resource.php
+        $c = AO::getConfig();
+        $connConfig = $c->getResourceConnectionConfig($name);
+        if (!$connConfig || !$c->configElementIs($connConfig, 'active', 1)) {
             return false;
         }
-        $origName = $connConfig->getParent()->getName();
+        //$origName = $connConfig->getParent()->getName();
+		//this is always 'resources'
+		$origName = 'resources';
 
         if (isset($this->_connections[$origName])) {
             return $this->_connections[$origName];
@@ -102,8 +109,10 @@ class Mage_Core_Model_Resource
     public function getConnectionTypeInstance($type)
     {
         if (!isset($this->_connectionTypes[$type])) {
-            $config = AO::getConfig()->getResourceTypeConfig($type);
-            $typeClass = $config->getClassName();
+            // Trying to remove custom simplexml element classes.:app/code/core/Mage/Core/Model/Resource.php
+            $c      = AO::getConfig();
+            $config = $c->getResourceTypeConfig($type);
+            $typeClass = $c->getConfigElementClassName($config);
             $this->_connectionTypes[$type] = new $typeClass();
         }
         return $this->_connectionTypes[$type];

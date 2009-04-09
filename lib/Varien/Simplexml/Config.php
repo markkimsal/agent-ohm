@@ -22,6 +22,9 @@
  * @package    Varien_Simplexml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -111,7 +114,7 @@ class Varien_Simplexml_Config
         if (is_null($sourceData)) {
             return;
         }
-        if ($sourceData instanceof Varien_Simplexml_Element) {
+        if ($sourceData instanceof SimplexmlElement) {
            $this->setXml($sourceData);
         } elseif (is_string($sourceData) && !empty($sourceData)) {
             if (strlen($sourceData)<1000 && is_readable($sourceData)) {
@@ -130,7 +133,7 @@ class Varien_Simplexml_Config
      * @param Varien_Simplexml_Element $sourceData
      * @return Varien_Simplexml_Config
      */
-    public function setXml(Varien_Simplexml_Element $node)
+    public function setXml(SimplexmlElement $node)
     {
         $this->_xml = $node;
         return $this;
@@ -145,11 +148,16 @@ class Varien_Simplexml_Config
      */
     public function getNode($path=null)
     {
-        if (!$this->_xml instanceof Varien_Simplexml_Element) {
+        if (!$this->_xml instanceof SimplexmlElement) {
             return false;
         } elseif ($path === null) {
             return $this->_xml;
         } else {
+			$answer = $this->_xml->xpath($path);
+			if (!isset($answer[0])) {
+				return false;
+			}
+			return $answer[0];
             return $this->_xml->descend($path);
         }
     }
@@ -380,7 +388,8 @@ class Varien_Simplexml_Config
         }
 
         $xmlString = $this->_loadCache($this->getCacheId());
-        $xml = simplexml_load_string($xmlString, $this->_elementClass);
+//        $xml = simplexml_load_string($xmlString, $this->_elementClass);
+        $xml = simplexml_load_string($xmlString);
         if ($xml) {
             $this->_xml = $xml;
             $this->setCacheSaved(true);
@@ -485,7 +494,8 @@ class Varien_Simplexml_Config
 
         $fileData = file_get_contents($filePath);
         $fileData = $this->processFileData($fileData);
-        return $this->loadString($fileData, $this->_elementClass);
+//		die('loadString param error in '.__FILE__);
+        return $this->loadString($fileData);
     }
 
     /**
@@ -497,13 +507,14 @@ class Varien_Simplexml_Config
     public function loadString($string)
     {
         if (!empty($string)) {
-            $xml = simplexml_load_string($string, $this->_elementClass);
+            //$xml = simplexml_load_string($string, $this->_elementClass);
+            $xml = simplexml_load_string($string);
         }
         else {
             throw new Exception('"$string" parameter for simplexml_load_string is empty');
         }
 
-        if ($xml instanceof Varien_Simplexml_Element) {
+        if ($xml instanceof SimpleXMLElement) {
             $this->_xml = $xml;
             return true;
         }
@@ -519,7 +530,8 @@ class Varien_Simplexml_Config
      */
     public function loadDom($dom)
     {
-        $xml = simplexml_import_dom($dom, $this->_elementClass);
+//        $xml = simplexml_import_dom($dom, $this->_elementClass);
+        $xml = simplexml_import_dom($dom);
 
         if ($xml) {
             $this->_xml = $xml;

@@ -909,7 +909,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			$className = (string)$config->rewrite->$class;
 		} else {
 			if (!empty($config)) {
-				$className = $config->getClassName();
+				$className = $this->getConfigElementClassName($config);//->getClassName();
 			}
 			if (empty($className)) {
 				$className = 'mage_'.$group.'_'.$groupType;
@@ -970,6 +970,48 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		return $this->getGroupedClassName('model', $modelClass);
 	}
 
+    /**
+	 * @AO-TODO description
+     *
+     * @param string $var
+     * @param boolean $value
+     * @return boolean
+     */
+    public function configElementIs($configElement, $var, $value=true)
+    {
+        $flag = $configElement->$var;
+
+        if ($value===true) {
+            $flag = strtolower((string)$flag);
+            if (!empty($flag) && 'false'!==$flag && '0'!==$flag && 'off'!==$flag) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return !empty($flag) && (0===strcasecmp($value, (string)$flag));
+    }
+
+    /**
+	 * @AO-TODO description
+     *
+     * @return string
+     */
+    public function getConfigElementClassName($configElement)
+    {
+        if ($configElement->class) {
+            $model = (string)$configElement->class;
+        } elseif ($configElement->model) {
+            $model = (string)$configElement->model;
+        } else {
+            return false;
+        }
+        return $this->getModelClassName($model);
+    }
+
+
+
 	/**
 	 * Get model class instance.
 	 *
@@ -1001,7 +1043,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		if (!$config) {
 			return false;
 		} else {
-			$className = $config->getClassName();
+			$className = $this->getConfigElementClassName($config);
 			return new $className();
 		}
 	}

@@ -123,6 +123,8 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
 
     public function isModuleIgnored($observer)
     {
+        //Trying to remove custom simplexml element classes.:app/code/core/Mage/Log/Model/Visitor.php
+        return false;
         $ignores = AO::getConfig()->getNode('global/ignoredModules/entities')->asArray();
 
         if( is_array($ignores) && $observer) {

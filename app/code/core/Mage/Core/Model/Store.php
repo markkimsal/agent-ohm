@@ -330,7 +330,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return $this->_configCache[$path];
         }
 
-        if ($node->hasChildren()) {
+        if ($node->children()) {
             $aValue = array();
             foreach ($node->children() as $k=>$v) {
                 $aValue[$k] = $this->_processConfigValue($fullPath.'/'.$k, $path.'/'.$k, $v);

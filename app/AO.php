@@ -100,7 +100,7 @@ class AO {
         self::$_useCache = array();
         self::$_objects  = null;
         self::$_isDownloader    = false;
-        self::$_isDeveloperMode = false;
+        self::$_isDeveloperMode = true;
         // do not reset $headersSentThrowsException
     }
 
