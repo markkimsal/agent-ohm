@@ -101,7 +101,7 @@ function __autoload($class)
 			return;
 	}
 
-    include($classFile);
+    return @include($classFile);
 
     //if (VPROF) Varien_Profiler::stop('AUTOLOAD');
     //if (VPROF) Varien_Profiler::stop('AUTOLOAD: '.$a[0]);

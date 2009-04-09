@@ -888,12 +888,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			return $this->_classNameCache[$groupRootNode][$group][$class];
 		}
 
-		/*
-		$className = 'mage_'.$group.'_'.$groupType.'_'.$class;
-		$className = uc_words($className);
-		$this->_classNameCache[$groupRootNode][$group][$class] = $className;
-		return $className;
-		// */
+		//most of the classnames follow a pattern, if they don't then look into the XML
+		//Yes, this skips the rewrite lookup
+		//resource/mysql classes have strange names
+		if (strpos($group, 'mysql') === FALSE) {
+			$className = 'mage_'.$group.'_'.$groupType.'_'.$class;
+			$className = uc_words($className);
+			//sometimes capitalization gets in the way
+			if (class_exists($className)) {
+				$this->_classNameCache[$groupRootNode][$group][$class] = $className;
+				return $className;
+			}
+			$clssName = '';
+		}
 
 		//$config = $this->getNode($groupRootNode.'/'.$group);
 		$config = $this->_xml->global->{$groupType.'s'}->{$group};
@@ -981,7 +988,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		$className = $this->getModelClassName($modelClass);
         //AB seems slightly slower with this commented out, probably
         //has to do with internal class not found error handling
-        class_exists($className);
+        //class_exists($className);
         if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
         $obj = new $className($constructArguments);
         if (VPROF) Varien_Profiler::stop('CORE::create_object_of::'.$className);

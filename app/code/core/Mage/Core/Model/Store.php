@@ -191,14 +191,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getConfig($path)
     {
+        static $config ; if (!$config) $config = Mage::getConfig(); 
         if (isset($this->_configCache[$path])) {
             return $this->_configCache[$path];
         }
 
-        $config = Mage::getConfig();
-
-        $fullPath = 'stores/'.$this->getCode().'/'.$path;
+		$code = $this->getCode();
+        $fullPath = 'stores/'.$code.'/'.$path;
         $data = $config->getNode($fullPath);
+//        $data = $config->getNode()->stores->{$code}->descend($path);
         if (!$data && !Mage::isInstalled()) {
             $data = $config->getNode('default/' . $path);
         }
