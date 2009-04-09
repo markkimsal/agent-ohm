@@ -1,4 +1,5 @@
 app/etc/local.xml
 app/etc/use_cache.ser
 var/cache/*
+var/report
 var/session/*

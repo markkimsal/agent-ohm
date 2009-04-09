@@ -203,12 +203,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          * Load configuration from DB
          */
         if ($localConfigLoaded) {
+            //no need to install new apps every single page request.
+            /*
             Varien_Profiler::start('dbUpdates');
             Mage_Core_Model_Resource_Setup::applyAllUpdates();
             Varien_Profiler::stop('dbUpdates');
+            */
 
             Varien_Profiler::start('config/load-db');
             $dbConf = $this->getResourceModel();
+            //class is Mage_Core_Model_Mysql4_Config
             $dbConf->loadToXml($this);
             Varien_Profiler::stop('config/load-db');
         }
