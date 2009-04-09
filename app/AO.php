@@ -120,7 +120,7 @@ class AO {
             if ($graceful) {
                 return;
             }
-            Mage::throwException('Mage registry key "'.$key.'" already exists');
+			AO::throwException('Mage registry key "'.$key.'" already exists');
         }
         self::$_registry[$key] = $value;
     }
@@ -167,9 +167,9 @@ class AO {
         $appRoot = realpath($appRoot);
 
         if (is_dir($appRoot) and is_readable($appRoot)) {
-            Mage::register('appRoot', $appRoot);
+			AO::register('appRoot', $appRoot);
         } else {
-            Mage::throwException($appRoot.' is not a directory or not readable by this user');
+			AO::throwException($appRoot.' is not a directory or not readable by this user');
         }
     }
 
@@ -181,7 +181,7 @@ class AO {
 
     public static function getRoot()
     {
-        return Mage::registry('appRoot');
+        return AO::registry('appRoot');
     }
 
     /**
@@ -209,12 +209,12 @@ class AO {
      */
     public static function getBaseDir($type='base')
     {
-        return Mage::getConfig()->getOptions()->getDir($type);
+        return AO::getConfig()->getOptions()->getDir($type);
     }
 
     public static function getModuleDir($type, $moduleName)
     {
-        return Mage::getConfig()->getModuleDir($type, $moduleName);
+        return AO::getConfig()->getModuleDir($type, $moduleName);
     }
 
     public static function getStoreConfig($path, $id=null)
@@ -224,7 +224,7 @@ class AO {
 
     public static function getStoreConfigFlag($path, $id=null)
     {
-        $flag = strtolower(Mage::getStoreConfig($path, $id));
+        $flag = strtolower(AO::getStoreConfig($path, $id));
         if (!empty($flag) && 'false'!==$flag && '0'!==$flag) {
             return true;
         } else {
@@ -240,7 +240,7 @@ class AO {
      */
     public static function getBaseUrl($type=Mage_Core_Model_Store::URL_TYPE_LINK, $secure=null)
     {
-        return Mage::app()->getStore()->getBaseUrl($type, $secure);
+        return AO::app()->getStore()->getBaseUrl($type, $secure);
     }
 
     /**
@@ -252,7 +252,7 @@ class AO {
      */
     public static function getUrl($route='', $params=array())
     {
-        return Mage::getModel('core/url')->getUrl($route, $params);
+        return AO::getModel('core/url')->getUrl($route, $params);
     }
 
     /**
@@ -262,7 +262,7 @@ class AO {
      */
     public static function getDesign()
     {
-        return Mage::getSingleton('core/design_package');
+        return AO::getSingleton('core/design_package');
     }
 
     /**
@@ -272,7 +272,7 @@ class AO {
      */
     public static function getConfig()
     {
-        return Mage::registry('config');
+        return AO::registry('config');
     }
 
     /**
@@ -290,7 +290,7 @@ class AO {
         }
         $observer = new $observerClass();
         $observer->setName($observerName)->addData($data)->setEventName($eventName)->setCallback($callback);
-        return Mage::registry('events')->addObserver($observer);
+        return AO::registry('events')->addObserver($observer);
     }
 
     /**
@@ -305,8 +305,8 @@ class AO {
     public static function dispatchEvent($name, array $data=array())
     {
         Varien_Profiler::start('DISPATCH EVENT:'.$name);
-        $result = Mage::app()->dispatchEvent($name, $data);
-        #$result = Mage::registry('events')->dispatch($name, $data);
+        $result = AO::app()->dispatchEvent($name, $data);
+        #$result = AO::registry('events')->dispatch($name, $data);
         Varien_Profiler::stop('DISPATCH EVENT:'.$name);
         return $result;
     }
@@ -321,7 +321,7 @@ class AO {
      */
     public static function getModel($modelClass='', $arguments=array())
     {
-        return Mage::getConfig()->getModelInstance($modelClass, $arguments);
+        return AO::getConfig()->getModelInstance($modelClass, $arguments);
     }
 
     /**
@@ -334,10 +334,10 @@ class AO {
     public static function getSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_singleton/'.$modelClass;
-        if (!Mage::registry($registryKey)) {
-            Mage::register($registryKey, Mage::getModel($modelClass, $arguments));
+        if (!AO::registry($registryKey)) {
+			AO::register($registryKey, AO::getModel($modelClass, $arguments));
         }
-        return Mage::registry($registryKey);
+        return AO::registry($registryKey);
     }
 
     /**
@@ -349,7 +349,7 @@ class AO {
      */
     public static function getResourceModel($modelClass, $arguments=array())
     {
-        return Mage::getConfig()->getResourceModelInstance($modelClass, $arguments);
+        return AO::getConfig()->getResourceModelInstance($modelClass, $arguments);
     }
 
     /**
@@ -362,21 +362,21 @@ class AO {
     public static function getResourceSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_resource_singleton/'.$modelClass;
-        if (!Mage::registry($registryKey)) {
-            Mage::register($registryKey, Mage::getResourceModel($modelClass, $arguments));
+        if (!AO::registry($registryKey)) {
+            AO::register($registryKey, AO::getResourceModel($modelClass, $arguments));
         }
-        return Mage::registry($registryKey);
+        return AO::registry($registryKey);
     }
 
     /**
-     * Deprecated, use Mage::helper()
+     * Deprecated, use AO::helper()
      *
      * @param string $type
      * @return object
      */
     public static function getBlockSingleton($type)
     {
-        $action = Mage::app()->getFrontController()->getAction();
+        $action = AO::app()->getFrontController()->getAction();
         return $action ? $action->getLayout()->getBlockSingleton($type) : false;
     }
 
@@ -388,7 +388,7 @@ class AO {
      */
     public static function helper($name)
     {
-        return Mage::app()->getHelper($name);
+        return AO::app()->getHelper($name);
     }
 
     /**
@@ -406,7 +406,7 @@ class AO {
 
     public static function throwException($message, $messageStorage=null)
     {
-        if ($messageStorage && ($storage = Mage::getSingleton($messageStorage))) {
+        if ($messageStorage && ($storage = AO::getSingleton($messageStorage))) {
             $storage->addError($message);
         }
         throw new Mage_Core_Exception($message);
@@ -425,12 +425,12 @@ class AO {
         self::$_app = new Mage_Core_Model_App();
         if (VPROF) Varien_Profiler::stop('mage::app::construct');
 
-        Mage::setRoot();
-        Mage::register('events', new Varien_Event_Collection());
+		AO::setRoot();
+		AO::register('events', new Varien_Event_Collection());
 
 
         if (VPROF) Varien_Profiler::start('mage::app::register_config');
-        Mage::register('config', new Mage_Core_Model_Config());
+		AO::register('config', new Mage_Core_Model_Config());
         if (VPROF) Varien_Profiler::stop('mage::app::register_config');
 
         if (VPROF) Varien_Profiler::start('mage::app::init');
@@ -474,7 +474,7 @@ class AO {
             Varien_Profiler::stop('mage');
         }
         catch (Mage_Core_Model_Session_Exception $e) {
-            header('Location: ' . Mage::getBaseUrl());
+            header('Location: ' . AO::getBaseUrl());
             die();
         }
         catch (Mage_Core_Model_Store_Exception $e) {
@@ -558,7 +558,7 @@ class AO {
         if (!self::getConfig()) {
             return;
         }
-        if (!Mage::getStoreConfig('dev/log/active')) {
+        if (!AO::getStoreConfig('dev/log/active')) {
             return;
         }
 
@@ -566,17 +566,17 @@ class AO {
 
         $level  = is_null($level) ? Zend_Log::DEBUG : $level;
         if (empty($file)) {
-            $file = Mage::getStoreConfig('dev/log/file');
+            $file = AO::getStoreConfig('dev/log/file');
             $file   = empty($file) ? 'system.log' : $file;
         }
 
         try {
             if (!isset($loggers[$file])) {
-                $logFile = Mage::getBaseDir('var').DS.'log'.DS.$file;
-                $logDir = Mage::getBaseDir('var').DS.'log';
+                $logFile = AO::getBaseDir('var').DS.'log'.DS.$file;
+                $logDir = AO::getBaseDir('var').DS.'log';
 
-                if (!is_dir(Mage::getBaseDir('var').DS.'log')) {
-                    mkdir(Mage::getBaseDir('var').DS.'log', 0777);
+                if (!is_dir(AO::getBaseDir('var').DS.'log')) {
+                    mkdir(AO::getBaseDir('var').DS.'log', 0777);
                 }
 
                 if (!file_exists($logFile)) {
@@ -607,7 +607,7 @@ class AO {
         if (!self::getConfig()) {
             return;
         }
-        $file = Mage::getStoreConfig('dev/log/exception_file');
+        $file = AO::getStoreConfig('dev/log/exception_file');
         self::log("\n".$e->getTraceAsString(), Zend_Log::ERR, $file);
     }
 
