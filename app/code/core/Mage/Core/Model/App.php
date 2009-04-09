@@ -237,15 +237,15 @@ class Mage_Core_Model_App
             $options = array('etc_dir'=>$options);
         }
 
-        Varien_Profiler::start('mage::app::init::config');
+        if (VPROF) Varien_Profiler::start('mage::app::init::config');
         $this->_config = Mage::getConfig();
         $this->_config->init($options);
-        Varien_Profiler::stop('mage::app::init::config');
+        if (VPROF) Varien_Profiler::stop('mage::app::init::config');
 
         if (Mage::isInstalled($options)) {
-            Varien_Profiler::start('mage::app::init::stores');
+            if (VPROF) Varien_Profiler::start('mage::app::init::stores');
             $this->_initStores();
-            Varien_Profiler::stop('mage::app::init::stores');
+            if (VPROF) Varien_Profiler::stop('mage::app::init::stores');
 
             if (empty($code) && !is_null($this->_website)) {
                 $code = $this->_website->getCode();
@@ -514,9 +514,9 @@ class Mage_Core_Model_App
     {
         $this->_frontController = new Mage_Core_Controller_Varien_Front();
         Mage::register('controller', $this->_frontController);
-        Varien_Profiler::start('mage::app::init_front_controller');
+        if (VPROF) Varien_Profiler::start('mage::app::init_front_controller');
         $this->_frontController->init();
-        Varien_Profiler::stop('mage::app::init_front_controller');
+        if (VPROF) Varien_Profiler::stop('mage::app::init_front_controller');
         return $this;
     }
 
@@ -1157,7 +1157,7 @@ class Mage_Core_Model_App
 
             foreach ($events[$eventName]['observers'] as $obsName=>$obs) {
                 $observer->setData(array('event'=>$event));
-                Varien_Profiler::start('OBSERVER: '.$obsName);
+                if (VPROF) Varien_Profiler::start('OBSERVER: '.$obsName);
                 switch ($obs['type']) {
                     case 'singleton':
                         $method = $obs['method'];
@@ -1173,7 +1173,7 @@ class Mage_Core_Model_App
                         $object->$method($observer);
                         break;
                 }
-                Varien_Profiler::stop('OBSERVER: '.$obsName);
+                if (VPROF) Varien_Profiler::stop('OBSERVER: '.$obsName);
             }
         }
         return $this;

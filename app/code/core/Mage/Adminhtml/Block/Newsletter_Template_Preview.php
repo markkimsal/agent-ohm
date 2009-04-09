@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
             $template->setTemplateText($this->getRequest()->getParam('text'));
         }
 
-        Varien_Profiler::start("email_template_proccessing");
+        if (VPROF) Varien_Profiler::start("email_template_proccessing");
         $vars = array();
 
         if($this->getRequest()->getParam('subscriber')) {
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Preview extends Mage_Adminhtml_Bl
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        Varien_Profiler::stop("email_template_proccessing");
+        if (VPROF) Varien_Profiler::stop("email_template_proccessing");
 
         return $templateProcessed;
     }

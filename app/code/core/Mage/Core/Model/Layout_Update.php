@@ -313,7 +313,7 @@ class Mage_Core_Model_Layout_Update
     public function fetchPackageLayoutUpdates($handle)
     {
         $_profilerKey = 'layout/package_update: '.$handle;
-        Varien_Profiler::start($_profilerKey);
+        if (VPROF) Varien_Profiler::start($_profilerKey);
 
         if (empty($this->_packageLayout)) {
             $this->fetchFileLayoutUpdates();
@@ -325,7 +325,7 @@ class Mage_Core_Model_Layout_Update
             $this->addUpdate($updateXml->innerXml());
         }
 
-        Varien_Profiler::stop($_profilerKey);
+        if (VPROF) Varien_Profiler::stop($_profilerKey);
 
         return true;
     }
@@ -333,7 +333,7 @@ class Mage_Core_Model_Layout_Update
     public function fetchDbLayoutUpdates($handle)
     {
         $_profilerKey = 'layout/db_update: '.$handle;
-        Varien_Profiler::start($_profilerKey);
+        if (VPROF) Varien_Profiler::start($_profilerKey);
 
         try {
             $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
@@ -351,7 +351,7 @@ class Mage_Core_Model_Layout_Update
 
         }
 
-        Varien_Profiler::stop($_profilerKey);
+        if (VPROF) Varien_Profiler::stop($_profilerKey);
         return true;
     }
 

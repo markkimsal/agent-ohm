@@ -47,7 +47,7 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
 
     public function start()
     {
-        Varien_Profiler::start(__METHOD__.'/setOptions');
+        if (VPROF) Varien_Profiler::start(__METHOD__.'/setOptions');
         $options = array(
         	'save_path'=>Mage::getBaseDir('session'),
         	'use_only_cookies'=>'off',
@@ -62,18 +62,18 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         	$options['cookie_lifetime'] = $this->getCookieLifetime();
         }
         Zend_Session::setOptions($options);
-        Varien_Profiler::stop(__METHOD__.'/setOptions');
+        if (VPROF) Varien_Profiler::stop(__METHOD__.'/setOptions');
 /*
-        Varien_Profiler::start(__METHOD__.'/setHandler');
+        if (VPROF) Varien_Profiler::start(__METHOD__.'/setHandler');
         $sessionResource = Mage::getResourceSingleton('core/session');
         if ($sessionResource->hasConnection()) {
         	Zend_Session::setSaveHandler($sessionResource);
         }
-        Varien_Profiler::stop(__METHOD__.'/setHandler');
+        if (VPROF) Varien_Profiler::stop(__METHOD__.'/setHandler');
 */
-        Varien_Profiler::start(__METHOD__.'/start');
+        if (VPROF) Varien_Profiler::start(__METHOD__.'/start');
         Zend_Session::start();
-        Varien_Profiler::stop(__METHOD__.'/start');
+        if (VPROF) Varien_Profiler::stop(__METHOD__.'/start');
 
         return $this;
     }
@@ -89,9 +89,9 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
     		$this->start();
     	}
 
-        Varien_Profiler::start(__METHOD__.'/init');
+        if (VPROF) Varien_Profiler::start(__METHOD__.'/init');
         $this->_namespace = new Zend_Session_Namespace($namespace, Zend_Session_Namespace::SINGLE_INSTANCE);
-        Varien_Profiler::stop(__METHOD__.'/init');
+        if (VPROF) Varien_Profiler::stop(__METHOD__.'/init');
         return $this;
     }
 

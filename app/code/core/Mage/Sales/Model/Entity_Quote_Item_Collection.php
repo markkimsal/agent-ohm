@@ -61,12 +61,12 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
 
     protected function _afterLoad()
     {
-        Varien_Profiler::start('TEST1: '.__METHOD__);
+        if (VPROF) Varien_Profiler::start('TEST1: '.__METHOD__);
         $productCollection = $this->_getProductCollection();
-        Varien_Profiler::stop('TEST1: '.__METHOD__);
+        if (VPROF) Varien_Profiler::stop('TEST1: '.__METHOD__);
         $recollectQuote = false;
         foreach ($this as $item) {
-            Varien_Profiler::start('TEST2: '.__METHOD__);
+            if (VPROF) Varien_Profiler::start('TEST2: '.__METHOD__);
             if ($productCollection) {
                 $product = $productCollection->getItemById($item->getProductId());
             } else {
@@ -101,7 +101,7 @@ class Mage_Sales_Model_Entity_Quote_Item_Collection extends Mage_Eav_Model_Entit
 
             $item->importCatalogProduct($itemProduct);
             $item->checkData();
-            Varien_Profiler::stop('TEST2: '.__METHOD__);
+            if (VPROF) Varien_Profiler::stop('TEST2: '.__METHOD__);
         }
         if ($recollectQuote && $this->_quote) {
             $this->_quote->collectTotals();

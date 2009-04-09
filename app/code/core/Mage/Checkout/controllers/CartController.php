@@ -127,13 +127,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
          */
         $this->_getSession()->setCartWasUpdated(true);
 
-        Varien_Profiler::start(__METHOD__ . 'cart_display');
+        if (VPROF) Varien_Profiler::start(__METHOD__ . 'cart_display');
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
         $this->_initLayoutMessages('catalog/session');
         $this->getLayout()->getBlock('head')->setTitle($this->__('Shopping Cart'));
         $this->renderLayout();
-        Varien_Profiler::stop(__METHOD__ . 'cart_display');
+        if (VPROF) Varien_Profiler::stop(__METHOD__ . 'cart_display');
     }
 
     /**

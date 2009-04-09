@@ -88,8 +88,8 @@ function __autoload($class)
 	}
 
     //$a = explode('_', $class);
-    //Varien_Profiler::start('AUTOLOAD');
-    //Varien_Profiler::start('AUTOLOAD: '.$a[0]);
+    //if (VPROF) Varien_Profiler::start('AUTOLOAD');
+    //if (VPROF) Varien_Profiler::start('AUTOLOAD: '.$a[0]);
 
 	$s = substr($classFile, 0, 4);
 	switch ($s) {
@@ -103,8 +103,8 @@ function __autoload($class)
 
     include($classFile);
 
-    //Varien_Profiler::stop('AUTOLOAD');
-    //Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
+    //if (VPROF) Varien_Profiler::stop('AUTOLOAD');
+    //if (VPROF) Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
 }
 
 	function scrunchName($f, $l=1) {

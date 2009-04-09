@@ -277,7 +277,7 @@ class Mage_Catalog_Model_Product_Type_Price
      */
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
-        Varien_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
+        if (VPROF) Varien_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
         if ($wId instanceof Mage_Core_Model_Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
@@ -303,7 +303,7 @@ class Mage_Catalog_Model_Product_Type_Price
         }
 
         $finalPrice = max($finalPrice, 0);
-        Varien_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
+        if (VPROF) Varien_Profiler::stop('__PRODUCT_CALCULATE_PRICE__');
         return $finalPrice;
     }
 

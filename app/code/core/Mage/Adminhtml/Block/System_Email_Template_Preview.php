@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
             $template->setTemplateText($this->getRequest()->getParam('text'));
         }
 
-        Varien_Profiler::start("email_template_proccessing");
+        if (VPROF) Varien_Profiler::start("email_template_proccessing");
         $vars = array();
 
         $templateProcessed = $template->getProcessedTemplate($vars, true);
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        Varien_Profiler::stop("email_template_proccessing");
+        if (VPROF) Varien_Profiler::stop("email_template_proccessing");
 
         return $templateProcessed;
     }

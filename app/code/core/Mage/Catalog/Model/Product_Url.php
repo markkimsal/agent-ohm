@@ -101,7 +101,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
                 return $this->getData($cacheUrlKey);
             }
 
-            Varien_Profiler::start('REWRITE: '.__METHOD__);
+            if (VPROF) Varien_Profiler::start('REWRITE: '.__METHOD__);
 
             $rewrite = $this->getUrlRewrite();
             if ($product->getStoreId()) {
@@ -120,13 +120,13 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
 //echo $this->getUrlInstance()->getBaseUrl();
             if ($rewrite->getId()) {
                 $this->setData($cacheUrlKey, $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-                Varien_Profiler::stop('REWRITE: '.__METHOD__);
+                if (VPROF) Varien_Profiler::stop('REWRITE: '.__METHOD__);
                 $this->getUrlInstance()->setUseSession($originalSid);
                 return $this->getData($cacheUrlKey);
             }
 
-            Varien_Profiler::stop('REWRITE: '.__METHOD__);
-            Varien_Profiler::start('REGULAR: '.__METHOD__);
+            if (VPROF) Varien_Profiler::stop('REWRITE: '.__METHOD__);
+            if (VPROF) Varien_Profiler::start('REGULAR: '.__METHOD__);
 
             $url = $this->getUrlInstance()->getUrl('catalog/product/view', array(
                 'id'        => $product->getId(),
@@ -136,7 +136,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
 
             $this->getUrlInstance()->setUseSession($originalSid);
 
-            Varien_Profiler::stop('REGULAR: '.__METHOD__);
+            if (VPROF) Varien_Profiler::stop('REGULAR: '.__METHOD__);
         }
         return $url;
     }

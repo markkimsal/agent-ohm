@@ -45,11 +45,11 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
             return $this;
         }
 
-        Varien_Profiler::start(__METHOD__.'/setOptions');
+        if (VPROF) Varien_Profiler::start(__METHOD__.'/setOptions');
         if (is_writable(Mage::getBaseDir('session'))) {
             session_save_path($this->getSessionSavePath());
         }
-        Varien_Profiler::stop(__METHOD__.'/setOptions');
+        if (VPROF) Varien_Profiler::stop(__METHOD__.'/setOptions');
 
         switch($this->getSessionSaveMethod()) {
             case 'db':
@@ -85,7 +85,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId();
 
-        Varien_Profiler::start(__METHOD__.'/start');
+        if (VPROF) Varien_Profiler::start(__METHOD__.'/start');
 
         if ($sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter')) {
             session_cache_limiter((string)$sessionCacheLimiter);
@@ -93,7 +93,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         session_start();
 
-        Varien_Profiler::stop(__METHOD__.'/start');
+        if (VPROF) Varien_Profiler::stop(__METHOD__.'/start');
 
         return $this;
     }

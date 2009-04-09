@@ -274,14 +274,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     {
         $url = $this->_getData('url');
         if (is_null($url)) {
-            Varien_Profiler::start('REWRITE: '.__METHOD__);
+            if (VPROF) Varien_Profiler::start('REWRITE: '.__METHOD__);
 
             if ($this->hasData('request_path') && $this->getRequestPath() != '') {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($this->getRequestPath()));
                 return $this->getData('url');
             }
 
-            Varien_Profiler::stop('REWRITE: '.__METHOD__);
+            if (VPROF) Varien_Profiler::stop('REWRITE: '.__METHOD__);
 
             $rewrite = $this->getUrlRewrite();
             if ($this->getStoreId()) {
@@ -292,11 +292,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
             if ($rewrite->getId()) {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-                Varien_Profiler::stop('REWRITE: '.__METHOD__);
+                if (VPROF) Varien_Profiler::stop('REWRITE: '.__METHOD__);
                 return $this->getData('url');
             }
 
-            Varien_Profiler::stop('REWRITE: '.__METHOD__);
+            if (VPROF) Varien_Profiler::stop('REWRITE: '.__METHOD__);
 
             $this->setData('url', $this->getCategoryIdUrl());
             return $this->getData('url');
@@ -306,13 +306,13 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
     public function getCategoryIdUrl()
     {
-        Varien_Profiler::start('REGULAR: '.__METHOD__);
+        if (VPROF) Varien_Profiler::start('REGULAR: '.__METHOD__);
         $urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
         $url = $this->getUrlInstance()->getUrl('catalog/category/view', array(
             's'=>$urlKey,
             'id'=>$this->getId(),
         ));
-        Varien_Profiler::stop('REGULAR: '.__METHOD__);
+        if (VPROF) Varien_Profiler::stop('REGULAR: '.__METHOD__);
         return $url;
     }
 

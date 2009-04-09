@@ -128,7 +128,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function fetchView($fileName)
     {
-        Varien_Profiler::start($fileName);
+        if (VPROF) Varien_Profiler::start($fileName);
 
         extract ($this->_viewVars);
         $do = $this->getDirectOutput();
@@ -155,7 +155,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         } else {
             $html = '';
         }
-        Varien_Profiler::stop($fileName);
+        if (VPROF) Varien_Profiler::stop($fileName);
         return $html;
     }
 
@@ -166,7 +166,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function renderView()
     {
-        Varien_Profiler::start(__METHOD__);
+        if (VPROF) Varien_Profiler::start(__METHOD__);
 
         $this->setScriptPath(Mage::getBaseDir('design'));
         $params = array('_relative'=>true);
@@ -181,7 +181,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
         $html = $this->fetchView($templateName);
 
-        Varien_Profiler::stop(__METHOD__);
+        if (VPROF) Varien_Profiler::stop(__METHOD__);
 
         return $html;
     }

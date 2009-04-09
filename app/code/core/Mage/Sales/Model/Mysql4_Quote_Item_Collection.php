@@ -127,7 +127,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
      */
     protected function _assignProducts()
     {
-        Varien_Profiler::start('QUOTE:'.__METHOD__);
+        if (VPROF) Varien_Profiler::start('QUOTE:'.__METHOD__);
         $productIds = array();
         foreach ($this as $item) {
             $productIds[] = $item->getProductId();
@@ -175,7 +175,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
         if ($recollectQuote && $this->_quote) {
             $this->_quote->collectTotals();
         }
-        Varien_Profiler::stop('QUOTE:'.__METHOD__);
+        if (VPROF) Varien_Profiler::stop('QUOTE:'.__METHOD__);
         return $this;
     }
 }

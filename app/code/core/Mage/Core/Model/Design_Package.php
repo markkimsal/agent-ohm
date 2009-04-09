@@ -324,7 +324,7 @@ class Mage_Core_Model_Design_Package
      */
     public function validateFile($file, array $params)
     {
-    	Varien_Profiler::start(__METHOD__);
+    	if (VPROF) Varien_Profiler::start(__METHOD__);
     	switch ($params['_type']) {
     		case 'skin':
     			$fileName = $this->getSkinBaseDir($params);
@@ -345,7 +345,7 @@ class Mage_Core_Model_Design_Package
 		if ($this->getDefaultTheme()!==$params['_theme'] && !file_exists($testFile)) {
     		return false;
     	}
-    	Varien_Profiler::stop(__METHOD__);
+    	if (VPROF) Varien_Profiler::stop(__METHOD__);
     	return $fileName;
     }
 
@@ -360,7 +360,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getFilename($file, array $params)
     {
-    	Varien_Profiler::start(__METHOD__);
+    	if (VPROF) Varien_Profiler::start(__METHOD__);
     	$this->updateParamDefaults($params);
 		$filename = $this->validateFile($file, $params);
 		if (false===$filename) {
@@ -377,7 +377,7 @@ class Mage_Core_Model_Design_Package
     			}
 			}
 		}
-		Varien_Profiler::stop(__METHOD__);
+		if (VPROF) Varien_Profiler::stop(__METHOD__);
 		return $filename;
     }
 
@@ -413,7 +413,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getSkinUrl($file=null, array $params=array())
     {
-    	Varien_Profiler::start(__METHOD__);
+    	if (VPROF) Varien_Profiler::start(__METHOD__);
     	if (empty($params['_type'])) {
     		$params['_type'] = 'skin';
     	}
@@ -442,7 +442,7 @@ class Mage_Core_Model_Design_Package
     	}
 
     	$url = $this->getSkinBaseUrl($params).(!empty($file) ? $file : '');
-    	Varien_Profiler::stop(__METHOD__);
+    	if (VPROF) Varien_Profiler::stop(__METHOD__);
     	return $url;
     }
 

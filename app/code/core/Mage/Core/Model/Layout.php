@@ -246,7 +246,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $blockName = (string)$node['name'];
         $_profilerKey = 'BLOCK: '.$blockName;
-        Varien_Profiler::start($_profilerKey);
+        if (VPROF) Varien_Profiler::start($_profilerKey);
         $block = $this->addBlock($className, $blockName);
         if (!$block) {
             return $this;
@@ -286,7 +286,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             $method = (string)$node['output'];
             $this->addOutputBlock($blockName, $method);
         }
-        Varien_Profiler::stop($_profilerKey);
+        if (VPROF) Varien_Profiler::stop($_profilerKey);
 
         return $this;
     }
@@ -314,7 +314,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
-        Varien_Profiler::start($_profilerKey);
+        if (VPROF) Varien_Profiler::start($_profilerKey);
 
         if (!empty($parentName)) {
             $block = $this->getBlock($parentName);
@@ -359,7 +359,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             call_user_func_array(array($block, $method), $args);
         }
 
-        Varien_Profiler::stop($_profilerKey);
+        if (VPROF) Varien_Profiler::stop($_profilerKey);
 
         return $this;
     }

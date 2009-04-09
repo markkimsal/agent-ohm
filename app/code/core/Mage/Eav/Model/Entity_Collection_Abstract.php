@@ -775,27 +775,27 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
         if ($this->isLoaded()) {
             return $this;
         }
-        Varien_Profiler::start('__EAV_COLLECTION_BEFORE_LOAD__');
+        if (VPROF) Varien_Profiler::start('__EAV_COLLECTION_BEFORE_LOAD__');
         $this->_beforeLoad();
-        Varien_Profiler::stop('__EAV_COLLECTION_BEFORE_LOAD__');
+        if (VPROF) Varien_Profiler::stop('__EAV_COLLECTION_BEFORE_LOAD__');
 
-        Varien_Profiler::start('__EAV_COLLECTION_LOAD_ENT__');
+        if (VPROF) Varien_Profiler::start('__EAV_COLLECTION_LOAD_ENT__');
         $this->_loadEntities($printQuery, $logQuery);
-        Varien_Profiler::stop('__EAV_COLLECTION_LOAD_ENT__');
-        Varien_Profiler::start('__EAV_COLLECTION_LOAD_ATTR__');
+        if (VPROF) Varien_Profiler::stop('__EAV_COLLECTION_LOAD_ENT__');
+        if (VPROF) Varien_Profiler::start('__EAV_COLLECTION_LOAD_ATTR__');
         $this->_loadAttributes($printQuery, $logQuery);
-        Varien_Profiler::stop('__EAV_COLLECTION_LOAD_ATTR__');
+        if (VPROF) Varien_Profiler::stop('__EAV_COLLECTION_LOAD_ATTR__');
 
-        Varien_Profiler::start('__EAV_COLLECTION_ORIG_DATA__');
+        if (VPROF) Varien_Profiler::start('__EAV_COLLECTION_ORIG_DATA__');
         foreach ($this->_items as $item) {
             $item->setOrigData();
         }
-        Varien_Profiler::stop('__EAV_COLLECTION_ORIG_DATA__');
+        if (VPROF) Varien_Profiler::stop('__EAV_COLLECTION_ORIG_DATA__');
 
         $this->_setIsLoaded();
-        Varien_Profiler::start('__EAV_COLLECTION_AFTER_LOAD__');
+        if (VPROF) Varien_Profiler::start('__EAV_COLLECTION_AFTER_LOAD__');
         $this->_afterLoad();
-        Varien_Profiler::stop('__EAV_COLLECTION_AFTER_LOAD__');
+        if (VPROF) Varien_Profiler::stop('__EAV_COLLECTION_AFTER_LOAD__');
         return $this;
     }
 
