@@ -219,7 +219,7 @@ class AO {
 
     public static function getStoreConfig($path, $id=null)
     {
-        return self::app()->getStore($id)->getConfig($path);
+        return self::$_app->getStore($id)->getConfig($path);
     }
 
     public static function getStoreConfigFlag($path, $id=null)
@@ -240,7 +240,7 @@ class AO {
      */
     public static function getBaseUrl($type=Mage_Core_Model_Store::URL_TYPE_LINK, $secure=null)
     {
-        return AO::app()->getStore()->getBaseUrl($type, $secure);
+        return AO::$_app->getStore()->getBaseUrl($type, $secure);
     }
 
     /**
@@ -377,7 +377,7 @@ class AO {
      */
     public static function getBlockSingleton($type)
     {
-        $action = AO::app()->getFrontController()->getAction();
+        $action = AO::$_app->getFrontController()->getAction();
         return $action ? $action->getLayout()->getBlockSingleton($type) : false;
     }
 
@@ -389,7 +389,7 @@ class AO {
      */
     public static function helper($name)
     {
-        return AO::app()->getHelper($name);
+        return AO::$_app->getHelper($name);
     }
 
     /**
@@ -422,6 +422,12 @@ class AO {
      */
     public static function initApp($code = '', $type = 'store', $options=array())
     {
+		include BP.'/lib/Varien/Object.php';
+		include BP.'/app/code/core/Mage/Core/Model/App.php';
+		include BP.'/app/code/core/Mage/Core/Model/App_Area.php';
+		include BP.'/app/code/core/Mage/Core/Model/Config.php';
+		include BP.'/app/code/core/Mage/Core/Model/Store.php';
+		include BP.'/lib/Varien/Event/Collection.php';
         if (VPROF) Varien_Profiler::start('mage::app::construct');
         self::$_app = new Mage_Core_Model_App();
         if (VPROF) Varien_Profiler::stop('mage::app::construct');
@@ -469,7 +475,7 @@ class AO {
             Varien_Profiler::stop('mage::app');
 
             Varien_Profiler::start('mage::dispatch');
-            self::app()->getFrontController()->dispatch();
+            self::$_app->getFrontController()->dispatch();
             Varien_Profiler::stop('mage::dispatch');
 
             Varien_Profiler::stop('mage');
