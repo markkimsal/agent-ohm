@@ -36,7 +36,7 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Grouped extends Mage_CatalogIndex_Mode
      */
     public function getMinimalPrice($products, $priceAttributes, $store)
     {
-        $stores = Mage::getModel('core/store')->getCollection()->setLoadDefault(false)->load();
+        $stores = AO::getModel('core/store')->getCollection()->setLoadDefault(false)->load();
         $storeObject = $stores->getItemById($store);
         $website = $storeObject->getWebsiteId();
         $result = array();
@@ -54,16 +54,16 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Grouped extends Mage_CatalogIndex_Mode
             ->group(new Zend_Db_Expr(1));
         $visible = $this->_getReadAdapter()->fetchAll($select);
 
-        $groups = Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups();
+        $groups = AO::getSingleton('catalogindex/retreiver')->getCustomerGroups();
         foreach ($groups as $group) {
             $resultMinimal    = null;
             $resultTaxClassId = 0;
             $taxClassId       = 0;
             $customerGroup = $group->getId();
 
-            $typedProducts = Mage::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
+            $typedProducts = AO::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
             foreach ($typedProducts as $type=>$typeIds) {
-                $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+                $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
                 foreach ($typeIds as $id) {
                     $finalPrice = $retreiver->getFinalPrice($id, $storeObject, $group);
                     if ((null === $resultMinimal) || ($finalPrice < $resultMinimal)) {

@@ -40,8 +40,8 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/oscorder')
-            ->_addBreadcrumb(Mage::helper('oscommerce')->__('Sales'), Mage::helper('checkout')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('oscommerce')->__('osCommerce Orders'), Mage::helper('checkout')->__('osCommerce Orders'))
+            ->_addBreadcrumb(AO::helper('oscommerce')->__('Sales'), AO::helper('checkout')->__('Sales'))
+            ->_addBreadcrumb(AO::helper('oscommerce')->__('osCommerce Orders'), AO::helper('checkout')->__('osCommerce Orders'))
         ;
         return $this;
     }
@@ -56,7 +56,7 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('oscommerce/oscommerce_order')->load($id);
+        $order = AO::getModel('oscommerce/oscommerce_order')->load($id);
 
         if (!$order->getId()) {
             $this->_getSession()->addError($this->__('This order no longer exists.'));
@@ -65,7 +65,7 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
             return false;
         }
 
-        Mage::register('current_oscommerce_order', $order);
+        AO::register('current_oscommerce_order', $order);
         return $order;
     }
 
@@ -96,6 +96,6 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('sales/oscorder');
+	    return AO::getSingleton('admin/session')->isAllowed('sales/oscorder');
     }
 }

@@ -49,13 +49,13 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>AO::helper('reports')->__('Product Name'),
             'index'     =>'name',
-            'total'     =>Mage::helper('reports')->__('Subtotal')
+            'total'     =>AO::helper('reports')->__('Subtotal')
         ));
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('reports')->__('Price'),
+            'header'    =>AO::helper('reports')->__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => $this->getCurrentCurrencyCode(),
@@ -63,15 +63,15 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('views', array(
-            'header'    =>Mage::helper('reports')->__('Number of Views'),
+            'header'    =>AO::helper('reports')->__('Number of Views'),
             'width'     =>'120px',
             'align'     =>'right',
             'index'     =>'views',
             'total'     =>'sum'
         ));
 
-        $this->addExportType('*/*/exportViewedCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportViewedExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportViewedCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportViewedExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

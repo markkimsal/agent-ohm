@@ -61,11 +61,11 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
     {
         $this->_select->join($this->getTable('rating/rating'), "{$this->getTable('rating/rating')}.rating_id = main_table.rating_id", "{$this->getTable('rating/rating')}.*")
             ->joinLeft(array('title'=>$this->getTable('rating/rating_title')),
-                          "main_table.rating_id=title.rating_id AND title.store_id = ". (int) Mage::app()->getStore()->getId(),
+                          "main_table.rating_id=title.rating_id AND title.store_id = ". (int) AO::app()->getStore()->getId(),
                           array("IF(title.value IS NULL, {$this->getTable('rating/rating')}.rating_code, title.value) AS rating_code"));
 
         if($storeId == null) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
 
         if(is_array($storeId)) {
@@ -92,7 +92,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Vote_Collection extends Mage_Core_M
             return $this;
         }
         foreach( $this->getItems() as $item ) {
-            $options = Mage::getModel('rating/rating_option')
+            $options = AO::getModel('rating/rating_option')
                     ->getResourceCollection()
                     ->addRatingFilter($item->getRatingId())
                     ->load();

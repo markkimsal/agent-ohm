@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Order Totals');
+        return AO::helper('sales')->__('Order Totals');
     }
 
     public function getHeaderCssClass()
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
     {
         if (!isset($this->_totalRenderers[$code])) {
             $this->_totalRenderers[$code] = $this->_defaultRenderer;
-            $config = Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/admin_renderer");
+            $config = AO::getConfig()->getNode("global/sales/quote/totals/{$code}/admin_renderer");
             if ($config)
                 $this->_totalRenderers[$code] = (string) $config;
 
@@ -94,6 +94,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Totals extends Mage_Adminhtml_Bloc
 
     public function canSendNewOrderConfirmationEmail()
     {
-        return Mage::helper('sales')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
+        return AO::helper('sales')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
     }
 }

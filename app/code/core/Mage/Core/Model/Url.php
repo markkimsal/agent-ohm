@@ -230,7 +230,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = Mage::app()->getRequest();
+            $this->_request = AO::app()->getRequest();
         }
         return $this->_request;
     }
@@ -256,16 +256,16 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $store = $this->getStore();
 
-        if ($store->isAdmin() && !$store->isAdminUrlSecure()) { //!Mage::getStoreConfigFlag(self::XML_PATH_SECURE_IN_ADMIN, $this->getStore()->getId())
+        if ($store->isAdmin() && !$store->isAdminUrlSecure()) { //!AO::getStoreConfigFlag(self::XML_PATH_SECURE_IN_ADMIN, $this->getStore()->getId())
             return false;
         }
-        if (!$store->isAdmin() && !$store->isFrontUrlSecure()) {//!Mage::getStoreConfigFlag(self::XML_PATH_SECURE_IN_FRONT
+        if (!$store->isAdmin() && !$store->isFrontUrlSecure()) {//!AO::getStoreConfigFlag(self::XML_PATH_SECURE_IN_FRONT
             return false;
         }
 
         if (!$this->hasData('secure')) {
             if ($this->getType() == Mage_Core_Model_Store::URL_TYPE_LINK) {
-                $pathSecure = Mage::getConfig()->shouldUrlBeSecure('/'.$this->getActionPath());
+                $pathSecure = AO::getConfig()->shouldUrlBeSecure('/'.$this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', $store->isCurrentlySecure());
@@ -276,7 +276,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setStore($data)
     {
-        $this->setData('store', Mage::app()->getStore($data));
+        $this->setData('store', AO::app()->getStore($data));
         return $this;
     }
 
@@ -437,7 +437,7 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         if (!$this->hasData('route_front_name')) {
             $routeName = $this->getRouteName();
-            $route = Mage::app()->getFrontController()->getRouterByRoute($routeName);
+            $route = AO::app()->getFrontController()->getRouterByRoute($routeName);
             $frontName = $route->getFrontNameByRoute($routeName);
 
             $this->setRouteFrontName($frontName);
@@ -603,10 +603,10 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $hostArr = explode(':', $this->getRequest()->getServer('HTTP_HOST'));
         if ($hostArr[0]!==$this->getHost()) {
-            $session = Mage::getSingleton('core/session');
+            $session = AO::getSingleton('core/session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = Mage::helper('core');
+                    $helper = AO::helper('core');
                     if (!$helper) {
                         return $this;
                     }
@@ -623,10 +623,10 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function addSessionParam()
     {
-        $session = Mage::getSingleton('core/session');
+        $session = AO::getSingleton('core/session');
 
         if (!self::$_encryptedSessionId) {
-            $helper = Mage::helper('core');
+            $helper = AO::helper('core');
             if (!$helper) {
                 return $this;
             }
@@ -804,9 +804,9 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!$this->getUseSession()) {
             return $this;
         }
-        $session = Mage::getSingleton('core/session');
+        $session = AO::getSingleton('core/session');
         /* @var $session Mage_Core_Model_Session */
-        if (Mage::app()->getUseSessionVar()) {
+        if (AO::app()->getUseSessionVar()) {
             // secure URL
             if ($this->getSecure()) {
                 $this->setQueryParam('___SID', 'S');
@@ -871,8 +871,8 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $key = 'use_session_id_for_url_' . (int)$secure;
         if (is_null($this->getData($key))) {
-            $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
-            $urlHost = parse_url(Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure), PHP_URL_HOST);
+            $httpHost = AO::app()->getFrontController()->getRequest()->getHttpHost();
+            $urlHost = parse_url(AO::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure), PHP_URL_HOST);
 
             if ($httpHost != $urlHost) {
                 $this->setData($key, true);
@@ -893,7 +893,7 @@ class Mage_Core_Model_Url extends Varien_Object
     public function sessionVarCallback($match)
     {
         if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
-            $session = Mage::getSingleton('core/session');
+            $session = AO::getSingleton('core/session');
             /* @var $session Mage_Core_Model_Session */
             return $match[1]
                 . $session->getSessionIdQueryParam()

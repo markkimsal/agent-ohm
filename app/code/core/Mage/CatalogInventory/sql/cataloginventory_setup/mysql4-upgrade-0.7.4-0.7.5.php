@@ -43,4 +43,4 @@ CREATE TABLE `{$installer->getTable('cataloginventory_stock_status')}` (
 ");
 $installer->endSetup();
 
-Mage::getModel('cataloginventory/stock_status')->rebuild();
+AO::getModel('cataloginventory/stock_status')->rebuild();

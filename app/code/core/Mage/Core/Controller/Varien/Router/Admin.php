@@ -30,7 +30,7 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
     public function fetchDefault()
     {
         // set defaults
-        $d = explode('/', (string)Mage::getConfig()->getNode('default/web/default/admin'));
+        $d = explode('/', (string)AO::getConfig()->getNode('default/web/default/admin'));
         $this->getFront()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : '',
             'controller' => !empty($d[1]) ? $d[1] : 'index',
@@ -55,9 +55,9 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
      */
     protected function _afterModuleMatch()
     {
-        if (!Mage::isInstalled()) {
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect(Mage::getUrl('install'))
+        if (!AO::isInstalled()) {
+            AO::app()->getFrontController()->getResponse()
+                ->setRedirect(AO::getUrl('install'))
                 ->sendResponse();
             exit;
         }
@@ -77,13 +77,13 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
 
     protected function _shouldBeSecure($path)
     {
-        return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'),0,5)==='https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_App::ADMIN_STORE_ID)
-            && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'),0,5)==='https';
+        return substr((string)AO::getConfig()->getNode('default/web/unsecure/base_url'),0,5)==='https'
+            || AO::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_App::ADMIN_STORE_ID)
+            && substr((string)AO::getConfig()->getNode('default/web/secure/base_url'),0,5)==='https';
     }
 
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID)->getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');
+        return AO::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID)->getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');
     }
 }

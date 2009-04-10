@@ -114,9 +114,9 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function insertLogo(&$page, $store = null)
     {
-        $image = Mage::getStoreConfig('sales/identity/logo', $store);
+        $image = AO::getStoreConfig('sales/identity/logo', $store);
         if ($image) {
-            $image = Mage::getStoreConfig('system/filesystem/media', $store) . '/sales/store/logo/' . $image;
+            $image = AO::getStoreConfig('system/filesystem/media', $store) . '/sales/store/logo/' . $image;
             if (is_file($image)) {
                 $image = Zend_Pdf_Image::imageWithPath($image);
                 $page->drawImage($image, 25, 800, 125, 825);
@@ -136,7 +136,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setLineWidth(0);
         $this->y = 820;
-        foreach (explode("\n", Mage::getStoreConfig('sales/identity/address', $store)) as $value){
+        foreach (explode("\n", AO::getStoreConfig('sales/identity/address', $store)) as $value){
             if ($value!=='') {
                 $page->drawText(trim(strip_tags($value)), 130, $this->y, 'UTF-8');
                 $this->y -=7;
@@ -155,7 +155,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
     {
         $return = array();
         foreach (split("\|", $address) as $str) {
-            foreach (Mage::helper('core/string')->str_split($str, 65, true, true) as $part) {
+            foreach (AO::helper('core/string')->str_split($str, 65, true, true) as $part) {
                 if (empty($part)) {
                     continue;
                 }
@@ -177,10 +177,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
 
         if ($putOrderId) {
-            $page->drawText(Mage::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Order # ').$order->getRealOrderId(), 35, 770, 'UTF-8');
         }
-        //$page->drawText(Mage::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760, 'UTF-8');
-        $page->drawText(Mage::helper('sales')->__('Order Date: ') . Mage::helper('core')->formatDate($order->getCreatedAtStoreDate(), 'medium', false), 35, 760, 'UTF-8');
+        //$page->drawText(AO::helper('sales')->__('Order Date: ') . date( 'D M j Y', strtotime( $order->getCreatedAt() ) ), 35, 760, 'UTF-8');
+        $page->drawText(AO::helper('sales')->__('Order Date: ') . AO::helper('core')->formatDate($order->getCreatedAtStoreDate(), 'medium', false), 35, 760, 'UTF-8');
 
         $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineColor(new Zend_Pdf_Color_GrayScale(0.5));
@@ -194,7 +194,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $billingAddress = $this->_formatAddress($order->getBillingAddress()->format('pdf'));
 
         /* Payment */
-        $paymentInfo = Mage::helper('payment')->getInfoBlock($order->getPayment())
+        $paymentInfo = AO::helper('payment')->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true)
             ->toPdf();
         $payment = explode('{{pdf_row_separator}}', $paymentInfo);
@@ -215,13 +215,13 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page);
-        $page->drawText(Mage::helper('sales')->__('SOLD TO:'), 35, 740 , 'UTF-8');
+        $page->drawText(AO::helper('sales')->__('SOLD TO:'), 35, 740 , 'UTF-8');
 
         if (!$order->getIsVirtual()) {
-            $page->drawText(Mage::helper('sales')->__('SHIP TO:'), 285, 740 , 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('SHIP TO:'), 285, 740 , 'UTF-8');
         }
         else {
-            $page->drawText(Mage::helper('sales')->__('Payment Method:'), 285, 740 , 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Payment Method:'), 285, 740 , 'UTF-8');
         }
 
         if (!$order->getIsVirtual()) {
@@ -262,8 +262,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $this->y -=15;
             $this->_setFontBold($page);
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $page->drawText(Mage::helper('sales')->__('Payment Method'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Shipping Method:'), 285, $this->y , 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Payment Method'), 35, $this->y, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Shipping Method:'), 285, $this->y , 'UTF-8');
 
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
@@ -294,7 +294,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $yShipments = $this->y;
 
 
-            $totalShippingChargesText = "(" . Mage::helper('sales')->__('Total Shipping Charges') . " " . $order->formatPriceTxt($order->getShippingAmount()) . ")";
+            $totalShippingChargesText = "(" . AO::helper('sales')->__('Total Shipping Charges') . " " . $order->formatPriceTxt($order->getShippingAmount()) . ")";
 
             $page->drawText($totalShippingChargesText, 285, $yShipments-7, 'UTF-8');
             $yShipments -=10;
@@ -308,9 +308,9 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
                 $this->_setFontRegular($page);
                 $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-                //$page->drawText(Mage::helper('sales')->__('Carrier'), 290, $yShipments - 7 , 'UTF-8');
-                $page->drawText(Mage::helper('sales')->__('Title'), 290, $yShipments - 7, 'UTF-8');
-                $page->drawText(Mage::helper('sales')->__('Number'), 385, $yShipments - 7, 'UTF-8');
+                //$page->drawText(AO::helper('sales')->__('Carrier'), 290, $yShipments - 7 , 'UTF-8');
+                $page->drawText(AO::helper('sales')->__('Title'), 290, $yShipments - 7, 'UTF-8');
+                $page->drawText(AO::helper('sales')->__('Number'), 385, $yShipments - 7, 'UTF-8');
 
                 $yShipments -=17;
                 $this->_setFontRegular($page, 6);
@@ -319,12 +319,12 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
                     $CarrierCode = $track->getCarrierCode();
                     if ($CarrierCode!='custom')
                     {
-                        $carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);
+                        $carrier = AO::getSingleton('shipping/config')->getCarrierInstance($CarrierCode);
                         $carrierTitle = $carrier->getConfigData('title');
                     }
                     else
                     {
-                        $carrierTitle = Mage::helper('sales')->__('Custom Value');
+                        $carrierTitle = AO::helper('sales')->__('Custom Value');
                     }
 
                     $truncatedCarrierTitle = substr($carrierTitle, 0, 35) . (strlen($carrierTitle) > 35 ? '...' : '');
@@ -354,7 +354,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $order = $source->getOrder();
         $font = $this->_setFontBold($page);
 
-        $order_subtotal = Mage::helper('sales')->__('Order Subtotal:');
+        $order_subtotal = AO::helper('sales')->__('Order Subtotal:');
         $page->drawText($order_subtotal, 475-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y, 'UTF-8');
 
         $order_subtotal = $order->formatPriceTxt($source->getSubtotal());
@@ -362,7 +362,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $this->y -=15;
 
         if ((float)$source->getDiscountAmount()){
-            $discount = Mage::helper('sales')->__('Discount :');
+            $discount = AO::helper('sales')->__('Discount :');
             $page->drawText($discount, 475-$this->widthForStringUsingFontSize($discount, $font, 7), $this->y, 'UTF-8');
 
             $discount = $order->formatPriceTxt(0.00 - $source->getDiscountAmount());
@@ -371,7 +371,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if ((float)$source->getTaxAmount()){
-            $order_tax = Mage::helper('sales')->__('Tax :');
+            $order_tax = AO::helper('sales')->__('Tax :');
             $page->drawText($order_tax, 475-$this->widthForStringUsingFontSize($order_tax, $font, 7), $this->y, 'UTF-8');
 
             $order_tax = $order->formatPriceTxt($source->getTaxAmount());
@@ -380,7 +380,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if ((float)$source->getShippingAmount()){
-            $order_shipping = Mage::helper('sales')->__('Shipping & Handling:');
+            $order_shipping = AO::helper('sales')->__('Shipping & Handling:');
             $page->drawText($order_shipping, 475-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y, 'UTF-8');
 
             $order_shipping = $order->formatPriceTxt($source->getShippingAmount());
@@ -389,7 +389,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if ($source->getAdjustmentPositive()){
-            $adjustment_refund = Mage::helper('sales')->__('Adjustment Refund:');
+            $adjustment_refund = AO::helper('sales')->__('Adjustment Refund:');
             $page ->drawText($adjustment_refund, 475-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y, 'UTF-8');
 
             $adjustment_refund = $order->formatPriceTxt($source->getAdjustmentPositive());
@@ -398,7 +398,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if ((float) $source->getAdjustmentNegative()){
-            $adjustment_fee = Mage::helper('sales')->__('Adjustment Fee:');
+            $adjustment_fee = AO::helper('sales')->__('Adjustment Fee:');
             $page ->drawText($adjustment_fee, 475-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y, 'UTF-8');
 
             $adjustment_fee=$order->formatPriceTxt($source->getAdjustmentNegative());
@@ -408,7 +408,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setFont($font, 8);
 
-        $order_grandtotal = Mage::helper('sales')->__('Grand Total:');
+        $order_grandtotal = AO::helper('sales')->__('Grand Total:');
         $page ->drawText($order_grandtotal, 475-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y, 'UTF-8');
 
         $order_grandtotal = $order->formatPriceTxt($source->getGrandTotal());
@@ -427,13 +427,13 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
     }
 
     protected function _beforeGetPdf() {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
     }
 
     protected function _afterGetPdf() {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(true);
     }
@@ -459,7 +459,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function _initRenderer($type)
     {
-        $node = Mage::getConfig()->getNode('global/pdf/'.$type);
+        $node = AO::getConfig()->getNode('global/pdf/'.$type);
         foreach ($node->children() as $renderer) {
             $this->_renderers[$renderer->getName()] = array(
                 'model'     => (string)$renderer,
@@ -481,11 +481,11 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if (!isset($this->_renderers[$type])) {
-            Mage::throwException(Mage::helper('sales')->__('Invalid renderer model'));
+            AO::throwException(AO::helper('sales')->__('Invalid renderer model'));
         }
 
         if (is_null($this->_renderers[$type]['renderer'])) {
-            $this->_renderers[$type]['renderer'] = Mage::getSingleton($this->_renderers[$type]['model']);
+            $this->_renderers[$type]['renderer'] = AO::getSingleton($this->_renderers[$type]['model']);
         }
 
         return $this->_renderers[$type]['renderer'];
@@ -519,21 +519,21 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
     protected function _setFontRegular($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(AO::getBaseDir() . '/lib/LinLibertineFont/LinLibertineC_Re-2.8.0.ttf');
         $object->setFont($font, $size);
         return $font;
     }
 
     protected function _setFontBold($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(AO::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf');
         $object->setFont($font, $size);
         return $font;
     }
 
     protected function _setFontItalic($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(AO::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf');
         $object->setFont($font, $size);
         return $font;
     }

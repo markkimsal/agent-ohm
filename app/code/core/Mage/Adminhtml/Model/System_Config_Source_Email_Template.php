@@ -37,18 +37,18 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Template extends Varien_Ob
 
     public function toOptionArray()
     {
-        if(!$collection = Mage::registry('config_system_email_template')) {
-            $collection = Mage::getResourceModel('core/email_template_collection')
+        if(!$collection = AO::registry('config_system_email_template')) {
+            $collection = AO::getResourceModel('core/email_template_collection')
                 ->load();
 
-            Mage::register('config_system_email_template', $collection);
+            AO::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
         array_unshift(
             $options,
             array(
                 'value'=> str_replace('/', '_', $this->getPath()),
-                'label' => Mage::helper('adminhtml')->__('Default Template from Locale')
+                'label' => AO::helper('adminhtml')->__('Default Template from Locale')
             )
         );
         return $options;

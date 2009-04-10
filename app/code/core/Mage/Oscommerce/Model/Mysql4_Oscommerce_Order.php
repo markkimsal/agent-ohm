@@ -38,7 +38,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order extends Mage_Core_Model_Mysq
     
     public function getProducts()
     {
-        $order = Mage::registry('current_oscommerce_order');
+        $order = AO::registry('current_oscommerce_order');
         $result = array();
         if ($order && $order->getData() && $id = $order->getId())
         {
@@ -52,7 +52,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order extends Mage_Core_Model_Mysq
 
     public function getTotal()
     {
-        $order = Mage::registry('current_oscommerce_order');
+        $order = AO::registry('current_oscommerce_order');
         $result = array();
         if ($order && $order->getData() && $id = $order->getId())
         {
@@ -66,7 +66,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order extends Mage_Core_Model_Mysq
     
     public function getComments()
     {
-        $order = Mage::registry('current_oscommerce_order');
+        $order = AO::registry('current_oscommerce_order');
         $result = array();
         if ($order && $order->getData() && $id = $order->getId())
         {

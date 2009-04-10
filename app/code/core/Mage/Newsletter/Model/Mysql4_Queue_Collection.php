@@ -153,7 +153,7 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     	$this->getSelect()
     		->where('main_table.queue_status in (?)', array(Mage_Newsletter_Model_Queue::STATUS_SENDING,
     														Mage_Newsletter_Model_Queue::STATUS_NEVER))
-    		->where('main_table.queue_start_at < ?', Mage::getSingleton('core/date')->gmtdate())
+    		->where('main_table.queue_start_at < ?', AO::getSingleton('core/date')->gmtdate())
     		->where('main_table.queue_start_at IS NOT NULL');
 
     	return $this;

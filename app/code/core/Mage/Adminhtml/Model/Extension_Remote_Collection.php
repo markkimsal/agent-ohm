@@ -7,14 +7,14 @@ class Mage_Adminhtml_Model_Extension_Remote_Collection extends Mage_Adminhtml_Mo
         // fetch installed packages
         $pear = Varien_Pear::getInstance();
 
-        $channels = Mage::getModel('adminhtml/extension')->getKnownChannels();
+        $channels = AO::getModel('adminhtml/extension')->getKnownChannels();
         #$channels = array('var-dev.varien.com'=>1);#, 'pear.php.net'=>1);
         $channelData = array();
         foreach ($channels as $channel=>$name) {
             $data = array();
-            if (Mage::app()->useCache('pear')) {
+            if (AO::app()->useCache('pear')) {
                 $channelKey = 'PEAR_channel_packages_'.preg_replace('#[^a-z0-9]+#', '_', $channel);
-                $data = unserialize(Mage::app()->loadCache($channelKey));
+                $data = unserialize(AO::app()->loadCache($channelKey));
             }
             if (empty($data)) {
                 $pear->getFrontend()->clear();
@@ -24,8 +24,8 @@ class Mage_Adminhtml_Model_Extension_Remote_Collection extends Mage_Adminhtml_Mo
                     continue;
                 }
                 $data = $output[0]['output'];
-                if (Mage::app()->useCache('pear')) {
-                    Mage::app()->saveCache(serialize($data), $channelKey, array('pear'), 3600);
+                if (AO::app()->useCache('pear')) {
+                    AO::app()->saveCache(serialize($data), $channelKey, array('pear'), 3600);
                 }
             }
             $channelData[$channel] = $data;

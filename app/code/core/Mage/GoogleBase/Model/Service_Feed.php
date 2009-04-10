@@ -69,7 +69,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
             foreach ($elements as $el) {
                 switch ($el->rootElement) {
                     case 'expiration_date':
-                        $data['expires'] = Mage::getSingleton('googlebase/service_item')
+                        $data['expires'] = AO::getSingleton('googlebase/service_item')
                             ->gBaseDate2DateTime($el->getText());
                         break;
 
@@ -91,7 +91,7 @@ class Mage_GoogleBase_Model_Service_Feed extends Mage_GoogleBase_Model_Service
      */
     public function getItemTypes($targetCountry)
     {
-        $locale = Mage::getSingleton('googlebase/config')->getCountryInfo($targetCountry, 'locale');
+        $locale = AO::getSingleton('googlebase/config')->getCountryInfo($targetCountry, 'locale');
         $location = self::ITEM_TYPES_LOCATION . '/' . $locale;
 
         $feed = $this->getGuestService()->getFeed($location);

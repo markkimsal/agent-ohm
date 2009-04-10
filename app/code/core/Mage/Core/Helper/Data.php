@@ -42,11 +42,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $encryptionModel = (string)Mage::getConfig()->getNode('global/helpers/core/encryption_model');
+            $encryptionModel = (string)AO::getConfig()->getNode('global/helpers/core/encryption_model');
             if ($encryptionModel) {
                 $this->_encryptor = new $encryptionModel;
             } else {
-                $this->_encryptor = Mage::getModel('core/encryption');
+                $this->_encryptor = AO::getModel('core/encryption');
             }
 
             $this->_encryptor->setHelper($this);
@@ -65,7 +65,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public static function currency($value, $format=true, $includeContainer = true)
     {
         try {
-            $value = Mage::app()->getStore()->convertPrice($value, $format, $includeContainer);
+            $value = AO::app()->getStore()->convertPrice($value, $format, $includeContainer);
         }
         catch (Exception $e){
             $value = $e->getMessage();
@@ -94,7 +94,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function formatPrice($price, $includeContainer = true)
     {
-        return Mage::app()->getStore()->formatPrice($price, $includeContainer);
+        return AO::app()->getStore()->formatPrice($price, $includeContainer);
     }
 
     /**
@@ -117,17 +117,17 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(Mage::getSingleton('core/date')->gmtTimestamp(), null, null);
+            $date = AO::app()->getLocale()->date(AO::getSingleton('core/date')->gmtTimestamp(), null, null);
         }
         elseif (!$date instanceof Zend_Date) {
-            $date = Mage::app()->getLocale()->date(strtotime($date), null, null, $showTime);
+            $date = AO::app()->getLocale()->date(strtotime($date), null, null, $showTime);
         }
 
         if ($showTime) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = AO::app()->getLocale()->getDateTimeFormat($format);
         }
         else {
-            $format = Mage::app()->getLocale()->getDateFormat($format);
+            $format = AO::app()->getLocale()->getDateFormat($format);
         }
 
         return $date->toString($format);
@@ -151,20 +151,20 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (is_null($time)) {
-            $date = Mage::app()->getLocale()->date(time());
+            $date = AO::app()->getLocale()->date(time());
         }
         elseif ($time instanceof Zend_Date) {
             $date = $time;
         }
         else {
-            $date = Mage::app()->getLocale()->date(strtotime($time));
+            $date = AO::app()->getLocale()->date(strtotime($time));
         }
 
         if ($showDate) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = AO::app()->getLocale()->getDateTimeFormat($format);
         }
         else {
-            $format = Mage::app()->getLocale()->getTimeFormat($format);
+            $format = AO::app()->getLocale()->getTimeFormat($format);
         }
 
         return $date->toString($format);
@@ -178,7 +178,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function encrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!AO::isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->encrypt($data);
@@ -192,7 +192,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!AO::isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->decrypt($data);
@@ -239,7 +239,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getStoreId($store=null)
     {
-        return Mage::app()->getStore($store)->getId();
+        return AO::app()->getStore($store)->getId();
     }
 
     public function removeAccents($string, $german=false)
@@ -283,7 +283,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $allow = true;
 
-        $allowedIps = Mage::getStoreConfig('dev/restrict/allow_ips', $storeId);
+        $allowedIps = AO::getStoreConfig('dev/restrict/allow_ips', $storeId);
         if (!empty($allowedIps) && isset($_SERVER['REMOTE_ADDR'])) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($_SERVER['REMOTE_ADDR'], $allowedIps)===false
@@ -303,7 +303,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCacheTypes()
     {
         $types = array();
-        $config = Mage::getConfig()->getNode('global/cache/types');
+        $config = AO::getConfig()->getNode('global/cache/types');
         foreach ($config->children() as $type=>$node) {
             $types[$type] = (string)$node->label;
         }
@@ -318,7 +318,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCacheBetaTypes()
     {
         $types = array();
-        $config = Mage::getConfig()->getNode('global/cache/betatypes');
+        $config = AO::getConfig()->getNode('global/cache/betatypes');
         foreach ($config->children() as $type=>$node) {
             $types[$type] = (string)$node->label;
         }
@@ -346,7 +346,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
 
             return false;
         }
-        $fields = Mage::getConfig()->getFieldset($fieldset, $root);
+        $fields = AO::getConfig()->getFieldset($fieldset, $root);
         if (!$fields) {
             return false;
         }

@@ -46,7 +46,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
 
     public function __construct()
     {
-        $this->_localConfigFile = Mage::getBaseDir('etc').DS.'local.xml';
+        $this->_localConfigFile = AO::getBaseDir('etc').DS.'local.xml';
     }
 
     public function setConfigData($data)
@@ -65,7 +65,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     public function install()
     {
         $data = $this->getConfigData();
-        foreach (Mage::getModel('core/config')->getDistroServerVars() as $index=>$value) {
+        foreach (AO::getModel('core/config')->getDistroServerVars() as $index=>$value) {
             if (!isset($data[$index])) {
                 $data[$index] = $value;
             }
@@ -94,7 +94,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
 
         $this->_getInstaller()->getDataModel()->setConfigData($data);
 
-        $template = file_get_contents(Mage::getBaseDir('etc').DS.'local.xml.template');
+        $template = file_get_contents(AO::getBaseDir('etc').DS.'local.xml.template');
         foreach ($data as $index=>$value) {
             $template = str_replace('{{'.$index.'}}', '<![CDATA['.$value.']]>', $template);
         }
@@ -104,7 +104,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
 
     public function getFormData()
     {
-        $uri = Zend_Uri::factory(Mage::getBaseUrl('web'));
+        $uri = Zend_Uri::factory(AO::getBaseUrl('web'));
 
         $baseUrl = $uri->getUri();
         if ($uri->getScheme()!=='https') {
@@ -114,7 +114,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $baseSecureUrl = $uri->getUri();
         }
 
-        $data = Mage::getModel('varien/object')
+        $data = AO::getModel('varien/object')
             ->setDbHost('localhost')
             ->setDbName('magento')
             ->setDbUser('root')
@@ -147,13 +147,13 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $body = $response->getBody();
         }
         catch (Exception $e){
-            $this->_getInstaller()->getDataModel()->addError(Mage::helper('install')->__('Url "%s" is not accessible', $url));
+            $this->_getInstaller()->getDataModel()->addError(AO::helper('install')->__('Url "%s" is not accessible', $url));
             throw $e;
         }
 
         if ($body != Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE) {
-            $this->_getInstaller()->getDataModel()->addError(Mage::helper('install')->__('Url "%s" is invalid', $url));
-            Mage::throwException(Mage::helper('install')->__('This Url is invalid'));
+            $this->_getInstaller()->getDataModel()->addError(AO::helper('install')->__('Url "%s" is invalid', $url));
+            AO::throwException(AO::helper('install')->__('This Url is invalid'));
         }
         return $this;
     }

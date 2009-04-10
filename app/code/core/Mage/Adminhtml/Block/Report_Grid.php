@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->setChild('refresh_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Refresh'),
+                    'label'     => AO::helper('adminhtml')->__('Refresh'),
                     'onclick'   => $this->getRefreshButtonCallback(),
                     'class'   => 'task'
                 ))
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $this->_setFilterValues($this->_defaultFilter);
         }
 
-        $collection = Mage::getResourceModel('reports/report_collection');
+        $collection = AO::getResourceModel('reports/report_collection');
 
         $collection->setPeriod($this->getFilter('report_period'));
 
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 $collection->setInterval($from, $to);
             }
             catch (Exception $e) {
-                $this->_errors[] = Mage::helper('reports')->__('Invalid date specified');
+                $this->_errors[] = AO::helper('reports')->__('Invalid date specified');
             }
         }
 
@@ -157,9 +157,9 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
         if ($this->getRequest()->getParam('store')) {
             $storeIds = array($this->getParam('store'));
         } else if ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else {
             $storeIds = array('');
         }
@@ -169,7 +169,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->setCollection($collection);
 
-        Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
+        AO::dispatchEvent('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
         );
     }
@@ -326,7 +326,7 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = Mage::app()->getLocale();
+            $this->_locale = AO::app()->getLocale();
         }
         return $this->_locale;
     }
@@ -580,13 +580,13 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
     {
         if (is_null($this->_currentCurrencyCode)) {
             if ($this->getRequest()->getParam('store')) {
-                $this->_currentCurrencyCode = Mage::app()->getStore($this->getRequest()->getParam('store'))->getBaseCurrencyCode();
+                $this->_currentCurrencyCode = AO::app()->getStore($this->getRequest()->getParam('store'))->getBaseCurrencyCode();
             } else if ($this->getRequest()->getParam('website')){
-                $this->_currentCurrencyCode = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getBaseCurrencyCode();
+                $this->_currentCurrencyCode = AO::app()->getWebsite($this->getRequest()->getParam('website'))->getBaseCurrencyCode();
             } else if ($this->getRequest()->getParam('group')){
-                $this->_currentCurrencyCode =  Mage::app()->getGroup($this->getRequest()->getParam('group'))->getWebsite()->getBaseCurrencyCode();
+                $this->_currentCurrencyCode =  AO::app()->getGroup($this->getRequest()->getParam('group'))->getWebsite()->getBaseCurrencyCode();
             } else {
-                $this->_currentCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+                $this->_currentCurrencyCode = AO::app()->getStore()->getBaseCurrencyCode();
             }
         }
         return $this->_currentCurrencyCode;

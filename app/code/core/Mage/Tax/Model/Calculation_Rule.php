@@ -59,7 +59,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
     {
         parent::_afterSave();
         $this->saveCalculationData();
-        Mage::dispatchEvent('tax_settings_change_after');
+        AO::dispatchEvent('tax_settings_change_after');
         return $this;
     }
 
@@ -71,7 +71,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        Mage::dispatchEvent('tax_settings_change_after');
+        AO::dispatchEvent('tax_settings_change_after');
         return parent::_afterDelete();
     }
 
@@ -81,7 +81,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
         $ptc = $this->getData('tax_product_class');
         $rates = $this->getData('tax_rate');
 
-        Mage::getSingleton('tax/calculation')->deleteByRuleId($this->getId());
+        AO::getSingleton('tax/calculation')->deleteByRuleId($this->getId());
         foreach ($ctc as $c) {
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
@@ -91,7 +91,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
                         'customer_tax_class_id'     =>$c,
                         'product_tax_class_id'      =>$p,
                     );
-                    Mage::getSingleton('tax/calculation')->setData($dataArray)->save();
+                    AO::getSingleton('tax/calculation')->setData($dataArray)->save();
                 }
             }
         }
@@ -100,7 +100,7 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
     public function getCalculationModel()
     {
         if (is_null($this->_calculationModel)) {
-            $this->_calculationModel = Mage::getSingleton('tax/calculation');
+            $this->_calculationModel = AO::getSingleton('tax/calculation');
         }
         return $this->_calculationModel;
     }

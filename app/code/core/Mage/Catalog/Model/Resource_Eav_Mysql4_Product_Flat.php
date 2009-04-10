@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat
     protected function _construct()
     {
         $this->_init('catalog/product_flat', 'entity_id');
-        $this->_storeId = Mage::app()->getStore()->getId();
+        $this->_storeId = AO::app()->getStore()->getId();
     }
 
     /**
@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat
      */
     public function setStoreId($store)
     {
-        $this->_storeId = Mage::app()->getStore($store)->getId();
+        $this->_storeId = AO::app()->getStore($store)->getId();
         return $this;
     }
 
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat
     public function getFlatTableName($store = null)
     {
         if (!is_numeric($store)) {
-            $store = Mage::app()->getStore($store)->getId();
+            $store = AO::app()->getStore($store)->getId();
         }
         return $this->getTable('catalog/product_flat') . '_' . $store;
     }
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat
      */
     public function getTypeId()
     {
-        return Mage::getSingleton('eav/config')
+        return AO::getSingleton('eav/config')
             ->getEntityType('catalog_product')
             ->getEntityTypeId();
     }

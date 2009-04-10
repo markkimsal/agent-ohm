@@ -44,13 +44,13 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     {
         foreach ($this->getItems() as $item)
         {
-            $quote = Mage::getModel('sales/quote')->loadByCustomer($item->getId());
+            $quote = AO::getModel('sales/quote')->loadByCustomer($item->getId());
 
             if (is_object($quote))
             {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quote_items = Mage::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
+                $quote_items = AO::getResourceModel('sales/quote_item_collection')->setQuoteFilter($quote->getId());
                 $quote_items->load();
                 $item->setItems($quote_items->count());
             } else {
@@ -72,7 +72,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
      */
     public function joinOrders($from = '', $to = '')
     {
-        $order = Mage::getResourceSingleton('sales/order');
+        $order = AO::getResourceSingleton('sales/order');
         /* @var $order Mage_Sales_Model_Entity_Order */
         $attr = $order->getAttribute('customer_id');
         /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
@@ -96,7 +96,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
     public function addOrdersCount()
     {
-        $order = Mage::getResourceSingleton('sales/order');
+        $order = AO::getResourceSingleton('sales/order');
         /* @var $order Mage_Sales_Model_Entity_Order */
         $stateAttr = $order->getAttribute('state');
         $_joinCondition = "{$this->_customerIdTableName}.entity_id=order_state.entity_id";
@@ -123,7 +123,7 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         /**
          * Join subtotal attribute
          */
-        $order = Mage::getResourceSingleton('sales/order');
+        $order = AO::getResourceSingleton('sales/order');
         /* @var $order Mage_Sales_Model_Entity_Order */
 
         if ($storeId == 0) {

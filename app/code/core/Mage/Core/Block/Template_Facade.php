@@ -56,7 +56,7 @@ class Mage_Core_Block_Template_Facade extends Mage_Core_Block_Template
      */
     public function setDataByKeyFromRegistry($key, $registryKey)
     {
-        $registryItem = Mage::registry($registryKey);
+        $registryItem = AO::registry($registryKey);
         if (empty($registryItem)) {
             return;
         }

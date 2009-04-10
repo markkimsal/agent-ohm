@@ -43,12 +43,12 @@ class Mage_Adminhtml_Model_System_Config_Source_Watermark_Position
     public function toOptionArray()
     {
         return array(
-            array('value' => 'stretch',         'label' => Mage::helper('catalog')->__('Stretch')),
-            array('value' => 'tile',            'label' => Mage::helper('catalog')->__('Tile')),
-            array('value' => 'top-left',        'label' => Mage::helper('catalog')->__('Top/Left')),
-            array('value' => 'top-right',       'label' => Mage::helper('catalog')->__('Top/Right')),
-            array('value' => 'bottom-left',     'label' => Mage::helper('catalog')->__('Bottom/Left')),
-            array('value' => 'bottom-right',    'label' => Mage::helper('catalog')->__('Bottom/Right')),
+            array('value' => 'stretch',         'label' => AO::helper('catalog')->__('Stretch')),
+            array('value' => 'tile',            'label' => AO::helper('catalog')->__('Tile')),
+            array('value' => 'top-left',        'label' => AO::helper('catalog')->__('Top/Left')),
+            array('value' => 'top-right',       'label' => AO::helper('catalog')->__('Top/Right')),
+            array('value' => 'bottom-left',     'label' => AO::helper('catalog')->__('Bottom/Left')),
+            array('value' => 'bottom-right',    'label' => AO::helper('catalog')->__('Bottom/Right')),
         );
     }
 

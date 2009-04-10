@@ -42,7 +42,7 @@ class Mage_Catalog_Block_Product_Gallery extends Mage_Core_Block_Template
     }
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     public function getGalleryCollection()

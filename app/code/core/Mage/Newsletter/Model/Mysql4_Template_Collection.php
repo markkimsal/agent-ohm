@@ -42,8 +42,8 @@ class Mage_Newsletter_Model_Mysql4_Template_Collection extends Varien_Data_Colle
     
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
-        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('newsletter/template');
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('newsletter_read'));
+        $this->_templateTable = AO::getSingleton('core/resource')->getTableName('newsletter/template');
         $this->_select->from($this->_templateTable, array('template_id','template_code',
                                                              'template_type',
                                                              'template_subject','template_sender_name',
@@ -51,7 +51,7 @@ class Mage_Newsletter_Model_Mysql4_Template_Collection extends Varien_Data_Colle
                                                              'added_at',
                                                              'modified_at'
                                                              ));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/template'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('newsletter/template'));
     }
     
     /**

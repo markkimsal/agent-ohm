@@ -49,7 +49,7 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
     {
         if (VPROF) Varien_Profiler::start(__METHOD__.'/setOptions');
         $options = array(
-        	'save_path'=>Mage::getBaseDir('session'),
+        	'save_path'=>AO::getBaseDir('session'),
         	'use_only_cookies'=>'off',
         );
         if ($this->getCookieDomain()) {
@@ -65,7 +65,7 @@ abstract class Mage_Core_Model_Session_Abstract_Zend extends Varien_Object
         if (VPROF) Varien_Profiler::stop(__METHOD__.'/setOptions');
 /*
         if (VPROF) Varien_Profiler::start(__METHOD__.'/setHandler');
-        $sessionResource = Mage::getResourceSingleton('core/session');
+        $sessionResource = AO::getResourceSingleton('core/session');
         if ($sessionResource->hasConnection()) {
         	Zend_Session::setSaveHandler($sessionResource);
         }

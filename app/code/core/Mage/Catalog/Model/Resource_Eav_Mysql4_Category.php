@@ -67,7 +67,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('catalog_category')
             ->setConnection(
                 $resource->getConnection('catalog_read'),
@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return Mage::app()->getStore()->getId();
+            return AO::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -109,7 +109,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     protected function _getTree()
     {
         if (!$this->_tree) {
-            $this->_tree = Mage::getResourceModel('catalog/category_tree')
+            $this->_tree = AO::getResourceModel('catalog/category_tree')
                 ->load();
         }
         return $this->_tree;
@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         /*if ($child = $this->_getTree()->getNodeById($object->getId())) {
             $children = $child->getChildren();
             foreach ($children as $child) {
-                $childObject = Mage::getModel('catalog/category')->load($child->getId())->delete();
+                $childObject = AO::getModel('catalog/category')->load($child->getId())->delete();
             }
         }*/
 
@@ -306,7 +306,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             /**
              * Delete association rewrites
              */
-            Mage::getResourceSingleton('catalog/url')->deleteCategoryProductRewrites($catId, $deleteIds);
+            AO::getResourceSingleton('catalog/url')->deleteCategoryProductRewrites($catId, $deleteIds);
 
             $select = $write->select()
                 ->from($prodTable, array('entity_id', 'category_ids'))
@@ -398,7 +398,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
 
         $stores = array();
-        $storeCollection = Mage::getModel('core/store')->getCollection()->loadByCategoryIds($nodes);
+        $storeCollection = AO::getModel('core/store')->getCollection()->loadByCategoryIds($nodes);
         foreach ($storeCollection as $store) {
             $stores[$store->getId()] = $store->getId();
         }
@@ -454,9 +454,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function move($categoryId, $newParentId)
     {
-        $category  = Mage::getModel('catalog/category')->load($categoryId);
+        $category  = AO::getModel('catalog/category')->load($categoryId);
         $oldParent = $category->getParentCategory();
-        $newParent = Mage::getModel('catalog/category')->load($newParentId);
+        $newParent = AO::getModel('catalog/category')->load($newParentId);
 
         $childrenCount = $this->getChildrenCount($category->getId()) + 1;
 
@@ -526,9 +526,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getChildrenAmount($category, $isActiveFlag = true)
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = AO::app()->getStore()->getId();
         $attributeId = $this->_getIsActiveAttributeId();
-        $table = Mage::getSingleton('core/resource')->getTableName('catalog/category') . '_int';
+        $table = AO::getSingleton('core/resource')->getTableName('catalog/category') . '_int';
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('m'=>$this->getEntityTable()), array('COUNT(m.entity_id)'))
@@ -578,8 +578,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         /**
          * Prepare visibility and status attributes information
          */
-        $statusAttribute        = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'status');
-        $visibilityAttribute    = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'visibility');
+        $statusAttribute        = AO::getSingleton('eav/config')->getAttribute('catalog_product', 'status');
+        $visibilityAttribute    = AO::getSingleton('eav/config')->getAttribute('catalog_product', 'visibility');
         $statusAttributeId      = $statusAttribute->getId();
         $visibilityAttributeId  = $visibilityAttribute->getId();
         $statusTable            = $statusAttribute->getBackend()->getTable();
@@ -714,7 +714,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getProductCount($category)
     {
-        $productTable =Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $productTable =AO::getSingleton('core/resource')->getTableName('catalog/category_product');
 
         $select =  $this->getReadConnection()->select();
         $select->from(
@@ -791,7 +791,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         foreach ($path as $pathItem) {
             if ($pathItem->getId()>1 && $category->getId() != $pathItem->getId()) {
-                $category = Mage::getModel('catalog/category')
+                $category = AO::getModel('catalog/category')
                     ->load($pathItem->getId())
                     ->save();
             }
@@ -811,7 +811,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted=false, $asCollection=false, $toLoad=true)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree = AO::getResourceModel('catalog/category_tree');
         /** @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
         $nodes = $tree->loadNode($parent)
             ->loadChildren($recursionLevel)
@@ -834,8 +834,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     public function getParentCategories($category)
     {
         $pathIds = array_reverse(explode(',', $category->getPathInStore()));
-        $categories = Mage::getResourceModel('catalog/category_collection')
-            ->setStore(Mage::app()->getStore())
+        $categories = AO::getResourceModel('catalog/category_collection')
+            ->setStore(AO::app()->getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')
             ->addFieldToFilter('entity_id', array('in'=>$pathIds))
@@ -943,7 +943,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     {
         $innerSelect = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), new Zend_Db_Expr("CONCAT(path, '/%')"))
-            ->where('entity_id = ?', Mage::app()->getStore()->getRootCategoryId());
+            ->where('entity_id = ?', AO::app()->getStore()->getRootCategoryId());
         $select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), 'entity_id')
             ->where('entity_id = ?', $category->getId())
@@ -952,7 +952,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
 //        $tree = $this->_getTree();
 //        $tree->load();
-//        $children = $tree->getChildren(Mage::app()->getStore()->getRootCategoryId(), true);
+//        $children = $tree->getChildren(AO::app()->getStore()->getRootCategoryId(), true);
 //        if (!in_array($category->getId(), $children)) {
 //            return false;
 //        }

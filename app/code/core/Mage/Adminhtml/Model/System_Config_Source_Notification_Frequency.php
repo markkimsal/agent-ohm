@@ -37,11 +37,11 @@ class Mage_Adminhtml_Model_System_Config_Source_Notification_Frequency
     public function toOptionArray()
     {
         return array(
-            1   => Mage::helper('adminhtml')->__('1 Hour'),
-            2   => Mage::helper('adminhtml')->__('2 Hours'),
-            6   => Mage::helper('adminhtml')->__('6 Hours'),
-            12  => Mage::helper('adminhtml')->__('12 Hours'),
-            24  => Mage::helper('adminhtml')->__('24 Hours')
+            1   => AO::helper('adminhtml')->__('1 Hour'),
+            2   => AO::helper('adminhtml')->__('2 Hours'),
+            6   => AO::helper('adminhtml')->__('6 Hours'),
+            12  => AO::helper('adminhtml')->__('12 Hours'),
+            24  => AO::helper('adminhtml')->__('24 Hours')
         );
     }
 }

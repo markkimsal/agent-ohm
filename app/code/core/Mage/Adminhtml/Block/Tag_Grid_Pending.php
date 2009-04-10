@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tag/tag_collection')
+        $collection = AO::getResourceModel('tag/tag_collection')
             ->addSummary(0)
             ->addStoresVisibility()
             ->addStatusFilter(Mage_Tag_Model_Tag::STATUS_PENDING);
@@ -57,12 +57,12 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         $baseUrl = $this->getUrl();
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('tag')->__('Tag'),
+            'header'    => AO::helper('tag')->__('Tag'),
             'index'     => 'name',
         ));
 
         $this->addColumn('total_used', array(
-            'header'    => Mage::helper('tag')->__('Uses'),
+            'header'    => AO::helper('tag')->__('Uses'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'uses',
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('products', array(
-            'header'    => Mage::helper('tag')->__('Products'),
+            'header'    => AO::helper('tag')->__('Products'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'products',
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('customers', array(
-            'header'    => Mage::helper('tag')->__('Customers'),
+            'header'    => AO::helper('tag')->__('Customers'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'customers',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => Mage::helper('tag')->__('Popularity'),
+            'header'    => AO::helper('tag')->__('Popularity'),
             'width'     => '140px',
             'align'     => 'right',
             'index'     => 'popularity',
@@ -95,30 +95,30 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
 
         /*
         $this->addColumn('status', array(
-            'header'    => Mage::helper('tag')->__('Status'),
+            'header'    => AO::helper('tag')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'filter'    => false,
             'sortable'  => false,
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => AO::helper('tag')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => AO::helper('tag')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => AO::helper('tag')->__('Approved'),
             ),
         ));
         */
 
           // Collection for stores filters
-        if (!$collection = Mage::registry('stores_select_collection')) {
-            $collection =  Mage::app()->getStore()->getResourceCollection()
+        if (!$collection = AO::registry('stores_select_collection')) {
+            $collection =  AO::app()->getStore()->getResourceCollection()
                 ->load();
-            Mage::register('stores_select_collection', $collection);
+            AO::register('stores_select_collection', $collection);
         }
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'    => Mage::helper('tag')->__('Visible In'),
+                'header'    => AO::helper('tag')->__('Visible In'),
                 'type'      => 'store',
                 'index'     => 'stores',
                 'sortable'  => false,
@@ -127,23 +127,23 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         }
 
         $this->addColumn('actions', array(
-            'header'    => Mage::helper('tag')->__('Actions'),
+            'header'    => AO::helper('tag')->__('Actions'),
             'width'     => '100px',
             'type'      => 'action',
             'sortable'  => false,
             'filter'    => false,
             'actions'    => array(
                 array(
-                    'caption'   => Mage::helper('tag')->__('Edit Tag'),
+                    'caption'   => AO::helper('tag')->__('Edit Tag'),
                     'url'       => $this->getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
                 array(
-                    'caption'   => Mage::helper('tag')->__('View Products'),
+                    'caption'   => AO::helper('tag')->__('View Products'),
                     'url'       => $this->getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 ),
 
                 array(
-                    'caption'   => Mage::helper('tag')->__('View Customers'),
+                    'caption'   => AO::helper('tag')->__('View Customers'),
                     'url'       => $this->getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
                 )
             ),
@@ -177,9 +177,9 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         $this->getMassactionBlock()->setFormFieldName('tag');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('tag')->__('Delete'),
+             'label'=> AO::helper('tag')->__('Delete'),
              'url'  => $this->getUrl('*/*/massDelete', array('ret' => 'pending')),
-             'confirm' => Mage::helper('tag')->__('Are you sure?')
+             'confirm' => AO::helper('tag')->__('Are you sure?')
         ));
 
         $statuses = $this->helper('tag/data')->getStatusesOptionsArray();
@@ -187,14 +187,14 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
         array_unshift($statuses, array('label'=>'', 'value'=>''));
 
         $this->getMassactionBlock()->addItem('status', array(
-             'label'=> Mage::helper('tag')->__('Change status'),
+             'label'=> AO::helper('tag')->__('Change status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true, 'ret' => 'pending')),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('tag')->__('Status'),
+                         'label' => AO::helper('tag')->__('Status'),
                          'values' => $statuses
                      )
              )

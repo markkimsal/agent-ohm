@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('reports/order_collection')
+        $collection = AO::getResourceModel('reports/order_collection')
             ->addItemCountExpr()
             ->addExpressionAttributeToSelect('customer',
                 "IFNULL(CONCAT({{customer_firstname}},' ',{{customer_lastname}}), '{$this->__('Guest')}')",
@@ -56,10 +56,10 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
             if ($this->getParam('store')) {
                 $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             } else if ($this->getParam('website')){
-                $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+                $storeIds = AO::app()->getWebsite($this->getParam('website'))->getStoreIds();
                 $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
             } else if ($this->getParam('group')){
-                $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+                $storeIds = AO::app()->getGroup($this->getParam('group'))->getStoreIds();
                 $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
             }
 
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Dashboard_Orders_Grid extends Mage_Adminhtml_Block_Da
             'index'     => 'items_count'
         ));
 
-        $baseCurrencyCode = Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+        $baseCurrencyCode = AO::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('total', array(
             'header'    => $this->__('Grand Total'),

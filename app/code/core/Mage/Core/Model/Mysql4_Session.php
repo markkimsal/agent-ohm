@@ -64,9 +64,9 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
 
     public function __construct()
     {
-        $this->_sessionTable = Mage::getSingleton('core/resource')->getTableName('core/session');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $this->_sessionTable = AO::getSingleton('core/resource')->getTableName('core/session');
+        $this->_read = AO::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('core_write');
     }
 
     public function __destruct()
@@ -115,7 +115,7 @@ class Mage_Core_Model_Mysql4_Session implements Zend_Session_SaveHandler_Interfa
                 array($this, 'gc')
             );
         } else {
-            session_save_path(Mage::getBaseDir('session'));
+            session_save_path(AO::getBaseDir('session'));
         }
         return $this;
     }

@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
                 $calledFrom = 4;
                 break;
         }
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (AO::helper('catalog/category_flat')->isEnabled()) {
             $this->_applyDesign($object, $calledFrom);
         } else {
             $this->_applyDesignRecursively($object, $calledFrom);
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
 
     private function _apply($package, $theme)
     {
-        Mage::getSingleton('core/design_package')
+        AO::getSingleton('core/design_package')
             ->setPackageName($package)
             ->setTheme($theme);
     }

@@ -102,7 +102,7 @@ class Mage_Core_Model_Encryption
             case 2:
                 return $this->hash($hashArr[1] . $password) === $hashArr[0];
         }
-        Mage::throwException('Invalid hash.');
+        AO::throwException('Invalid hash.');
     }
 
     /**
@@ -115,7 +115,7 @@ class Mage_Core_Model_Encryption
     {
         if (!$this->_crypt) {
             if (null === $key) {
-                $key = (string)Mage::getConfig()->getNode('global/crypt/key');
+                $key = (string)AO::getConfig()->getNode('global/crypt/key');
             }
             $this->_crypt = Varien_Crypt::factory()->init($key);
         }

@@ -37,14 +37,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Carts extends Mage_Adminhtml_Block_
      */
     protected function _prepareLayout()
     {
-        $sharedWebsiteIds = Mage::registry('current_customer')->getSharedWebsiteIds();
+        $sharedWebsiteIds = AO::registry('current_customer')->getSharedWebsiteIds();
         $isShared = count($sharedWebsiteIds) > 1;
         foreach ($sharedWebsiteIds as $websiteId) {
             $blockName = 'customer_cart_' . $websiteId;
             $block = $this->getLayout()->createBlock('adminhtml/customer_edit_tab_cart', $blockName, array('website_id' => $websiteId));
             if ($isShared) {
                     $block->setWebsiteId($websiteId)
-                        ->setCartHeader($this->__('Shopping Cart from %s', Mage::app()->getWebsite($websiteId)->getName()))
+                        ->setCartHeader($this->__('Shopping Cart from %s', AO::app()->getWebsite($websiteId)->getName()))
                     ;
             }
 

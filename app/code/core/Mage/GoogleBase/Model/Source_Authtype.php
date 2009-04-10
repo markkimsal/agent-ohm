@@ -36,8 +36,8 @@ class Mage_GoogleBase_Model_Source_Authtype
     public function toOptionArray()
     {
         return array(
-            array('value' => 'authsub', 'label' => Mage::helper('googlebase')->__('AuthSub')),
-            array('value' => 'clientlogin', 'label' => Mage::helper('googlebase')->__('ClientLogin'))
+            array('value' => 'authsub', 'label' => AO::helper('googlebase')->__('AuthSub')),
+            array('value' => 'clientlogin', 'label' => AO::helper('googlebase')->__('ClientLogin'))
         );
     }
 }

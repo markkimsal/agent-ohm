@@ -41,10 +41,10 @@ class Mage_GoogleAnalytics_Model_Observer
      */
     public function order_success_page_view($observer)
     {
-        $quoteId = Mage::getSingleton('checkout/session')->getLastQuoteId();
-        $analyticsBlock = Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('google_analytics');
+        $quoteId = AO::getSingleton('checkout/session')->getLastQuoteId();
+        $analyticsBlock = AO::app()->getFrontController()->getAction()->getLayout()->getBlock('google_analytics');
         if ($quoteId && ($analyticsBlock instanceof Mage_Core_Block_Abstract)) {
-            $quote = Mage::getModel('sales/quote')->load($quoteId);
+            $quote = AO::getModel('sales/quote')->load($quoteId);
             $analyticsBlock->setQuote($quote);
         }
     }

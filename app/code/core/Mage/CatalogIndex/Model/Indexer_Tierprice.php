@@ -37,8 +37,8 @@ class Mage_CatalogIndex_Model_Indexer_Tierprice extends Mage_CatalogIndex_Model_
     protected function _construct()
     {
         $this->_init('catalogindex/indexer_price');
-        $this->_currencyModel = Mage::getModel('directory/currency');
-        $this->_customerGroups = Mage::getModel('customer/group')->getCollection();
+        $this->_currencyModel = AO::getModel('directory/currency');
+        $this->_customerGroups = AO::getModel('customer/group')->getCollection();
 
         return parent::_construct();
     }

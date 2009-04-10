@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
         parent::__construct();
 
         $this->setId('checkoutAgreementForm');
-        $this->setTitle(Mage::helper('checkout')->__('Terms and Conditions Information'));
+        $this->setTitle(AO::helper('checkout')->__('Terms and Conditions Information'));
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _prepareForm()
     {
-        $model  = Mage::registry('checkout_agreement');
+        $model  = AO::registry('checkout_agreement');
         $form   = new Varien_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('checkout')->__('Terms and Conditions Information'),
+            'legend'    => AO::helper('checkout')->__('Terms and Conditions Information'),
 			'class'     => 'fieldset-wide',
         ));
 
@@ -71,54 +71,54 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
         }
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('checkout')->__('Condition Name'),
-            'title'     => Mage::helper('checkout')->__('Condition Name'),
+            'label'     => AO::helper('checkout')->__('Condition Name'),
+            'title'     => AO::helper('checkout')->__('Condition Name'),
             'required'  => true,
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('checkout')->__('Status'),
-            'title'     => Mage::helper('checkout')->__('Status'),
+            'label'     => AO::helper('checkout')->__('Status'),
+            'title'     => AO::helper('checkout')->__('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('checkout')->__('Enabled'),
-                '0' => Mage::helper('checkout')->__('Disabled'),
+                '1' => AO::helper('checkout')->__('Enabled'),
+                '0' => AO::helper('checkout')->__('Disabled'),
             ),
         ));
 
         $fieldset->addField('is_html', 'select', array(
-            'label'     => Mage::helper('checkout')->__('Show Content as'),
-            'title'     => Mage::helper('checkout')->__('Show Content as'),
+            'label'     => AO::helper('checkout')->__('Show Content as'),
+            'title'     => AO::helper('checkout')->__('Show Content as'),
             'name'      => 'is_html',
             'required'  => true,
             'options'   => array(
-                0 => Mage::helper('checkout')->__('Text'),
-                1 => Mage::helper('checkout')->__('HTML'),
+                0 => AO::helper('checkout')->__('Text'),
+                1 => AO::helper('checkout')->__('HTML'),
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('checkout')->__('Store View'),
-                'title'     => Mage::helper('checkout')->__('Store View'),
+                'label'     => AO::helper('checkout')->__('Store View'),
+                'title'     => AO::helper('checkout')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => AO::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
             ));
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => AO::app()->getStore(true)->getId()
             ));
-            $model->setStoreId(Mage::app()->getStore(true)->getId());
+            $model->setStoreId(AO::app()->getStore(true)->getId());
         }
 
         $fieldset->addField('checkbox_text', 'editor', array(
             'name'      => 'checkbox_text',
-            'label'     => Mage::helper('checkout')->__('Checkbox text'),
-            'title'     => Mage::helper('checkout')->__('Checkbox text'),
+            'label'     => AO::helper('checkout')->__('Checkbox text'),
+            'title'     => AO::helper('checkout')->__('Checkbox text'),
             'rows'      => '5',
             'cols'      => '30',
             'wysiwyg'   => false,
@@ -127,8 +127,8 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
 
         $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('checkout')->__('Content'),
-            'title'     => Mage::helper('checkout')->__('Content'),
+            'label'     => AO::helper('checkout')->__('Content'),
+            'title'     => AO::helper('checkout')->__('Content'),
             'style'     => 'height:24em;',
             'wysiwyg'   => false,
             'required'  => true,
@@ -136,8 +136,8 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Mage_Adminhtml_B
 
         $fieldset->addField('content_height', 'text', array(
             'name'      => 'content_height',
-            'label'     => Mage::helper('checkout')->__('Content Height (css)'),
-            'title'     => Mage::helper('checkout')->__('Content Height'),
+            'label'     => AO::helper('checkout')->__('Content Height (css)'),
+            'title'     => AO::helper('checkout')->__('Content Height'),
             'maxlength' => 25,
             'class'     => 'validate-css-length',
         ));

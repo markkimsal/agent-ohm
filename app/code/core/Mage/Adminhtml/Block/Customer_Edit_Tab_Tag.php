@@ -46,13 +46,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $tagId = Mage::registry('tagId');
+        $tagId = AO::registry('tagId');
 
         if( $this->getCustomerId() instanceof Mage_Customer_Model_Customer ) {
             $this->setCustomerId( $this->getCustomerId()->getId() );
         }
 
-        $collection = Mage::getResourceModel('tag/customer_collection')
+        $collection = AO::getResourceModel('tag/customer_collection')
             ->addCustomerFilter($this->getCustomerId());
 
         $this->setCollection($collection);
@@ -68,32 +68,32 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('customer')->__('Tag Name'),
+            'header'    => AO::helper('customer')->__('Tag Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('customer')->__('Status'),
+            'header'    => AO::helper('customer')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('customer')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('customer')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('customer')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => AO::helper('customer')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => AO::helper('customer')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => AO::helper('customer')->__('Approved'),
             ),
             'filter'    => false,
         ));
 
         $this->addColumn('product', array(
-            'header'    => Mage::helper('customer')->__('Product Name'),
+            'header'    => AO::helper('customer')->__('Product Name'),
             'index'     => 'product',
             'filter'    => false,
             'sortable'  => false,
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => Mage::helper('customer')->__('SKU'),
+            'header'    => AO::helper('customer')->__('SKU'),
             'index'     => 'product_sku',
             'filter'    => false,
             'sortable'  => false,

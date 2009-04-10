@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid_Filter_Type extends Mage_A
 	{
 		$result = array();
 		foreach (self::$_types as $code=>$label) {
-			$result[] = array('value'=>$code, 'label'=>Mage::helper('adminhtml')->__($label));
+			$result[] = array('value'=>$code, 'label'=>AO::helper('adminhtml')->__($label));
 		}
 
 		return $result;

@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Category_Api_V2 extends Mage_Catalog_Model_Category_Api
     {
         $parent_category = $this->_initCategory($parentId);
 
-        $category = Mage::getModel('catalog/category')
+        $category = AO::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store));
 
         $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));

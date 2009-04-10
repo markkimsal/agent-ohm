@@ -37,14 +37,14 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = AO::registry('current_promo_quote_rule');
 
         //$form = new Varien_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('salesrule')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('salesrule')->__('General Information')));
 
         if ($model->getId()) {
             $fieldset->addField('rule_id', 'hidden', array(
@@ -58,48 +58,48 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
 
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('salesrule')->__('Rule Name'),
-            'title' => Mage::helper('salesrule')->__('Rule Name'),
+            'label' => AO::helper('salesrule')->__('Rule Name'),
+            'title' => AO::helper('salesrule')->__('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => Mage::helper('salesrule')->__('Description'),
-            'title' => Mage::helper('salesrule')->__('Description'),
+            'label' => AO::helper('salesrule')->__('Description'),
+            'title' => AO::helper('salesrule')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Status'),
-            'title'     => Mage::helper('salesrule')->__('Status'),
+            'label'     => AO::helper('salesrule')->__('Status'),
+            'title'     => AO::helper('salesrule')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
-                '1' => Mage::helper('salesrule')->__('Active'),
-                '0' => Mage::helper('salesrule')->__('Inactive'),
+                '1' => AO::helper('salesrule')->__('Active'),
+                '0' => AO::helper('salesrule')->__('Inactive'),
             ),
         ));
 
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $fieldset->addField('website_ids', 'multiselect', array(
                 'name'      => 'website_ids[]',
-                'label'     => Mage::helper('catalogrule')->__('Websites'),
-                'title'     => Mage::helper('catalogrule')->__('Websites'),
+                'label'     => AO::helper('catalogrule')->__('Websites'),
+                'title'     => AO::helper('catalogrule')->__('Websites'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_config_source_website')->toOptionArray(),
+                'values'    => AO::getSingleton('adminhtml/system_config_source_website')->toOptionArray(),
             ));
         }
         else {
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'      => 'website_ids[]',
-                'value'     => Mage::app()->getStore(true)->getWebsiteId()
+                'value'     => AO::app()->getStore(true)->getWebsiteId()
             ));
-            $model->setWebsiteIds(Mage::app()->getStore(true)->getWebsiteId());
+            $model->setWebsiteIds(AO::app()->getStore(true)->getWebsiteId());
         }
 
-        $customerGroups = Mage::getResourceModel('customer/group_collection')
+        $customerGroups = AO::getResourceModel('customer/group_collection')
             ->load()->toOptionArray();
 
         $found = false;
@@ -109,45 +109,45 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
             }
         }
         if (!$found) {
-            array_unshift($customerGroups, array('value'=>0, 'label'=>Mage::helper('salesrule')->__('NOT LOGGED IN')));
+            array_unshift($customerGroups, array('value'=>0, 'label'=>AO::helper('salesrule')->__('NOT LOGGED IN')));
         }
 
         $fieldset->addField('customer_group_ids', 'multiselect', array(
             'name'      => 'customer_group_ids[]',
-            'label'     => Mage::helper('salesrule')->__('Customer Groups'),
-            'title'     => Mage::helper('salesrule')->__('Customer Groups'),
+            'label'     => AO::helper('salesrule')->__('Customer Groups'),
+            'title'     => AO::helper('salesrule')->__('Customer Groups'),
             'required'  => true,
             'values'    => $customerGroups,
         ));
 
         $fieldset->addField('coupon_code', 'text', array(
             'name' => 'coupon_code',
-            'label' => Mage::helper('salesrule')->__('Coupon code'),
+            'label' => AO::helper('salesrule')->__('Coupon code'),
         ));
 
         $fieldset->addField('uses_per_coupon', 'text', array(
             'name' => 'uses_per_coupon',
-            'label' => Mage::helper('salesrule')->__('Uses per coupon'),
+            'label' => AO::helper('salesrule')->__('Uses per coupon'),
         ));
 
         $fieldset->addField('uses_per_customer', 'text', array(
             'name' => 'uses_per_customer',
-            'label' => Mage::helper('salesrule')->__('Uses per customer'),
+            'label' => AO::helper('salesrule')->__('Uses per customer'),
         ));
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormatIso = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
-            'label'  => Mage::helper('salesrule')->__('From Date'),
-            'title'  => Mage::helper('salesrule')->__('From Date'),
+            'label'  => AO::helper('salesrule')->__('From Date'),
+            'title'  => AO::helper('salesrule')->__('From Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
         ));
         $fieldset->addField('to_date', 'date', array(
             'name'   => 'to_date',
-            'label'  => Mage::helper('salesrule')->__('To Date'),
-            'title'  => Mage::helper('salesrule')->__('To Date'),
+            'label'  => AO::helper('salesrule')->__('To Date'),
+            'title'  => AO::helper('salesrule')->__('To Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
@@ -155,16 +155,16 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main extends Mage_Adminhtml_Bloc
 
         $fieldset->addField('sort_order', 'text', array(
             'name' => 'sort_order',
-            'label' => Mage::helper('salesrule')->__('Priority'),
+            'label' => AO::helper('salesrule')->__('Priority'),
         ));
 
         $fieldset->addField('is_rss', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Public In RSS Feed'),
-            'title'     => Mage::helper('salesrule')->__('Public In RSS Feed'),
+            'label'     => AO::helper('salesrule')->__('Public In RSS Feed'),
+            'title'     => AO::helper('salesrule')->__('Public In RSS Feed'),
             'name'      => 'is_rss',
             'options'   => array(
-                '1' => Mage::helper('salesrule')->__('Yes'),
-                '0' => Mage::helper('salesrule')->__('No'),
+                '1' => AO::helper('salesrule')->__('Yes'),
+                '0' => AO::helper('salesrule')->__('No'),
             ),
         ));
 

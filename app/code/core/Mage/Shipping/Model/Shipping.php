@@ -50,7 +50,7 @@ class Mage_Shipping_Model_Shipping
     public function getResult()
     {
         if (empty($this->_result)) {
-            $this->_result = Mage::getModel('shipping/rate_result');
+            $this->_result = AO::getModel('shipping/rate_result');
         }
         return $this->_result;
     }
@@ -79,7 +79,7 @@ class Mage_Shipping_Model_Shipping
      */
     public function getConfig()
     {
-        return Mage::getSingleton('shipping/config');
+        return AO::getSingleton('shipping/config');
     }
 
     /**
@@ -93,15 +93,15 @@ class Mage_Shipping_Model_Shipping
     {
         if (!$request->getOrig()) {
             $request
-                ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $request->getStore()))
-                ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $request->getStore()))
-                ->setCity(Mage::getStoreConfig('shipping/origin/city', $request->getStore()))
-                ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $request->getStore()));
+                ->setCountryId(AO::getStoreConfig('shipping/origin/country_id', $request->getStore()))
+                ->setRegionId(AO::getStoreConfig('shipping/origin/region_id', $request->getStore()))
+                ->setCity(AO::getStoreConfig('shipping/origin/city', $request->getStore()))
+                ->setPostcode(AO::getStoreConfig('shipping/origin/postcode', $request->getStore()));
         }
 
         $limitCarrier = $request->getLimitCarrier();
         if (!$limitCarrier) {
-            $carriers = Mage::getStoreConfig('carriers', $request->getStoreId());
+            $carriers = AO::getStoreConfig('carriers', $request->getStoreId());
 
             foreach ($carriers as $carrierCode=>$carrierConfig) {
                 $this->collectCarrierRates($carrierCode, $request);
@@ -111,7 +111,7 @@ class Mage_Shipping_Model_Shipping
                 $limitCarrier = array($limitCarrier);
             }
             foreach ($limitCarrier as $carrierCode) {
-                $carrierConfig = Mage::getStoreConfig('carriers/'.$carrierCode, $request->getStoreId());
+                $carrierConfig = AO::getStoreConfig('carriers/'.$carrierCode, $request->getStoreId());
                 if (!$carrierConfig) {
                     continue;
                 }
@@ -148,7 +148,7 @@ class Mage_Shipping_Model_Shipping
 
     public function collectRatesByAddress(Varien_Object $address, $limitCarrier=null)
     {
-        $request = Mage::getModel('shipping/rate_request');
+        $request = AO::getModel('shipping/rate_request');
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
         $request->setDestPostcode($address->getPostcode());
@@ -156,10 +156,10 @@ class Mage_Shipping_Model_Shipping
         $request->setPackageWeight($address->getWeight());
         $request->setFreeMethodWeight($address->getFreeMethodWeight());
         $request->setPackageQty($address->getItemQty());
-        $request->setStoreId(Mage::app()->getStore()->getId());
-        $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
-        $request->setBaseCurrency(Mage::app()->getStore()->getBaseCurrency());
-        $request->setPackageCurrency(Mage::app()->getStore()->getCurrentCurrency());
+        $request->setStoreId(AO::app()->getStore()->getId());
+        $request->setWebsiteId(AO::app()->getStore()->getWebsiteId());
+        $request->setBaseCurrency(AO::app()->getStore()->getBaseCurrency());
+        $request->setPackageCurrency(AO::app()->getStore()->getCurrentCurrency());
 
         $request->setLimitCarrier($limitCarrier);
 
@@ -168,15 +168,15 @@ class Mage_Shipping_Model_Shipping
 
     public function getCarrierByCode($carrierCode, $storeId = null)
     {
-        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/active', $storeId)) {
+        if (!AO::getStoreConfigFlag('carriers/'.$carrierCode.'/active', $storeId)) {
             return false;
         }
-        $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
+        $className = AO::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
         if (!$className) {
             return false;
-            #Mage::throwException('Invalid carrier: '.$carrierCode);
+            #AO::throwException('Invalid carrier: '.$carrierCode);
         }
-        $obj = Mage::getModel($className);
+        $obj = AO::getModel($className);
         if ($storeId) {
             $obj->setStore($storeId);
         }

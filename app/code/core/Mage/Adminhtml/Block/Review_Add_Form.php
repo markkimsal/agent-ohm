@@ -36,28 +36,28 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
 {
     protected function _prepareForm()
     {
-        $statuses = Mage::getModel('review/review')
+        $statuses = AO::getModel('review/review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('add_review_form', array('legend' => Mage::helper('review')->__('Review Details')));
+        $fieldset = $form->addFieldset('add_review_form', array('legend' => AO::helper('review')->__('Review Details')));
 
         $fieldset->addField('product_name', 'note', array(
-            'label'     => Mage::helper('review')->__('Product'),
+            'label'     => AO::helper('review')->__('Product'),
             'text'      => 'product_name',
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
-            'label'     => Mage::helper('review')->__('Product Rating'),
+            'label'     => AO::helper('review')->__('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">' . $this->getLayout()->createBlock('adminhtml/review_rating_detailed')->toHtml() . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
-            'label'     => Mage::helper('review')->__('Status'),
+            'label'     => AO::helper('review')->__('Status'),
             'required'  => true,
             'name'      => 'status_id',
             'values'    => $statuses,
@@ -66,35 +66,35 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $fieldset->addField('select_stores', 'multiselect', array(
-                'label'     => Mage::helper('review')->__('Visible In'),
+                'label'     => AO::helper('review')->__('Visible In'),
                 'required'  => true,
                 'name'      => 'select_stores[]',
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values'    => AO::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
             ));
         }
 
         $fieldset->addField('nickname', 'text', array(
             'name'      => 'nickname',
-            'title'     => Mage::helper('review')->__('Nickname'),
-            'label'     => Mage::helper('review')->__('Nickname'),
+            'title'     => AO::helper('review')->__('Nickname'),
+            'label'     => AO::helper('review')->__('Nickname'),
             'maxlength' => '50',
             'required'  => true,
         ));
 
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'title'     => Mage::helper('review')->__('Summary of Review'),
-            'label'     => Mage::helper('review')->__('Summary of Review'),
+            'title'     => AO::helper('review')->__('Summary of Review'),
+            'label'     => AO::helper('review')->__('Summary of Review'),
             'maxlength' => '255',
             'required'  => true,
         ));
 
         $fieldset->addField('detail', 'textarea', array(
             'name'      => 'detail',
-            'title'     => Mage::helper('review')->__('Review'),
-            'label'     => Mage::helper('review')->__('Review'),
+            'title'     => AO::helper('review')->__('Review'),
+            'label'     => AO::helper('review')->__('Review'),
             'style'     => 'width: 98%; height: 600px;',
             'required'  => true,
         ));
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
             'name'      => 'product_id',
         ));
 
-        /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => Mage::helper('review')->__('Please select a product')));
+        /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => AO::helper('review')->__('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
             'text' => $this->getLayout()->createBlock('adminhtml/review_product_grid')->toHtml(),
         ));*/

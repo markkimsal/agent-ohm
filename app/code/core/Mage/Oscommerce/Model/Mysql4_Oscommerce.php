@@ -97,11 +97,11 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected function _construct()
     {
         $this->_init('oscommerce/oscommerce', 'import_id');
-        $this->_setupConnection = Mage::getSingleton('core/resource')->getConnection('oscommerce_setup');
-        $this->_currentWebsite = Mage::app()->getWebsite();
+        $this->_setupConnection = AO::getSingleton('core/resource')->getConnection('oscommerce_setup');
+        $this->_currentWebsite = AO::app()->getWebsite();
         $this->_currentWebsiteId = $this->_currentWebsite->getId();
-        $this->_maxRows = Mage::getStoreConfig('oscommerce/import/max_rows');
-        $this->_lengthShortDescription = Mage::getStoreConfig('oscommerce/import/short_description_length');
+        $this->_maxRows = AO::getStoreConfig('oscommerce/import/max_rows');
+        $this->_lengthShortDescription = AO::getStoreConfig('oscommerce/import/short_description_length');
     }
 
     /**
@@ -111,7 +111,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
      */
     public function getSession()
     {
-        return Mage::getSingleton('oscommerce/session');
+        return AO::getSingleton('oscommerce/session');
     }
 
     /**
@@ -152,7 +152,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getStoreCodeById($id)
     {
         if (!$this->_stores)  {
-            $stores = Mage::app()->getStores();
+            $stores = AO::app()->getStores();
             foreach($stores as $store) {
                 $this->_stores[$store->getId()] = $store->getCode();
             }
@@ -218,7 +218,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $storeGroupModel->unsetData();
         $storeGroupModel->setOrigData();
 
-        $storeGroupName = Mage::helper('oscommerce')->__('%s Store', $websiteModel->getId() == $this->_currentWebsiteId ? $storeInfo['STORE_NAME'] : $websiteModel->getName());
+        $storeGroupName = AO::helper('oscommerce')->__('%s Store', $websiteModel->getId() == $this->_currentWebsiteId ? $storeInfo['STORE_NAME'] : $websiteModel->getName());
         $storeGroupModel->setWebsiteId($websiteModel->getId());
         $storeGroupModel->setName($storeGroupName);
         $storeGroupModel->setRootCategoryId($this->getRootCategory()->getId());
@@ -251,7 +251,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         $storeInfo = $this->getOscStoreInformation();
 
-        $categoryName = Mage::helper('oscommerce')->__('Root category for %s', $websiteModel->getName());
+        $categoryName = AO::helper('oscommerce')->__('Root category for %s', $websiteModel->getName());
 
         $categoryModel->setStoreId(0);
         $categoryModel->setIsActive(1);
@@ -329,7 +329,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     if ($store['scode'] == $defaultStoreCode) {
                         $defaultStore = $storeModel->getId();
                     }
-                    Mage::dispatchEvent('store_add', array('store'=>$storeModel));
+                    AO::dispatchEvent('store_add', array('store'=>$storeModel));
                 } catch (Exception $e) {
                     //echo $e->getMessage();
                 }
@@ -344,7 +344,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $storeGroupModel->setDefaultStoreId($defaultStore);
             $storeGroupModel->save();
         }
-        Mage::app()->reinitStores();
+        AO::app()->reinitStores();
         unset($stores);
     }
 
@@ -399,7 +399,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         if (!is_null($data)) {
             $customerAddresses = array();
             // Getting customer group data
-            $customerGroupId = Mage::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
+            $customerGroupId = AO::getStoreConfig(Mage_Customer_Model_Group::XML_PATH_DEFAULT_ID);
             $customerGroupModel = $this->getCustomerGroupModel()->load($customerGroupId);
             $websiteId = $this->getWebsiteModel()->getId();
             $customerModel = $this->getCustomerModel();
@@ -488,7 +488,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->saveLogs(array($oscCustomerId => $customerId), 'customer');
                 $this->_saveRows++;
             } catch (Exception $e) {
-                $this->_addErrors(Mage::helper('oscommerce')->__('Email %s cannot be saved because of %s', $data['email'], $e->getMessage()));
+                $this->_addErrors(AO::helper('oscommerce')->__('Email %s cannot be saved because of %s', $data['email'], $e->getMessage()));
             }
         }
     }
@@ -567,7 +567,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
             $this->_saveRows++;
         } catch (Exception $e) {
-            $this->_addErrors(Mage::helper('oscommerce')->__('Category %s cannot be saved because of %s', $data['name'], $e->getMessage()));
+            $this->_addErrors(AO::helper('oscommerce')->__('Category %s cannot be saved because of %s', $data['name'], $e->getMessage()));
         }
     }
 
@@ -626,7 +626,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function importProducts($startFrom = 0, $useStartFrom = false)
     {
         $importModel = $this->getImportModel();
-        $productAdapterModel = Mage::getModel('catalog/convert_adapter_product');
+        $productAdapterModel = AO::getModel('catalog/convert_adapter_product');
         $productModel = $this->getProductModel();
         $taxCollections = $this->_getTaxCollections();
         $this->_resetSaveRows();
@@ -691,7 +691,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
             if ($websiteIds) foreach($websiteIds as $websiteId) {
                 if ($websiteId == $this->getWebsiteModel()->getId()) {
-                    $this->_addErrors(Mage::helper('oscommerce')->__('SKU %s was not imported since it already exists in %s',
+                    $this->_addErrors(AO::helper('oscommerce')->__('SKU %s was not imported since it already exists in %s',
                         $data['sku'],
                         $this->getWebsiteModel()->getName()));
                     return ;
@@ -704,7 +704,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                     $data['image'] = DS . $data['image'];
                 }
 
-                if (!file_exists(Mage::getBaseDir('media'). DS . 'import' . $data['image'])) {
+                if (!file_exists(AO::getBaseDir('media'). DS . 'import' . $data['image'])) {
                     unset($data['image']);
                 } else {
                     $data['thumbnail'] = $data['small_image'] = $data['image'];
@@ -728,7 +728,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->saveLogs(array($oscProductId => $productId), 'product');
             $this->_saveRows++;
         } catch (Exception $e) {
-            $this->_addErrors(Mage::helper('oscommerce')->__('SKU %s cannot be saved because of %s', $data['sku'], $e->getMessage()));
+            $this->_addErrors(AO::helper('oscommerce')->__('SKU %s cannot be saved because of %s', $data['sku'], $e->getMessage()));
         }
     }
 
@@ -1148,7 +1148,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 }
             }
         } else {
-            $this->_addErrors(Mage::helper('oscommerce')->__('Order #%s failed to import because the customer ID #%s associated with this order could not be found.', $data['orders_id'], $data['customers_id']));
+            $this->_addErrors(AO::helper('oscommerce')->__('Order #%s failed to import because the customer ID #%s associated with this order could not be found.', $data['orders_id'], $data['customers_id']));
         }
     }
 
@@ -1348,8 +1348,8 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $n = explode(" ", $name);
             if (sizeof($n) > 1) {
                 $newName['lastname'] = $n[(sizeof($n) - 1)];
-                $newName['fistname']  = Mage::helper('core/string')->substr($name, 0,
-                    Mage::helper('core/string')->strlen($name) - (Mage::helper('core/string')->strlen($newName['lastname'] + 1))
+                $newName['fistname']  = AO::helper('core/string')->substr($name, 0,
+                    AO::helper('core/string')->strlen($name) - (AO::helper('core/string')->strlen($newName['lastname'] + 1))
                 );
                 return $newName;
             }  else {
@@ -1554,12 +1554,12 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
     public function importTaxClasses()
     {
-        $taxModel = Mage::getModel('tax/class');
+        $taxModel = AO::getModel('tax/class');
         $storeInfo = $this->getOscStoreInformation();
         $storeName = $storeInfo['STORE_NAME'];
         $taxPairs = array();
         if ($classes = $this->getTaxClasses()) {
-            $existedClasses = $taxCollections = Mage::getResourceModel('tax/class_collection')
+            $existedClasses = $taxCollections = AO::getResourceModel('tax/class_collection')
                 ->addFieldToFilter('class_type', 'PRODUCT')
                 ->load()
                 ->toOptionHash();
@@ -1590,7 +1590,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
         $taxPairs = $this->getLogPairsByTypeCode('taxclass');
         $flipTaxPairs = array_flip($taxPairs);
         $newTaxPairs = array();
-        $taxCollections = Mage::getResourceModel('tax/class_collection')
+        $taxCollections = AO::getResourceModel('tax/class_collection')
                 ->addFieldToFilter('class_type', 'PRODUCT')
                 ->load()
                 ->toOptionArray();
@@ -1738,7 +1738,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getMaxRows()
     {
         if ($this->_maxRows <= 0) {
-            $this->_maxRows = Mage::getStoreConfig('oscommerce/import/max_rows');
+            $this->_maxRows = AO::getStoreConfig('oscommerce/import/max_rows');
         }
         return $this->_maxRows;
     }
@@ -1751,7 +1751,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getWebsiteModel()
     {
         if (is_null($this->_websiteModel)) {
-            $object = Mage::getModel('core/website');
+            $object = AO::getModel('core/website');
             $this->_websiteModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_websiteModel);
@@ -1765,7 +1765,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getStoreModel()
     {
         if (is_null($this->_storeModel)) {
-            $object = Mage::getModel('core/store');
+            $object = AO::getModel('core/store');
             $this->_storeModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_storeModel);
@@ -1779,7 +1779,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getCustomerModel()
     {
         if (is_null($this->_customerModel)) {
-            $object = Mage::getModel('customer/customer');
+            $object = AO::getModel('customer/customer');
             $this->_customerModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_customerModel);
@@ -1793,7 +1793,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getCustomerGroupModel()
     {
         if (is_null($this->_customerGroupModel)) {
-            $object = Mage::getModel('customer/group');
+            $object = AO::getModel('customer/group');
             $this->_customerGroupModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_customerGroupModel);
@@ -1807,7 +1807,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getAddressModel()
     {
         if (is_null($this->_addressModel)) {
-            $object = Mage::getModel('customer/address');
+            $object = AO::getModel('customer/address');
             $this->_addressModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_addressModel);
@@ -1822,7 +1822,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getCategoryModel()
     {
         if (is_null($this->_categoryModel)) {
-            $object = Mage::getModel('catalog/category');
+            $object = AO::getModel('catalog/category');
             $this->_categoryModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_categoryModel);
@@ -1836,7 +1836,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getProductModel()
     {
         if (is_null($this->_productModel)) {
-            $object = Mage::getModel('catalog/product');
+            $object = AO::getModel('catalog/product');
             $this->_productModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_productModel);
@@ -1845,7 +1845,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getProductAdapterModel()
     {
         if (is_null($this->_productAdapterModel)) {
-            $object = Mage::getModel('catalog/convert_adapter_product');
+            $object = AO::getModel('catalog/convert_adapter_product');
             $this->_productAdapterModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_productAdapterModel);
@@ -1858,7 +1858,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getStoreGroupModel()
     {
         if (is_null($this->_storeGroupModel)) {
-            $object = Mage::getModel('core/store_group');
+            $object = AO::getModel('core/store_group');
             $this->_storeGroupModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_storeGroupModel);
@@ -1867,7 +1867,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     public function getConfigModel()
     {
         if (is_null($this->_configModel)) {
-            $object = Mage::getModel('core/config_data');
+            $object = AO::getModel('core/config_data');
             $this->_configModel = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_configModel);
@@ -1961,7 +1961,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
     protected function _getCurrentUserId()
     {
         if (!$this->_currentUserId) {
-            $this->_currentUserId = Mage::getSingleton('admin/session')->getUser()->getId();
+            $this->_currentUserId = AO::getSingleton('admin/session')->getUser()->getId();
             $this->_logData['user_id'] = $this->_currentUserId;
         }
         return $this->_currentUserId;

@@ -37,23 +37,23 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
 
     public function getCurrentWebsiteId()
     {
-        return Mage::app()->getStore()->getWebsiteId();
+        return AO::app()->getStore()->getWebsiteId();
     }
 
     public function getCurrentGroupId()
     {
-        return Mage::app()->getStore()->getGroupId();
+        return AO::app()->getStore()->getGroupId();
     }
 
     public function getCurrentStoreId()
     {
-        return Mage::app()->getStore()->getId();
+        return AO::app()->getStore()->getId();
     }
 
     public function getRawGroups()
     {
         if (!$this->hasData('raw_groups')) {
-            $websiteGroups = Mage::app()->getWebsite()->getGroups();
+            $websiteGroups = AO::app()->getWebsite()->getGroups();
 
             $groups = array();
             foreach ($websiteGroups as $group) {
@@ -67,14 +67,14 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
     public function getRawStores()
     {
         if (!$this->hasData('raw_stores')) {
-            $websiteStores = Mage::app()->getWebsite()->getStores();
+            $websiteStores = AO::app()->getWebsite()->getStores();
             $stores = array();
             foreach ($websiteStores as $store) {
                 /* @var $store Mage_Core_Model_Store */
                 if (!$store->getIsActive()) {
                     continue;
                 }
-                $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
+                $store->setLocaleCode(AO::getStoreConfig('general/locale/code', $store->getId()));
 
                 $params = array(
                     '_query' => array()
@@ -99,7 +99,7 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = Mage::getStoreConfig('general/locale/code');
+            $localeCode = AO::getStoreConfig('general/locale/code');
             foreach ($rawGroups as $group) {
                 if (!isset($rawStores[$group->getId()])) {
                     continue;
@@ -146,13 +146,13 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
 
     public function getCurrentStoreCode()
     {
-        return Mage::app()->getStore()->getCode();
+        return AO::app()->getStore()->getCode();
     }
 
     public function isStoreInUrl()
     {
         if (is_null($this->_storeInUrl)) {
-            $this->_storeInUrl = Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
+            $this->_storeInUrl = AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL);
         }
         return $this->_storeInUrl;
     }

@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Adminhtml_Bloc
 
     protected function _getOrder()
     {
-        return Mage::registry('sales_order');
+        return AO::registry('sales_order');
     }
 
     public function _prepareLayout()
@@ -44,9 +44,9 @@ class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Adminhtml_Bloc
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('customer/customer')->load($this->_getOrder()->getCustomerId());
+        $customer = AO::getModel('customer/customer')->load($this->_getOrder()->getCustomerId());
         if (!$customer->getId()) {
-            //$this->addNotice(Mage::helper('sales')->__(' The customer doesn\'t exist in the system anymore'));
+            //$this->addNotice(AO::helper('sales')->__(' The customer doesn\'t exist in the system anymore'));
         }
 
         /**
@@ -57,14 +57,14 @@ class Mage_Adminhtml_Block_Sales_Order_View_Messages extends Mage_Adminhtml_Bloc
             $productIds[] = $item->getProductId();
         }
 
-//        $productCollection = Mage::getModel('catalog/product')->getCollection()
+//        $productCollection = AO::getModel('catalog/product')->getCollection()
 //            ->addIdFilter($productIds)
 //            ->load();
 //
 //        foreach ($this->_getOrder()->getAllItems() as $item) {
 //            if (!$productCollection->getItemById($item->getProductId())) {
 //                /*$this->addNotice(
-//                    Mage::helper('sales')->__('The item %s (SKU %s) doesn\'t exist in the catalog anymore', $item->getName(), $item->getSku())
+//                    AO::helper('sales')->__('The item %s (SKU %s) doesn\'t exist in the catalog anymore', $item->getName(), $item->getSku())
 //                );*/
 //            }
 //        }

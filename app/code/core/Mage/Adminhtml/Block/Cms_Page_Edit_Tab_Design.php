@@ -37,47 +37,47 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design extends Mage_Adminhtml_Block
 
         $form->setHtmlIdPrefix('page_');
 
-        $model = Mage::registry('cms_page');
+        $model = AO::registry('cms_page');
 
         $fieldset = $form->addFieldset('design_fieldset', array(
-            'legend' => Mage::helper('cms')->__('Custom Design'),
+            'legend' => AO::helper('cms')->__('Custom Design'),
             'class'  => 'fieldset-wide',
         ));
 
         $fieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
-            'label'     => Mage::helper('cms')->__('Custom Theme'),
-            'values'    => Mage::getModel('core/design_source_design')->getAllOptions(),
+            'label'     => AO::helper('cms')->__('Custom Theme'),
+            'values'    => AO::getModel('core/design_source_design')->getAllOptions(),
         ));
 
         $fieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
-            'label'     => Mage::helper('cms')->__('Custom Theme From'),
+            'label'     => AO::helper('cms')->__('Custom Theme From'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'format'    => AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
 
         $fieldset->addField('custom_theme_to', 'date', array(
             'name'      => 'custom_theme_to',
-            'label'     => Mage::helper('cms')->__('Custom Theme To'),
+            'label'     => AO::helper('cms')->__('Custom Theme To'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'format'    => AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
 
         $layouts = array();
-        foreach (Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
+        foreach (AO::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
             $layouts[$layoutName] = (string)$layoutConfig->label;
         }
         $fieldset->addField('root_template', 'select', array(
             'name'      => 'root_template',
-            'label'     => Mage::helper('cms')->__('Layout'),
+            'label'     => AO::helper('cms')->__('Layout'),
             'required'  => true,
             'options'   => $layouts,
         ));
 
         $fieldset->addField('layout_update_xml', 'editor', array(
             'name'      => 'layout_update_xml',
-            'label'     => Mage::helper('cms')->__('Layout Update XML'),
+            'label'     => AO::helper('cms')->__('Layout Update XML'),
             'style'     => 'height:24em;'
         ));
 

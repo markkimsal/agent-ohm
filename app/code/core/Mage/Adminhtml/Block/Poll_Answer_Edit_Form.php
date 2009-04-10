@@ -38,12 +38,12 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit_Form extends Mage_Adminhtml_Block_Wi
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('edit_answer_form', array('legend' => Mage::helper('poll')->__('Edit Poll Answer')));
+        $fieldset = $form->addFieldset('edit_answer_form', array('legend' => AO::helper('poll')->__('Edit Poll Answer')));
 
         $fieldset->addField('answer_title', 'text', array(
                     'name'      => 'answer_title',
-                    'title'     => Mage::helper('poll')->__('Answer Title'),
-                    'label'     => Mage::helper('poll')->__('Answer Title'),
+                    'title'     => AO::helper('poll')->__('Answer Title'),
+                    'label'     => AO::helper('poll')->__('Answer Title'),
                     'required'  => true,
                     'class'     => 'required-entry',
                 )
@@ -51,8 +51,8 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit_Form extends Mage_Adminhtml_Block_Wi
 
         $fieldset->addField('votes_count', 'text', array(
                     'name'      => 'votes_count',
-                    'title'     => Mage::helper('poll')->__('Votes Count'),
-                    'label'     => Mage::helper('poll')->__('Votes Count'),
+                    'title'     => AO::helper('poll')->__('Votes Count'),
+                    'label'     => AO::helper('poll')->__('Votes Count'),
                     'class'     => 'validate-not-negative-number'
                 )
         );
@@ -63,11 +63,11 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit_Form extends Mage_Adminhtml_Block_Wi
                 )
         );
 
-        $form->setValues(Mage::registry('answer_data')->getData());
+        $form->setValues(AO::registry('answer_data')->getData());
         $form->setUseContainer(true);
         $form->setId('edit_form');
         $form->setMethod('post');
-        $form->setAction($this->getUrl('*/*/save', array('id' => Mage::registry('answer_data')->getAnswerId())));
+        $form->setAction($this->getUrl('*/*/save', array('id' => AO::registry('answer_data')->getAnswerId())));
         $this->setForm($form);
     }
 }

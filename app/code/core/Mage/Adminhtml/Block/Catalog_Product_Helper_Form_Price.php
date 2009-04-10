@@ -48,12 +48,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Varien_Data
          */
         $addJsObserver = false;
         if ($attribute = $this->getEntityAttribute()) {
-            $store = Mage::app()->getStore($attribute->getStoreId());
+            $store = AO::app()->getStore($attribute->getStoreId());
             $html.= '<strong>['.(string)$store->getBaseCurrencyCode().']</strong>';
-            if (Mage::helper('tax')->priceIncludesTax()) {
+            if (AO::helper('tax')->priceIncludesTax()) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
-                    $html.= ' <strong>['.Mage::helper('tax')->__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
+                    $html.= ' <strong>['.AO::helper('tax')->__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
                 }
             }
         }

@@ -52,13 +52,13 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');
-        $design    = Mage::getModel('core/design');
+        $design    = AO::getModel('core/design');
 
         if ($id) {
             $design->load($id);
         }
 
-        Mage::register('design', $design);
+        AO::register('design', $design);
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_design_edit'));
         $this->_addLeft($this->getLayout()->createBlock('adminhtml/system_design_edit_tabs', 'design_tabs'));
@@ -71,7 +71,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
         if ($data = $this->getRequest()->getPost()) {
         	$id = (int) $this->getRequest()->getParam('id');
 
-        	$design = Mage::getModel('core/design');
+        	$design = AO::getModel('core/design');
         	if ($id) {
         	    $design->load($id);
         	}
@@ -83,9 +83,9 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
             try {
                 $design->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Design change saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess($this->__('Design change saved'));
             } catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')
+                AO::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
                     ->setDesignData($data);
                 $this->_redirect('*/*/edit', array('id'=>$design->getId()));
@@ -99,19 +99,19 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $design = Mage::getModel('core/design')
+            $design = AO::getModel('core/design')
                 ->setId($id);
 
             try {
                 $design->delete();
 
-                Mage::getSingleton('adminhtml/session')
+                AO::getSingleton('adminhtml/session')
                     ->addSuccess($this->__('Design change deleted'));
             } catch (Mage_Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                AO::getSingleton('adminhtml/session')
                     ->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                AO::getSingleton('adminhtml/session')
                     ->addException($e, $this->__("Can't delete design change"));
             }
         }
@@ -120,6 +120,6 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/design');
+        return AO::getSingleton('admin/session')->isAllowed('system/design');
     }
 }

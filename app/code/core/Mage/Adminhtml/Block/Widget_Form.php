@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         $this->_form = $form;
         $this->_form->setParent($this);
-        $this->_form->setBaseUrl(Mage::getBaseUrl());
+        $this->_form->setBaseUrl(AO::getBaseUrl());
         return $this;
     }
 
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
     {
         $this->_prepareForm();
         $this->_initFormValues();
-        Mage::dispatchEvent('adminhtml_widget_form_before_tohtml',
+        AO::dispatchEvent('adminhtml_widget_form_before_tohtml',
             array('form' => $this->getForm(), 'layout' => $this->getLayout())
         );
         return parent::_beforeToHtml();
@@ -199,7 +199,7 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
                     $element->setValues($attribute->getSource()->getAllOptions(true, true));
                 } elseif ($inputType == 'date') {
                     $element->setImage($this->getSkinUrl('images/grid-cal.gif'));
-                    $element->setFormat(Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+                    $element->setFormat(AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
                 }
             }
         }

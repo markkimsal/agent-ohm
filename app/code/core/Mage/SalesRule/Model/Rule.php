@@ -42,9 +42,9 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
         if($coupon = $this->getCouponCode()) {
             $this->getResource()->addUniqueField(array(
                 'field' => 'coupon_code',
-                'title' => Mage::helper('salesRule')->__('Coupon with the same code')
+                'title' => AO::helper('salesRule')->__('Coupon with the same code')
             ));
-            Mage::app()->cleanCache('salesrule_coupon_'.md5($coupon));
+            AO::app()->cleanCache('salesrule_coupon_'.md5($coupon));
         } else {
             $this->getResource()->resetUniqueField();
         }
@@ -55,29 +55,29 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     protected function _beforeDelete()
     {
         if ($coupon = $this->getCouponCode()) {
-            Mage::app()->cleanCache('salesrule_coupon_'.$coupon);
+            AO::app()->cleanCache('salesrule_coupon_'.$coupon);
         }
         parent::_beforeDelete();
     }
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('salesrule/rule_condition_combine');
+        return AO::getModel('salesrule/rule_condition_combine');
     }
 
     public function getActionsInstance()
     {
-        return Mage::getModel('salesrule/rule_condition_product_combine');
+        return AO::getModel('salesrule/rule_condition_product_combine');
     }
 
     public function toString($format='')
     {
-        $str = Mage::helper('salesrule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('salesrule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('salesrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('salesrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
-             . Mage::helper('salesrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
-             . Mage::helper('salesrule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = AO::helper('salesrule')->__("Name: %s", $this->getName()) ."\n"
+             . AO::helper('salesrule')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . AO::helper('salesrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . AO::helper('salesrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
+             . AO::helper('salesrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . AO::helper('salesrule')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;
@@ -148,7 +148,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     */
     public function getResourceCollection()
     {
-        return Mage::getResourceModel('salesrule/rule_collection');
+        return AO::getResourceModel('salesrule/rule_collection');
     }
 
 //    protected function _afterSave()

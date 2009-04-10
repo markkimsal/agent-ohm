@@ -38,20 +38,20 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
     {
         parent::__construct();
         $this->setId('tag_form');
-        $this->setTitle(Mage::helper('tag')->__('Block Information'));
+        $this->setTitle(AO::helper('tag')->__('Block Information'));
     }
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('tag_tag');
+        $model = AO::registry('tag_tag');
 
         $form = new Varien_Data_Form(array(
                                         'id' => 'edit_form',
-                                        'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
+                                        'action' => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => AO::registry('ret'))),
                                         'method' => 'post'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tag')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('tag')->__('General Information')));
 
         if ($model->getTagId()) {
         	$fieldset->addField('tag_id', 'hidden', array(
@@ -61,20 +61,20 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('tag')->__('Tag Name'),
-            'title' => Mage::helper('tag')->__('Tag Name'),
+            'label' => AO::helper('tag')->__('Tag Name'),
+            'title' => AO::helper('tag')->__('Tag Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('status', 'select', array(
-            'label' => Mage::helper('tag')->__('Status'),
-            'title' => Mage::helper('tag')->__('Status'),
+            'label' => AO::helper('tag')->__('Status'),
+            'title' => AO::helper('tag')->__('Status'),
             'name' => 'status',
             'required' => true,
             'options' => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => AO::helper('tag')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => AO::helper('tag')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => AO::helper('tag')->__('Approved'),
             ),
         ));
 

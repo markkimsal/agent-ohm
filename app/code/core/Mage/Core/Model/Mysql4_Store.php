@@ -41,7 +41,7 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'code',
-            'title' => Mage::helper('core')->__('Store with the same code')
+            'title' => AO::helper('core')->__('Store with the same code')
         ));
         return $this;
     }
@@ -49,8 +49,8 @@ class Mage_Core_Model_Mysql4_Store extends Mage_Core_Model_Mysql4_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $model)
     {
         if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$model->getCode())) {
-            Mage::throwException(
-                Mage::helper('core')->__('Store code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+            AO::throwException(
+                AO::helper('core')->__('Store code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
         }
 
         return $this;

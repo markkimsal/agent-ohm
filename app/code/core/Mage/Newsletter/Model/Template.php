@@ -49,7 +49,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('newsletter/template');
+        return AO::getResourceSingleton('newsletter/template');
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag('system/smtp/disable')
+        return !AO::getStoreConfigFlag('system/smtp/disable')
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();
@@ -142,7 +142,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
 
     public function getProcessedTemplate(array $variables = array(), $usePreprocess=false)
     {
-        $processor = Mage::getModel('core/email_template_filter');
+        $processor = AO::getModel('core/email_template_filter');
 
         if(!$this->_preprocessFlag) {
             $variables['this'] = $this;
@@ -208,12 +208,12 @@ class Mage_Newsletter_Model_Template extends Varien_Object
             $email = (string) $subscriber;
         }
 
-        if (Mage::getStoreConfigFlag(Mage_Newsletter_Model_Subscriber::XML_PATH_SENDING_SET_RETURN_PATH)) {
+        if (AO::getStoreConfigFlag(Mage_Newsletter_Model_Subscriber::XML_PATH_SENDING_SET_RETURN_PATH)) {
             $this->getMail()->setReturnPath($this->getTemplateSenderEmail());
         }
 
-        ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
-        ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
+        ini_set('SMTP', AO::getStoreConfig('system/smtp/host'));
+        ini_set('smtp_port', AO::getStoreConfig('system/smtp/port'));
 
         $mail = $this->getMail();
         $mail->addTo($email, $name);
@@ -238,7 +238,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         catch (Exception $e) {
             if($subscriber instanceof Mage_Newsletter_Model_Subscriber) {
                 // If letter sent for subscriber, we create a problem report entry
-                $problem = Mage::getModel('newsletter/problem');
+                $problem = AO::getModel('newsletter/problem');
                 $problem->addSubscriberData($subscriber);
                 if(!is_null($queue)) {
                     $problem->addQueueData($queue);
@@ -295,7 +295,7 @@ class Mage_Newsletter_Model_Template extends Varien_Object
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData(
                'template_text',
-               Mage::helper('newsletter')->__(
+               AO::helper('newsletter')->__(
                    '<!-- This tag is for unsubscribe link  --> Follow this link to unsubscribe <a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>'
                )
             );

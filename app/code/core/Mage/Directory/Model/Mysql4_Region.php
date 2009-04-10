@@ -46,7 +46,7 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->_regionTable     = $resource->getTableName('directory/country_region');
         $this->_regionNameTable = $resource->getTableName('directory/country_region_name');
         $this->_read    = $resource->getConnection('directory_read');
@@ -60,8 +60,8 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function load(Mage_Directory_Model_Region $region, $regionId)
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
-        $systemLocale = Mage::app()->getDistroLocaleCode();
+        $locale = AO::app()->getLocale()->getLocaleCode();
+        $systemLocale = AO::app()->getDistroLocaleCode();
 
         $select = $this->_read->select()
             ->from(array('region'=>$this->_regionTable))
@@ -78,7 +78,7 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function loadByCode(Mage_Directory_Model_Region $region, $regionCode, $countryId)
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale = AO::app()->getLocale()->getLocaleCode();
 
         $select = $this->_read->select()
             ->from(array('region'=>$this->_regionTable))
@@ -94,7 +94,7 @@ class Mage_Directory_Model_Mysql4_Region
 
     public function loadByName(Mage_Directory_Model_Region $region, $regionName, $countryId)
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale = AO::app()->getLocale()->getLocaleCode();
 
         $select = $this->_read->select()
             ->from(array('region'=>$this->_regionTable))

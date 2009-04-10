@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('entity_attribute');
+        $model = AO::registry('entity_attribute');
 
         $form = new Varien_Data_Form(array(
             'id' => 'edit_form',
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         );
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('catalog')->__('Attribute Properties'))
+            array('legend'=>AO::helper('catalog')->__('Attribute Properties'))
         );
         if ($model->getAttributeId()) {
             $fieldset->addField('attribute_id', 'hidden', array(
@@ -69,26 +69,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $yesno = array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('catalog')->__('No')
+                'label' => AO::helper('catalog')->__('No')
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('catalog')->__('Yes')
+                'label' => AO::helper('catalog')->__('Yes')
             ));
 
         $fieldset->addField('attribute_code', 'text', array(
             'name'  => 'attribute_code',
-            'label' => Mage::helper('catalog')->__('Attribute Code'),
-            'title' => Mage::helper('catalog')->__('Attribute Code'),
-            'note'  => Mage::helper('catalog')->__('For internal use. Must be unique with no spaces'),
+            'label' => AO::helper('catalog')->__('Attribute Code'),
+            'title' => AO::helper('catalog')->__('Attribute Code'),
+            'note'  => AO::helper('catalog')->__('For internal use. Must be unique with no spaces'),
             'class' => 'validate-code',
             'required' => true,
         ));
 
         $scopes = array(
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('catalog')->__('Store View'),
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('catalog')->__('Website'),
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('catalog')->__('Global'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>AO::helper('catalog')->__('Store View'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>AO::helper('catalog')->__('Website'),
+            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>AO::helper('catalog')->__('Global'),
         );
 
         if ($model->getAttributeCode() == 'status' || $model->getAttributeCode() == 'tax_class_id') {
@@ -97,54 +97,54 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => Mage::helper('catalog')->__('Scope'),
-            'title' => Mage::helper('catalog')->__('Scope'),
-            'note'  => Mage::helper('catalog')->__('Declare attribute value saving scope'),
+            'label' => AO::helper('catalog')->__('Scope'),
+            'title' => AO::helper('catalog')->__('Scope'),
+            'note'  => AO::helper('catalog')->__('Declare attribute value saving scope'),
             'values'=> $scopes
         ));
 
         $inputTypes = array(
             array(
                 'value' => 'text',
-                'label' => Mage::helper('catalog')->__('Text Field')
+                'label' => AO::helper('catalog')->__('Text Field')
             ),
             array(
                 'value' => 'textarea',
-                'label' => Mage::helper('catalog')->__('Text Area')
+                'label' => AO::helper('catalog')->__('Text Area')
             ),
             array(
                 'value' => 'date',
-                'label' => Mage::helper('catalog')->__('Date')
+                'label' => AO::helper('catalog')->__('Date')
             ),
             array(
                 'value' => 'boolean',
-                'label' => Mage::helper('catalog')->__('Yes/No')
+                'label' => AO::helper('catalog')->__('Yes/No')
             ),
             array(
                 'value' => 'multiselect',
-                'label' => Mage::helper('catalog')->__('Multiple Select')
+                'label' => AO::helper('catalog')->__('Multiple Select')
             ),
             array(
                 'value' => 'select',
-                'label' => Mage::helper('catalog')->__('Dropdown')
+                'label' => AO::helper('catalog')->__('Dropdown')
             ),
             array(
                 'value' => 'price',
-                'label' => Mage::helper('catalog')->__('Price')
+                'label' => AO::helper('catalog')->__('Price')
             ),
             array(
                 'value' => 'gallery',
-                'label' => Mage::helper('catalog')->__('Gallery')
+                'label' => AO::helper('catalog')->__('Gallery')
             ),
             array(
                 'value' => 'media_image',
-                'label' => Mage::helper('catalog')->__('Media Image')
+                'label' => AO::helper('catalog')->__('Media Image')
             ),
         );
 
         $response = new Varien_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        AO::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
 
         $_disabledTypes = array();
         $_hiddenFields = array();
@@ -157,38 +157,38 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 $_disabledTypes[$type['value']] = $type['disabled_types'];
             }
         }
-        Mage::register('attribute_type_hidden_fields', $_hiddenFields);
-        Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        AO::register('attribute_type_hidden_fields', $_hiddenFields);
+        AO::register('attribute_type_disabled_types', $_disabledTypes);
 
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
-            'label' => Mage::helper('catalog')->__('Catalog Input Type for Store Owner'),
-            'title' => Mage::helper('catalog')->__('Catalog Input Type for Store Owner'),
+            'label' => AO::helper('catalog')->__('Catalog Input Type for Store Owner'),
+            'title' => AO::helper('catalog')->__('Catalog Input Type for Store Owner'),
             'value' => 'text',
             'values'=> $inputTypes
         ));
 
         $fieldset->addField('default_value_text', 'text', array(
             'name' => 'default_value_text',
-            'label' => Mage::helper('catalog')->__('Default value'),
-            'title' => Mage::helper('catalog')->__('Default value'),
+            'label' => AO::helper('catalog')->__('Default value'),
+            'title' => AO::helper('catalog')->__('Default value'),
             'value' => $model->getDefaultValue(),
         ));
 
         $fieldset->addField('default_value_yesno', 'select', array(
             'name' => 'default_value_yesno',
-            'label' => Mage::helper('catalog')->__('Default value'),
-            'title' => Mage::helper('catalog')->__('Default value'),
+            'label' => AO::helper('catalog')->__('Default value'),
+            'title' => AO::helper('catalog')->__('Default value'),
             'values' => $yesno,
             'value' => $model->getDefaultValue(),
         ));
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormatIso = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $fieldset->addField('default_value_date', 'date', array(
             'name'   => 'default_value_date',
-            'label'  => Mage::helper('catalog')->__('Default value'),
-            'title'  => Mage::helper('catalog')->__('Default value'),
+            'label'  => AO::helper('catalog')->__('Default value'),
+            'title'  => AO::helper('catalog')->__('Default value'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'value'  => $model->getDefaultValue(),
             'format'       => $dateFormatIso
@@ -196,144 +196,144 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('default_value_textarea', 'textarea', array(
             'name' => 'default_value_textarea',
-            'label' => Mage::helper('catalog')->__('Default value'),
-            'title' => Mage::helper('catalog')->__('Default value'),
+            'label' => AO::helper('catalog')->__('Default value'),
+            'title' => AO::helper('catalog')->__('Default value'),
             'value' => $model->getDefaultValue(),
         ));
 
         $fieldset->addField('is_unique', 'select', array(
             'name' => 'is_unique',
-            'label' => Mage::helper('catalog')->__('Unique Value'),
-            'title' => Mage::helper('catalog')->__('Unique Value (not shared with other products)'),
-            'note'  => Mage::helper('catalog')->__('Not shared with other products'),
+            'label' => AO::helper('catalog')->__('Unique Value'),
+            'title' => AO::helper('catalog')->__('Unique Value (not shared with other products)'),
+            'note'  => AO::helper('catalog')->__('Not shared with other products'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_required', 'select', array(
             'name' => 'is_required',
-            'label' => Mage::helper('catalog')->__('Values Required'),
-            'title' => Mage::helper('catalog')->__('Values Required'),
+            'label' => AO::helper('catalog')->__('Values Required'),
+            'title' => AO::helper('catalog')->__('Values Required'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('frontend_class', 'select', array(
             'name'  => 'frontend_class',
-            'label' => Mage::helper('catalog')->__('Input Validation for Store Owner'),
-            'title' => Mage::helper('catalog')->__('Input Validation for Store Owner'),
+            'label' => AO::helper('catalog')->__('Input Validation for Store Owner'),
+            'title' => AO::helper('catalog')->__('Input Validation for Store Owner'),
             'values'=>  array(
                 array(
                     'value' => '',
-                    'label' => Mage::helper('catalog')->__('None')
+                    'label' => AO::helper('catalog')->__('None')
                 ),
                 array(
                     'value' => 'validate-number',
-                    'label' => Mage::helper('catalog')->__('Decimal Number')
+                    'label' => AO::helper('catalog')->__('Decimal Number')
                 ),
                 array(
                     'value' => 'validate-digits',
-                    'label' => Mage::helper('catalog')->__('Integer Number')
+                    'label' => AO::helper('catalog')->__('Integer Number')
                 ),
                 array(
                     'value' => 'validate-email',
-                    'label' => Mage::helper('catalog')->__('Email')
+                    'label' => AO::helper('catalog')->__('Email')
                 ),
                 array(
                     'value' => 'validate-url',
-                    'label' => Mage::helper('catalog')->__('Url')
+                    'label' => AO::helper('catalog')->__('Url')
                 ),
                 array(
                     'value' => 'validate-alpha',
-                    'label' => Mage::helper('catalog')->__('Letters')
+                    'label' => AO::helper('catalog')->__('Letters')
                 ),
                 array(
                     'value' => 'validate-alphanum',
-                    'label' => Mage::helper('catalog')->__('Letters(a-zA-Z) or Numbers(0-9)')
+                    'label' => AO::helper('catalog')->__('Letters(a-zA-Z) or Numbers(0-9)')
                 ),
             )
         ));
 /*
         $fieldset->addField('use_in_super_product', 'select', array(
             'name' => 'use_in_super_product',
-            'label' => Mage::helper('catalog')->__('Apply To Configurable/Grouped Product'),
+            'label' => AO::helper('catalog')->__('Apply To Configurable/Grouped Product'),
             'values' => $yesno,
         )); */
 
         $fieldset->addField('apply_to', 'apply', array(
             'name'        => 'apply_to[]',
-            'label'       => Mage::helper('catalog')->__('Apply To'),
+            'label'       => AO::helper('catalog')->__('Apply To'),
             'values'      => Mage_Catalog_Model_Product_Type::getOptions(),
             'mode_labels' => array(
-                'all'     => Mage::helper('catalog')->__('All Product Types'),
-                'custom'  => Mage::helper('catalog')->__('Selected Product Types')
+                'all'     => AO::helper('catalog')->__('All Product Types'),
+                'custom'  => AO::helper('catalog')->__('Selected Product Types')
             ),
             'required'    => true
         ));
 
         $fieldset->addField('is_configurable', 'select', array(
             'name' => 'is_configurable',
-            'label' => Mage::helper('catalog')->__('Use To Create Configurable Product'),
+            'label' => AO::helper('catalog')->__('Use To Create Configurable Product'),
             'values' => $yesno,
         ));
         // -----
 
 
         // frontend properties fieldset
-        $fieldset = $form->addFieldset('front_fieldset', array('legend'=>Mage::helper('catalog')->__('Frontend Properties')));
+        $fieldset = $form->addFieldset('front_fieldset', array('legend'=>AO::helper('catalog')->__('Frontend Properties')));
 
         $fieldset->addField('is_searchable', 'select', array(
             'name' => 'is_searchable',
-            'label' => Mage::helper('catalog')->__('Use in quick search'),
-            'title' => Mage::helper('catalog')->__('Use in quick search'),
+            'label' => AO::helper('catalog')->__('Use in quick search'),
+            'title' => AO::helper('catalog')->__('Use in quick search'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_visible_in_advanced_search', 'select', array(
             'name' => 'is_visible_in_advanced_search',
-            'label' => Mage::helper('catalog')->__('Use in advanced search'),
-            'title' => Mage::helper('catalog')->__('Use in advanced search'),
+            'label' => AO::helper('catalog')->__('Use in advanced search'),
+            'title' => AO::helper('catalog')->__('Use in advanced search'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('is_comparable', 'select', array(
             'name' => 'is_comparable',
-            'label' => Mage::helper('catalog')->__('Comparable on Front-end'),
-            'title' => Mage::helper('catalog')->__('Comparable on Front-end'),
+            'label' => AO::helper('catalog')->__('Comparable on Front-end'),
+            'title' => AO::helper('catalog')->__('Comparable on Front-end'),
             'values' => $yesno,
         ));
 
 
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
-            'label' => Mage::helper('catalog')->__("Use In Layered Navigation"),
-            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'label' => AO::helper('catalog')->__("Use In Layered Navigation"),
+            'title' => AO::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => AO::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => array(
-                array('value' => '0', 'label' => Mage::helper('catalog')->__('No')),
-                array('value' => '1', 'label' => Mage::helper('catalog')->__('Filterable (with results)')),
-                array('value' => '2', 'label' => Mage::helper('catalog')->__('Filterable (no results)')),
+                array('value' => '0', 'label' => AO::helper('catalog')->__('No')),
+                array('value' => '1', 'label' => AO::helper('catalog')->__('Filterable (with results)')),
+                array('value' => '2', 'label' => AO::helper('catalog')->__('Filterable (no results)')),
             ),
         ));
 
         $fieldset->addField('is_filterable_in_search', 'select', array(
             'name' => 'is_filterable_in_search',
-            'label' => Mage::helper('catalog')->__("Use In Search Results Layered Navigation"),
-            'title' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => Mage::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'label' => AO::helper('catalog')->__("Use In Search Results Layered Navigation"),
+            'title' => AO::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => AO::helper('catalog')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => $yesno,
         ));
 
         $fieldset->addField('position', 'text', array(
             'name' => 'position',
-            'label' => Mage::helper('catalog')->__('Position'),
-            'title' => Mage::helper('catalog')->__('Position In Layered Navigation'),
-            'note' => Mage::helper('catalog')->__('Position of attribute in layered navigation block'),
+            'label' => AO::helper('catalog')->__('Position'),
+            'title' => AO::helper('catalog')->__('Position In Layered Navigation'),
+            'note' => AO::helper('catalog')->__('Position of attribute in layered navigation block'),
             'class' => 'validate-digits',
         ));
 
         $htmlAllowed = $fieldset->addField('is_html_allowed_on_front', 'select', array(
             'name' => 'is_html_allowed_on_front',
-            'label' => Mage::helper('catalog')->__('Allow HTML-tags on Front-end'),
-            'title' => Mage::helper('catalog')->__('Allow HTML-tags on Front-end'),
+            'label' => AO::helper('catalog')->__('Allow HTML-tags on Front-end'),
+            'title' => AO::helper('catalog')->__('Allow HTML-tags on Front-end'),
             'values' => $yesno,
         ));
         if (!$model->getId()) {
@@ -342,23 +342,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
 
         $fieldset->addField('is_visible_on_front', 'select', array(
             'name'      => 'is_visible_on_front',
-            'label'     => Mage::helper('catalog')->__('Visible on Product View Page on Front-end'),
-            'title'     => Mage::helper('catalog')->__('Visible on Product View Page on Front-end'),
+            'label'     => AO::helper('catalog')->__('Visible on Product View Page on Front-end'),
+            'title'     => AO::helper('catalog')->__('Visible on Product View Page on Front-end'),
             'values'    => $yesno,
         ));
 
         $fieldset->addField('used_in_product_listing', 'select', array(
             'name'      => 'used_in_product_listing',
-            'label'     => Mage::helper('catalog')->__('Used in product listing'),
-            'title'     => Mage::helper('catalog')->__('Used in product listing'),
-            'note'      => Mage::helper('catalog')->__('Depends on design theme'),
+            'label'     => AO::helper('catalog')->__('Used in product listing'),
+            'title'     => AO::helper('catalog')->__('Used in product listing'),
+            'note'      => AO::helper('catalog')->__('Depends on design theme'),
             'values'    => $yesno,
         ));
         $fieldset->addField('used_for_sort_by', 'select', array(
             'name'      => 'used_for_sort_by',
-            'label'     => Mage::helper('catalog')->__('Used for sorting in product listing'),
-            'title'     => Mage::helper('catalog')->__('Used for sorting in product listing'),
-            'note'      => Mage::helper('catalog')->__('Depends on design theme'),
+            'label'     => AO::helper('catalog')->__('Used for sorting in product listing'),
+            'title'     => AO::helper('catalog')->__('Used for sorting in product listing'),
+            'note'      => AO::helper('catalog')->__('Depends on design theme'),
             'values'    => $yesno,
         ));
 
@@ -395,7 +395,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'apply' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_apply')
+            'apply' => AO::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_apply')
         );
     }
 

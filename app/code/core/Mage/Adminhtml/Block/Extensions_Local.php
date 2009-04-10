@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Extensions_Local extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         $this->_controller = 'extensions_local';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage Installed Extensions');
+        $this->_headerText = AO::helper('adminhtml')->__('Manage Installed Extensions');
 
         parent::__construct();
 

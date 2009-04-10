@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock extends Mage_Adminhtml_Block_
     public function __construct()
     {
         $this->_controller = 'report_product_lowstock';
-        $this->_headerText = Mage::helper('reports')->__('Low stock');
+        $this->_headerText = AO::helper('reports')->__('Low stock');
         parent::__construct();
         $this->_removeButton('add');
     }
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock extends Mage_Adminhtml_Block_
 
     public function getStoreSwitcherHtml()
     {
-        if (Mage::app()->isSingleStoreMode()) {
+        if (AO::app()->isSingleStoreMode()) {
             return '';
         }
         return $this->getChildHtml('store_switcher');

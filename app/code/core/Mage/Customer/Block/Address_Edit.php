@@ -40,12 +40,12 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = Mage::getModel('customer/address');
+        $this->_address = AO::getModel('customer/address');
 
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {
             $this->_address->load($id);
-            if ($this->_address->getCustomerId() != Mage::getSingleton('customer/session')->getCustomerId()) {
+            if ($this->_address->getCustomerId() != AO::getSingleton('customer/session')->getCustomerId()) {
                 $this->_address->setData(array());
             }
         }
@@ -53,7 +53,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle($this->getTitle());
         }
-        if ($postedData = Mage::getSingleton('customer/session')->getAddressFormData(true)) {
+        if ($postedData = AO::getSingleton('customer/session')->getAddressFormData(true)) {
             $this->_address->setData($postedData);
         }
     }
@@ -64,10 +64,10 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
             return $title;
         }
         if ($this->getAddress()->getId()) {
-            $title = Mage::helper('customer')->__('Edit Address');
+            $title = AO::helper('customer')->__('Edit Address');
         }
         else {
-            $title = Mage::helper('customer')->__('Add New Address');
+            $title = AO::helper('customer')->__('Add New Address');
         }
         return $title;
     }
@@ -87,7 +87,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+        return AO::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
     }
 
     public function getAddress()
@@ -110,7 +110,7 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function getCustomerAddressCount()
     {
-        return count(Mage::getSingleton('customer/session')->getCustomer()->getAddresses());
+        return count(AO::getSingleton('customer/session')->getCustomer()->getAddresses());
     }
 
     public function canSetAsDefaultBilling()
@@ -131,17 +131,17 @@ class Mage_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
 
     public function isDefaultBilling()
     {
-        return $this->getAddress()->getId() && $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+        return $this->getAddress()->getId() && $this->getAddress()->getId()==AO::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
     }
 
     public function isDefaultShipping()
     {
-        return $this->getAddress()->getId() && $this->getAddress()->getId()==Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+        return $this->getAddress()->getId() && $this->getAddress()->getId()==AO::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
     }
 
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return AO::getSingleton('customer/session')->getCustomer();
     }
 
     public function getBackButtonUrl()

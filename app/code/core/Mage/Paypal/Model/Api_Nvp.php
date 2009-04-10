@@ -185,7 +185,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $this->setPaypalPayerEmail($resArr['EMAIL']);
 
         if (!$this->getShippingAddress()) {
-            $this->setShippingAddress(Mage::getModel('customer/address'));
+            $this->setShippingAddress(AO::getModel('customer/address'));
         }
         $a = $this->getShippingAddress();
         $a->setEmail($resArr['EMAIL']);
@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $a->setRegion(isset($resArr['SHIPTOSTATE']) ? $resArr['SHIPTOSTATE'] : '');
         $a->setPostcode($resArr['SHIPTOZIP']);
         $a->setCountry($resArr['SHIPTOCOUNTRYCODE']);
-        $a->setTelephone(Mage::helper('paypal')->__('N/A'));
+        $a->setTelephone(AO::helper('paypal')->__('N/A'));
 
         return $resArr;
     }
@@ -435,7 +435,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         $nvpReq = substr($nvpReq, 1);
         if ($this->getDebug()) {
-            $debug = Mage::getModel('paypal/api_debug')
+            $debug = AO::getModel('paypal/api_debug')
                 ->setApiEndpoint($this->getApiEndpoint())
                 ->setRequestBody($nvpReq)
                 ->save();

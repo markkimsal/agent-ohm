@@ -54,7 +54,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     {
         $collection = $this->getData('result_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('catalogsearch/search_collection');
+            $collection = AO::getResourceModel('catalogsearch/search_collection');
 
             $text = $this->getSynonimFor();
             if (!$text) {
@@ -79,7 +79,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     {
         $collection = $this->getData('suggest_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('catalogsearch/query_collection')
+            $collection = AO::getResourceModel('catalogsearch/query_collection')
                 ->setStoreId($this->getStoreId())
                 ->setQueryFilter($this->getQueryText());
             $this->setData('suggest_collection', $collection);
@@ -120,7 +120,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     public function getStoreId()
     {
         if (!$storeId = $this->getData('store_id')) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
         return $storeId;
     }
@@ -149,7 +149,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
      */
     public function getMinQueryLenght()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MIN_QUERY_LENGTH, $this->getStoreId());
+        return AO::getStoreConfig(self::XML_PATH_MIN_QUERY_LENGTH, $this->getStoreId());
     }
 
     /**
@@ -159,7 +159,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
      */
     public function getMaxQueryLenght()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MAX_QUERY_LENGTH, $this->getStoreId());
+        return AO::getStoreConfig(self::XML_PATH_MAX_QUERY_LENGTH, $this->getStoreId());
     }
 
     /**
@@ -169,6 +169,6 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
      */
     public function getMaxQueryWords()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MAX_QUERY_WORDS, $this->getStoreId());
+        return AO::getStoreConfig(self::XML_PATH_MAX_QUERY_WORDS, $this->getStoreId());
     }
 }

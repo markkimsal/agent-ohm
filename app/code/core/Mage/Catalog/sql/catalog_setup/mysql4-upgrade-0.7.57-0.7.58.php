@@ -43,7 +43,7 @@ $installer->getConnection()->addColumn(
 
 $entityTypeId   = $installer->getEntityTypeId('catalog_product');
 $sqlAttributes  = $installer->getConnection()->quoteInto('?',
-    Mage::getSingleton('catalog/config')->getProductCollectionAttributes()
+    AO::getSingleton('catalog/config')->getProductCollectionAttributes()
 );
 $installer->run("
 UPDATE `{$installer->getTable('eav/attribute')}`

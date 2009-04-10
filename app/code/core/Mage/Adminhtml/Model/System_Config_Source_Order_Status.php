@@ -43,15 +43,15 @@ class Mage_Adminhtml_Model_System_Config_Source_Order_Status
     public function toOptionArray()
     {
         if ($this->_stateStatuses) {
-            $statuses = Mage::getSingleton('sales/order_config')->getStateStatuses($this->_stateStatuses);
+            $statuses = AO::getSingleton('sales/order_config')->getStateStatuses($this->_stateStatuses);
         }
         else {
-            $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
+            $statuses = AO::getSingleton('sales/order_config')->getStatuses();
         }
         $options = array();
         $options[] = array(
         	   'value' => '',
-        	   'label' => Mage::helper('adminhtml')->__('-- Please Select --')
+        	   'label' => AO::helper('adminhtml')->__('-- Please Select --')
         	);
         foreach ($statuses as $code=>$label) {
         	$options[] = array(

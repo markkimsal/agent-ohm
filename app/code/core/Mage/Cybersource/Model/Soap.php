@@ -97,7 +97,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     public function validate()
     {
         if (!extension_loaded('soap')) {
-            Mage::throwException(Mage::helper('cybersource')->__('SOAP extension is not enabled. Please contact us.'));
+            AO::throwException(AO::helper('cybersource')->__('SOAP extension is not enabled. Please contact us.'));
         }
         /**
         * to validate paymene method is allowed for billing country or not
@@ -109,7 +109,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
         }
         if (!$this->canUseForCountry($billingCountry)) {
-            Mage::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
+            AO::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
         }
 
         $info = $this->getInfoInstance();
@@ -177,7 +177,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         }
 
         if($errorMsg){
-            Mage::throwException($errorMsg);
+            AO::throwException($errorMsg);
         }
         return $this;
     }
@@ -237,7 +237,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     protected function addBillingAddress($billing, $email)
     {
         if (!$email) {
-            $email = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getEmail();
+            $email = AO::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getEmail();
         }
         $billTo = new stdClass();
         $billTo->firstName = $billing->getFirstname();
@@ -250,7 +250,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $billTo->postalCode = $billing->getPostcode();
         $billTo->country = $billing->getCountry();
         $billTo->phoneNumber = $billing->getTelephone();
-        $billTo->email = ($email ? $email : Mage::getStoreConfig('trans_email/ident_general/email'));
+        $billTo->email = ($email ? $email : AO::getStoreConfig('trans_email/ident_general/email'));
         $billTo->ipAddress = $this->getIpAddress();
         $this->_request->billTo = $billTo;
     }
@@ -346,16 +346,16 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                     $payment->setCcCidStatus($result->ccAuthReply->cvCode);
                 }
             } else {
-                 $error = Mage::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
+                 $error = AO::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
             }
         } catch (Exception $e) {
-           Mage::throwException(
-                Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
+           AO::throwException(
+                AO::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
             );
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -414,15 +414,15 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                     ->setCybersourceToken($result->requestToken)
                 ;
             } else {
-                 $error = Mage::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
+                 $error = AO::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
             }
         } catch (Exception $e) {
-           Mage::throwException(
-                Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
+           AO::throwException(
+                AO::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
             );
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -482,18 +482,18 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                         ->setCybersourceToken($result->requestToken)
                         ;
                 } else {
-                     $error = Mage::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
+                     $error = AO::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
                 }
             } catch (Exception $e) {
-               Mage::throwException(
-                    Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
+               AO::throwException(
+                    AO::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
                 );
             }
          }else{
-            $error = Mage::helper('cybersource')->__('Invalid transaction id or token');
+            $error = AO::helper('cybersource')->__('Invalid transaction id or token');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -543,18 +543,18 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                         ->setLastCybersourceToken($result->requestToken)
                         ;
                 } else {
-                     $error = Mage::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
+                     $error = AO::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
                 }
             } catch (Exception $e) {
-               Mage::throwException(
-                    Mage::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
+               AO::throwException(
+                    AO::helper('cybersource')->__('Gateway request error: %s', $e->getMessage())
                 );
             }
         } else {
-            $error = Mage::helper('cybersource')->__('Error in refunding the payment');
+            $error = AO::helper('cybersource')->__('Error in refunding the payment');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }

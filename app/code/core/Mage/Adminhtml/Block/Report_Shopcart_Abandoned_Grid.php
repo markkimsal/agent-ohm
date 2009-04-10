@@ -43,16 +43,16 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         if ($this->getRequest()->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else if ($this->getRequest()->getParam('store')) {
             $storeIds = array((int)$this->getRequest()->getParam('store'));
         } else {
             $storeIds = '';
         }
 
-        $collection = Mage::getResourceModel('reports/quote_collection');
+        $collection = AO::getResourceModel('reports/quote_collection');
 
         $filter = $this->getParam($this->getVarNameFilter(), array());
         if ($filter) {
@@ -86,19 +86,19 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('customer_name', array(
-            'header'    =>Mage::helper('reports')->__('Customer Name'),
+            'header'    =>AO::helper('reports')->__('Customer Name'),
             'index'     =>'customer_name',
             'sortable'  =>false
         ));
 
         $this->addColumn('email', array(
-            'header'    =>Mage::helper('reports')->__('Email'),
+            'header'    =>AO::helper('reports')->__('Email'),
             'index'     =>'email',
             'sortable'  =>false
         ));
 
         $this->addColumn('items_count', array(
-            'header'    =>Mage::helper('reports')->__('Number of Items'),
+            'header'    =>AO::helper('reports')->__('Number of Items'),
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'items_count',
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('items_qty', array(
-            'header'    =>Mage::helper('reports')->__('Quantity of Items'),
+            'header'    =>AO::helper('reports')->__('Quantity of Items'),
             'width'     =>'80px',
             'align'     =>'right',
             'index'     =>'items_qty',
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('subtotal', array(
-            'header'    =>Mage::helper('reports')->__('Subtotal'),
+            'header'    =>AO::helper('reports')->__('Subtotal'),
             'width'     =>'80px',
             'type'      =>'currency',
             'currency_code' => $this->getCurrentCurrencyCode(),
@@ -126,14 +126,14 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    =>Mage::helper('reports')->__('Applied Coupon'),
+            'header'    =>AO::helper('reports')->__('Applied Coupon'),
             'width'     =>'80px',
             'index'     =>'coupon_code',
             'sortable'  =>false
         ));
 
         $this->addColumn('created_at', array(
-            'header'    =>Mage::helper('reports')->__('Created at'),
+            'header'    =>AO::helper('reports')->__('Created at'),
             'width'     =>'170px',
             'type'      =>'datetime',
             'index'     =>'created_at',
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('updated_at', array(
-            'header'    =>Mage::helper('reports')->__('Updated at'),
+            'header'    =>AO::helper('reports')->__('Updated at'),
             'width'     =>'170px',
             'type'      =>'datetime',
             'index'     =>'updated_at',
@@ -150,8 +150,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
             'sortable'  =>false
         ));
 
-        $this->addExportType('*/*/exportAbandonedCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportAbandonedExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportAbandonedCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportAbandonedExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

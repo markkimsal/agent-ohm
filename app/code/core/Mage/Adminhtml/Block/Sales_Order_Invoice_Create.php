@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
         $this->_removeButton('delete');
 
         /*$this->_addButton('submit_invoice', array(
-            'label'     => Mage::helper('sales')->__('Submit Invoice'),
+            'label'     => AO::helper('sales')->__('Submit Invoice'),
             'class'     => 'save submit-button',
             'onclick'   => '$(\'edit_form\').submit()',
             )
@@ -60,15 +60,15 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return AO::registry('current_invoice');
     }
 
     public function getHeaderText()
     {
-        $header = Mage::helper('sales')->__('New Invoice for Order #%s',
+        $header = AO::helper('sales')->__('New Invoice for Order #%s',
             $this->getInvoice()->getOrder()->getRealOrderId()
         );
-        /*$header = Mage::helper('sales')->__('New Invoice for Order #%s | Order Date: %s | Customer Name: %s',
+        /*$header = AO::helper('sales')->__('New Invoice for Order #%s | Order Date: %s | Customer Name: %s',
             $this->getInvoice()->getOrder()->getRealOrderId(),
             $this->formatDate($this->getInvoice()->getOrder()->getCreatedAt(), 'medium', true),
             $this->getInvoice()->getOrder()->getCustomerName()

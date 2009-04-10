@@ -56,7 +56,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(Mage::getModel('core/date')->gmtDate());
+        $this->setLoggedAt(AO::getModel('core/date')->gmtDate());
         return parent::_beforeSave();
     }
 
@@ -72,7 +72,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
     {
         if (is_null($types)) {
             $types = array();
-            foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
+            foreach (AO::getModel('reports/event_type')->getCollection() as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
                 }

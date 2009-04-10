@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     public function render(Varien_Data_Form_Element_Abstract $element)
@@ -94,10 +94,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
     public function getCustomerGroups($groupId=null)
     {
         if (!$this->_customerGroups) {
-            $collection = Mage::getModel('customer/group')->getCollection()
+            $collection = AO::getModel('customer/group')->getCollection()
                 ->load();
             $this->_customerGroups = array(
-                Mage_Customer_Model_Group::CUST_GROUP_ALL => Mage::helper('catalog')->__('ALL GROUPS'),
+                Mage_Customer_Model_Group::CUST_GROUP_ALL => AO::helper('catalog')->__('ALL GROUPS'),
             );
             foreach ($collection->getIterator() as $item) {
                 $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !AO::app()->isSingleStoreMode();
     }
 
     public function getWebsites()
@@ -125,13 +125,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         $websites = array();
         $websites[0] = array(
             'name'      => $this->__('All Websites'),
-            'currency'  => Mage::app()->getBaseCurrencyCode()
+            'currency'  => AO::app()->getBaseCurrencyCode()
         );
-        if (Mage::app()->isSingleStoreMode() || $this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (AO::app()->isSingleStoreMode() || $this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             return $websites;
         }
         elseif ($storeId = $this->getProduct()->getStoreId()) {
-            $website = Mage::app()->getStore($storeId)->getWebsite();
+            $website = AO::app()->getStore($storeId)->getWebsite();
             $websites[$website->getId()] = array(
                 'name'      => $website->getName(),
                 'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
@@ -140,9 +140,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         else {
             $websites[0] = array(
                 'name'      => $this->__('All Websites'),
-                'currency'  => Mage::app()->getBaseCurrencyCode()
+                'currency'  => AO::app()->getBaseCurrencyCode()
             );
-            foreach (Mage::app()->getWebsites() as $website) {
+            foreach (AO::app()->getWebsites() as $website) {
                 if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                     continue;
                 }
@@ -166,7 +166,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Add Tier'),
+                    'label'     => AO::helper('catalog')->__('Add Tier'),
                     'onclick'   => 'tierPriceControl.addItem()',
                     'class' => 'add'
                 )));

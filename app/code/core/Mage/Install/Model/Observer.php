@@ -34,7 +34,7 @@ class Mage_Install_Model_Observer
     public function bindLocale($observer)
     {
         if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('install/session')->getLocale()) {
+            if ($choosedLocale = AO::getSingleton('install/session')->getLocale()) {
                 $locale->setDefaultLocale($choosedLocale);
             }
         }
@@ -45,6 +45,6 @@ class Mage_Install_Model_Observer
     {
         echo "<h2>There was a problem proceeding with Magento installation.</h2>";
         echo "<p>Please contact developers with error messages on this page.</p>";
-        echo Mage::printException($observer->getEvent()->getException());
+        echo AO::printException($observer->getEvent()->getException());
     }
 }

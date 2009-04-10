@@ -32,7 +32,7 @@ class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
 
     protected function getBaseApi()
     {
-        return Mage::getSingleton('cybersource/soap');
+        return AO::getSingleton('cybersource/soap');
     }
 
    public function __doRequest($request, $location, $action, $version)
@@ -53,7 +53,7 @@ class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
 
         $request = $requestDOM->saveXML();
         if ($api->getConfigData('debug')) {
-             $debug = Mage::getModel('cybersource/api_debug')
+             $debug = AO::getModel('cybersource/api_debug')
                 ->setAction($action)
                 ->setRequestBody($request)
                 ->save();

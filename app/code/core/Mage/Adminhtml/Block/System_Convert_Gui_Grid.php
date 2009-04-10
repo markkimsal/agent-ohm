@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('dataflow/profile_collection')
+        $collection = AO::getResourceModel('dataflow/profile_collection')
             ->addFieldToFilter('entity_type', array('neq'=>''));
 
         $this->setCollection($collection);
@@ -54,23 +54,23 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('profile_id', array(
-            'header'    => Mage::helper('adminhtml')->__('ID'),
+            'header'    => AO::helper('adminhtml')->__('ID'),
             'width'     => '50px',
             'index'     => 'profile_id',
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Name'),
+            'header'    => AO::helper('adminhtml')->__('Profile Name'),
             'index'     => 'name',
         ));
         $this->addColumn('direction', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Direction'),
+            'header'    => AO::helper('adminhtml')->__('Profile Direction'),
             'index'     => 'direction',
             'type'      => 'options',
             'options'   => array('import'=>'Import', 'export'=>'Export'),
             'width'     => '120px',
         ));
         $this->addColumn('entity_type', array(
-            'header'    => Mage::helper('adminhtml')->__('Entity Type'),
+            'header'    => AO::helper('adminhtml')->__('Entity Type'),
             'index'     => 'entity_type',
             'type'      => 'options',
             'options'   => array('product'=>'Products', 'customer'=>'Customers'),
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('store_id', array(
-            'header'    => Mage::helper('adminhtml')->__('Store'),
+            'header'    => AO::helper('adminhtml')->__('Store'),
             'type'      => 'options',
             'align'     => 'center',
             'index'     => 'store_id',
@@ -87,20 +87,20 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Created At'),
+            'header'    => AO::helper('adminhtml')->__('Created At'),
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Updated At'),
+            'header'    => AO::helper('adminhtml')->__('Updated At'),
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'updated_at',
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('adminhtml')->__('Action'),
+            'header'    => AO::helper('adminhtml')->__('Action'),
             'width'     => '60px',
             'align'     => 'center',
             'sortable'  => false,
@@ -109,13 +109,13 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/edit') . 'id/$profile_id',
-                    'caption'   => Mage::helper('adminhtml')->__('Edit')
+                    'caption'   => AO::helper('adminhtml')->__('Edit')
                 )
             )
         ));
 
 //        $this->addColumn('action', array(
-//            'header'    =>Mage::helper('adminhtml')->__('Action'),
+//            'header'    =>AO::helper('adminhtml')->__('Action'),
 //            'width'     =>'60px',
 //            'sortable'  =>false,
 //            'filter'    => false,
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Grid extends Mage_Adminhtml_Block_
 //            'actions' => array(
 //                array(
 //                    'url' => $this->getUrl('*/*/run').'id/$profile_id',
-//                    'caption' => Mage::helper('adminhtml')->__('Run in popup'),
+//                    'caption' => AO::helper('adminhtml')->__('Run in popup'),
 //                    'target' => '_blank',
 //                ),
 //            )

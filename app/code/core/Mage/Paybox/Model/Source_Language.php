@@ -37,14 +37,14 @@ class Mage_Paybox_Model_Source_Language
     public function toOptionArray()
     {
         return array(
-//            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => Mage::helper('paypal')->__('Authorization')),
-            array('value' => 'FRA', 'label' => Mage::helper('paybox')->__('FRA (French)')),
-            array('value' => 'GBR', 'label' => Mage::helper('paybox')->__('GBR (English)')),
-            array('value' => 'ESP', 'label' => Mage::helper('paybox')->__('ESP (Spanish)')),
-            array('value' => 'ITA', 'label' => Mage::helper('paybox')->__('ITA (Italian)')),
-            array('value' => 'DEU', 'label' => Mage::helper('paybox')->__('DEU (German)')),
-            array('value' => 'NLD', 'label' => Mage::helper('paybox')->__('NLD (Dutch)')),
-            array('value' => 'SWE', 'label' => Mage::helper('paybox')->__('SWE (Swedish)')),
+//            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => AO::helper('paypal')->__('Authorization')),
+            array('value' => 'FRA', 'label' => AO::helper('paybox')->__('FRA (French)')),
+            array('value' => 'GBR', 'label' => AO::helper('paybox')->__('GBR (English)')),
+            array('value' => 'ESP', 'label' => AO::helper('paybox')->__('ESP (Spanish)')),
+            array('value' => 'ITA', 'label' => AO::helper('paybox')->__('ITA (Italian)')),
+            array('value' => 'DEU', 'label' => AO::helper('paybox')->__('DEU (German)')),
+            array('value' => 'NLD', 'label' => AO::helper('paybox')->__('NLD (Dutch)')),
+            array('value' => 'SWE', 'label' => AO::helper('paybox')->__('SWE (Swedish)')),
         );
     }
 }

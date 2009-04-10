@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('reports/customer_collection')
+        $collection = AO::getResourceModel('reports/customer_collection')
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
 
@@ -59,24 +59,24 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>AO::helper('reports')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('reports')->__('First Name'),
+            'header'    =>AO::helper('reports')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('reports')->__('Last Name'),
+            'header'    =>AO::helper('reports')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('items', array(
-            'header'    =>Mage::helper('reports')->__('Items in Cart'),
+            'header'    =>AO::helper('reports')->__('Items in Cart'),
             'width'     =>'70px',
             'sortable'  =>false,
             'align'     =>'right',
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('total', array(
-            'header'    =>Mage::helper('reports')->__('Total'),
+            'header'    =>AO::helper('reports')->__('Total'),
             'width'     =>'70px',
             'sortable'  =>false,
             'type'      =>'currency',
@@ -96,8 +96,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportCustomerCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

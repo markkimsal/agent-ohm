@@ -49,25 +49,25 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $taxRuleId  = $this->getRequest()->getParam('rule');
-        $ruleModel  = Mage::getModel('tax/calculation_rule');
+        $ruleModel  = AO::getModel('tax/calculation_rule');
         if ($taxRuleId) {
             $ruleModel->load($taxRuleId);
             if (!$ruleModel->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('This rule no longer exists'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('This rule no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $data = Mage::getSingleton('adminhtml/session')->getRuleData(true);
+        $data = AO::getSingleton('adminhtml/session')->getRuleData(true);
         if (!empty($data)) {
             $ruleModel->setData($data);
         }
 
-        Mage::register('tax_rule', $ruleModel);
+        AO::register('tax_rule', $ruleModel);
 
         $this->_initAction()
-            ->_addBreadcrumb($taxRuleId ? Mage::helper('tax')->__('Edit Rule') :  Mage::helper('tax')->__('New Rule'), $taxRuleId ?  Mage::helper('tax')->__('Edit Rule') :  Mage::helper('tax')->__('New Rule'))
+            ->_addBreadcrumb($taxRuleId ? AO::helper('tax')->__('Edit Rule') :  AO::helper('tax')->__('New Rule'), $taxRuleId ?  AO::helper('tax')->__('Edit Rule') :  AO::helper('tax')->__('New Rule'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule_edit')->setData('action', $this->getUrl('*/tax_rule/save')))
             ->renderLayout();
     }
@@ -75,25 +75,25 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($postData = $this->getRequest()->getPost()) {
-            $ruleModel = Mage::getSingleton('tax/calculation_rule');
+            $ruleModel = AO::getSingleton('tax/calculation_rule');
             $ruleModel->setData($postData);
 
             try {
                 $ruleModel->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax rule was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('tax')->__('Tax rule was successfully saved'));
                 $this->_redirect('*/*/');
 
                 return;
             }
             catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax rule. Please try again later.'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('Error while saving this tax rule. Please try again later.'));
             }
 
-            Mage::getSingleton('adminhtml/session')->setRuleData($postData);
+            AO::getSingleton('adminhtml/session')->setRuleData($postData);
             $this->_redirectReferer();
         }
     }
@@ -101,10 +101,10 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     public function deleteAction()
     {
         $ruleId = (int)$this->getRequest()->getParam('rule');
-        $ruleModel = Mage::getSingleton('tax/calculation_rule')
+        $ruleModel = AO::getSingleton('tax/calculation_rule')
             ->load($ruleId);
         if (!$ruleModel->getId()) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('This rule no longer exists'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('This rule no longer exists'));
             $this->_redirect('*/*/');
             return;
         }
@@ -112,16 +112,16 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         try {
             $ruleModel->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax rule was successfully deleted'));
+            AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('tax')->__('Tax rule was successfully deleted'));
             $this->_redirect('*/*/');
 
             return;
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            AO::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this tax rule. Please try again later.'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('Error while deleting this tax rule. Please try again later.'));
         }
 
         $this->_redirectReferer();
@@ -136,14 +136,14 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/tax/rule')
-            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
-            ->_addBreadcrumb(Mage::helper('tax')->__('Tax Rules'), Mage::helper('tax')->__('Tax Rules'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Tax'), AO::helper('tax')->__('Tax'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Tax Rules'), AO::helper('tax')->__('Tax Rules'))
         ;
         return $this;
     }
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('sales/tax/rules');
+	    return AO::getSingleton('admin/session')->isAllowed('sales/tax/rules');
     }
 }

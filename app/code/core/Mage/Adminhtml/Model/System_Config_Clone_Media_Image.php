@@ -42,14 +42,14 @@ class Mage_Adminhtml_Model_System_Config_Clone_Media_Image extends Mage_Core_Mod
      */
     public function getPrefixes()
     {
-        //$entityType = Mage::getModel('eav/entity_type');
+        //$entityType = AO::getModel('eav/entity_type');
         /* @var $entityType Mage_Eav_Model_Entity_Type */
         //$entityTypeId = $entityType->loadByCode('catalog_product')->getEntityTypeId();
 
         // use cached eav config
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
+        $entityTypeId = AO::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
 
-        $collection = Mage::getModel('eav/entity_attribute')->getCollection();
+        $collection = AO::getModel('eav/entity_attribute')->getCollection();
         /* @var $collection Mage_Eav_Model_Mysql4_Entity_Attribute_Collection */
         $collection->setEntityTypeFilter($entityTypeId);
         $collection->setFrontendInputTypeFilter('media_image');

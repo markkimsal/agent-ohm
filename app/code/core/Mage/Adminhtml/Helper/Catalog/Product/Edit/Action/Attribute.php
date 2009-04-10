@@ -77,7 +77,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
                 $productsIds = array(0);
             }
 
-            $this->_products = Mage::getResourceModel('catalog/product_collection')
+            $this->_products = AO::getResourceModel('catalog/product_collection')
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
                 //->load();
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mage_C
      */
     public function getProductIds()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
 
         if ($this->_getRequest()->isPost() && $this->_getRequest()->getActionName()=='edit') {
             $session->setProductIds($this->_getRequest()->getParam('product', null));

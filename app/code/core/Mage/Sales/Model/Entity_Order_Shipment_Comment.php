@@ -35,7 +35,7 @@ class Mage_Sales_Model_Entity_Order_Shipment_Comment extends Mage_Eav_Model_Enti
 {
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('shipment_comment')->setConnection(
             $resource->getConnection('sales_read'),
             $resource->getConnection('sales_write')

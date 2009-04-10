@@ -81,7 +81,7 @@ class Mage_Reports_Model_Mysql4_Report_Collection
 
                 switch ($this->_period) {
                     case 'day' :
-                        $t['title'] = $dateStart->toString(Mage::app()->getLocale()->getDateFormat());
+                        $t['title'] = $dateStart->toString(AO::app()->getLocale()->getDateFormat());
                         $t['start'] = $dateStart->toString('yyyy-MM-dd HH:mm:ss');
                         $t['end'] = $dateStart->toString('yyyy-MM-dd 23:59:59');
                         $dateStart->addDay(1);
@@ -122,9 +122,9 @@ class Mage_Reports_Model_Mysql4_Report_Collection
     public function getPeriods()
     {
         return array(
-            'day'=>Mage::helper('reports')->__('Day'),
-            'month'=>Mage::helper('reports')->__('Month'),
-		    'year'=>Mage::helper('reports')->__('Year')
+            'day'=>AO::helper('reports')->__('Day'),
+            'month'=>AO::helper('reports')->__('Month'),
+		    'year'=>AO::helper('reports')->__('Year')
         );
     }
 
@@ -158,7 +158,7 @@ class Mage_Reports_Model_Mysql4_Report_Collection
     {
         //$this->_modelArray = array();
         //foreach ($this->getIntervals() as $key=>$interval) {
-            $this->_model = Mage::getModel('reports/report')
+            $this->_model = AO::getModel('reports/report')
                 ->setPageSize($this->getPageSize())
                 ->setStoreIds($this->getStoreIds())
                 ->initCollection($modelClass);
@@ -180,6 +180,6 @@ class Mage_Reports_Model_Mysql4_Report_Collection
 
     public function timeShift($datetime)
     {
-        return date('Y-m-d H:i:s', strtotime($datetime) - Mage::getModel('core/date')->getGmtOffset());
+        return date('Y-m-d H:i:s', strtotime($datetime) - AO::getModel('core/date')->getGmtOffset());
     }
 }

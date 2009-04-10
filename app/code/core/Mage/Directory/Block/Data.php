@@ -42,7 +42,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $collection = $this->getData('country_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('directory/country')->getResourceCollection()
+            $collection = AO::getModel('directory/country')->getResourceCollection()
                 ->loadByStore();
             $this->setData('country_collection', $collection);
         }
@@ -56,19 +56,19 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
 		if (is_null($defValue)) {
 			$defValue = $this->getCountryId();
 		}
-		$cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
-		if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+		$cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.AO::app()->getStore()->getCode();
+		if (AO::app()->useCache('config') && $cache = AO::app()->loadCache($cacheKey)) {
 		    $options = unserialize($cache);
 		} else {
 		    $options = $this->getCountryCollection()->toOptionArray();
-		    if (Mage::app()->useCache('config')) {
-		        Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
+		    if (AO::app()->useCache('config')) {
+		        AO::app()->saveCache(serialize($options), $cacheKey, array('config'));
 		    }
 		}
         $html = $this->getLayout()->createBlock('core/html_select')
             ->setName($name)
             ->setId($id)
-            ->setTitle(Mage::helper('directory')->__($title))
+            ->setTitle(AO::helper('directory')->__($title))
             ->setClass('validate-select')
             ->setValue($defValue)
             ->setOptions($options)
@@ -82,7 +82,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $collection = $this->getData('region_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('directory/region')->getResourceCollection()
+            $collection = AO::getModel('directory/region')->getResourceCollection()
                 ->addCountryFilter($this->getCountryId())
                 ->load();
 
@@ -95,18 +95,18 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     public function getRegionHtmlSelect()
     {
         if (VPROF) Varien_Profiler::start('TEST: '.__METHOD__);
-		$cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
-		if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+		$cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.AO::app()->getStore()->getId();
+		if (AO::app()->useCache('config') && $cache = AO::app()->loadCache($cacheKey)) {
 		    $options = unserialize($cache);
 		} else {
 		    $options = $this->getRegionCollection()->toOptionArray();
-		    if (Mage::app()->useCache('config')) {
-		        Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
+		    if (AO::app()->useCache('config')) {
+		        AO::app()->saveCache(serialize($options), $cacheKey, array('config'));
 		    }
 		}
         $html = $this->getLayout()->createBlock('core/html_select')
             ->setName('region')
-            ->setTitle(Mage::helper('directory')->__('State/Province'))
+            ->setTitle(AO::helper('directory')->__('State/Province'))
             ->setId('state')
             ->setClass('required-entry validate-state')
             ->setValue($this->getRegionId())
@@ -120,7 +120,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $countryId = $this->getData('country_id');
         if (is_null($countryId)) {
-            $countryId = Mage::getStoreConfig('general/country/default');
+            $countryId = AO::getStoreConfig('general/country/default');
         }
         return $countryId;
     }
@@ -134,7 +134,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
 	    	foreach ($this->getCountryCollection() as $country) {
 	    		$countryIds[] = $country->getCountryId();
 	    	}
-    		$collection = Mage::getModel('directory/region')->getResourceCollection()
+    		$collection = AO::getModel('directory/region')->getResourceCollection()
     			->addCountryFilter($countryIds)
     			->load();
 	    	$regions = array();

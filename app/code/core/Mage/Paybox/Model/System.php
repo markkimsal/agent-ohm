@@ -89,7 +89,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     {
         if (!$this->_order) {
             $paymentInfo = $this->getInfoInstance();
-            $this->_order = Mage::getModel('sales/order')
+            $this->_order = AO::getModel('sales/order')
                             ->loadByIncrementId($paymentInfo->getOrder()->getRealOrderId());
         }
         return $this->_order;
@@ -118,35 +118,35 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
         if (!$this->_cartTypes) {
             $this->_cartTypes = array(
                 self::PBX_PAYMENT_TYPE_CARTE => array(
-                    'none' => Mage::helper('paybox')->__('Customer Choise'),
-                    self::PBX_CARTE_TYPE_CB => Mage::helper('paybox')->__('CB'),
-                    self::PBX_CARTE_TYPE_VISA => Mage::helper('paybox')->__('VISA'),
-                    self::PBX_CARTE_TYPE_EUROCARDMASTERCARD => Mage::helper('paybox')->__('EUROCARD & MASTERCARD'),
-                    self::PBX_CARTE_TYPE_ECARD => Mage::helper('paybox')->__('E CARD'),
-                    self::PBX_CARTE_TYPE_AMEX => Mage::helper('paybox')->__('AMEX'),
-                    self::PBX_CARTE_TYPE_DINERS => Mage::helper('paybox')->__('DINERS'),
-                    self::PBX_CARTE_TYPE_JCB => Mage::helper('paybox')->__('JCB'),
-                    self::PBX_CARTE_TYPE_AURORE => Mage::helper('paybox')->__('AURORE'),
+                    'none' => AO::helper('paybox')->__('Customer Choise'),
+                    self::PBX_CARTE_TYPE_CB => AO::helper('paybox')->__('CB'),
+                    self::PBX_CARTE_TYPE_VISA => AO::helper('paybox')->__('VISA'),
+                    self::PBX_CARTE_TYPE_EUROCARDMASTERCARD => AO::helper('paybox')->__('EUROCARD & MASTERCARD'),
+                    self::PBX_CARTE_TYPE_ECARD => AO::helper('paybox')->__('E CARD'),
+                    self::PBX_CARTE_TYPE_AMEX => AO::helper('paybox')->__('AMEX'),
+                    self::PBX_CARTE_TYPE_DINERS => AO::helper('paybox')->__('DINERS'),
+                    self::PBX_CARTE_TYPE_JCB => AO::helper('paybox')->__('JCB'),
+                    self::PBX_CARTE_TYPE_AURORE => AO::helper('paybox')->__('AURORE'),
                 ),
                 self::PBX_PAYMENT_TYPE_SYMPASS => array(
-                    'none' => Mage::helper('paybox')->__('Customer Choise'),
-                    self::PBX_CARTE_TYPE_CB => Mage::helper('paybox')->__('CB'),
-                    self::PBX_CARTE_TYPE_VISA => Mage::helper('paybox')->__('VISA'),
-                    self::PBX_CARTE_TYPE_EUROCARDMASTERCARD => Mage::helper('paybox')->__('EUROCARD & MASTERCARD'),
-                    self::PBX_CARTE_TYPE_ECARD => Mage::helper('paybox')->__('E CARD'),
-                    self::PBX_CARTE_TYPE_AMEX => Mage::helper('paybox')->__('AMEX'),
-                    self::PBX_CARTE_TYPE_DINERS => Mage::helper('paybox')->__('DINERS'),
-                    self::PBX_CARTE_TYPE_JCB => Mage::helper('paybox')->__('JCB'),
-                    self::PBX_CARTE_TYPE_AURORE => Mage::helper('paybox')->__('AURORE'),
+                    'none' => AO::helper('paybox')->__('Customer Choise'),
+                    self::PBX_CARTE_TYPE_CB => AO::helper('paybox')->__('CB'),
+                    self::PBX_CARTE_TYPE_VISA => AO::helper('paybox')->__('VISA'),
+                    self::PBX_CARTE_TYPE_EUROCARDMASTERCARD => AO::helper('paybox')->__('EUROCARD & MASTERCARD'),
+                    self::PBX_CARTE_TYPE_ECARD => AO::helper('paybox')->__('E CARD'),
+                    self::PBX_CARTE_TYPE_AMEX => AO::helper('paybox')->__('AMEX'),
+                    self::PBX_CARTE_TYPE_DINERS => AO::helper('paybox')->__('DINERS'),
+                    self::PBX_CARTE_TYPE_JCB => AO::helper('paybox')->__('JCB'),
+                    self::PBX_CARTE_TYPE_AURORE => AO::helper('paybox')->__('AURORE'),
                 ),
                 self::PBX_PAYMENT_TYPE_PAYNOVA => array(
-                    self::PBX_CARTE_TYPE_PAYNOVA => Mage::helper('paybox')->__('PAYNOVA'),
+                    self::PBX_CARTE_TYPE_PAYNOVA => AO::helper('paybox')->__('PAYNOVA'),
                 ),
                 self::PBX_PAYMENT_TYPE_TERMINEO => array(
-                    self::PBX_CARTE_TYPE_TERMINEO => Mage::helper('paybox')->__('TERMINEO'),
+                    self::PBX_CARTE_TYPE_TERMINEO => AO::helper('paybox')->__('TERMINEO'),
                 ),
                 self::PBX_PAYMENT_TYPE_PAYPAL => array(
-                    self::PBX_CARTE_TYPE_PAYPAL => Mage::helper('paybox')->__('PAYPAL'),
+                    self::PBX_CARTE_TYPE_PAYPAL => AO::helper('paybox')->__('PAYPAL'),
                 )
             );
         }
@@ -284,7 +284,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     {
         $currencyCode = $this->getOrder()->getBaseCurrencyCode();
         if (!$this->_currenciesNumbers) {
-            $this->_currenciesNumbers = simplexml_load_file(Mage::getBaseDir().'/app/code/core/Mage/Paybox/etc/currency.xml');
+            $this->_currenciesNumbers = simplexml_load_file(AO::getBaseDir().'/app/code/core/Mage/Paybox/etc/currency.xml');
         }
         if ($this->_currenciesNumbers->$currencyCode) {
             return (string)$this->_currenciesNumbers->$currencyCode;
@@ -376,7 +376,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
         }
 
         if (($bkgd = trim($this->getConfigData('pbx_bkgd'))) != '') {
-            $fieldsArr['PBX_BKGD'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'payment/paybox/bkgd/' . $bkgd;
+            $fieldsArr['PBX_BKGD'] = AO::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'payment/paybox/bkgd/' . $bkgd;
         }
 
         $fieldsArr['PBX_OUTPUT'] = $this->getConfigData('pbx_output');
@@ -417,9 +417,9 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     public function getOrderPlaceRedirectUrl()
     {
         if ($this->getPaymentMethod() == self::PBX_FORM_HTML_METHOD) {
-            return Mage::getUrl('paybox/system/redirect', array('_secure' => true));
+            return AO::getUrl('paybox/system/redirect', array('_secure' => true));
         } else {
-            return Mage::getUrl('paybox/system/commandline', array('_secure' => true));
+            return AO::getUrl('paybox/system/commandline', array('_secure' => true));
         }
     }
 
@@ -442,12 +442,12 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
             'PBX_CMD' => $this->getOrder()->getRealOrderId(),
             'PBX_PORTEUR' => $this->getOrder()->getCustomerEmail(),
             'PBX_RETOUR' => 'amount:M;ref:R;auto:A;trans:T;error:E',
-            'PBX_EFFECTUE' => Mage::getUrl('paybox/system/success', array('_secure' => true)),
-            'PBX_REFUSE' => Mage::getUrl('paybox/system/refuse', array('_secure' => true)),
-            'PBX_ANNULE' => Mage::getUrl('paybox/system/decline', array('_secure' => true)),
+            'PBX_EFFECTUE' => AO::getUrl('paybox/system/success', array('_secure' => true)),
+            'PBX_REFUSE' => AO::getUrl('paybox/system/refuse', array('_secure' => true)),
+            'PBX_ANNULE' => AO::getUrl('paybox/system/decline', array('_secure' => true)),
             'PBX_AUTOSEULE' => $this->getPaymentAction(),
             'PBX_LANGUE' => $this->getLanguage(),
-            'PBX_ERREUR' => Mage::getUrl('paybox/system/error', array('_secure' => true)),
+            'PBX_ERREUR' => AO::getUrl('paybox/system/error', array('_secure' => true)),
             'PBX_TYPEPAIEMENT' => $this->getPaymentType(),
             'PBX_TYPECARTE' => $this->getCartType(),
             'PBX_RUF1' => self::PBX_METHOD_CALL,
@@ -474,7 +474,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
         }
 
         if ($this->getDebugFlag()) {
-            $debug = Mage::getModel('paybox/api_debug')
+            $debug = AO::getModel('paybox/api_debug')
                 ->setRealOrderId($this->getOrder()->getRealOrderId())
                 ->setRequestBody(print_r($fieldsArr, 1))
                 ->save();
@@ -492,7 +492,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
     public function checkResponse($response)
     {
         if ($this->getDebugFlag()) {
-            $debug = Mage::getModel('paybox/api_debug')
+            $debug = AO::getModel('paybox/api_debug')
                 ->load($response['ref'], 'real_order_id')
                 ->setResponseBody(print_r($response, 1))
                 ->save();

@@ -37,9 +37,9 @@ class Mage_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name ext
     protected $_purchased = null;
     public function getLinks()
     {
-        $this->_purchased = Mage::getModel('downloadable/link_purchased')
+        $this->_purchased = AO::getModel('downloadable/link_purchased')
             ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedItem = Mage::getModel('downloadable/link_purchased_item')->getCollection()
+        $purchasedItem = AO::getModel('downloadable/link_purchased_item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedItem);
         return $this->_purchased;
@@ -50,7 +50,7 @@ class Mage_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name ext
         if ($this->_purchased && $this->_purchased->getLinkSectionTitle()) {
             return $this->_purchased->getLinkSectionTitle();
         }
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 }
 ?>

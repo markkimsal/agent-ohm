@@ -28,8 +28,8 @@ class Mage_Shipping_Model_Source_HandlingType
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED, 'label' => Mage::helper('shipping')->__('Fixed')),
-            array('value' => Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT, 'label' => Mage::helper('shipping')->__('Percent')),
+            array('value' => Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_FIXED, 'label' => AO::helper('shipping')->__('Fixed')),
+            array('value' => Mage_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT, 'label' => AO::helper('shipping')->__('Percent')),
         );
     }
 }

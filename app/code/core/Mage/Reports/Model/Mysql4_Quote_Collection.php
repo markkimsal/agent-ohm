@@ -52,7 +52,7 @@ class Mage_Reports_Model_Mysql4_Quote_Collection extends Mage_Sales_Model_Mysql4
 
     public function addCustomerData($filter = null)
     {
-        $customerEntity = Mage::getResourceSingleton('customer/customer');
+        $customerEntity = AO::getResourceSingleton('customer/customer');
         $attrFirstname = $customerEntity->getAttribute('firstname');
         $attrFirstnameId = $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();

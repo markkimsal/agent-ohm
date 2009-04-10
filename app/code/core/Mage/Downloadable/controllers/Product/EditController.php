@@ -66,7 +66,7 @@ class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Catalog_Pr
      */
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = Mage::helper('downloadable/download');
+        $helper = AO::helper('downloadable/download');
         /* @var $helper Mage_Downloadable_Helper_Download */
 
         $helper->setResource($resource, $resourceType);
@@ -105,7 +105,7 @@ class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Catalog_Pr
     public function linkAction()
     {
         $linkId = $this->getRequest()->getParam('id', 0);
-        $link = Mage::getModel('downloadable/link')->load($linkId);
+        $link = AO::getModel('downloadable/link')->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';
@@ -113,7 +113,7 @@ class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Catalog_Pr
                 $resource = $link->getLinkUrl();
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($link->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                $resource = Mage::helper('downloadable/file')->getFilePath(
+                $resource = AO::helper('downloadable/file')->getFilePath(
                     Mage_Downloadable_Model_Link::getBasePath(), $link->getLinkFile()
                 );
                 $resourceType = Mage_Downloadable_Helper_Download::LINK_TYPE_FILE;
@@ -121,7 +121,7 @@ class Mage_Downloadable_Product_EditController extends Mage_Adminhtml_Catalog_Pr
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (Mage_Core_Exception $e) {
-                $this->_getCustomerSession()->addError(Mage::helper('downloadable')->__('Sorry, there was an error getting requested content'));
+                $this->_getCustomerSession()->addError(AO::helper('downloadable')->__('Sorry, there was an error getting requested content'));
             }
         }
     }

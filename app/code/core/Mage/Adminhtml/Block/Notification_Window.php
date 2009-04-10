@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
         }
 
         if (is_null($this->_available)) {
-            if (!Mage::getSingleton('admin/session')->isFirstPageAfterLogin()) {
+            if (!AO::getSingleton('admin/session')->isFirstPageAfterLogin()) {
                 $this->_available = false;
                 return false;
             }
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
 
     public function getLastNotice()
     {
-        return Mage::helper('adminnotification')->getLatestNotice();
+        return AO::helper('adminnotification')->getLatestNotice();
     }
 
     /**
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
     protected function _isAllowed()
     {
         if (!is_null($this->_aclResourcePath)) {
-            return Mage::getSingleton('admin/session')->isAllowed($this->_aclResourcePath);
+            return AO::getSingleton('admin/session')->isAllowed($this->_aclResourcePath);
         } else {
             return true;
         }

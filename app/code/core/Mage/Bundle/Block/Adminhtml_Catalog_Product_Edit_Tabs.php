@@ -40,7 +40,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs extends Mage_Adminht
         parent::_prepareLayout();
 
         $this->addTab('bundle_items', array(
-            'label'     => Mage::helper('bundle')->__('Bundle Items'),
+            'label'     => AO::helper('bundle')->__('Bundle Items'),
             'url'   => $this->getUrl('*/*/bundles', array('_current' => true)),
             'class' => 'ajax',
         ));

@@ -47,14 +47,14 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
 
     public function getShoppingCartUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return AO::getUrl('checkout/cart');
     }
 
     public function getCartItemsCount()
     {
         if( !$this->_cartItemsCount ) {
-            $this->_cartItemsCount = Mage::getModel('sales/quote')
-                ->setId(Mage::getModel('checkout/session')->getQuote()->getId())
+            $this->_cartItemsCount = AO::getModel('sales/quote')
+                ->setId(AO::getModel('checkout/session')->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
         }
@@ -65,8 +65,8 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
 	public function getWishlist()
 	{
 		if( !$this->_wishlist ) {
-			$this->_wishlist = Mage::getModel('wishlist/wishlist')
-				->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+			$this->_wishlist = AO::getModel('wishlist/wishlist')
+				->loadByCustomer(AO::getSingleton('customer/session')->getCustomer());
 			$this->_wishlist->getItemCollection()
 				->addAttributeToSelect('name')
 				->addAttributeToSelect('price')
@@ -88,15 +88,15 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Mage_Core_Block_Temp
 
 	public function getWishlistAddToCartLink($wishlistItem)
 	{
-	    return Mage::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
+	    return AO::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
 	}
 
  	public function getCompareItems()
  	{
  		if( !$this->_compareItems ) {
- 			$this->_compareItems = Mage::getResourceModel('catalog/product_compare_item_collection')
- 				->setStoreId(Mage::app()->getStore()->getId());
-			$this->_compareItems->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+ 			$this->_compareItems = AO::getResourceModel('catalog/product_compare_item_collection')
+ 				->setStoreId(AO::app()->getStore()->getId());
+			$this->_compareItems->setCustomerId(AO::getSingleton('customer/session')->getCustomerId());
 			$this->_compareItems
 				->addAttributeToSelect('name')
 				->useProductItem()

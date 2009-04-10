@@ -40,11 +40,11 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Store extends Mage_Eav_Mode
         }
 
         if (!$object->hasStoreId()) {
-            $object->setStoreId(Mage::app()->getStore()->getId());
+            $object->setStoreId(AO::app()->getStore()->getId());
         }
 
         if (!$object->hasData('created_in')) {
-            $object->setData('created_in', Mage::app()->getStore($object->getStoreId())->getName());
+            $object->setData('created_in', AO::app()->getStore($object->getStoreId())->getName());
         }
         return $this;
     }

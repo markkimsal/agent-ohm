@@ -40,7 +40,7 @@ class Mage_Checkout_Block_Onepage_Link extends Mage_Core_Block_Template
 
     public function isDisabled()
     {
-        return !Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount();
+        return !AO::getSingleton('checkout/session')->getQuote()->validateMinimumAmount();
     }
 
     public function isPossibleOnepageCheckout()

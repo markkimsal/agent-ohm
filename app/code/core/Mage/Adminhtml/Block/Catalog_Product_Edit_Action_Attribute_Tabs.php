@@ -40,6 +40,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs extends Ma
 
         $this->setId('attributes_update_tabs');
         $this->setDestElementId('attributes_edit_form');
-        $this->setTitle(Mage::helper('catalog')->__('Products Information'));
+        $this->setTitle(AO::helper('catalog')->__('Products Information'));
     }
 }

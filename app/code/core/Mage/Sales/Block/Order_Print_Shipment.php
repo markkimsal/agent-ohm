@@ -53,12 +53,12 @@ class Mage_Sales_Block_Order_Print_Shipment extends Mage_Sales_Block_Items_Abstr
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return AO::getUrl('*/*/history');
     }
 
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return AO::getUrl('*/*/print');
     }
 
     public function getPaymentInfoHtml()
@@ -68,12 +68,12 @@ class Mage_Sales_Block_Order_Print_Shipment extends Mage_Sales_Block_Items_Abstr
 
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     protected function _prepareItem(Mage_Core_Block_Abstract $renderer)

@@ -35,7 +35,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
 {
     public function getImageStyle()
     {
-        $s = Mage::getStoreConfig('google/checkout/checkout_image');
+        $s = AO::getStoreConfig('google/checkout/checkout_image');
         if (!$s) {
             $s = '180/46/trans';
         }
@@ -45,11 +45,11 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
     public function getImageUrl()
     {
         $url = 'https://checkout.google.com/buttons/checkout.gif';
-        $url .= '?merchant_id='.Mage::getStoreConfig('google/checkout/merchant_id');
+        $url .= '?merchant_id='.AO::getStoreConfig('google/checkout/merchant_id');
         $v = $this->getImageStyle();
         $url .= '&w='.$v[0].'&h='.$v[1].'&style='.$v[2];
         $url .= '&variant='.($this->getIsDisabled() ? 'disabled' : 'text');
-        $url .= '&loc='.Mage::getStoreConfig('google/checkout/locale');
+        $url .= '&loc='.AO::getStoreConfig('google/checkout/locale');
         return $url;
     }
 
@@ -60,7 +60,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
 
     public function getIsActiveAanalytics()
     {
-        return Mage::getStoreConfig('google/analytics/active');
+        return AO::getStoreConfig('google/analytics/active');
     }
 
     public function getImageWidth()
@@ -77,10 +77,10 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
 
     public function _toHtml()
     {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount()) {
+        if (!AO::getSingleton('checkout/session')->getQuote()->validateMinimumAmount()) {
             return '';
         }
-        if (Mage::getStoreConfigFlag('google/checkout/active')) {
+        if (AO::getStoreConfigFlag('google/checkout/active')) {
             return parent::_toHtml();
         }
 
@@ -89,7 +89,7 @@ class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
 
     public function getIsDisabled()
     {
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $quote = AO::getSingleton('checkout/session')->getQuote();
         /* @var $quote Mage_Sales_Model_Quote */
         foreach ($quote->getAllVisibleItems() as $item) {
             /* @var $item Mage_Sales_Model_Quote_Item */

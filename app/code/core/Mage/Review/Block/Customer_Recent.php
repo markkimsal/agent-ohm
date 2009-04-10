@@ -39,11 +39,11 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
         parent::__construct();
         $this->setTemplate('review/customer/list.phtml');
 
-        $this->_collection = Mage::getModel('review/review')->getProductCollection();
+        $this->_collection = AO::getModel('review/review')->getProductCollection();
 
         $this->_collection
-            ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+            ->addStoreFilter(AO::app()->getStore()->getId())
+            ->addCustomerFilter(AO::getSingleton('customer/session')->getCustomerId())
             ->setDateOrder()
             ->setPageSize(5)
             ->load()
@@ -67,12 +67,12 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
 
     public function getReviewLink()
     {
-        return Mage::getUrl('review/customer/view/');
+        return AO::getUrl('review/customer/view/');
     }
 
     public function getProductLink()
     {
-        return Mage::getUrl('catalog/product/view/');
+        return AO::getUrl('catalog/product/view/');
     }
 
     public function dateFormat($date)
@@ -82,11 +82,11 @@ class Mage_Review_Block_Customer_Recent extends Mage_Core_Block_Template
 
     public function getAllReviewsUrl()
     {
-        return Mage::getUrl('review/customer');
+        return AO::getUrl('review/customer');
     }
 
     public function getReviewUrl($id)
     {
-        return Mage::getUrl('review/customer/view', array('id' => $id));
+        return AO::getUrl('review/customer/view', array('id' => $id));
     }
 }

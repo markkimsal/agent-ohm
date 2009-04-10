@@ -54,7 +54,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
 
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->_currencyRateTable   = $resource->getTableName('directory/currency_rate');
 
         parent::__construct();
@@ -122,7 +122,7 @@ class Mage_Directory_Model_Mysql4_Currency extends Mage_Core_Model_Mysql4_Abstra
             $sql.= implode(',', $values);
             $write->query($sql);
         } else {
-            Mage::throwException(Mage::helper('directory')->__('Invalid rates received'));
+            AO::throwException(AO::helper('directory')->__('Invalid rates received'));
         }
     }
 

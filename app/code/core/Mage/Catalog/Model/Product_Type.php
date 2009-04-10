@@ -68,10 +68,10 @@ class Mage_Catalog_Model_Product_Type
         }
 
         if ($singleton === true) {
-            $typeModel = Mage::getSingleton($typeModelName);
+            $typeModel = AO::getSingleton($typeModelName);
         }
         else {
-            $typeModel = Mage::getModel($typeModelName);
+            $typeModel = AO::getModel($typeModelName);
             $typeModel->setProduct($product);
         }
         $typeModel->setConfig($types[$product->getTypeId()]);
@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Product_Type
             $priceModelName = self::DEFAULT_PRICE_MODEL;
         }
 
-        self::$_priceModels[$productType] = Mage::getModel($priceModelName);
+        self::$_priceModels[$productType] = AO::getModel($priceModelName);
         return self::$_priceModels[$productType];
     }
 
@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Product_Type
     static public function getTypes()
     {
         if (is_null(self::$_types)) {
-            self::$_types = Mage::getConfig()->getNode('global/catalog/product/type')->asArray();
+            self::$_types = AO::getConfig()->getNode('global/catalog/product/type')->asArray();
         }
 
         return self::$_types;

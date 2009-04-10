@@ -29,10 +29,10 @@ class Mage_Usa_Model_Shipping_Carrier_Ups_Source_DestType
 {
     public function toOptionArray()
     {
-        $ups = Mage::getSingleton('usa/shipping_carrier_ups');
+        $ups = AO::getSingleton('usa/shipping_carrier_ups');
         $arr = array();
         foreach ($ups->getCode('dest_type_description') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>Mage::helper('usa')->__($v));
+            $arr[] = array('value'=>$k, 'label'=>AO::helper('usa')->__($v));
         }
         return $arr;
     }

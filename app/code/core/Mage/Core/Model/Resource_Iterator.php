@@ -75,15 +75,15 @@ class Mage_Core_Model_Resource_Iterator extends Varien_Object
             return $query->query();
         }
 
-        $hlp = Mage::helper('core');
+        $hlp = AO::helper('core');
 
         if (is_string($query)) {
             if (!$conn instanceof Zend_Db_Adapter_Abstract) {
-                Mage::throwException($hlp->__('Invalid connection'));
+                AO::throwException($hlp->__('Invalid connection'));
             }
             return $conn->query($query);
         }
 
-        Mage::throwException($hlp->__('Invalid query'));
+        AO::throwException($hlp->__('Invalid query'));
     }
 }

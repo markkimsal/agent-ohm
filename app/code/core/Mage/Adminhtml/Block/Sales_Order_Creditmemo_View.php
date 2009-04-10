@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
         if ($this->getCreditmemo()->canCancel()) {
             $this->_addButton('cancel', array(
-                'label'     => Mage::helper('sales')->__('Cancel'),
+                'label'     => AO::helper('sales')->__('Cancel'),
                 'class'     => 'delete',
                 'onclick'   => 'setLocation(\''.$this->getCancelUrl().'\')'
                 )
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
         if ($this->getCreditmemo()->canRefund()) {
             $this->_addButton('refund', array(
-                'label'     => Mage::helper('sales')->__('Refund'),
+                'label'     => AO::helper('sales')->__('Refund'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getRefundUrl().'\')'
                 )
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
 
         if ($this->getCreditmemo()->canVoid()) {
             $this->_addButton('void', array(
-                'label'     => Mage::helper('sales')->__('Void'),
+                'label'     => AO::helper('sales')->__('Void'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getVoidUrl().'\')'
                 )
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
         
         if ($this->getCreditmemo()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('sales')->__('Print'),
+                'label'     => AO::helper('sales')->__('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -90,19 +90,19 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return AO::registry('current_creditmemo');
     }
 
     public function getHeaderText()
     {
         if ($this->getCreditmemo()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('Credit Memo email sent');
+            $emailSent = AO::helper('sales')->__('Credit Memo email sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('Credit Memo email not sent');
+            $emailSent = AO::helper('sales')->__('Credit Memo email not sent');
         }
 
-        $header = Mage::helper('sales')->__('Credit Memo #%s | Date %s | Status %s (%s)',
+        $header = AO::helper('sales')->__('Credit Memo #%s | Date %s | Status %s (%s)',
             $this->getCreditmemo()->getIncrementId(),
             $this->formatDate($this->getCreditmemo()->getCreatedAtDate(), 'medium', true),
             $this->getCreditmemo()->getStateName(),

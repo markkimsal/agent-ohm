@@ -137,7 +137,7 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
     public function deleteTranslate($string, $locale = null, $storeId = null)
     {
         if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocaleCode();
+            $locale = AO::app()->getLocale()->getLocaleCode();
         }
 
         $where = array(
@@ -163,11 +163,11 @@ class Mage_Core_Model_Mysql4_Translate_String extends Mage_Core_Model_Mysql4_Abs
         $table = $this->getMainTable();
 
         if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocaleCode();
+            $locale = AO::app()->getLocale()->getLocaleCode();
         }
 
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
 
         $select = $write->select()

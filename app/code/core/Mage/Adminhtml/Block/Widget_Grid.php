@@ -173,7 +173,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         parent::__construct($attributes);
         $this->setTemplate('widget/grid.phtml');
         $this->setRowClickCallback('openGridRow');
-        $this->_emptyText = Mage::helper('adminhtml')->__('No records found.');
+        $this->_emptyText = AO::helper('adminhtml')->__('No records found.');
     }
 
     protected function _prepareLayout()
@@ -181,7 +181,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->setChild('export_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Export'),
+                    'label'     => AO::helper('adminhtml')->__('Export'),
                     'onclick'   => $this->getJsObjectName().'.doExport()',
                     'class'   => 'task'
                 ))
@@ -189,14 +189,14 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->setChild('reset_filter_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Reset Filter'),
+                    'label'     => AO::helper('adminhtml')->__('Reset Filter'),
                     'onclick'   => $this->getJsObjectName().'.resetFilter()',
                 ))
         );
         $this->setChild('search_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Search'),
+                    'label'     => AO::helper('adminhtml')->__('Search'),
                     'onclick'   => $this->getJsObjectName().'.doFilter()',
                     'class'   => 'task'
                 ))
@@ -268,7 +268,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             $this->_columns[$columnId] = $column;
         }*/
         else {
-            throw new Exception(Mage::helper('adminhtml')->__('Wrong column format'));
+            throw new Exception(AO::helper('adminhtml')->__('Wrong column format'));
         }
 
         $this->_columns[$columnId]->setId($columnId);
@@ -368,7 +368,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
                 $this->_setFilterValues($this->_defaultFilter);
             }
 
-            Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
+            AO::dispatchEvent('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
 
@@ -845,7 +845,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     public function getParam($paramName, $default=null)
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
         $sessionParamName = $this->getId().$paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);

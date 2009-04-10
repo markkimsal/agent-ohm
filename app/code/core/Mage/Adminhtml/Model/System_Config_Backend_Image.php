@@ -53,7 +53,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Image extends Mage_Core_Model_C
             /* @var $fieldConfig Varien_Simplexml_Element */
 
             if (empty($fieldConfig->upload_dir)) {
-                Mage::throwException(Mage::helper('catalog')->__('Base directory to upload image file is not specified'));
+                AO::throwException(AO::helper('catalog')->__('Base directory to upload image file is not specified'));
             }
 
             $uploadDir =  (string)$fieldConfig->upload_dir;
@@ -71,8 +71,8 @@ class Mage_Adminhtml_Model_System_Config_Backend_Image extends Mage_Core_Model_C
              * Take root from config
              */
             if (!empty($el['config'])) {
-                $uploadRoot = (string)Mage::getConfig()->getNode((string)$el['config'], $this->getScope(), $this->getScopeId());
-                $uploadRoot = Mage::getConfig()->substDistroServerVars($uploadRoot);
+                $uploadRoot = (string)AO::getConfig()->getNode((string)$el['config'], $this->getScope(), $this->getScopeId());
+                $uploadRoot = AO::getConfig()->substDistroServerVars($uploadRoot);
                 $uploadDir = $uploadRoot . '/' . $uploadDir;
             }
 
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Image extends Mage_Core_Model_C
                 $uploader->setAllowRenameFiles(true);
                 $uploader->save($uploadDir);
             } catch (Exception $e) {
-                Mage::throwException($e->getMessage());
+                AO::throwException($e->getMessage());
                 return $this;
             }
 

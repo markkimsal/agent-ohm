@@ -44,15 +44,15 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         if ($this->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
             $storeId = (int)$this->getParam('store');
         }
-        $collection = Mage::getResourceModel('reports/product_collection')
+        $collection = AO::getResourceModel('reports/product_collection')
             ->addAttributeToSelect('*')
             ->addViewsCount()
             ->setStoreId($storeId)
@@ -66,22 +66,22 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>AO::helper('reports')->__('Product Name'),
             'sortable'  => false,
             'index'     =>'name'
         ));
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('reports')->__('Price'),
+            'header'    =>AO::helper('reports')->__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
-            'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code' => (string) AO::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'sortable'  => false,
             'index'     =>'price'
         ));
 
         $this->addColumn('views', array(
-            'header'    =>Mage::helper('reports')->__('Number of Views'),
+            'header'    =>AO::helper('reports')->__('Number of Views'),
             'width'     =>'120px',
             'align'     =>'right',
             'sortable'  => false,

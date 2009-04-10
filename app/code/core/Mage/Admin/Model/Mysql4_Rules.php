@@ -36,7 +36,7 @@ class Mage_Admin_Model_Mysql4_Rules extends Mage_Core_Model_Mysql4_Abstract
         try {
             $roleId = $rule->getRoleId();
             $this->_getWriteAdapter()->delete($this->getMainTable(), "role_id = {$roleId}");
-            $masterResources = Mage::getModel('admin/roles')->getResourcesList2D();
+            $masterResources = AO::getModel('admin/roles')->getResourcesList2D();
             $masterAdmin = false;
             if ( $postedResources = $rule->getResources() ) {
                 foreach ($masterResources as $index => $resName) {

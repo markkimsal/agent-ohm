@@ -53,9 +53,6 @@ set_include_path($app_path . PS . AO::registry('original_include_path'));
 include_once "Mage/Core/functions.php";
 include_once "Varien/Profiler.php";
 
-final class Mage extends AO {
-}
-
 /**
  * Main Mage hub class
  *

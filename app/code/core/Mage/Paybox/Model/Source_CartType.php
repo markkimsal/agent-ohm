@@ -41,7 +41,7 @@ class Mage_Paybox_Model_Source_CartType
      */
     public function getModel()
     {
-        return Mage::getModel('paybox/system');
+        return AO::getModel('paybox/system');
     }
 
     public function toOptionArray()

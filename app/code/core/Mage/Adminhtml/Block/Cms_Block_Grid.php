@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('cms/block')->getCollection();
+        $collection = AO::getModel('cms/block')->getCollection();
         /* @var $collection Mage_Cms_Model_Mysql4_Block_Collection */
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -55,20 +55,20 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
         $baseUrl = $this->getUrl();
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('cms')->__('Title'),
+            'header'    => AO::helper('cms')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header'    => Mage::helper('cms')->__('Identifier'),
+            'header'    => AO::helper('cms')->__('Identifier'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('cms')->__('Store View'),
+                'header'        => AO::helper('cms')->__('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_all'     => true,
@@ -80,23 +80,23 @@ class Mage_Adminhtml_Block_Cms_Block_Grid extends Mage_Adminhtml_Block_Widget_Gr
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('cms')->__('Status'),
+            'header'    => AO::helper('cms')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('cms')->__('Disabled'),
-                1 => Mage::helper('cms')->__('Enabled')
+                0 => AO::helper('cms')->__('Disabled'),
+                1 => AO::helper('cms')->__('Enabled')
             ),
         ));
 
         $this->addColumn('creation_time', array(
-            'header'    => Mage::helper('cms')->__('Date Created'),
+            'header'    => AO::helper('cms')->__('Date Created'),
             'index'     => 'creation_time',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('update_time', array(
-            'header'    => Mage::helper('cms')->__('Last Modified'),
+            'header'    => AO::helper('cms')->__('Last Modified'),
             'index'     => 'update_time',
             'type'      => 'datetime',
         ));

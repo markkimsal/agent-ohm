@@ -101,9 +101,9 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
     public function prepareResult($query = null)
     {
         if (!$query instanceof Mage_CatalogSearch_Model_Query) {
-            $query = Mage::helper('catalogSearch')->getQuery();
+            $query = AO::helper('catalogSearch')->getQuery();
         }
-        $queryText = Mage::helper('catalogSearch')->getQueryText();
+        $queryText = AO::helper('catalogSearch')->getQueryText();
         if ($query->getSynonimFor()) {
             $queryText = $query->getSynonimFor();
         }
@@ -119,6 +119,6 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
      */
     public function getSearchType($storeId = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_CATALOG_SEARCH_TYPE, $storeId);
+        return AO::getStoreConfig(self::XML_PATH_CATALOG_SEARCH_TYPE, $storeId);
     }
 }

@@ -43,7 +43,7 @@ class Mage_CatalogIndex_Model_Aggregation extends Mage_Core_Model_Abstract
 
     protected function _isEnabled()
     {
-        return Mage::app()->useCache(self::CACHE_FLAG_NAME);
+        return AO::app()->useCache(self::CACHE_FLAG_NAME);
     }
 
     /**
@@ -60,7 +60,7 @@ class Mage_CatalogIndex_Model_Aggregation extends Mage_Core_Model_Abstract
         }
 
         $key    = $this->_processKey($key);
-        $store  = Mage::app()->getStore($store);
+        $store  = AO::app()->getStore($store);
         $data = $this->_getResource()->getCacheData($key, $store->getId());
         if (empty($data)) {
             return null;
@@ -84,7 +84,7 @@ class Mage_CatalogIndex_Model_Aggregation extends Mage_Core_Model_Abstract
 
         $key    = $this->_processKey($key);
         $tags   = $this->_processTags($tags);
-        $store  = Mage::app()->getStore($store);
+        $store  = AO::app()->getStore($store);
 
         $this->_getResource()->saveCacheData($data, $key, $tags, $store->getId());
         return $this;
@@ -101,7 +101,7 @@ class Mage_CatalogIndex_Model_Aggregation extends Mage_Core_Model_Abstract
     {
         $tags    = $this->_processTags($tags);
         if ($store !== null) {
-            $store = Mage::app()->getStore($store)->getId();
+            $store = AO::app()->getStore($store)->getId();
         }
         $this->_getResource()->clearCacheData($tags, $store);
         return $this;

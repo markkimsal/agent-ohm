@@ -44,10 +44,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 
-        $customer = Mage::registry('current_customer');
+        $customer = AO::registry('current_customer');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('customer')->__('Account Information'))
+            array('legend'=>AO::helper('customer')->__('Account Information'))
         );
 
 
@@ -62,24 +62,24 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
         $form->getElement('email')->addClass('validate-email');
 
-//        if (Mage::app()->isSingleStoreMode()) {
+//        if (AO::app()->isSingleStoreMode()) {
 //            $fieldset->removeField('website_id');
 //            $fieldset->addField('website_id', 'hidden', array(
 //                'name'      => 'website_id'
 //            ));
-//            $customer->setWebsiteId(Mage::app()->getStore(true)->getWebsiteId());
+//            $customer->setWebsiteId(AO::app()->getStore(true)->getWebsiteId());
 //        }
 
         if ($customer->getId()) {
             // add password management fieldset
             $newFieldset = $form->addFieldset(
                 'password_fieldset',
-                array('legend'=>Mage::helper('customer')->__('Password Management'))
+                array('legend'=>AO::helper('customer')->__('Password Management'))
             );
             // New customer password
             $field = $newFieldset->addField('new_password', 'text',
                 array(
-                    'label' => Mage::helper('customer')->__('New Password'),
+                    'label' => AO::helper('customer')->__('New Password'),
                     'name'  => 'new_password',
                     'class' => 'validate-new-password'
                 )
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 }
                 $element = $fieldset->addField('confirmation', 'select', array(
                     'name'  => 'confirmation',
-                    'label' => Mage::helper('customer')->__($confirmationAttribute->getFrontendLabel()),
+                    'label' => AO::helper('customer')->__($confirmationAttribute->getFrontendLabel()),
                 ))->setEntityAttribute($confirmationAttribute)
                     ->setValues(array('' => 'Confirmed', $confirmationKey => 'Not confirmed'));
 
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 if ($customer->getConfirmation() && $customer->getWebsiteId()) {
                     $fieldset->addField('sendemail', 'checkbox', array(
                         'name'  => 'sendemail',
-                        'label' => Mage::helper('customer')->__('Send Welcome Email after Confirmation')
+                        'label' => AO::helper('customer')->__('Send Welcome Email after Confirmation')
                     ));
                 }
             }
@@ -112,11 +112,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         else {
             $newFieldset = $form->addFieldset(
                 'password_fieldset',
-                array('legend'=>Mage::helper('customer')->__('Password Management'))
+                array('legend'=>AO::helper('customer')->__('Password Management'))
             );
             $field = $newFieldset->addField('password', 'text',
                 array(
-                    'label' => Mage::helper('customer')->__('Password'),
+                    'label' => AO::helper('customer')->__('Password'),
                     'class' => 'input-text required-entry validate-password',
                     'name'  => 'password',
                     'required' => true
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
 
             // prepare send welcome email checkbox
             $fieldset->addField('sendemail', 'checkbox', array(
-                'label' => Mage::helper('customer')->__('Send welcome email'),
+                'label' => AO::helper('customer')->__('Send welcome email'),
                 'name'  => 'sendemail',
                 'id'    => 'sendemail',
             ));

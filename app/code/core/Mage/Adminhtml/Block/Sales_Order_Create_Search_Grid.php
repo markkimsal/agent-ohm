@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     public function getStore()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getStore();
+        return AO::getSingleton('adminhtml/session_quote')->getStore();
     }
 
     /**
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     public function getQuote()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        return AO::getSingleton('adminhtml/session_quote')->getQuote();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -89,13 +89,13 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = AO::getModel('catalog/product')->getCollection()
             ->setStore($this->getStore())
         	->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addAttributeToFilter('type_id', array_keys(
-                Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
+                AO::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
             ))
             ->addStoreFilter();
 
@@ -105,11 +105,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             $collection->addAttributeToSelect('gift_message_available');
         }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
         /**
          * need display all simple products
          */
-        //Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        //AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
 
         $this->setCollection($collection);
 
@@ -119,22 +119,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => AO::helper('sales')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => AO::helper('sales')->__('Product Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => AO::helper('sales')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
+            'header'    => AO::helper('sales')->__('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
             $this->addColumn('giftmessage', array(
                 'filter'    => false,
                 'sortable'  => false,
-                'header'    => Mage::helper('sales')->__('Gift'),
+                'header'    => AO::helper('sales')->__('Gift'),
                 'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_giftmessage',
                 'field_name'=> 'giftmessage',
                 'inline_css'=> 'checkbox',
@@ -171,7 +171,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         $this->addColumn('qty', array(
             'filter'    => false,
             'sortable'  => false,
-            'header'    => Mage::helper('sales')->__('Qty To Add'),
+            'header'    => AO::helper('sales')->__('Qty To Add'),
             'name'    	=> 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save');
+        return AO::getSingleton('adminhtml/giftmessage_save');
     }
 
 }

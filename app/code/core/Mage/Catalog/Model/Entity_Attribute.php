@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribut
         /**
          * Fix saving attribute in admin
          */
-        Mage::getSingleton('eav/config')->clear();
+        AO::getSingleton('eav/config')->clear();
         return parent::_afterSave();
     }
 }

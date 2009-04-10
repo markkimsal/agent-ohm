@@ -53,20 +53,20 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
             return;
         }
 
-        $user = Mage::getModel('api/user')
+        $user = AO::getModel('api/user')
             ->setSessid($this->getSessionId())
             ->login($username, $apiKey);
 
         if ( $user->getId() && $user->getIsActive() != '1' ) {
-            Mage::throwException(Mage::helper('api')->__('Your Account has been deactivated.'));
-        } elseif (!Mage::getModel('api/user')->hasAssigned2Role($user->getId())) {
-            Mage::throwException(Mage::helper('api')->__('Access Denied.'));
+            AO::throwException(AO::helper('api')->__('Your Account has been deactivated.'));
+        } elseif (!AO::getModel('api/user')->hasAssigned2Role($user->getId())) {
+            AO::throwException(AO::helper('api')->__('Access Denied.'));
         } else {
             if ($user->getId()) {
                 $this->setUser($user);
-                $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
+                $this->setAcl(AO::getResourceModel('api/acl')->loadAcl());
             } else {
-                Mage::throwException(Mage::helper('api')->__('Unable to login.'));
+                AO::throwException(AO::helper('api')->__('Unable to login.'));
             }
         }
 
@@ -82,7 +82,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
+            $this->setAcl(AO::getResourceModel('api/acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('api_key');
@@ -131,7 +131,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
             return true;
         }
         $timeout = strtotime( now() ) - strtotime( $user->getLogdate() );
-        return $timeout > Mage::getStoreConfig('api/config/session_timeout');
+        return $timeout > AO::getStoreConfig('api/config/session_timeout');
     }
 
 
@@ -144,7 +144,7 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
         }
 
         if ($userExists) {
-            Mage::register('isSecureArea', true, true);
+            AO::register('isSecureArea', true, true);
         }
         return $userExists;
     }
@@ -157,13 +157,13 @@ class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _renewBySessId ($sessId)
     {
-        $user = Mage::getModel('api/user')->loadBySessId($sessId);
+        $user = AO::getModel('api/user')->loadBySessId($sessId);
         if (!$user->getId() || !$user->getSessid()) {
             return false;
         }
         if ($user->getSessid() == $sessId && !$this->isSessionExpired($user)) {
             $this->setUser($user);
-            $this->setAcl(Mage::getResourceModel('api/acl')->loadAcl());
+            $this->setAcl(AO::getResourceModel('api/acl')->loadAcl());
             $user->getResource()->recordLogin($user);
             return true;
         }

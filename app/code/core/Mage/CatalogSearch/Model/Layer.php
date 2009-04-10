@@ -39,7 +39,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         }
         else {
-            $collection = Mage::getResourceModel('catalogsearch/fulltext_collection');
+            $collection = AO::getResourceModel('catalogsearch/fulltext_collection');
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
@@ -55,17 +55,17 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
      */
     public function prepareProductCollection($collection)
     {
-        $collection->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-            ->addSearchFilter(Mage::helper('catalogSearch')->getEscapedQueryText())
-            ->setStore(Mage::app()->getStore())
+        $collection->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
+            ->addSearchFilter(AO::helper('catalogSearch')->getEscapedQueryText())
+            ->setStore(AO::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite();
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
+        AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
         return $this;
     }
 
@@ -77,7 +77,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_'.Mage::helper('catalogSearch')->getQuery()->getId()
+            $this->_stateKey = 'Q_'.AO::helper('catalogSearch')->getQuery()->getId()
                 .'_'.parent::getStateKey();
         }
         return $this->_stateKey;

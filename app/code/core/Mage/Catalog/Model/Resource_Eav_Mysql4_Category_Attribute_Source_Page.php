@@ -36,10 +36,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Attribute_Source_Page exte
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('cms/block_collection')
+            $this->_options = AO::getResourceModel('cms/block_collection')
                 ->load()
                 ->toOptionArray();
-            array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('catalog')->__('Please select static block ...')));
+            array_unshift($this->_options, array('value'=>'', 'label'=>AO::helper('catalog')->__('Please select static block ...')));
         }
         return $this->_options;
     }

@@ -87,8 +87,8 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     {
         $filter = (int) $request->getParam($this->getRequestVar());
         $this->_categoryId = $filter;
-        $this->_appliedCategory = Mage::getModel('catalog/category')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $this->_appliedCategory = AO::getModel('catalog/category')
+            ->setStoreId(AO::app()->getStore()->getId())
             ->load($filter);
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
@@ -121,7 +121,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Category');
+        return AO::helper('catalog')->__('Category');
     }
 
     /**
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = Mage::getModel('catalog/category')
+            $category = AO::getModel('catalog/category')
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;

@@ -36,12 +36,12 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Templat
 {
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return AO::getSingleton('customer/session')->getCustomer();
     }
 
     public function getChangePasswordUrl()
     {
-        return Mage::getUrl('*/account/edit/changepass/1');
+        return AO::getUrl('*/account/edit/changepass/1');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Mage_Core_Block_Templat
 	public function getSubscriptionObject()
     {
     	if(is_null($this->_subscription)) {
-			$this->_subscription = Mage::getModel('newsletter/subscriber')->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+			$this->_subscription = AO::getModel('newsletter/subscriber')->loadByCustomer(AO::getSingleton('customer/session')->getCustomer());
     	}
 
     	return $this->_subscription;

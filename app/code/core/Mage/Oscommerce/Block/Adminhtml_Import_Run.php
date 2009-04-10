@@ -33,7 +33,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
 {
     public function getImportModel()
     {
-        return Mage::registry('oscommerce_adminhtml_import');
+        return AO::registry('oscommerce_adminhtml_import');
     }
 
     protected function _toHtml()
@@ -56,15 +56,15 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
         echo '<ul>';
         echo '<li>';
         if ($importModel->getId()) {
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Starting profile execution, please wait...");
             echo '</li>';
             echo '<li style="background-color:#FFD;">';
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Warning: Please don't close window during importing/exporting data");
             echo '</li>';
         } else {
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("No osCommerce profile loaded...");
         }
         echo '</li>';
@@ -78,14 +78,14 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
             $batchConfig = array(
             'styles' => array(
             'error' => array(
-            'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
+            'icon' => AO::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
             'bg'   => '#FDD'
             ),
             'message' => array(
-            'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
+            'icon' => AO::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
             'bg'   => '#DDF'
             ),
-            'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
+            'loader'  => AO::getDesign()->getSkinUrl('images/ajax-loader.gif')
             ),
             'template' => '<li style="#{style}" id="#{id}">'
             . '<img src="#{image}" class="v-middle" style="margin-right:5px"/>'
@@ -97,7 +97,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
 
 
             echo '<li id="liFinished" style="display:none;">';
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Finished profile execution.");
             echo '</li>';
 
@@ -136,7 +136,7 @@ function execImportData() {
             id: "updatedFinish"
         })});
         new Ajax.Request("' . $this->getUrl('*/*/batchFinish', array('id' => $importModel->getId())) .'", {
-            parameters: {form_key: \''.Mage::getSingleton('core/session')->getFormKey().'\'},
+            parameters: {form_key: \''.AO::getSingleton('core/session')->getFormKey().'\'},
             onComplete: function() {
                 $(\'liFinished\').show();
                 Element.toggle(window.opener.$(\'import_processing\'));
@@ -165,7 +165,7 @@ function sendImportData(data) {
     }
     countOfStartedProfiles++;
 
-    data.form_key = \''.Mage::getSingleton('core/session')->getFormKey().'\'
+    data.form_key = \''.AO::getSingleton('core/session')->getFormKey().'\'
     new Ajax.Request("'.$this->getUrl('*/*/batchRun').'", {
       method: "post",
       parameters: data,

@@ -41,11 +41,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute exte
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>Mage::helper('catalog')->__('Add New Attribute')));
+        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>AO::helper('catalog')->__('Add New Attribute')));
 
         $fieldset->addField('new_attribute', 'text',
                             array(
-                                'label' => Mage::helper('catalog')->__('Name'),
+                                'label' => AO::helper('catalog')->__('Name'),
                                 'name' => 'new_attribute',
                                 'required' => true,
                             )
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formattribute exte
                             array(
                                 'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
                                             ->setData(array(
-                                                'label'     => Mage::helper('catalog')->__('Add Attribute'),
+                                                'label'     => AO::helper('catalog')->__('Add Attribute'),
                                                 'onclick'   => 'this.form.submit();',
 																								'class' => 'add'
                                             ))

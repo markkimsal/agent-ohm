@@ -48,7 +48,7 @@ class Mage_Poll_Model_Mysql4_Poll_Answer extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => array('answer_title', 'poll_id'),
-            'title' => Mage::helper('poll')->__('Answer with the same title in this poll')
+            'title' => AO::helper('poll')->__('Answer with the same title in this poll')
         ));
         return $this;
     }

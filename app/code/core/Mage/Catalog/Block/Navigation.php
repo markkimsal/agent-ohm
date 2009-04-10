@@ -46,18 +46,18 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 
     public function getCacheKey()
     {
-        $key = Mage::app()->getStore()->getId().'_CATALOG_NAVIGATION' . md5($this->getTemplate());
+        $key = AO::app()->getStore()->getId().'_CATALOG_NAVIGATION' . md5($this->getTemplate());
         $key.=  md5($this->getCurrenCategoryKey());
-        $key.= Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $key.= AO::getSingleton('customer/session')->getCustomerGroupId();
         return $key;
     }
 
     public function getCurrenCategoryKey()
     {
-        if ($category = Mage::registry('current_category')) {
+        if ($category = AO::registry('current_category')) {
             return $category->getPath();
         } else {
-            return Mage::app()->getStore()->getRootCategoryId();
+            return AO::app()->getStore()->getRootCategoryId();
         }
     }
 
@@ -68,7 +68,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getStoreCategories()
     {
-        $helper = Mage::helper('catalog/category');
+        $helper = AO::helper('catalog/category');
         return $helper->getStoreCategories();
     }
 
@@ -79,11 +79,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentChildCategories()
     {
-        $layer = Mage::getSingleton('catalog/layer');
+        $layer = AO::getSingleton('catalog/layer');
         $category   = $layer->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $categories = $category->getChildrenCategories();
-        $productCollection = Mage::getResourceModel('catalog/product_collection');
+        $productCollection = AO::getResourceModel('catalog/product_collection');
         $layer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
         return $categories;
@@ -106,7 +106,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     protected function _getCategoryInstance()
     {
         if (is_null($this->_categoryInstance)) {
-            $this->_categoryInstance = Mage::getModel('catalog/category');
+            $this->_categoryInstance = AO::getModel('catalog/category');
         }
         return $this->_categoryInstance;
     }
@@ -144,7 +144,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         if (!$category->getIsActive()) {
             return $html;
         }
-        if (Mage::helper('catalog/category_flat')->isEnabled()) {
+        if (AO::helper('catalog/category_flat')->isEnabled()) {
             $children = $category->getChildrenNodes();
             $childrenCount = count($children);
         } else {
@@ -158,7 +158,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         }
 
         $html.= ' class="level'.$level;
-        $html.= ' nav-'.str_replace('/', '-', Mage::helper('catalog/category')->getCategoryUrlPath($category->getRequestPath()));
+        $html.= ' nav-'.str_replace('/', '-', AO::helper('catalog/category')->getCategoryUrlPath($category->getRequestPath()));
         if ($this->isCategoryActive($category)) {
             $html.= ' active';
         }
@@ -205,8 +205,8 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      */
     public function getCurrentCategory()
     {
-        if (Mage::getSingleton('catalog/layer')) {
-            return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+        if (AO::getSingleton('catalog/layer')) {
+            return AO::getSingleton('catalog/layer')->getCurrentCategory();
         }
         return false;
     }

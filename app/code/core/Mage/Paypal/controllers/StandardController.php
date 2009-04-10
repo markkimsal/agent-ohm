@@ -54,7 +54,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
 
     protected function _expireAjax()
     {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
+        if (!AO::getSingleton('checkout/session')->getQuote()->hasItems()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
             exit;
         }
@@ -67,7 +67,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function getStandard()
     {
-        return Mage::getSingleton('paypal/standard');
+        return AO::getSingleton('paypal/standard');
     }
 
     /**
@@ -76,7 +76,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setPaypalStandardQuoteId($session->getQuoteId());
         $this->getResponse()->setBody($this->getLayout()->createBlock('paypal/standard_redirect')->toHtml());
         $session->unsQuoteId();
@@ -87,12 +87,12 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
 
         // cancel order
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = AO::getModel('sales/order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
                 $order->cancel()->save();
             }
@@ -103,7 +103,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         //$session->unsPaypalStandardQuoteId();
 
         //need to save quote as active again if the user click on cacanl payment from paypal
-        //Mage::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
+        //AO::getSingleton('checkout/session')->getQuote()->setIsActive(true)->save();
         //and then redirect to checkout one page
         $this->_redirect('checkout/cart');
     }
@@ -116,14 +116,14 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function  successAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         /**
          * set the quote as inactive after back from paypal
          */
-        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        AO::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 
-        //Mage::getSingleton('checkout/session')->unsQuoteId();
+        //AO::getSingleton('checkout/session')->unsQuoteId();
 
         $this->_redirect('checkout/onepage/success', array('_secure'=>true));
     }
@@ -142,7 +142,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         }
 
         if($this->getStandard()->getDebug()){
-            $debug = Mage::getModel('paypal/api_debug')
+            $debug = AO::getModel('paypal/api_debug')
                 ->setApiEndpoint($this->getStandard()->getPaypalUrl())
                 ->setRequestBody(print_r($this->getRequest()->getPost(),1))
                 ->save();

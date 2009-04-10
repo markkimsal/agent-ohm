@@ -45,8 +45,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'))
+            ->_addBreadcrumb(AO::helper('cms')->__('CMS'), AO::helper('cms')->__('CMS'))
+            ->_addBreadcrumb(AO::helper('cms')->__('Manage Pages'), AO::helper('cms')->__('Manage Pages'))
         ;
         return $this;
     }
@@ -77,35 +77,35 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
-        $model = Mage::getModel('cms/page');
+        $model = AO::getModel('cms/page');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);/*die('<br>#stop');*/
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cms')->__('This page no longer exists'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('cms')->__('This page no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 //print '<pre>';var_dump($model->getData());
         // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = AO::getSingleton('adminhtml/session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
 
         // 4. Register model to use later in blocks
-        Mage::register('cms_page', $model);
+        AO::register('cms_page', $model);
 
         // 5. Build edit form
         $this->_initAction()
-            ->_addBreadcrumb($id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'))
+            ->_addBreadcrumb($id ? AO::helper('cms')->__('Edit Page') : AO::helper('cms')->__('New Page'), $id ? AO::helper('cms')->__('Edit Page') : AO::helper('cms')->__('New Page'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page_edit')->setData('action', $this->getUrl('*/cms_page/save')))
             ->_addLeft($this->getLayout()->createBlock('adminhtml/cms_page_edit_tabs'));
 
-        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
-            && Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (AO::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
+            && AO::helper('googleoptimizer')->isOptimizerActive()) {
             $this->_addJs($this->getLayout()->createBlock('googleoptimizer/js')->setTemplate('googleoptimizer/js.phtml'));
         }
         $this->renderLayout();
@@ -119,13 +119,13 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
-            $model = Mage::getModel('cms/page');
+            $model = AO::getModel('cms/page');
 
 //            if ($id = $this->getRequest()->getParam('page_id')) {
 //                $model->load($id);
 //                if ($id != $model->getId()) {
-//                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cms')->__('The page you are trying to save no longer exists'));
-//                    Mage::getSingleton('adminhtml/session')->setFormData($data);
+//                    AO::getSingleton('adminhtml/session')->addError(AO::helper('cms')->__('The page you are trying to save no longer exists'));
+//                    AO::getSingleton('adminhtml/session')->setFormData($data);
 //                    $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
 //                    return;
 //                }
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
             $model->setData($data);
 
-            Mage::dispatchEvent('cms_page_prepare_save', array('page' => $model, 'request' => $this->getRequest()));
+            AO::dispatchEvent('cms_page_prepare_save', array('page' => $model, 'request' => $this->getRequest()));
 
             // try to save it
             try {
@@ -141,9 +141,9 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $model->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cms')->__('Page was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('cms')->__('Page was successfully saved'));
                 // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                AO::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId()));
@@ -155,9 +155,9 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('adminhtml/session')->setFormData($data);
+                AO::getSingleton('adminhtml/session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
                 return;
@@ -176,28 +176,28 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('cms/page');
+                $model = AO::getModel('cms/page');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cms')->__('Page was successfully deleted'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('cms')->__('Page was successfully deleted'));
                 // go to grid
-                Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
+                AO::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
                 $this->_redirect('*/*/');
                 return;
 
             } catch (Exception $e) {
-                Mage::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
+                AO::dispatchEvent('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cms')->__('Unable to find a page to delete'));
+        AO::getSingleton('adminhtml/session')->addError(AO::helper('cms')->__('Unable to find a page to delete'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -209,6 +209,6 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+        return AO::getSingleton('admin/session')->isAllowed('cms/page');
     }
 }

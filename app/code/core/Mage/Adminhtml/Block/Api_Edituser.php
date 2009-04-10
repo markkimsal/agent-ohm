@@ -35,15 +35,15 @@ class Mage_Adminhtml_Block_Api_Edituser extends Mage_Adminhtml_Block_Widget_Tabs
     protected function _beforeToHtml()
     {
         $this->addTab('account', array(
-            'label'     => Mage::helper('adminhtml')->__('User Info'),
-            'title'     => Mage::helper('adminhtml')->__('User Info'),
+            'label'     => AO::helper('adminhtml')->__('User Info'),
+            'title'     => AO::helper('adminhtml')->__('User Info'),
             'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_useredit')->toHtml(),
             'active'    => true
         ));
         if( $this->getUser()->getUserId() ) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('adminhtml')->__('Roles'),
-                'title'     => Mage::helper('adminhtml')->__('Roles'),
+                'label'     => AO::helper('adminhtml')->__('Roles'),
+                'title'     => AO::helper('adminhtml')->__('Roles'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_userroles')->toHtml(),
             ));
         }
@@ -52,6 +52,6 @@ class Mage_Adminhtml_Block_Api_Edituser extends Mage_Adminhtml_Block_Widget_Tabs
 
     public function getUser()
     {
-    	return Mage::registry('user_data');
+    	return AO::registry('user_data');
     }
 }

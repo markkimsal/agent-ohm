@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
      */
     protected function _getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -90,11 +90,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
     protected function _prepareCollection()
     {
         $allowProductTypes = array();
-        foreach (Mage::getConfig()->getNode('global/catalog/product/type/grouped/allow_product_types')->children() as $type) {
+        foreach (AO::getConfig()->getNode('global/catalog/product/type/grouped/allow_product_types')->children() as $type) {
             $allowProductTypes[] = $type->getName();
         }
 
-        $collection = Mage::getModel('catalog/product_link')->useGroupedLinks()
+        $collection = AO::getModel('catalog/product_link')->useGroupedLinks()
             ->getProductCollection()
             ->setProduct($this->_getProduct())
             ->addAttributeToSelect('*')
@@ -117,29 +117,29 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => AO::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => AO::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => AO::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => AO::helper('catalog')->__('Price'),
             'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('catalog')->__('Default Qty'),
+            'header'    => AO::helper('catalog')->__('Default Qty'),
             'name'      => 'qty',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
         ));
 
         $this->addColumn('position', array(
-            'header'    => Mage::helper('catalog')->__('Position'),
+            'header'    => AO::helper('catalog')->__('Position'),
             'name'      => 'position',
             'type'      => 'number',
             'validate_class' => 'validate-number',
@@ -178,11 +178,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
 
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return AO::helper('catalog')->__('Associated Products');
     }
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return AO::helper('catalog')->__('Associated Products');
     }
     public function canShowTab()
     {

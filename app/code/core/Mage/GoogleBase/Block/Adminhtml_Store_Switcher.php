@@ -37,7 +37,7 @@ class Mage_GoogleBase_Block_Adminhtml_Store_Switcher extends Mage_Adminhtml_Bloc
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultStoreName($this->__('Default Store (%s)', Mage::app()->getDefaultStoreView()->getName()))
+        $this->setDefaultStoreName($this->__('Default Store (%s)', AO::app()->getDefaultStoreView()->getName()))
             ->setUseConfirm(false)
             ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)));
     }

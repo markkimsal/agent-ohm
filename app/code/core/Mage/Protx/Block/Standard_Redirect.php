@@ -37,7 +37,7 @@ class Mage_Protx_Block_Standard_Redirect extends Mage_Core_Block_Abstract
 {
     protected function _toHtml()
     {
-        $standard = Mage::getModel('protx/standard');
+        $standard = AO::getModel('protx/standard');
         $form = new Varien_Data_Form();
         $form->setAction($standard->getProtxUrl())
             ->setId('protx_standard_checkout')

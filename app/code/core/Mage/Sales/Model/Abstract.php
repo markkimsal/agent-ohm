@@ -46,7 +46,7 @@ abstract class Mage_Sales_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function getCreatedAtDate()
     {
-        return Mage::app()->getLocale()->date(
+        return AO::app()->getLocale()->date(
             $this->_getResource()->mktime(($this->getCreatedAt())),
             null,
             null,
@@ -61,7 +61,7 @@ abstract class Mage_Sales_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function getCreatedAtStoreDate()
     {
-        return Mage::app()->getLocale()->storeDate(
+        return AO::app()->getLocale()->storeDate(
             $this->getStore(),
             $this->_getResource()->mktime(($this->getCreatedAt())),
             true

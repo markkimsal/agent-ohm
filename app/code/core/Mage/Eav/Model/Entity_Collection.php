@@ -29,9 +29,9 @@ class Mage_Eav_Model_Entity_Collection extends Mage_Eav_Model_Entity_Collection_
 {
     public function __construct()
     {
-        $resources = Mage::getSingleton('core/resource');
+        $resources = AO::getSingleton('core/resource');
         parent::__construct($resources->getConnection('customeralert_type'));
         
-        #$this->setConnection(Mage::getSingleton('core/resource')->getConnection('core_read'));
+        #$this->setConnection(AO::getSingleton('core/resource')->getConnection('core_read'));
     }    
 }

@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/order_collection');
+        $collection = AO::getResourceModel('reports/order_collection');
         /* @var $collection Mage_Reports_Model_Mysql4_Order_Collection */
         $collection
             ->groupByCustomer()
@@ -55,10 +55,10 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             $storeFilter = 1;
         } else if ($this->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getParam('group'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Mage_Adminhtml_B
             'type'      => 'number'
         ));
 
-        $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+        $baseCurrencyCode = (string) AO::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('orders_avg_amount', array(
             'header'    => $this->__('Average Order Amount'),

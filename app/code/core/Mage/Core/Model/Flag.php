@@ -58,7 +58,7 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (is_null($this->_flagCode)) {
-            Mage::throwException(Mage::helper('core')->__('Please define flag code.'));
+            AO::throwException(AO::helper('core')->__('Please define flag code.'));
         }
 
         $this->setFlagCode($this->_flagCode);
@@ -100,7 +100,7 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
     public function loadSelf()
     {
         if (is_null($this->_flagCode)) {
-            Mage::throwException(Mage::helper('core')->__('Please define flag code.'));
+            AO::throwException(AO::helper('core')->__('Please define flag code.'));
         }
 
         return $this->load($this->_flagCode, 'flag_code');

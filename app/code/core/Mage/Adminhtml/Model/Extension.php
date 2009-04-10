@@ -37,7 +37,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
     public function generatePackageXml()
     {
-        Mage::getSingleton('adminhtml/session')
+        AO::getSingleton('adminhtml/session')
             ->setLocalExtensionPackageFormData($this->getData());
 
         Varien_Pear::$reloadOnRegistryUpdate = false;
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             //echo "<pre>".print_r($pfm->getValidationWarnings(), 1)."</pre>";
             $message = $pfm->getValidationWarnings();
             //$message = $message[0]['message'];
-             throw Mage::exception('Mage_Adminhtml', Mage::helper('adminhtml')->__($message[0]['message']));
+             throw AO::exception('Mage_Adminhtml', AO::helper('adminhtml')->__($message[0]['message']));
 
             return $this;
         }
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
                     case 'subpackage':
                         if ($type==='conflicts') {
-                            Mage::throwException(Mage::helper('adminhtml')->__("Subpackage can't be conflicting"));
+                            AO::throwException(AO::helper('adminhtml')->__("Subpackage can't be conflicting"));
                         }
                         $pfm->addSubpackageDepWithChannel(
                             $type, $name, $channel, $min, $max, $recommended, $exclude);
@@ -178,14 +178,14 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
             switch ($contents['type'][$i]) {
                 case 'file':
                     if (!is_file($fullPath)) {
-                        Mage::throwException(Mage::helper('adminhtml')->__("Invalid file: %s", $fullPath));
+                        AO::throwException(AO::helper('adminhtml')->__("Invalid file: %s", $fullPath));
                     }
                     $pfm->addFile('/', $contents['path'][$i], array('role'=>$role, 'md5sum'=>md5_file($fullPath)));
                     break;
 
                 case 'dir':
                     if (!is_dir($fullPath)) {
-                        Mage::throwException(Mage::helper('adminhtml')->__("Invalid directory: %s", $fullPath));
+                        AO::throwException(AO::helper('adminhtml')->__("Invalid directory: %s", $fullPath));
                     }
                     $path = $contents['path'][$i];
                     $include = $contents['include'][$i];
@@ -279,7 +279,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         }
 
         $pear = Varien_Pear::getInstance();
-        $dir = Mage::getBaseDir('var').DS.'pear';
+        $dir = AO::getBaseDir('var').DS.'pear';
         if (!@file_put_contents($dir.DS.'package.xml', $this->getPackageXml())) {
             return false;
         }
@@ -287,7 +287,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
         $pkgver = $this->getName().'-'.$this->getReleaseVersion();
         $this->unsPackageXml();
         $this->unsRoles();
-        $xml = Mage::helper('core')->assocToXml($this->getData());
+        $xml = AO::helper('core')->assocToXml($this->getData());
         $xml = new Varien_Simplexml_Element($xml->asXML());
 
         // prepare dir to save
@@ -310,8 +310,8 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
     public function createPackage()
     {
         $pear = Varien_Pear::getInstance();
-        $dir = Mage::getBaseDir('var').DS.'pear';
-        if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+        $dir = AO::getBaseDir('var').DS.'pear';
+        if (!AO::getConfig()->createDirIfNotExists($dir)) {
             return false;
         }
     	$curDir = getcwd();
@@ -366,7 +366,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
         $result = $pear->run('info', $options, array($package));
         if ($result instanceof PEAR_Error) {
-            Mage::throwException($result->message);
+            AO::throwException($result->message);
             break;
         }
 
@@ -385,7 +385,7 @@ class Mage_Adminhtml_Model_Extension extends Varien_Object
 
         $result = $pear->run('remote-info', $options, array($package));
         if ($result instanceof PEAR_Error) {
-            Mage::throwException($result->message);
+            AO::throwException($result->message);
             break;
         }
 

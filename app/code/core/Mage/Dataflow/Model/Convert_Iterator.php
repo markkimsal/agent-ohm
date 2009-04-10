@@ -4,8 +4,8 @@ class Mage_Dataflow_Model_Session_Adapter_Iterator extends Mage_Dataflow_Model_C
 {
     public function walk()
     {
-        $sessionId = Mage::registry('current_dataflow_session_id');
-        $import = Mage::getResourceModel('dataflow/import');
+        $sessionId = AO::registry('current_dataflow_session_id');
+        $import = AO::getResourceModel('dataflow/import');
         $total = $import->loadTotalBySessionId($sessionId);
 
         $callbacks = array();
@@ -19,7 +19,7 @@ class Mage_Dataflow_Model_Session_Adapter_Iterator extends Mage_Dataflow_Model_C
 
         echo $this->_getProgressBarHtml($sessionId, $total['cnt']);
 
-        Mage::getModel('core/resource_iterator')
+        AO::getModel('core/resource_iterator')
             ->walk($import->select($sessionId), $callbacks);
     }
 
@@ -82,7 +82,7 @@ function updateProgress(sessionId, idx, time, memory) {
         if (!preg_match('#^([a-z0-9_/]+)(::([a-z0-9_]+))?$#i', $callback, $match)) {
             return false;
         }
-        if (!($model = Mage::getModel($match[1]))) {
+        if (!($model = AO::getModel($match[1]))) {
             return false;
         }
         if (!($method = $match[3] ? $match[3] : $defaultMethod)) {

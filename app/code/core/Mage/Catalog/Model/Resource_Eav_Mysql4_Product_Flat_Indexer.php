@@ -104,7 +104,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     public function rebuild($store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (AO::app()->getStores() as $store) {
                 $this->rebuild($store->getId());
             }
             $flag = $this->getFlatHelper()->getFlag();
@@ -130,7 +130,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      */
     public function getFlatHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return AO::helper('catalog/product_flat');
     }
 
     /**
@@ -141,11 +141,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     public function getAttributeCodes()
     {
         if (is_null($this->_attributeCodes)) {
-            $attributeNodes = Mage::getConfig()
+            $attributeNodes = AO::getConfig()
                 ->getNode(self::XML_NODE_ATTRIBUTE_NODES)
                 ->children();
             foreach ($attributeNodes as $node) {
-                $attributes = Mage::getConfig()->getNode((string)$node)->asArray();
+                $attributes = AO::getConfig()->getNode((string)$node)->asArray();
                 $attributes = array_keys($attributes);
                 $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
             }
@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     public function getEntityTypeId()
     {
         if (is_null($this->_entityTypeId)) {
-            $this->_entityTypeId = Mage::getResourceModel('catalog/config')
+            $this->_entityTypeId = AO::getResourceModel('catalog/config')
                 ->getEntityTypeId();
         }
         return $this->_entityTypeId;
@@ -204,13 +204,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     {
         if (is_null($this->_attributes)) {
             $attributeCodes = $this->getAttributeCodes(false);
-            Mage::getSingleton('eav/config')
+            AO::getSingleton('eav/config')
                 ->preloadAttributes($this->getEntityType(), $attributeCodes);
-            $entity = Mage::getSingleton('eav/config')
+            $entity = AO::getSingleton('eav/config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
             foreach ($attributeCodes as $attributeCode) {
-                $attribute = Mage::getSingleton('eav/config')
+                $attribute = AO::getSingleton('eav/config')
                     ->getAttribute($this->getEntityType(), $attributeCode)
                     ->setEntity($entity);
                 $this->_attributes[$attributeCode] = $attribute;
@@ -229,12 +229,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     {
         $attributes = $this->getAttributes();
         if (!isset($attributes[$attributeCode])) {
-            $attribute = Mage::getModel('catalog/resource_eav_attribute')
+            $attribute = AO::getModel('catalog/resource_eav_attribute')
                 ->loadByCode($this->getEntityTypeId(), $attributeCode);
             if (!$attribute->getId()) {
-                Mage::throwException(Mage::helper('catalog')->__('Invalid attribute %s', $attributeCode));
+                AO::throwException(AO::helper('catalog')->__('Invalid attribute %s', $attributeCode));
             }
-            $entity = Mage::getSingleton('eav/config')
+            $entity = AO::getSingleton('eav/config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
             $attribute->setEntity($entity);
@@ -311,7 +311,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
             $columnsObject = new Varien_Object();
             $columnsObject->setColumns($this->_columns);
-            Mage::dispatchEvent('catalog_product_flat_prepare_columns', array(
+            AO::dispatchEvent('catalog_product_flat_prepare_columns', array(
                 'columns'   => $columnsObject
             ));
             $this->_columns = $columnsObject->getColumns();
@@ -360,7 +360,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
             $indexesObject = new Varien_Object();
             $indexesObject->setIndexes($this->_indexes);
-            Mage::dispatchEvent('catalog_product_flat_prepare_indexes', array(
+            AO::dispatchEvent('catalog_product_flat_prepare_indexes', array(
                 'indexes'   => $indexesObject
             ));
             $this->_indexes = $indexesObject->getIndexes();
@@ -379,10 +379,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         $columns = $this->getFlatColumns();
         $indexes = $this->getFlatIndexes();
 
-        $maxIndex   = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
+        $maxIndex   = AO::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
 
         if (count($indexes) > $maxIndex) {
-            Mage::throwException(Mage::helper('catalog')->__("Flat Catalog module has a limit of %2\$d filterable and/or sort able attributes. Currently there are %1\$d. Please reduce the number of filterable/sort able attributes in order to use this module.", count($indexes), $maxIndex));
+            AO::throwException(AO::helper('catalog')->__("Flat Catalog module has a limit of %2\$d filterable and/or sort able attributes. Currently there are %1\$d. Please reduce the number of filterable/sort able attributes in order to use this module.", count($indexes), $maxIndex));
         }
 
         $tableName = $this->getFlatTableName($store);
@@ -526,7 +526,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      */
     public function updateStaticAttributes($store, $productIds = null)
     {
-        $website = Mage::app()->getStore($store)->getWebsite()->getId();
+        $website = AO::app()->getStore($store)->getWebsite()->getId();
         $status = $this->getAttribute('status');
         /* @var $status Mage_Eav_Model_Entity_Attribute */
         $fieldList  = array('entity_id', 'child_id', 'is_child', 'type_id', 'attribute_set_id');
@@ -584,7 +584,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      */
     public function cleanNonWebsiteProducts($store, $productIds = null)
     {
-        $website = Mage::app()->getStore($store)->getWebsite()->getId();
+        $website = AO::app()->getStore($store)->getWebsite()->getId();
 
         $select = $this->_getWriteAdapter()->select()
             ->from(
@@ -666,7 +666,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      */
     public function updateEventAttributes($store = null)
     {
-        Mage::dispatchEvent('catalog_product_flat_rebuild', array(
+        AO::dispatchEvent('catalog_product_flat_rebuild', array(
             'store_id' => $store,
             'table'    => $this->getFlatTableName($store)
         ));
@@ -686,7 +686,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
             foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
-                $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+                $this->_productTypes[$typeId] = AO::getSingleton('catalog/product_type')
                     ->factory($productEmulator);
             }
         }
@@ -702,7 +702,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
      */
     public function updateRelationProducts($store, $productIds = null)
     {
-//        $website = Mage::app()->getStore($store)->getWebsite()->getId();
+//        $website = AO::app()->getStore($store)->getWebsite()->getId();
         foreach ($this->getProductTypeInstances() as $typeInstance) {
             if (!$typeInstance->isComposite()) {
                 continue;
@@ -889,7 +889,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     {
         $this->saveProduct($productIds, $store);
 
-        Mage::dispatchEvent('catalog_product_flat_update_product', array(
+        AO::dispatchEvent('catalog_product_flat_update_product', array(
             'store_id'      => $store,
             'table'         => $this->getFlatTableName($store),
             'product_ids'   => $productIds

@@ -39,10 +39,10 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
     public function getHtml()
     {
         $html  = '<div class="range">';
-        $html .= '<div class="range-line"><span class="label">' . Mage::helper('adminhtml')->__('From').':</span> <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/></div>';
-        $html .= '<div class="range-line"><span class="label">' . Mage::helper('adminhtml')->__('To').' : </span><input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/></div>';
+        $html .= '<div class="range-line"><span class="label">' . AO::helper('adminhtml')->__('From').':</span> <input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$this->_getHtmlId().'_from" value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/></div>';
+        $html .= '<div class="range-line"><span class="label">' . AO::helper('adminhtml')->__('To').' : </span><input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$this->_getHtmlId().'_to" value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/></div>';
         if ($this->getDisplayCurrencySelect())
-            $html .= '<div class="range-line"><span class="label">' . Mage::helper('adminhtml')->__('In').' : </span>' . $this->_getCurrencySelectHtml() . '</div>';
+            $html .= '<div class="range-line"><span class="label">' . AO::helper('adminhtml')->__('In').' : </span>' . $this->_getCurrencySelectHtml() . '</div>';
         $html .= '</div>';
 
         return $html;
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
     protected function _getCurrencyModel()
     {
         if (is_null($this->_currencyModel))
-            $this->_currencyModel = Mage::getModel('directory/currency');
+            $this->_currencyModel = AO::getModel('directory/currency');
 
         return $this->_currencyModel;
     }
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Mage_Adminhtm
 
     protected function _getRate($from, $to)
     {
-        return Mage::getModel('directory/currency')->load($from)->getRate($to);
+        return AO::getModel('directory/currency')->load($from)->getRate($to);
     }
 
     public function prepareRates($displayCurrency)

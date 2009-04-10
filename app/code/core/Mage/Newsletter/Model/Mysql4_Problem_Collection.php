@@ -82,7 +82,7 @@ class Mage_Newsletter_Model_Mysql4_Problem_Collection extends Mage_Core_Model_My
             return;
         }
 
-        $customers = Mage::getResourceModel('customer/customer_collection')
+        $customers = AO::getResourceModel('customer/customer_collection')
             ->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
 

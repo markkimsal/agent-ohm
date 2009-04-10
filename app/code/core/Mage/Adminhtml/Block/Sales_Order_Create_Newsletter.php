@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Newsletter extends Mage_Adminhtml_
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Newsletter Subscription');
+        return AO::helper('sales')->__('Newsletter Subscription');
     }
 
     public function getHeaderCssClass()
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Newsletter extends Mage_Adminhtml_
 
     protected function _toHtml()
     {
-        if (! Mage::getSingleton('adminhtml/quote')->getIsOldCustomer()) {
+        if (! AO::getSingleton('adminhtml/quote')->getIsOldCustomer()) {
             return parent::_toHtml();
         }
         return '';

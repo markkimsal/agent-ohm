@@ -228,7 +228,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected function _getDataModel()
     {
         if (is_null($this->_dataModel)) {
-            $this->_dataModel = Mage::getModel('install/installer_data');
+            $this->_dataModel = AO::getModel('install/installer_data');
         }
         return $this->_dataModel;
     }
@@ -257,7 +257,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         /**
          * Check if already installed
          */
-        if (Mage::isInstalled()) {
+        if (AO::isInstalled()) {
             $this->addError('ERROR: Magento is already installed');
             return false;
         }
@@ -326,7 +326,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             /**
              * Check if already installed
              */
-            if (Mage::isInstalled()) {
+            if (AO::isInstalled()) {
                 $this->addError('ERROR: Magento is already installed');
                 return false;
             }
@@ -362,7 +362,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
              */
 
             $this->_app->cleanCache();
-            Mage::getConfig()->reinit();
+            AO::getConfig()->reinit();
 
             /**
              * Install database
@@ -444,7 +444,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             return true;
         }
         if (is_null($url)) {
-            $url = preg_replace('/install\.php/i', '', Mage::getBaseUrl());
+            $url = preg_replace('/install\.php/i', '', AO::getBaseUrl());
             $url = preg_replace('/\/\/$/', '/', $url);
         }
         header('Location: ' . $url);

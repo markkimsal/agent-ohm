@@ -94,7 +94,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             $payment->setStatus(self::STATUS_APPROVED);
             $payment->setCcTransId($result->getTransaction());
         } else {
-            Mage::throwException($result->getError());
+            AO::throwException($result->getError());
         }
 
         return $this;
@@ -117,7 +117,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             $payment->setStatus(self::STATUS_APPROVED);
             $payment->setLastTransId($result->getTransaction());
         } else {
-            Mage::throwException($result->getError());
+            AO::throwException($result->getError());
         }
 
         return $this;
@@ -154,7 +154,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                   ? $streets[0]
                   : (isset($streets[1]) && $streets[1] != '' ? $streets[1] : '');
 
-        $request = Mage::getModel('chronopay/gateway_request')
+        $request = AO::getModel('chronopay/gateway_request')
             ->setOpcode($payment->getOpcode())
             ->setProductId($this->getConfigData('product_id'));
 
@@ -187,8 +187,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                     ->setCurrency($order->getBaseCurrencyCode());
                 break;
             default :
-                Mage::throwException(
-                    Mage::helper('chronopay')->__('Invalid operation code')
+                AO::throwException(
+                    AO::helper('chronopay')->__('Invalid operation code')
                 );
                 break;
         }
@@ -213,7 +213,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
      */
     protected function _postRequest(Mage_Chronopay_Model_Gateway_Request $request)
     {
-        $result = Mage::getModel('chronopay/gateway_result');
+        $result = AO::getModel('chronopay/gateway_result');
 
         $client = new Varien_Http_Client();
 
@@ -227,7 +227,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         $client->setMethod(Zend_Http_Client::POST);
 
         if ($this->getConfigData('debug_flag')) {
-            $debug = Mage::getModel('chronopay/api_debug')
+            $debug = AO::getModel('chronopay/api_debug')
                 ->setRequestBody($client->getUri() . "\n" . print_r($request->getData(), 1))
                 ->save();
         }
@@ -243,7 +243,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
 
                 if (isset($matches[5], $matches[6])) {
                     $result->setError($matches[6]);
-                    Mage::throwException($matches[6]);
+                    AO::throwException($matches[6]);
                 }
 
                 if ($message == 'Completed') {
@@ -255,10 +255,10 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 }
 
                 if (!$result->getTransaction()) {
-                    Mage::throwException(Mage::helper('chronopay')->__('Transaction ID is invalid'));
+                    AO::throwException(AO::helper('chronopay')->__('Transaction ID is invalid'));
                 }
             } else {
-                Mage::throwException(Mage::helper('chronopay')->__('Invalid response format'));
+                AO::throwException(AO::helper('chronopay')->__('Invalid response format'));
             }
 
             if ($this->getConfigData('debug_flag')) {
@@ -271,13 +271,13 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 ->setResponseReasonText($e->getMessage());
 
 
-            $exceptionMsg = Mage::helper('chronopay')->__('Gateway request error: %s', $e->getMessage());
+            $exceptionMsg = AO::helper('chronopay')->__('Gateway request error: %s', $e->getMessage());
 
             if ($this->getConfigData('debug_flag')) {
                 $debug->setResponseBody($body)->save();
             }
 
-            Mage::throwException($exceptionMsg);
+            AO::throwException($exceptionMsg);
         }
         return $result;
     }
@@ -324,8 +324,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 break;
 
             default :
-                Mage::throwException(
-                    Mage::helper('chronopay')->__('Invalid operation code')
+                AO::throwException(
+                    AO::helper('chronopay')->__('Invalid operation code')
                 );
                 break;
         }

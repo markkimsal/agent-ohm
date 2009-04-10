@@ -36,14 +36,14 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
     protected function _construct()
     {
         $this->setId('packagesGrid');
-        $this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
+        $this->setEmptyText(AO::helper('adminhtml')->__('No Extensions Found'));
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('adminhtml/extension_local_collection');
+        $collection = AO::getModel('adminhtml/extension_local_collection');
 
         $this->setCollection($collection);
 
@@ -52,29 +52,29 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareColumns()
     {
-        $ext = Mage::getModel('adminhtml/extension');
+        $ext = AO::getModel('adminhtml/extension');
 
         $this->addColumn('channel', array(
-            'header'=>Mage::helper('adminhtml')->__('Channel'),
+            'header'=>AO::helper('adminhtml')->__('Channel'),
            	'index'=>'channel',
            	#'type'=>'options',
            	#'options'=>$ext->getKnownChannels(),
         ));
 
         $this->addColumn('name', array(
-            'header'=>Mage::helper('adminhtml')->__('Extension Name'),
+            'header'=>AO::helper('adminhtml')->__('Extension Name'),
            	'index'=>'name',
         ));
 
         $this->addColumn('version', array(
-            'header'=>Mage::helper('adminhtml')->__('Version'),
+            'header'=>AO::helper('adminhtml')->__('Version'),
            	'index'=>'version',
            	'type'=>'range',
            	'width'=>'140px',
         ));
 
         $this->addColumn('stability', array(
-            'header'=>Mage::helper('adminhtml')->__('Stability'),
+            'header'=>AO::helper('adminhtml')->__('Stability'),
            	'index'=>'stability',
            	'type'=>'options',
            	'options'=>$ext->getStabilityOptions(),
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 /*
         $this->addColumn('action',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Action'),
+                'header'=>AO::helper('adminhtml')->__('Action'),
                 'index'=>'template_id',
                 'sortable'=>false,
                 'filter' => false,
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        $url = Mage::getModel('adminhtml/url');
+        $url = AO::getModel('adminhtml/url');
         $url->setQueryParam('id', $row->getId());
         return $url->getUrl('*/*/edit');
     }

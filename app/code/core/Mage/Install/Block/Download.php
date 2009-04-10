@@ -49,14 +49,14 @@ class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
 
     public function getNextUrl()
     {
-        return Mage::getModel('install/wizard')
+        return AO::getModel('install/wizard')
             ->getStepByName('download')
                 ->getNextUrl();
     }
 
     public function hasLocalCopy()
     {
-        $dir = Mage::getConfig()->getModuleDir('etc', 'Mage_Adminhtml');
+        $dir = AO::getConfig()->getModuleDir('etc', 'Mage_Adminhtml');
         if ($dir && file_exists($dir)) {
             return true;
         }

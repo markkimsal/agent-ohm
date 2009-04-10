@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
 
         parent::__construct(
             $resource->getConnection('catalog_read'),
@@ -91,7 +91,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         }
 
         $collection->initCache(
-            Mage::app()->getCache(),
+            AO::app()->getCache(),
             'tree',
             array(Mage_Catalog_Model_Category::CACHE_TAG)
         );
@@ -131,7 +131,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
 
     protected function _getDisabledIds($collection)
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = AO::app()->getStore()->getId();
         $this->_inactiveItems = $this->_getInactiveItemIds($collection, $storeId);
 
         $allIds = $collection->getAllIds();
@@ -153,8 +153,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
     {
         if (is_null($this->_isActiveAttributeId)) {
             $select = $this->_conn->select()
-                ->from(array('a'=>Mage::getSingleton('core/resource')->getTableName('eav/attribute')), array('attribute_id'))
-                ->join(array('t'=>Mage::getSingleton('core/resource')->getTableName('eav/entity_type')), 'a.entity_type_id = t.entity_type_id')
+                ->from(array('a'=>AO::getSingleton('core/resource')->getTableName('eav/attribute')), array('attribute_id'))
+                ->join(array('t'=>AO::getSingleton('core/resource')->getTableName('eav/entity_type')), 'a.entity_type_id = t.entity_type_id')
                 ->where('entity_type_code = ?', 'catalog_category')
                 ->where('attribute_code = ?', 'is_active');
 
@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         $filter = $collection->getAllIdsSql();
         $attributeId = $this->_getIsActiveAttributeId();
 
-        $table = Mage::getSingleton('core/resource')->getTableName('catalog/category') . '_int';
+        $table = AO::getSingleton('core/resource')->getTableName('catalog/category') . '_int';
         $select = $this->_conn->select()
             ->from(array('d'=>$table), array('d.entity_id'))
             ->where('d.attribute_id = ?', $attributeId)
@@ -227,7 +227,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
     protected function _getDefaultCollection($sorted=false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = Mage::getModel('catalog/category')->getCollection();
+        $collection = AO::getModel('catalog/category')->getCollection();
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
 
         $collection->addAttributeToSelect('name')
@@ -251,9 +251,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      *
      */
     public function move($category, $newParent, $prevNode = null) {
-        Mage::getResourceSingleton('catalog/category')->move($category->getId(), $newParent->getId());
+        AO::getResourceSingleton('catalog/category')->move($category->getId(), $newParent->getId());
         parent::move($category, $newParent, $prevNode);
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+        AO::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
             array(Mage_Catalog_Model_Category::CACHE_TAG));
     }
 
@@ -391,7 +391,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
             $attributes = array_unique(array_merge($attributes, $optionalAttributes));
         }
         foreach ($attributes as $attributeCode) {
-            $attribute = Mage::getResourceSingleton('catalog/category')->getAttribute($attributeCode);
+            $attribute = AO::getResourceSingleton('catalog/category')->getAttribute($attributeCode);
             // join non-static attribute table
             if (!$attribute->getBackend()->isStatic()) {
                 $tableAs   = "_$attributeCode";
@@ -406,8 +406,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         }
 
         // count children products qty plus self products qty
-        $categoriesTable         = Mage::getSingleton('core/resource')->getTableName('catalog/category');
-        $categoriesProductsTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $categoriesTable         = AO::getSingleton('core/resource')->getTableName('catalog/category');
+        $categoriesProductsTable = AO::getSingleton('core/resource')->getTableName('catalog/category_product');
         $select->joinLeft(array('_category_product' => $categoriesProductsTable),
             'e.entity_id=_category_product.category_id',
             array(

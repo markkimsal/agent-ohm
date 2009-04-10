@@ -54,22 +54,22 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
         $adapterMethod = $this->getVar('method', 'saveRow');
 
         if (!$adapterName || !$adapterMethod) {
-            $message = Mage::helper('dataflow')->__('Please declare "adapter" and "method" node first');
+            $message = AO::helper('dataflow')->__('Please declare "adapter" and "method" node first');
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
 
         try {
-            $adapter = Mage::getModel($adapterName);
+            $adapter = AO::getModel($adapterName);
         }
         catch (Exception $e) {
-            $message = Mage::helper('dataflow')->__('Declared adapter %s not found', $adapterName);
+            $message = AO::helper('dataflow')->__('Declared adapter %s not found', $adapterName);
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
 
         if (!is_callable(array($adapter, $adapterMethod))) {
-            $message = Mage::helper('dataflow')->__('Method "%s" not defined in adapter %s', $adapterMethod, $adapterName);
+            $message = AO::helper('dataflow')->__('Method "%s" not defined in adapter %s', $adapterMethod, $adapterName);
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
@@ -77,9 +77,9 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
         $batchModel = $this->getBatchModel();
         $batchIoAdapter = $this->getBatchModel()->getIoAdapter();
 
-        if (Mage::app()->getRequest()->getParam('files')) {
-            $file = Mage::app()->getConfig()->getTempVarDir().'/import/'
-                . urldecode(Mage::app()->getRequest()->getParam('files'));
+        if (AO::app()->getRequest()->getParam('files')) {
+            $file = AO::app()->getConfig()->getTempVarDir().'/import/'
+                . urldecode(AO::app()->getRequest()->getParam('files'));
             $this->_copy($file);
         }
 
@@ -154,8 +154,8 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
             }
         }
 
-        $this->addException(Mage::helper('dataflow')->__('Found %d rows', $this->_countRows));
-        $this->addException(Mage::helper('dataflow')->__('Starting %s :: %s', $adapterName, $adapterMethod));
+        $this->addException(AO::helper('dataflow')->__('Found %d rows', $this->_countRows));
+        $this->addException(AO::helper('dataflow')->__('Starting %s :: %s', $adapterName, $adapterMethod));
 
         $batchModel->setParams($this->getVars())
             ->setAdapter($adapterName)
@@ -167,9 +167,9 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
 
         $dom = new DOMDocument();
 //        $dom->loadXML($this->getData());
-        if (Mage::app()->getRequest()->getParam('files')) {
-            $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
-            $file = $path.urldecode(Mage::app()->getRequest()->getParam('files'));
+        if (AO::app()->getRequest()->getParam('files')) {
+            $path = AO::app()->getConfig()->getTempVarDir().'/import/';
+            $file = $path.urldecode(AO::app()->getRequest()->getParam('files'));
             if (file_exists($file)) {
                 $dom->load($file);
             }
@@ -181,7 +181,7 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
 
         $worksheets = $dom->getElementsByTagName('Worksheet');
         if ($this->getVar('adapter') && $this->getVar('method')) {
-            $adapter = Mage::getModel($this->getVar('adapter'));
+            $adapter = AO::getModel($this->getVar('adapter'));
         }
         foreach ($worksheets as $worksheet) {
             $wsName = $worksheet->getAttribute('ss:Name');
@@ -367,7 +367,7 @@ class Mage_Dataflow_Model_Convert_Parser_Xml_Excel extends Mage_Dataflow_Model_C
         $io->write($xml);
 
         $wsName = htmlspecialchars($this->getVar('single_sheet'));
-        $wsName = !empty($wsName) ? $wsName : Mage::helper('dataflow')->__('Sheet 1');
+        $wsName = !empty($wsName) ? $wsName : AO::helper('dataflow')->__('Sheet 1');
 
         $xml = '<Worksheet ss:Name="' . $wsName . '"><Table>';
         $io->write($xml);

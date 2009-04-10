@@ -36,7 +36,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
 {
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -45,7 +45,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->load($this->getCheckout()->getLastOrderId());
         if($order->getId()){
             $advanced = $order->getPayment()->getMethodInstance();
@@ -88,7 +88,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('ideal/advanced_redirect')
                 ->setMessage($this->__('Error occured. You will be redirected back to store.'))
-                ->setRedirectUrl(Mage::getUrl('checkout/cart'))
+                ->setRedirectUrl(AO::getUrl('checkout/cart'))
                 ->toHtml()
         );
     }
@@ -98,7 +98,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $this->getCheckout()->setLastOrderId($this->getCheckout()->getIdealAdvancedOrderId(true));
         $order->load($this->getCheckout()->getLastOrderId());
 
@@ -126,10 +126,10 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
         /**
          * Decrypt Real Order Id that was sent encrypted
          */
-        $orderId = Mage::helper('ideal')->decrypt($this->getRequest()->getParam('ec'));
+        $orderId = AO::helper('ideal')->decrypt($this->getRequest()->getParam('ec'));
         $transactionId = $this->getRequest()->getParam('trxid');
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($orderId);
 
         if ($order->getId() > 0) {
@@ -146,12 +146,12 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
                 if ($order->canInvoice()) {
                     $invoice = $order->prepareInvoice();
                     $invoice->register()->capture();
-                    Mage::getModel('core/resource_transaction')
+                    AO::getModel('core/resource_transaction')
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();
 
-                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer successfully returned from iDEAL'));
+                    $order->addStatusToHistory($order->getStatus(), AO::helper('ideal')->__('Customer successfully returned from iDEAL'));
                 }
 
                 $order->sendNewOrderEmail();
@@ -159,14 +159,14 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
                 $this->_redirect('checkout/onepage/success');
             } else if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_CANCELLED) {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer cancelled payment'));
+                $order->addStatusToHistory($order->getStatus(), AO::helper('ideal')->__('Customer cancelled payment'));
 
                 $this->_redirect('checkout/cart');
             } else {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer was rejected by iDEAL'));
+                $order->addStatusToHistory($order->getStatus(), AO::helper('ideal')->__('Customer was rejected by iDEAL'));
                 $this->getCheckout()->setIdealErrorMessage(
-                    Mage::helper('ideal')->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try
+                    AO::helper('ideal')->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try
 again later. Transaction number is %s.', $order->getIncrementId())
                 );
 

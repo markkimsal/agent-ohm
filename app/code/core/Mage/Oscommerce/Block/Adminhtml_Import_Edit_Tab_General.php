@@ -34,7 +34,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
 
     function initForm()
     {
-        $model = Mage::registry('oscommerce_adminhtml_import');
+        $model = AO::registry('oscommerce_adminhtml_import');
 
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
@@ -44,7 +44,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
                 'name' => 'import_id',
             ));
         }
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('oscommerce')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('oscommerce')->__('General Information')));
         $fieldset->addField('name', 'text', array(
             'label'     => $this->__('Name'),
             'title'     => $this->__('Name'),

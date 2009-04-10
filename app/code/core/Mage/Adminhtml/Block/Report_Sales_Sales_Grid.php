@@ -49,14 +49,14 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Number of Orders'),
+            'header'    =>AO::helper('reports')->__('Number of Orders'),
             'index'     =>'orders',
             'total'     =>'sum',
             'type'      =>'number'
         ));
 
         $this->addColumn('items', array(
-            'header'    =>Mage::helper('reports')->__('Items Ordered'),
+            'header'    =>AO::helper('reports')->__('Items Ordered'),
             'index'     =>'items',
             'total'     =>'sum',
             'type'      =>'number'
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         $currency_code = $this->getCurrentCurrencyCode();
 
         $this->addColumn('subtotal', array(
-            'header'    =>Mage::helper('reports')->__('Subtotal'),
+            'header'    =>AO::helper('reports')->__('Subtotal'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'subtotal',
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('tax', array(
-            'header'    =>Mage::helper('reports')->__('Tax'),
+            'header'    =>AO::helper('reports')->__('Tax'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'tax',
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('shipping', array(
-            'header'    =>Mage::helper('reports')->__('Shipping'),
+            'header'    =>AO::helper('reports')->__('Shipping'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'shipping',
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('discount', array(
-            'header'    =>Mage::helper('reports')->__('Discounts'),
+            'header'    =>AO::helper('reports')->__('Discounts'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'discount',
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('total', array(
-            'header'    =>Mage::helper('reports')->__('Total'),
+            'header'    =>AO::helper('reports')->__('Total'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'total',
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('invoiced', array(
-            'header'    =>Mage::helper('reports')->__('Invoiced'),
+            'header'    =>AO::helper('reports')->__('Invoiced'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'invoiced',
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('refunded', array(
-            'header'    =>Mage::helper('reports')->__('Refunded'),
+            'header'    =>AO::helper('reports')->__('Refunded'),
             'type'      =>'currency',
             'currency_code' => $currency_code,
             'index'     =>'refunded',
@@ -127,8 +127,8 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportSalesCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportSalesExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportSalesCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportSalesExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

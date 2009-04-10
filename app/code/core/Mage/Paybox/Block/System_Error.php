@@ -49,7 +49,7 @@ class Mage_Paybox_Block_System_Error extends Mage_Core_Block_Template
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     public function getErrorMessage()
@@ -75,7 +75,7 @@ class Mage_Paybox_Block_System_Error extends Mage_Core_Block_Template
                 '-17' => 'Error of coherence (multi-baskets) : Reserved Future Usage',
             );
         }
-        $msg = Mage::helper('paybox')->__($this->_pbxErrorsDesc[$this->getCheckout()->getPayboxErrorNumber()]);
+        $msg = AO::helper('paybox')->__($this->_pbxErrorsDesc[$this->getCheckout()->getPayboxErrorNumber()]);
         $this->getCheckout()->unsPayboxErrorNumber();
         return $msg;
     }
@@ -87,7 +87,7 @@ class Mage_Paybox_Block_System_Error extends Mage_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart', array('_secure' => true));
+        return AO::getUrl('checkout/cart', array('_secure' => true));
     }
 
 }

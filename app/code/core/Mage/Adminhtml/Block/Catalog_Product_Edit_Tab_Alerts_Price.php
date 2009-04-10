@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage_Ad
         $this->setDefaultSort('desc');
         $this->setUseAjax(true);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(Mage::helper('catalog')->__('There are no customers for this alert'));
+        $this->setEmptyText(AO::helper('catalog')->__('There are no customers for this alert'));
     }
 
     protected function _prepareCollection()
@@ -51,9 +51,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage_Ad
         $productId = $this->getRequest()->getParam('id');
         $websiteId = 0;
         if ($store = $this->getRequest()->getParam('store')) {
-            $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+            $websiteId = AO::app()->getStore($store)->getWebsiteId();
         }
-        $collection = Mage::getModel('productalert/price')
+        $collection = AO::getModel('productalert/price')
             ->getCustomerCollection()
             ->join($productId, $websiteId);
         $this->setCollection($collection);
@@ -63,42 +63,42 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage_Ad
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('catalog')->__('First Name'),
+            'header'    => AO::helper('catalog')->__('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('catalog')->__('Last Name'),
+            'header'    => AO::helper('catalog')->__('Last Name'),
             'index'     => 'lastname',
         ));
 
         $this->addColumn('email', array(
-            'header'    => Mage::helper('catalog')->__('Email'),
+            'header'    => AO::helper('catalog')->__('Email'),
             'index'     => 'email',
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => AO::helper('catalog')->__('Price'),
             'index'     => 'price',
             'type'      => 'currency',
             'currency_code'
-                        => Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE)
+                        => AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE)
         ));
 
         $this->addColumn('add_date', array(
-            'header'    => Mage::helper('catalog')->__('Date Subscribed'),
+            'header'    => AO::helper('catalog')->__('Date Subscribed'),
             'index'     => 'add_date',
             'type'      => 'date'
         ));
 
         $this->addColumn('last_send_date', array(
-            'header'    => Mage::helper('catalog')->__('Last Notification'),
+            'header'    => AO::helper('catalog')->__('Last Notification'),
             'index'     => 'last_send_date',
             'type'      => 'date'
         ));
 
         $this->addColumn('send_count', array(
-            'header'    => Mage::helper('catalog')->__('Send Count'),
+            'header'    => AO::helper('catalog')->__('Send Count'),
             'index'     => 'send_count',
         ));
 
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage_Ad
         $productId = $this->getRequest()->getParam('id');
         $storeId   = $this->getRequest()->getParam('store', 0);
         if ($storeId) {
-            $storeId = Mage::app()->getStore($storeId)->getId();
+            $storeId = AO::app()->getStore($storeId)->getId();
         }
         return $this->getUrl('*/catalog_product/alertsPriceGrid', array(
             'id'    => $productId,

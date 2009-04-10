@@ -55,7 +55,7 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            Mage::getSingleton('core/session')->setLastUrl(Mage::getUrl('*/*/*'), array('_current'=>true));
+            AO::getSingleton('core/session')->setLastUrl(AO::getUrl('*/*/*'), array('_current'=>true));
         }
         return $this;
     }
@@ -70,6 +70,6 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
         array_unshift($args, $expr);
-        return Mage::app()->getTranslator()->translate($args);
+        return AO::app()->getTranslator()->translate($args);
     }
 }

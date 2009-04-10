@@ -46,13 +46,13 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Package
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_package');
 
-        $fieldset = $form->addFieldset('package_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Package')));
+        $fieldset = $form->addFieldset('package_fieldset', array('legend'=>AO::helper('adminhtml')->__('Package')));
 
         if ($this->getData('name') != $this->getData('file_name')) {
             $this->setData('file_name_disabled', $this->getData('file_name'));
             $fieldset->addField('file_name_disabled', 'text', array(
                 'name' => 'file_name_disabled',
-                'label' => Mage::helper('adminhtml')->__('Package File Name'),
+                'label' => AO::helper('adminhtml')->__('Package File Name'),
                 'disabled' => 'disabled',
             ));
         }
@@ -63,41 +63,41 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Package
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('adminhtml')->__('Name'),
+            'label' => AO::helper('adminhtml')->__('Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('channel', 'text', array(
             'name' => 'channel',
-            'label' => Mage::helper('adminhtml')->__('Channel'),
+            'label' => AO::helper('adminhtml')->__('Channel'),
             'required' => true,
             'value' => 'var-dev.varien.com',
         ));
 
         $fieldset->addField('summary', 'textarea', array(
             'name' => 'summary',
-            'label' => Mage::helper('adminhtml')->__('Summary'),
+            'label' => AO::helper('adminhtml')->__('Summary'),
             'style' => 'height:50px;',
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
-            'label' => Mage::helper('adminhtml')->__('Description'),
+            'label' => AO::helper('adminhtml')->__('Description'),
             'style' => 'height:200px;',
             'required' => true,
         ));
 
     	$fieldset->addField('license', 'text', array(
             'name' => 'license',
-            'label' => Mage::helper('adminhtml')->__('License'),
+            'label' => AO::helper('adminhtml')->__('License'),
             'required' => true,
             'value' => 'Open Software License (OSL 3.0)',
         ));
 
     	$fieldset->addField('license_uri', 'text', array(
             'name' => 'license_uri',
-            'label' => Mage::helper('adminhtml')->__('License URI'),
+            'label' => AO::helper('adminhtml')->__('License URI'),
             'value' => 'http://opensource.org/licenses/osl-3.0.php',
         ));
 

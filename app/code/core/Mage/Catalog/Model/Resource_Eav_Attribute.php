@@ -162,17 +162,17 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     {
         if (is_null(self::$_labels)) {
             if (is_null($storeId)) {
-                $storeId = Mage::app()->getStore()->getId();
+                $storeId = AO::app()->getStore()->getId();
             }
             $attributeLabels = array();
-            $attributes = Mage::getResourceSingleton('catalog/product')->getAttributesByCode();
+            $attributes = AO::getResourceSingleton('catalog/product')->getAttributesByCode();
             foreach ($attributes as $attribute) {
                 if (strlen($attribute->getData('frontend_label')) > 0) {
                     $attributeLabels[] = $attribute->getData('frontend_label');
                 }
             }
 
-            self::$_labels = Mage::app()->getTranslator()->getResource()->getTranslationArrayByStrings($attributeLabels, $storeId);
+            self::$_labels = AO::app()->getTranslator()->getResource()->getTranslationArrayByStrings($attributeLabels, $storeId);
         }
     }
 

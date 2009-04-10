@@ -28,11 +28,11 @@ class Mage_Sales_Model_Observer
 {
     public function cleanExpiredQuotes($schedule)
     {
-        $lifetimes = Mage::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        $lifetimes = AO::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
             $lifetime *= 86400;
 
-            $quotes = Mage::getModel('sales/quote')->getCollection();
+            $quotes = AO::getModel('sales/quote')->getCollection();
             /* @var $quotes Mage_Sales_Model_Mysql4_Quote_Collection */
 
             $quotes->addFieldToFilter('store_id', $storeId);
@@ -50,7 +50,7 @@ class Mage_Sales_Model_Observer
     public function substractQtyFromQuotes($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        Mage::getResourceSingleton('sales/quote')->substractProductFromQuotes($product);
+        AO::getResourceSingleton('sales/quote')->substractProductFromQuotes($product);
     }
 
     /**
@@ -60,6 +60,6 @@ class Mage_Sales_Model_Observer
      */
     public function markQuotesRecollectOnCatalogRules($observer)
     {
-        Mage::getResourceSingleton('sales/quote')->markQuotesRecollectOnCatalogRules();
+        AO::getResourceSingleton('sales/quote')->markQuotesRecollectOnCatalogRules();
     }
 }

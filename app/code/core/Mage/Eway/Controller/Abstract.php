@@ -54,7 +54,7 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -66,9 +66,9 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $session->setEwayQuoteId($session->getQuoteId());
         $session->setEwayRealOrderId($session->getLastRealOrderId());
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
-        $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was redirected to eWAY.'));
+        $order->addStatusToHistory($order->getStatus(), AO::helper('eway')->__('Customer was redirected to eWAY.'));
         $order->save();
 
         $this->getResponse()->setBody(
@@ -94,7 +94,7 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $session->setQuoteId($session->getEwayQuoteId(true));
         $session->getQuote()->setIsActive(false)->save();
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->load($this->getCheckout()->getLastOrderId());
         if($order->getId()) {
             $order->sendNewOrderEmail();
@@ -138,12 +138,12 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
         $response = $this->getRequest()->getPost();
 
         if ($this->getCheckout()->getEwayRealOrderId() != $response['ewayTrxnNumber'] ||
-                $this->getCheckout()->getEwayRealOrderId() != Mage::helper('core')->decrypt($response['eWAYoption2'])) {
+                $this->getCheckout()->getEwayRealOrderId() != AO::helper('core')->decrypt($response['eWAYoption2'])) {
             $this->norouteAction();
             return;
         }
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($response['ewayTrxnNumber']);
 
         $paymentInst = $order->getPayment()->getMethodInstance();
@@ -154,18 +154,18 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
             if ($order->canInvoice()) {
                 $invoice = $order->prepareInvoice();
                 $invoice->register()->capture();
-                Mage::getModel('core/resource_transaction')
+                AO::getModel('core/resource_transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder())
                     ->save();
 
                 $paymentInst->setTransactionId($response['ewayTrxnReference']);
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfully returned from eWAY'));
+                $order->addStatusToHistory($order->getStatus(), AO::helper('eway')->__('Customer successfully returned from eWAY'));
             }
         } else {
             $paymentInst->setTransactionId($response['ewayTrxnReference']);
             $order->cancel();
-            $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
+            $order->addStatusToHistory($order->getStatus(), AO::helper('eway')->__('Customer was rejected by eWAY'));
             $status = false;
             $this->getCheckout()->setEwayErrorMessage($response['eWAYresponseText']);
         }

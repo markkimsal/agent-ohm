@@ -43,20 +43,20 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('salesrule')->__('Save Rule'));
-        $this->_updateButton('delete', 'label', Mage::helper('salesrule')->__('Delete Rule'));
+        $this->_updateButton('save', 'label', AO::helper('salesrule')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', AO::helper('salesrule')->__('Delete Rule'));
         
         #$this->setTemplate('promo/quote/edit.phtml');
     }
 
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = AO::registry('current_promo_quote_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('salesrule')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return AO::helper('salesrule')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
         }
         else {
-            return Mage::helper('salesrule')->__('New Rule');
+            return AO::helper('salesrule')->__('New Rule');
         }
     }
     

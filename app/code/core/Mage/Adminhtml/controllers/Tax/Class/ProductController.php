@@ -60,25 +60,25 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     public function editAction()
     {
         $classId    = $this->getRequest()->getParam('id');
-        $model      = Mage::getModel('tax/class');
+        $model      = AO::getModel('tax/class');
         if ($classId) {
             $model->load($classId);
             if (!$model->getId() || $model->getClassType() != 'PRODUCT') {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('This class no longer exists'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('This class no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $data = Mage::getSingleton('adminhtml/session')->getClassData(true);
+        $data = AO::getSingleton('adminhtml/session')->getClassData(true);
         if (!empty($data)) {
             $model->setData($data);
         }
 
-        Mage::register('tax_class', $model);
+        AO::register('tax_class', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($classId ? Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'), $classId ?  Mage::helper('tax')->__('Edit Class') :  Mage::helper('tax')->__('New Class'))
+            ->_addBreadcrumb($classId ? AO::helper('tax')->__('Edit Class') :  AO::helper('tax')->__('New Class'), $classId ?  AO::helper('tax')->__('Edit Class') :  AO::helper('tax')->__('New Class'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class_edit')->setData('action', $this->getUrl('*/tax_class/save'))->setClassType('PRODUCT'))
             ->renderLayout();
     }
@@ -90,32 +90,32 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     public function deleteAction()
     {
         $classId    = $this->getRequest()->getParam('id');
-        $classModel = Mage::getModel('tax/class')
+        $classModel = AO::getModel('tax/class')
             ->load($classId);
 
         if (!$classModel->getId() || $classModel->getClassType() != 'PRODUCT') {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('This class no longer exists'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('This class no longer exists'));
             $this->_redirect('*/*/');
             return;
         }
 
-        $ruleCollection = Mage::getModel('tax/calculation_rule')
+        $ruleCollection = AO::getModel('tax/calculation_rule')
             ->getCollection()
             ->setClassTypeFilter('PRODUCT', $classId);
 
         if ($ruleCollection->getSize() > 0) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.'));
             $this->_redirectReferer();
             return;
         }
 
-        $productCollection = Mage::getModel('catalog/product')
+        $productCollection = AO::getModel('catalog/product')
             ->getCollection()
             ->addAttributeToFilter('tax_class_id', $classId);
         $productCount = $productCollection->getSize();
 
         if ($productCount > 0) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('You cannot delete this tax class as it is used for %d products.', $productCount));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('You cannot delete this tax class as it is used for %d products.', $productCount));
             $this->_redirectReferer();
             return;
         }
@@ -123,15 +123,15 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
         try {
             $classModel->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully deleted'));
+            AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('tax')->__('Tax class was successfully deleted'));
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;
         }
         catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            AO::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while deleting this class. Please try again later.'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('Error while deleting this class. Please try again later.'));
         }
 
         $this->_redirectReferer();
@@ -146,9 +146,9 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
     {
         $this->loadLayout()
             ->_setActiveMenu('sales/tax/tax_class_product')
-            ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
-            ->_addBreadcrumb(Mage::helper('tax')->__('Manage Product Tax Classes'), Mage::helper('tax')->__('Manage Product Tax Classes'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Sales'), AO::helper('tax')->__('Sales'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Tax'), AO::helper('tax')->__('Tax'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Manage Product Tax Classes'), AO::helper('tax')->__('Manage Product Tax Classes'))
         ;
         return $this;
     }
@@ -160,7 +160,7 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/tax/classes_product');
+        return AO::getSingleton('admin/session')->isAllowed('sales/tax/classes_product');
     }
 
 }

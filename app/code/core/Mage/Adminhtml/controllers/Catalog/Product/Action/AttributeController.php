@@ -65,9 +65,9 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
         try {
             if ($attributesData) {
-                $product = Mage::getModel('catalog/product');
+                $product = AO::getModel('catalog/product');
                 if ($inventoryData) {
-                    $stockItem = Mage::getModel('cataloginventory/stock_item');
+                    $stockItem = AO::getModel('cataloginventory/stock_item');
                 }
                 foreach ($this->_getHelper()->getProductIds() as $productId) {
                     $product->setData(array());
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                 }
             }
             elseif ($inventoryData) {
-                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem = AO::getModel('cataloginventory/stock_item');
 
                 foreach ($this->_getHelper()->getProductIds() as $productId) {
                     $stockItem->setData(array());
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             }
 
             if ($websiteAddData || $websiteRemoveData) {
-                $productWebsite = Mage::getModel('catalog/product_website');
+                $productWebsite = AO::getModel('catalog/product_website');
                 /* @var $productWebsite Mage_Catalog_Model_Product_Website */
 
                 if ($websiteRemoveData) {
@@ -144,7 +144,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                     $productWebsite->addProducts($websiteAddData, $this->_getHelper()->getProductIds());
                 }
 
-                Mage::dispatchEvent(
+                AO::dispatchEvent(
                     'catalog_product_to_website_change',
                     array('products'=>$this->_getHelper()->getProductIds())
                 );
@@ -192,11 +192,11 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
      */
     protected function _getHelper()
     {
-        return Mage::helper('adminhtml/catalog_product_edit_action_attribute');
+        return AO::helper('adminhtml/catalog_product_edit_action_attribute');
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes');
+        return AO::getSingleton('admin/session')->isAllowed('catalog/update_attributes');
     }
 }

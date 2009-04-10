@@ -37,7 +37,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('current_product'));
+            $this->setData('product', AO::registry('current_product'));
         }
         return $this->getData('product');
     }
@@ -67,12 +67,12 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
 
     public function formatPriceString($price, $includeContainer = true)
     {
-        $priceTax = Mage::helper('tax')->getPrice($this->getProduct(), $price);
-        $priceIncTax = Mage::helper('tax')->getPrice($this->getProduct(), $price, true);
+        $priceTax = AO::helper('tax')->getPrice($this->getProduct(), $price);
+        $priceIncTax = AO::helper('tax')->getPrice($this->getProduct(), $price, true);
 
-        if (Mage::helper('tax')->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formated = Mage::helper('core')->currency($priceTax, true, $includeContainer);
-            $formated .= ' (+'.Mage::helper('core')->currency($priceIncTax, true, $includeContainer).' '.Mage::helper('tax')->__('Incl. Tax').')';
+        if (AO::helper('tax')->displayBothPrices() && $priceTax != $priceIncTax) {
+            $formated = AO::helper('core')->currency($priceTax, true, $includeContainer);
+            $formated .= ' (+'.AO::helper('core')->currency($priceIncTax, true, $includeContainer).' '.AO::helper('tax')->__('Incl. Tax').')';
         } else {
             $formated = $this->helper('core')->currency($priceTax, true, $includeContainer);
         }

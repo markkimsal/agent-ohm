@@ -38,21 +38,21 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Edit extends Mage_Adm
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_edit');
 
-        $model = Mage::registry('current_convert_profile');
+        $model = AO::registry('current_convert_profile');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('adminhtml')->__('General Information')));
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('adminhtml')->__('Profile Name'),
-            'title' => Mage::helper('adminhtml')->__('Profile Name'),
+            'label' => AO::helper('adminhtml')->__('Profile Name'),
+            'title' => AO::helper('adminhtml')->__('Profile Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('actions_xml', 'textarea', array(
             'name' => 'actions_xml',
-            'label' => Mage::helper('adminhtml')->__('Actions XML'),
-            'title' => Mage::helper('adminhtml')->__('Actions XML'),
+            'label' => AO::helper('adminhtml')->__('Actions XML'),
+            'title' => AO::helper('adminhtml')->__('Actions XML'),
             'style' => 'width:500px; height:400px',
             'required' => true,
         ));

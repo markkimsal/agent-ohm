@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
         $this->setChild('form',
             $this->getLayout()->createBlock('adminhtml/newsletter_queue_edit_form','form')
         );
-        $queue = Mage::getSingleton('newsletter/queue');
+        $queue = AO::getSingleton('newsletter/queue');
         $queue->addTemplateData($queue);
         return parent::_beforeToHtml();
     }
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Save Newsletter'),
+                    'label'     => AO::helper('newsletter')->__('Save Newsletter'),
                     'onclick'   => 'queueControl.save()',
                     'class'     => 'save'
                 ))
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
         $this->setChild('save_and_resume',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Save And Resume'),
+                    'label'     => AO::helper('newsletter')->__('Save And Resume'),
                     'onclick'   => 'queueControl.resume()',
                     'class'     => 'save'
                 ))
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Reset'),
+                    'label'     => AO::helper('newsletter')->__('Reset'),
                     'onclick'   => 'window.location = window.location'
                 ))
         );
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('newsletter')->__('Back'),
+                        'label'   => AO::helper('newsletter')->__('Back'),
                         'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                         'class'     => 'back'
                     )
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('newsletter')->__('Toggle Editor'),
+                        'label'   => AO::helper('newsletter')->__('Toggle Editor'),
                         'onclick' => 'queueControl.toggleEditor();'
                     )
                 )
@@ -129,25 +129,25 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
 
     public function getIsPreview()
     {
-        $queue = Mage::getSingleton('newsletter/queue');
+        $queue = AO::getSingleton('newsletter/queue');
         return !in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_NEVER, Mage_Newsletter_Model_Queue::STATUS_PAUSE));
     }
 
     public function getIsTextType()
     {
-        $queue = Mage::getSingleton('newsletter/queue');
+        $queue = AO::getSingleton('newsletter/queue');
         return $queue->getTemplate()->isPlain();
     }
 
     public function getCanResume()
     {
-        $queue = Mage::getSingleton('newsletter/queue');
+        $queue = AO::getSingleton('newsletter/queue');
         return in_array($queue->getQueueStatus(), array(Mage_Newsletter_Model_Queue::STATUS_PAUSE));
     }
 
     public function getHeaderText()
     {
-        return ( $this->getIsPreview() ? Mage::helper('newsletter')->__('View Newsletter') : Mage::helper('newsletter')->__('Edit Newsletter'));
+        return ( $this->getIsPreview() ? AO::helper('newsletter')->__('View Newsletter') : AO::helper('newsletter')->__('Edit Newsletter'));
     }
 
 

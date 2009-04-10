@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Package
 
     public function getMaintainerRoles()
     {
-        return Mage::getModel('adminhtml/extension')->getMaintainerRoles();
+        return AO::getModel('adminhtml/extension')->getMaintainerRoles();
     }
 
 }

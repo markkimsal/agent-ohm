@@ -44,16 +44,16 @@ class Mage_Shipping_Model_Carrier_Pickup
             return false;
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = AO::getModel('shipping/rate_result');
 
         if (!empty($rate)) {
-            $method = Mage::getModel('shipping/rate_result_method');
+            $method = AO::getModel('shipping/rate_result_method');
 
             $method->setCarrier('pickup');
             $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('store');
-            $method->setMethodTitle(Mage::helper('shipping')->__('Store Pickup'));
+            $method->setMethodTitle(AO::helper('shipping')->__('Store Pickup'));
 
             $method->setPrice(0);
             $method->setCost(0);
@@ -71,7 +71,7 @@ class Mage_Shipping_Model_Carrier_Pickup
      */
     public function getAllowedMethods()
     {
-        return array('pickup'=>Mage::helper('shipping')->__('Store Pickup'));
+        return array('pickup'=>AO::helper('shipping')->__('Store Pickup'));
     }
 
 }

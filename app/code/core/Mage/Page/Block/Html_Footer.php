@@ -46,7 +46,7 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
 
     public function getCacheKey()
     {
-        return 'PAGE_FOOTER_' . Mage::app()->getStore()->getId() . '_' . (int)Mage::app()->getStore()->isCurrentlySecure();
+        return 'PAGE_FOOTER_' . AO::app()->getStore()->getId() . '_' . (int)AO::app()->getStore()->isCurrentlySecure();
     }
 
     public function setCopyright($copyright)
@@ -58,7 +58,7 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = Mage::getStoreConfig('design/footer/copyright');
+            $this->_copyright = AO::getStoreConfig('design/footer/copyright');
         }
 
         return $this->_copyright;

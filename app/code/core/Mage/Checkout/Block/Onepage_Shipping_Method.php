@@ -37,7 +37,7 @@ class Mage_Checkout_Block_Onepage_Shipping_Method extends Mage_Checkout_Block_On
     protected function _construct()
     {
         $this->getCheckout()->setStepData('shipping_method', array(
-            'label'     => Mage::helper('checkout')->__('Shipping Method'),
+            'label'     => AO::helper('checkout')->__('Shipping Method'),
             'is_show'   => $this->isShow()
         ));
         parent::_construct();

@@ -104,7 +104,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('sales/order_invoice_config');
+        return AO::getSingleton('sales/order_invoice_config');
     }
 
     /**
@@ -139,7 +139,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function getOrder()
     {
         if (!$this->_order instanceof Mage_Sales_Model_Order) {
-            $this->_order = Mage::getModel('sales/order')->load($this->getOrderId());
+            $this->_order = AO::getModel('sales/order')->load($this->getOrderId());
         }
         return $this->_order;
     }
@@ -259,7 +259,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         $this->getOrder()->setBaseTotalPaid(
             $this->getOrder()->getBaseTotalPaid()+$this->getBaseGrandTotal()
         );
-        Mage::dispatchEvent('sales_order_invoice_pay', array($this->_eventObject=>$this));
+        AO::dispatchEvent('sales_order_invoice_pay', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -307,7 +307,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         }
         $this->setState(self::STATE_CANCELED);
         $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
-        Mage::dispatchEvent('sales_order_invoice_cancel', array($this->_eventObject=>$this));
+        AO::dispatchEvent('sales_order_invoice_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -327,7 +327,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_invoice_item_collection')
+            $this->_items = AO::getResourceModel('sales/order_invoice_item_collection')
                 ->addAttributeToSelect('*')
                 ->setInvoiceFilter($this->getId());
 
@@ -382,9 +382,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         if (is_null(self::$_states)) {
             self::$_states = array(
-                self::STATE_OPEN       => Mage::helper('sales')->__('Pending'),
-                self::STATE_PAID       => Mage::helper('sales')->__('Paid'),
-                self::STATE_CANCELED   => Mage::helper('sales')->__('Canceled'),
+                self::STATE_OPEN       => AO::helper('sales')->__('Pending'),
+                self::STATE_PAID       => AO::helper('sales')->__('Paid'),
+                self::STATE_CANCELED   => AO::helper('sales')->__('Canceled'),
             );
         }
         return self::$_states;
@@ -408,7 +408,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         if (isset(self::$_states[$stateId])) {
             return self::$_states[$stateId];
         }
-        return Mage::helper('sales')->__('Unknown State');
+        return AO::helper('sales')->__('Unknown State');
     }
 
     /**
@@ -421,8 +421,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(
-                Mage::helper('sales')->__('Can not register existing invoice')
+            AO::throwException(
+                AO::helper('sales')->__('Can not register existing invoice')
             );
         }
 
@@ -510,7 +510,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function addComment($comment, $notify=false)
     {
         if (!($comment instanceof Mage_Sales_Model_Order_Invoice_Comment)) {
-            $comment = Mage::getModel('sales/order_invoice_comment')
+            $comment = AO::getModel('sales/order_invoice_comment')
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify);
         }
@@ -526,7 +526,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = Mage::getResourceModel('sales/order_invoice_comment_collection')
+            $this->_comments = AO::getResourceModel('sales/order_invoice_comment_collection')
                 ->addAttributeToSelect('*')
                 ->setInvoiceFilter($this->getId())
                 ->setCreatedAtOrder();
@@ -546,36 +546,36 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function sendEmail($notifyCustomer=true, $comment='')
     {
-        if (!Mage::helper('sales')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId())) {
+        if (!AO::helper('sales')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId())) {
             return $this;
         }
 
-        $currentDesign = Mage::getDesign()->setAllGetOld(array(
-            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+        $currentDesign = AO::getDesign()->setAllGetOld(array(
+            'package' => AO::getStoreConfig('design/package/name', $this->getStoreId()),
             'store'   => $this->getStoreId()
         ));
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
         $order  = $this->getOrder();
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStoreId());
+        $copyMethod = AO::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStoreId());
 
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
-        $paymentBlock   = Mage::helper('payment')->getInfoBlock($order->getPayment())
+        $paymentBlock   = AO::helper('payment')->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true);
 
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = AO::getModel('core/email_template');
 
         if ($order->getCustomerIsGuest()) {
-            $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $order->getStoreId());
             $customerName = $order->getCustomerName();
         }
 
@@ -605,7 +605,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
                 ->sendTransactional(
                     $template,
-                    Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $order->getStoreId()),
+                    AO::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $order->getStoreId()),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -620,7 +620,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
 
         $translate->setTranslateInline(true);
 
-        Mage::getDesign()->setAllGetOld($currentDesign);
+        AO::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }
@@ -632,22 +632,22 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public function sendUpdateEmail($notifyCustomer=true, $comment='')
     {
-        if (!Mage::helper('sales')->canSendInvoiceCommentEmail($this->getOrder()->getStore()->getId())) {
+        if (!AO::helper('sales')->canSendInvoiceCommentEmail($this->getOrder()->getStore()->getId())) {
             return $this;
         }
 
-        $currentDesign = Mage::getDesign()->setAllGetOld(array(
-            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+        $currentDesign = AO::getDesign()->setAllGetOld(array(
+            'package' => AO::getStoreConfig('design/package/name', $this->getStoreId()),
         ));
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
         $order  = $this->getOrder();
 
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
+        $copyMethod = AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
 
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -655,13 +655,13 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
 
         $sendTo = array();
 
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = AO::getModel('core/email_template');
 
         if ($order->getCustomerIsGuest()) {
-            $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $order->getStoreId());
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $order->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $order->getStoreId());
             $customerName = $order->getCustomerName();
         }
 
@@ -691,7 +691,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$order->getStoreId()))
                 ->sendTransactional(
                     $template,
-                    Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $order->getStoreId()),
+                    AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $order->getStoreId()),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -705,14 +705,14 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
 
         $translate->setTranslateInline(true);
 
-        Mage::getDesign()->setAllGetOld($currentDesign);
+        AO::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }
 
     protected function _getEmails($configPath)
     {
-        $data = Mage::getStoreConfig($configPath, $this->getStoreId());
+        $data = AO::getStoreConfig($configPath, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
         }

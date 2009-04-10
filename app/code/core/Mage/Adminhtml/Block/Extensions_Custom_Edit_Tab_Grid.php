@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Grid extends Mage_Adminhtm
     protected function _prepareCollection()
     {
         // take a look at Mage_Adminhtml_Model_Extension_Collection_Abstract
-        $collection = Mage::getSingleton('adminhtml/extension_collection');
+        $collection = AO::getSingleton('adminhtml/extension_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Grid extends Mage_Adminhtm
         $baseUrl = $this->getUrl();
 
         $this->addColumn('filename', array(
-            'header'    => Mage::helper('adminhtml')->__('Package'),
+            'header'    => AO::helper('adminhtml')->__('Package'),
             'index'     => 'filename',
         ));
 

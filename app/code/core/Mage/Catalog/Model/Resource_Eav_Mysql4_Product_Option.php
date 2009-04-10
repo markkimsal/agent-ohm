@@ -82,19 +82,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option extends Mage_Core_Mo
                 }
             }
 
-            $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int) AO::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
             if ($object->getStoreId() != '0' && $scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE
                 && !$object->getData('scope', 'price')) {
 
-                $baseCurrency = Mage::app()->getBaseCurrencyCode();
+                $baseCurrency = AO::app()->getBaseCurrencyCode();
 
                 $storeIds = $object->getProduct()->getStoreIds();
                 if (is_array($storeIds)) {
                     foreach ($storeIds as $storeId) {
                         if ($object->getPriceType() == 'fixed') {
-                            $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-                            $rate = Mage::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
+                            $storeCurrency = AO::app()->getStore($storeId)->getBaseCurrencyCode();
+                            $rate = AO::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
                             if (!$rate) {
                                 $rate=1;
                             }

@@ -57,7 +57,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
     public function items($filters = null)
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_invoice_collection')
+        $collection = AO::getResourceModel('sales/order_invoice_collection')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
@@ -100,7 +100,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
      */
     public function info($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = AO::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice Mage_Sales_Model_Order_Invoice */
 
@@ -135,7 +135,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
      */
     public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = AO::getModel('sales/order')->loadByIncrementId($orderIncrementId);
 
         /* @var $order Mage_Sales_Model_Order */
         /**
@@ -149,7 +149,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
          * Check invoice create availability
          */
         if (!$order->canInvoice()) {
-             $this->_fault('data_invalid', Mage::helper('sales')->__('Can not do invoice for order.'));
+             $this->_fault('data_invalid', AO::helper('sales')->__('Can not do invoice for order.'));
         }
 
         $invoice = $order->prepareInvoice($itemsQty);
@@ -167,7 +167,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            $transactionSave = Mage::getModel('core/resource_transaction')
+            $transactionSave = AO::getModel('core/resource_transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
@@ -191,7 +191,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
      */
     public function addComment($invoiceIncrementId, $comment, $email = false, $includeComment = false)
     {
-        $invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = AO::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice Mage_Sales_Model_Order_Invoice */
 
@@ -219,7 +219,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
      */
     public function capture($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = AO::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice Mage_Sales_Model_Order_Invoice */
 
@@ -228,20 +228,20 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         }
 
         if (!$invoice->canCapture()) {
-            $this->_fault('status_not_changed', Mage::helper('sales')->__('Invoice can not be captured'));
+            $this->_fault('status_not_changed', AO::helper('sales')->__('Invoice can not be captured'));
         }
 
         try {
             $invoice->capture();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = Mage::getModel('core/resource_transaction')
+            $transactionSave = AO::getModel('core/resource_transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         } catch (Exception $e) {
-            $this->_fault('status_not_changed', Mage::helper('sales')->__('Invoice capture problem'));
+            $this->_fault('status_not_changed', AO::helper('sales')->__('Invoice capture problem'));
         }
 
         return true;
@@ -255,7 +255,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
      */
     public function void($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = AO::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice Mage_Sales_Model_Order_Invoice */
 
@@ -264,20 +264,20 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         }
 
         if (!$invoice->canVoid()) {
-            $this->_fault('status_not_changed', Mage::helper('sales')->__('Invoice can not be void'));
+            $this->_fault('status_not_changed', AO::helper('sales')->__('Invoice can not be void'));
         }
 
         try {
             $invoice->void();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = Mage::getModel('core/resource_transaction')
+            $transactionSave = AO::getModel('core/resource_transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         } catch (Exception $e) {
-            $this->_fault('status_not_changed', Mage::helper('sales')->__('Invoice void problem'));
+            $this->_fault('status_not_changed', AO::helper('sales')->__('Invoice void problem'));
         }
 
         return true;
@@ -291,7 +291,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
      */
     public function cancel($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = AO::getModel('sales/order_invoice')->loadByIncrementId($invoiceIncrementId);
 
         /* @var $invoice Mage_Sales_Model_Order_Invoice */
 
@@ -300,20 +300,20 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
         }
 
         if (!$invoice->canCancel()) {
-            $this->_fault('status_not_changed', Mage::helper('sales')->__('Invoice can not be canceled'));
+            $this->_fault('status_not_changed', AO::helper('sales')->__('Invoice can not be canceled'));
         }
 
         try {
             $invoice->cancel();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = Mage::getModel('core/resource_transaction')
+            $transactionSave = AO::getModel('core/resource_transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         } catch (Exception $e) {
-            $this->_fault('status_not_changed', Mage::helper('sales')->__('Invoice cancel problem'));
+            $this->_fault('status_not_changed', AO::helper('sales')->__('Invoice cancel problem'));
         }
 
         return true;

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     /**
@@ -111,12 +111,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Info
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Information');
+        return AO::helper('sales')->__('Information');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Information');
+        return AO::helper('sales')->__('Order Information');
     }
 
     public function canShowTab()

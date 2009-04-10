@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_tierprice');
+        return AO::getResourceSingleton('catalog/product_attribute_backend_tierprice');
     }
 
     /**
@@ -64,8 +64,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
             $key1 = implode('-', array($tier['website_id'], $tier['cust_group'], $tier['price_qty']));
             $key2 = implode('-', array(0, $tier['cust_group'], $tier['price_qty']));
             if (!empty($dup[$key1]) || !empty($dup[$key2])) {
-                Mage::throwException(
-                    Mage::helper('catalog')->__('Duplicate website tier price customer group and quantity.')
+                AO::throwException(
+                    AO::helper('catalog')->__('Duplicate website tier price customer group and quantity.')
                 );
             }
             $dup[$key1] = 1;
@@ -88,7 +88,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
                 $data[$i]['cust_group'] = Mage_Customer_Model_Group::CUST_GROUP_ALL;
             }
             if ($data[$i]['website_id'] == 0) {
-                $rate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                $rate = AO::app()->getStore()->getBaseCurrency()->getRate(AO::app()->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_price'] = $data[$i]['price']/$rate;
                 }

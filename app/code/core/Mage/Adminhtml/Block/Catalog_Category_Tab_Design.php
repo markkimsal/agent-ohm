@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Design extends Mage_Adminhtml_Bl
     public function getCategory()
     {
         if (!$this->_category) {
-            $this->_category = Mage::registry('category');
+            $this->_category = AO::registry('category');
         }
         return $this->_category;
     }
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Design extends Mage_Adminhtml_Bl
         $form = new Varien_Data_Form();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('Custom Design')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('catalog')->__('Custom Design')));
 
 
         $this->_setFieldset($this->getCategory()->getDesignAttributes(), $fieldset);

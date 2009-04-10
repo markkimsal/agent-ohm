@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
 
     public function getCategory()
     {
-        return Mage::registry('category');
+        return AO::registry('category');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
         if ($this->getCategory()->getId()) {
             $this->setDefaultFilter(array('in_category'=>1));
         }
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = AO::getModel('catalog/product')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
@@ -100,29 +100,29 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             'index'     => 'entity_id'
         ));
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => AO::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => AO::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => AO::helper('catalog')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => AO::helper('catalog')->__('Price'),
             'type'  => 'currency',
             'width'     => '1',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(
-            'header'    => Mage::helper('catalog')->__('Position'),
+            'header'    => AO::helper('catalog')->__('Position'),
             'width'     => '1',
             'type'      => 'number',
             'index'     => 'position',

@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     {
         $maxPrice = $this->getData('max_price_int');
         if (is_null($maxPrice)) {
-            $maxPrice = Mage::getSingleton('catalogindex/price')->getMaxValue(
+            $maxPrice = AO::getSingleton('catalogindex/price')->getMaxValue(
                 $this->getAttributeModel(),
                 $this->_getBaseCollectionSql()
             );
@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     {
         $items = $this->getData('range_item_counts_'.$range);
         if (is_null($items)) {
-            $items = Mage::getSingleton('catalogindex/price')->getCount(
+            $items = AO::getSingleton('catalogindex/price')->getCount(
                 $this->getAttributeModel(),
                 $range,
                 $this->_getBaseCollectionSql()
@@ -117,10 +117,10 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      */
     protected function _renderItemLabel($range, $value)
     {
-        $store      = Mage::app()->getStore();
+        $store      = AO::app()->getStore();
         $fromPrice  = $store->formatPrice(($value-1)*$range);
         $toPrice    = $store->formatPrice($value*$range);
-        return Mage::helper('catalog')->__('%s - %s', $fromPrice, $toPrice);
+        return AO::helper('catalog')->__('%s - %s', $fromPrice, $toPrice);
     }
 
     /**
@@ -131,11 +131,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     protected function _getCacheKey()
     {
         $key = $this->getLayer()->getStateKey()
-            . '_PRICES_GRP_' . Mage::getSingleton('customer/session')->getCustomerGroupId()
-            . '_CURR_' . Mage::app()->getStore()->getCurrentCurrencyCode()
+            . '_PRICES_GRP_' . AO::getSingleton('customer/session')->getCustomerGroupId()
+            . '_CURR_' . AO::app()->getStore()->getCurrentCurrencyCode()
             . '_LOC_'
             ;
-        $taxReq = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $taxReq = AO::getSingleton('tax/calculation')->getRateRequest(false, false, false);
         $key.= $taxReq->__toString(array(), '_');
         return $key;
     }
@@ -196,7 +196,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
 
         if ((int)$index && (int)$range) {
             $this->setPriceRange((int)$range);
-            $entityIds = Mage::getSingleton('catalogindex/price')->getFilteredEntities(
+            $entityIds = AO::getSingleton('catalogindex/price')->getFilteredEntities(
                 $this->getAttributeModel(),
                 $range,
                 $index,

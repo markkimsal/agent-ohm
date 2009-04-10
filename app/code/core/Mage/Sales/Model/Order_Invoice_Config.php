@@ -37,7 +37,7 @@ class Mage_Sales_Model_Order_Invoice_Config extends Mage_Core_Model_Config_Base
 
     public function __construct()
     {
-        parent::__construct(Mage::getConfig()->getNode('global/sales/order_invoice'));
+        parent::__construct(AO::getConfig()->getNode('global/sales/order_invoice'));
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Sales_Model_Order_Invoice_Config extends Mage_Core_Model_Config_Base
             $totalsConfig = $this->getNode('totals');
             foreach ($totalsConfig->children() as $totalCode=>$totalConfig) {
                 $class = $totalConfig->getClassName();
-                if ($class && ($model = Mage::getModel($class))) {
+                if ($class && ($model = AO::getModel($class))) {
                     $this->_totalModels[] = $model;
                 }
             }

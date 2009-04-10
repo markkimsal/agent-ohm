@@ -93,7 +93,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
                 ->setAttributeSetSelected(true);
         }
 
-        $attributes = Mage::registry('attributes');
+        $attributes = AO::registry('attributes');
         if (is_array($attributes) && count($attributes) > 0) {
             $attributesBlock->setAttributesData($attributes);
         }
@@ -135,7 +135,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('googlebase/config')->getAllowedCountries();
+        $_allowed = AO::getSingleton('googlebase/config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];
@@ -145,14 +145,14 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('catalog/product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $entityType = AO::getModel('catalog/product')->getResource()->getEntityType();
+        $collection = AO::getResourceModel('eav/entity_attribute_set_collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if ( !($itemType instanceof Varien_Object && $itemType->getId()) ) {
-            $typesCollection = Mage::getResourceModel('googlebase/type_collection')
+            $typesCollection = AO::getResourceModel('googlebase/type_collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
             foreach ($typesCollection as $type) {
@@ -171,7 +171,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     protected function _getGbaseItemTypesArray($targetCountry)
     {
-        $itemTypes = Mage::getModel('googlebase/service_feed')->getItemTypes($targetCountry);
+        $itemTypes = AO::getModel('googlebase/service_feed')->getItemTypes($targetCountry);
         $result = array('' => '');
         foreach ($itemTypes as $type) {
             $result[$type->getId()] = $type->getName();
@@ -181,7 +181,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml_Blo
 
     public function getItemType()
     {
-        return Mage::registry('current_item_type');
+        return AO::registry('current_item_type');
     }
 
     public function getSaveUrl()

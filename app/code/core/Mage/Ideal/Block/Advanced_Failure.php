@@ -40,8 +40,8 @@ class Mage_Ideal_Block_Advanced_Failure extends Mage_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        $error = Mage::getSingleton('checkout/session')->getIdealErrorMessage();
-        Mage::getSingleton('checkout/session')->unsIdealErrorMessage();
+        $error = AO::getSingleton('checkout/session')->getIdealErrorMessage();
+        AO::getSingleton('checkout/session')->unsIdealErrorMessage();
         return $error;
     }
 
@@ -50,6 +50,6 @@ class Mage_Ideal_Block_Advanced_Failure extends Mage_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return AO::getUrl('checkout/cart');
     }
 }

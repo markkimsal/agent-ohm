@@ -46,7 +46,7 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'poll_title',
-            'title' => Mage::helper('poll')->__('Poll with the same question')
+            'title' => AO::helper('poll')->__('Poll with the same question')
         ));
         return $this;
     }
@@ -111,7 +111,7 @@ class Mage_Poll_Model_Mysql4_Poll extends Mage_Core_Model_Mysql4_Abstract
     public function getVotedPollIdsByIp($ipAddress, $pollId = false)
     {
         // check if validation by ip is enabled
-        if (!Mage::getModel('poll/poll')->isValidationByIp()) {
+        if (!AO::getModel('poll/poll')->isValidationByIp()) {
             return array();
         }
 

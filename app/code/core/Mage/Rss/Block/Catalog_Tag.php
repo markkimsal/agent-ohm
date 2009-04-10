@@ -46,12 +46,12 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Abstract
     {
         //store id is store view id
         $storeId = $this->_getStoreId();
-        $tagModel = Mage::registry('tag_model');
-        $newurl = Mage::getUrl('rss/catalog/new');
-        $title = Mage::helper('rss')->__('Products tagged with %s', $tagModel->getName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $tagModel = AO::registry('tag_model');
+        $newurl = AO::getUrl('rss/catalog/new');
+        $title = AO::helper('rss')->__('Products tagged with %s', $tagModel->getName());
+        $lang = AO::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         $data = array('title' => $title,
             'description' => $title,
             'link'        => $newurl,
@@ -64,9 +64,9 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Abstract
             ->addTagFilter($tagModel->getId())
             ->addStoreFilter($storeId);
 
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
 
-        Mage::getSingleton('core/resource_iterator')
+        AO::getSingleton('core/resource_iterator')
                 ->walk($_collection->getSelect(), array(array($this, 'addTaggedItemXml')), array('rssObj'=> $rssObj, 'product'=>$product));
 
         return $rssObj->createRssXml();
@@ -79,7 +79,7 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Abstract
         $description = '<table><tr>'.
         '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
         '<td  style="text-decoration:none;">'.$product->getDescription().
-        '<p> Price:'.Mage::helper('core')->currency($product->getFinalPrice()).'</p>'.
+        '<p> Price:'.AO::helper('core')->currency($product->getFinalPrice()).'</p>'.
         '</td>'.
         '</tr></table>';
         $rssObj = $args['rssObj'];

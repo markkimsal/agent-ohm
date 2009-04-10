@@ -38,12 +38,12 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (AO::getSingleton('customer/session')->isLoggedIn()) {
             $this->setTemplate('sales/order/history.phtml');
 
-            $orders = Mage::getResourceModel('sales/order_collection')
-                ->addAttributeToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-                ->addAttributeToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
+            $orders = AO::getResourceModel('sales/order_collection')
+                ->addAttributeToFilter('customer_id', AO::getSingleton('customer/session')->getCustomer()->getId())
+                ->addAttributeToFilter('state', array('in' => AO::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
                 ->addAttributeToSort('created_at', 'desc')
                 ->setPage(1,1);
             //TODO: add filter by current website
@@ -63,7 +63,7 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
 
     protected function _toHtml()
     {
-        if (Mage::helper('sales/reorder')->isAllow() && Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (AO::helper('sales/reorder')->isAllow() && AO::getSingleton('customer/session')->isLoggedIn()) {
             return parent::_toHtml();
         }
         return '';

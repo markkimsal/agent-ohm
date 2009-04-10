@@ -37,26 +37,26 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller  = 'system_store';
-        $this->_headerText  = Mage::helper('adminhtml')->__('Manage Stores');
+        $this->_headerText  = AO::helper('adminhtml')->__('Manage Stores');
         parent::__construct();
     }
 
     protected function _prepareLayout()
     {
         /* Update default add button to add website button */
-        $this->_updateButton('add', 'label', Mage::helper('core')->__('Create Website'));
+        $this->_updateButton('add', 'label', AO::helper('core')->__('Create Website'));
         $this->_updateButton('add', 'onclick', "setLocation('".$this->getUrl('*/*/newWebsite')."')");
 
         /* Add Store Group button */
         $this->_addButton('add_group', array(
-            'label'     => Mage::helper('core')->__('Create Store'),
+            'label'     => AO::helper('core')->__('Create Store'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newGroup') .'\')',
             'class'     => 'add',
         ));
 
         /* Add Store button */
         $this->_addButton('add_store', array(
-            'label'     => Mage::helper('core')->__('Create Store View'),
+            'label'     => AO::helper('core')->__('Create Store View'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newStore') .'\')',
             'class'     => 'add',
         ));

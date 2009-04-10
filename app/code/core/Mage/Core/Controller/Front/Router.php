@@ -60,7 +60,7 @@ class Mage_Core_Controller_Front_Router
             $params = array('controller'=>$paramsArr[0], 'action'=>$paramsArr[1]);
         }
         
-        $url = Mage::getBaseUrl($params);
+        $url = AO::getBaseUrl($params);
 
         if (!empty($params['frontName'])) {
             $url .= $params['frontName'].'/';

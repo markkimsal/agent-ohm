@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
 
     public function getBackordersOption()
     {
-        return Mage::getSingleton('cataloginventory/source_backorders')->toOptionArray();
+        return AO::getSingleton('cataloginventory/source_backorders')->toOptionArray();
     }
 
     /**
@@ -49,12 +49,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
      */
     public function getStockOption()
     {
-        return Mage::getSingleton('cataloginventory/source_stock')->toOptionArray();
+        return AO::getSingleton('cataloginventory/source_stock')->toOptionArray();
     }
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     /**
@@ -64,12 +64,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
      */
     public function getStockItem()
     {
-        return Mage::registry('product')->getStockItem();
+        return AO::registry('product')->getStockItem();
     }
 
     public function isConfigurable()
     {
-        return Mage::registry('product')->isConfigurable();
+        return AO::registry('product')->isConfigurable();
     }
 
     public function getFieldValue($field)
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function getConfigFieldValue($field)
@@ -89,17 +89,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Admin
             }
         }
 
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function getDefaultConfigValue($field)
     {
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function isNew()
     {
-        if (Mage::registry('product')->getId()) {
+        if (AO::registry('product')->getId()) {
             return false;
         }
         return true;

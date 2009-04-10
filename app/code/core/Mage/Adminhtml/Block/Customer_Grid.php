@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection')
+        $collection = AO::getResourceModel('customer/customer_collection')
             ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
@@ -63,36 +63,36 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('customer')->__('ID'),
+            'header'    => AO::helper('customer')->__('ID'),
             'width'     => '50px',
             'index'     => 'entity_id',
             'type'  => 'number',
         ));
         /*$this->addColumn('firstname', array(
-            'header'    => Mage::helper('customer')->__('First Name'),
+            'header'    => AO::helper('customer')->__('First Name'),
             'index'     => 'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('customer')->__('Last Name'),
+            'header'    => AO::helper('customer')->__('Last Name'),
             'index'     => 'lastname'
         ));*/
         $this->addColumn('name', array(
-            'header'    => Mage::helper('customer')->__('Name'),
+            'header'    => AO::helper('customer')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('email', array(
-            'header'    => Mage::helper('customer')->__('Email'),
+            'header'    => AO::helper('customer')->__('Email'),
             'width'     => '150',
             'index'     => 'email'
         ));
 
-        $groups = Mage::getResourceModel('customer/group_collection')
+        $groups = AO::getResourceModel('customer/group_collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
 
         $this->addColumn('group', array(
-            'header'    =>  Mage::helper('customer')->__('Group'),
+            'header'    =>  AO::helper('customer')->__('Group'),
             'width'     =>  '100',
             'index'     =>  'group_id',
             'type'      =>  'options',
@@ -100,43 +100,43 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('Telephone', array(
-            'header'    => Mage::helper('customer')->__('Telephone'),
+            'header'    => AO::helper('customer')->__('Telephone'),
             'width'     => '100',
             'index'     => 'billing_telephone'
         ));
 
         $this->addColumn('billing_postcode', array(
-            'header'    => Mage::helper('customer')->__('ZIP'),
+            'header'    => AO::helper('customer')->__('ZIP'),
             'width'     => '90',
             'index'     => 'billing_postcode',
         ));
 
         $this->addColumn('billing_country_id', array(
-            'header'    => Mage::helper('customer')->__('Country'),
+            'header'    => AO::helper('customer')->__('Country'),
             'width'     => '100',
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
 
         $this->addColumn('billing_region', array(
-            'header'    => Mage::helper('customer')->__('State/Province'),
+            'header'    => AO::helper('customer')->__('State/Province'),
             'width'     => '100',
             'index'     => 'billing_region',
         ));
 
         $this->addColumn('customer_since', array(
-            'header'    => Mage::helper('customer')->__('Customer Since'),
+            'header'    => AO::helper('customer')->__('Customer Since'),
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
             'gmtoffset' => true
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
-            $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(true, true);
+        if (!AO::app()->isSingleStoreMode()) {
+            $websites = AO::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(true, true);
 
             $this->addColumn('website_id', array(
-                'header'    => Mage::helper('customer')->__('Website'),
+                'header'    => AO::helper('customer')->__('Website'),
                 'align'     => 'center',
                 'width'     => '80px',
                 'type'      => 'options',
@@ -147,13 +147,13 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('customer')->__('Action'),
+                'header'    =>  AO::helper('customer')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('customer')->__('Edit'),
+                        'caption'   => AO::helper('customer')->__('Edit'),
                         'url'       => array('base'=> '*/*/edit'),
                         'field'     => 'id'
                     )
@@ -164,8 +164,8 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
                 'is_system' => true,
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('customer')->__('XML'));
+        $this->addExportType('*/*/exportCsv', AO::helper('customer')->__('CSV'));
+        $this->addExportType('*/*/exportXml', AO::helper('customer')->__('XML'));
         return parent::_prepareColumns();
     }
 
@@ -175,18 +175,18 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
         $this->getMassactionBlock()->setFormFieldName('customer');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('customer')->__('Delete'),
+             'label'    => AO::helper('customer')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('customer')->__('Are you sure?')
+             'confirm'  => AO::helper('customer')->__('Are you sure?')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_subscribe', array(
-             'label'    => Mage::helper('customer')->__('Subscribe to newsletter'),
+             'label'    => AO::helper('customer')->__('Subscribe to newsletter'),
              'url'      => $this->getUrl('*/*/massSubscribe')
         ));
 
         $this->getMassactionBlock()->addItem('newsletter_unsubscribe', array(
-             'label'    => Mage::helper('customer')->__('Unsubscribe from newsletter'),
+             'label'    => AO::helper('customer')->__('Unsubscribe from newsletter'),
              'url'      => $this->getUrl('*/*/massUnsubscribe')
         ));
 
@@ -194,14 +194,14 @@ class Mage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_Gri
 
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(
-             'label'        => Mage::helper('customer')->__('Assign a customer group'),
+             'label'        => AO::helper('customer')->__('Assign a customer group'),
              'url'          => $this->getUrl('*/*/massAssignGroup'),
              'additional'   => array(
                 'visibility'    => array(
                      'name'     => 'group',
                      'type'     => 'select',
                      'class'    => 'required-entry',
-                     'label'    => Mage::helper('customer')->__('Group'),
+                     'label'    => AO::helper('customer')->__('Group'),
                      'values'   => $groups
                  )
             )

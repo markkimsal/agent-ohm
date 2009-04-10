@@ -118,7 +118,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function getFlatHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return AO::helper('catalog/product_flat');
     }
 
     /**
@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function isEnabledFlat()
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if (AO::app()->getStore()->isAdmin()) {
             return false;
         }
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
@@ -313,7 +313,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->_addFinalPrice) {
             $this->_joinPriceRules();
         }
-        Mage::dispatchEvent('catalog_product_collection_load_before', array('collection'=>$this));
+        AO::dispatchEvent('catalog_product_collection_load_before', array('collection'=>$this));
         return parent::_beforeLoad();
     }
 
@@ -335,7 +335,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
            $this->_addFinalPrice();
         }
         if (count($this)>0) {
-            Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
+            AO::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         }
         return $this;
     }
@@ -427,7 +427,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if (is_null($store)) {
             $store = $this->getStoreId();
         }
-        $store = Mage::app()->getStore($store);
+        $store = AO::app()->getStore($store);
 
         if ($this->isEnabledFlat()) {
             if ($store->getId() != $this->getStoreId()) {
@@ -730,7 +730,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($isAnchor || $isNotAnchor) {
             $select = $this->getProductCountSelect();
 
-            Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
+            AO::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
 
             if ($isAnchor) {
                 $anchorStmt = clone $select;
@@ -816,7 +816,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        $this->_urlRewriteCategory = Mage::getStoreConfig('catalog/seo/product_use_categories') ? $categoryId : 0;
+        $this->_urlRewriteCategory = AO::getStoreConfig('catalog/seo/product_use_categories') ? $categoryId : 0;
         return $this;
     }
 
@@ -824,7 +824,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         $urlRewrites = null;
         if ($this->_cacheConf) {
-            if (!($urlRewrites = Mage::app()->loadCache($this->_cacheConf['prefix'].'urlrewrite'))) {
+            if (!($urlRewrites = AO::app()->loadCache($this->_cacheConf['prefix'].'urlrewrite'))) {
                 $urlRewrites = null;
             } else {
                 $urlRewrites = unserialize($urlRewrites);
@@ -842,7 +842,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
             $select = $this->getConnection()->select()
                 ->from($this->getTable('core/url_rewrite'), array('product_id', 'request_path'))
-                ->where('store_id=?', Mage::app()->getStore()->getId())
+                ->where('store_id=?', AO::app()->getStore()->getId())
                 ->where('is_system=?', 1)
                 ->where('category_id=? OR category_id is NULL', $this->_urlRewriteCategory)
                 ->where('product_id IN(?)', $productIds)
@@ -856,7 +856,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             }
 
             if ($this->_cacheConf) {
-                Mage::app()->saveCache(
+                AO::app()->saveCache(
                     serialize($urlRewrites),
                     $this->_cacheConf['prefix'].'urlrewrite',
                     array_merge($this->_cacheConf['tags'], array(Mage_Catalog_Model_Product_Url::CACHE_TAG)),
@@ -880,7 +880,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
     protected function _addMinimalPrice()
     {
-        Mage::getSingleton('catalogindex/price')->addMinimalPrices($this);
+        AO::getSingleton('catalogindex/price')->addMinimalPrices($this);
         return $this;
     }
 
@@ -903,16 +903,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected function _joinPriceRules()
     {
         if ($this->isEnabledFlat()) {
-            $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroup = AO::getSingleton('customer/session')->getCustomerGroupId();
             $priceColumn = 'e.display_price_group_' . $customerGroup;
             $this->getSelect()->from(null, array('_rule_price' => $priceColumn));
 
             return $this;
         }
-        $wId = Mage::app()->getWebsite()->getId();
-        $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $wId = AO::app()->getWebsite()->getId();
+        $gId = AO::getSingleton('customer/session')->getCustomerGroupId();
 
-        $storeDate = Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
+        $storeDate = AO::app()->getLocale()->storeTimeStamp($this->getStoreId());
         $conditions  = "_price_rule.product_id = e.entity_id AND ";
         $conditions .= "_price_rule.rule_date = '".$this->getResource()->formatDate($storeDate, false)."' AND ";
         $conditions .= "_price_rule.website_id = '{$wId}' AND ";
@@ -1041,14 +1041,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected function _addTaxPercents()
     {
         $classToRate = array();
-        $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $request = AO::getSingleton('tax/calculation')->getRateRequest();
         foreach ($this as &$item) {
             if (null === $item->getTaxClassId()) {
                 $item->setTaxClassId($item->getMinimalTaxClassId());
             }
             if (!isset($classToRate[$item->getTaxClassId()])) {
                 $request->setProductClassId($item->getTaxClassId());
-                $classToRate[$item->getTaxClassId()] = Mage::getSingleton('tax/calculation')->getRate($request);
+                $classToRate[$item->getTaxClassId()] = AO::getSingleton('tax/calculation')->getRate($request);
             }
             $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
         }
@@ -1066,10 +1066,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $productIds[] = $product->getId();
         }
         if (!empty($productIds)) {
-            $options = Mage::getModel('catalog/product_option')
+            $options = AO::getModel('catalog/product_option')
                 ->getCollection()
-                ->addTitleToResult(Mage::app()->getStore()->getId())
-                ->addPriceToResult(Mage::app()->getStore()->getId())
+                ->addTitleToResult(AO::app()->getStore()->getId())
+                ->addPriceToResult(AO::app()->getStore()->getId())
                 ->addProductToFilter($productIds)
                 ->addValuesToResult();
 
@@ -1114,18 +1114,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             );
         }
 
-        Mage::dispatchEvent('catalog_product_collection_set_visibility_after', array('collection' => $this));
+        AO::dispatchEvent('catalog_product_collection_set_visibility_after', array('collection' => $this));
 
         return $this;
     }
 
     public function setOrder($attribute, $dir='desc')
     {
-        $storeId = Mage::app()->getStore()->getId();
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        $storeId = AO::app()->getStore()->getId();
+        $websiteId = AO::app()->getStore()->getWebsiteId();
 
         if ($attribute == 'price' && $storeId != 0) {
-            $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $customerGroup = AO::getSingleton('customer/session')->getCustomerGroupId();
             if ($this->isEnabledFlat()) {
                 $priceColumn = 'e.display_price_group_' . $customerGroup;
                 $this->getSelect()->order("{$priceColumn} {$dir}");

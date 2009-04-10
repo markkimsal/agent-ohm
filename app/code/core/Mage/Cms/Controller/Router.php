@@ -36,17 +36,17 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
 
     public function match(Zend_Controller_Request_Http $request)
     {
-        if (!Mage::isInstalled()) {
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect(Mage::getUrl('install'))
+        if (!AO::isInstalled()) {
+            AO::app()->getFrontController()->getResponse()
+                ->setRedirect(AO::getUrl('install'))
                 ->sendResponse();
             exit;
         }
 
         $identifier = trim($request->getPathInfo(), '/');
 
-        $page = Mage::getModel('cms/page');
-        $pageId = $page->checkIdentifier($identifier, Mage::app()->getStore()->getId());
+        $page = AO::getModel('cms/page');
+        $pageId = $page->checkIdentifier($identifier, AO::app()->getStore()->getId());
         if (!$pageId) {
             return false;
         }

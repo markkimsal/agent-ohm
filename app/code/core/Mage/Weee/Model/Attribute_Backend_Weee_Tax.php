@@ -27,7 +27,7 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('weee/attribute_backend_weee_tax');
+        return AO::getResourceSingleton('weee/attribute_backend_weee_tax');
     }
 
     /**
@@ -53,8 +53,8 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                Mage::throwException(
-                    Mage::helper('catalog')->__('Duplicate website, country and state tax found.')
+                AO::throwException(
+                    AO::helper('catalog')->__('Duplicate website, country and state tax found.')
                 );
             }
             $dup[$key1] = 1;
@@ -74,7 +74,7 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
 
         foreach ($data as $i=>$row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                $rate = AO::app()->getStore()->getBaseCurrency()->getRate(AO::app()->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_value'] = $data[$i]['value']/$rate;
                 } else {

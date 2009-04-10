@@ -36,7 +36,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
 {
     protected function isFeedEnable($code)
     {
-        return Mage::getStoreConfig('rss/catalog/'.$code);
+        return AO::getStoreConfig('rss/catalog/'.$code);
     }
 
     protected function checkFeedEnable($code)
@@ -77,10 +77,10 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
     {
         if ($this->checkFeedEnable('tag')) {
             $tagName = $this->getRequest()->getParam('tagName');
-            $tagModel = Mage::getModel('tag/tag');
+            $tagModel = AO::getModel('tag/tag');
             $tagModel->loadByName($tagName);
             if ($tagModel->getId() && $tagModel->getStatus()==$tagModel->getApprovedStatus()) {
-                Mage::register('tag_model', $tagModel);
+                AO::register('tag_model', $tagModel);
                 $this->loadLayout(false);
                 $this->renderLayout();
                 return;
@@ -91,7 +91,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
 
     public function notifystockAction()
     {
-        Mage::helper('rss')->authAdmin('catalog/products');
+        AO::helper('rss')->authAdmin('catalog/products');
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
@@ -99,7 +99,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
 
     public function reviewAction()
     {
-        Mage::helper('rss')->authAdmin('catalog/reviews_ratings');
+        AO::helper('rss')->authAdmin('catalog/reviews_ratings');
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();

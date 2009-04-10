@@ -45,7 +45,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_View extends Mage_Adminhtml_Block_Te
         $this->setChild('backButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'  => Mage::helper('oscommerce')->__('Back'),
+                    'label'  => AO::helper('oscommerce')->__('Back'),
                     'id'     => 'back_button',
                     'name'   => 'back_button',
                     'class'  => 'scalable back',
@@ -60,7 +60,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_View extends Mage_Adminhtml_Block_Te
      */
     public function getOrder()
     {
-        return Mage::registry('current_oscommerce_order');
+        return AO::registry('current_oscommerce_order');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_View extends Mage_Adminhtml_Block_Te
 
     public function getHeaderText()
     {
-        $text = Mage::helper('oscommerce')->__('osCommerce Order # %s | Order Date %s',
+        $text = AO::helper('oscommerce')->__('osCommerce Order # %s | Order Date %s',
             $this->getOrder()->getOrdersId(),
             $this->formatDate($this->getOrder()->getDatePurchased(), 'medium', true)
         );

@@ -40,8 +40,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
             $act = 'default';
 
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Review'), Mage::helper('reports')->__('Reviews'));
+            ->_addBreadcrumb(AO::helper('reports')->__('Reports'), AO::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Review'), AO::helper('reports')->__('Reviews'));
         return $this;
     }
 
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_initAction()
             ->_setActiveMenu('report/review/customer')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Customers Report'), AO::helper('reports')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_customer'))
             ->renderLayout();
     }
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_initAction()
             ->_setActiveMenu('report/review/product')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Products Report'), AO::helper('reports')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_product'))
             ->renderLayout();
     }
@@ -115,8 +115,8 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_initAction()
             ->_setActiveMenu('report/review/productDetail')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Product Reviews'), Mage::helper('reports')->__('Product Reviews'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Products Report'), AO::helper('reports')->__('Products Report'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Product Reviews'), AO::helper('reports')->__('Product Reviews'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_review_detail'))
             ->renderLayout();
     }
@@ -149,13 +149,13 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
 	    switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return Mage::getSingleton('admin/session')->isAllowed('report/review/customer');
+                return AO::getSingleton('admin/session')->isAllowed('report/review/customer');
                 break;
             case 'product':
-                return Mage::getSingleton('admin/session')->isAllowed('report/review/product');
+                return AO::getSingleton('admin/session')->isAllowed('report/review/product');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/review');
+                return AO::getSingleton('admin/session')->isAllowed('report/review');
                 break;
         }
     }

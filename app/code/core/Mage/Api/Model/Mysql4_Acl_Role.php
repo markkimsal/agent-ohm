@@ -41,7 +41,7 @@ class Mage_Api_Model_Mysql4_Acl_Role extends Mage_Core_Model_Mysql4_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$role->getId()) {
-            $this->setCreated(Mage::getSingleton('core/date')->gmtDate());
+            $this->setCreated(AO::getSingleton('core/date')->gmtDate());
         }
         return $this;
     }

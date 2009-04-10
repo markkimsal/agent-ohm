@@ -46,7 +46,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = AO::getSingleton('customer/session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -59,7 +59,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCheckout()
     {
         if (empty($this->_checkout)) {
-            $this->_checkout = Mage::getSingleton('checkout/session');
+            $this->_checkout = AO::getSingleton('checkout/session');
         }
         return $this->_checkout;
     }
@@ -79,13 +79,13 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return AO::getSingleton('customer/session')->isLoggedIn();
     }
 
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('directory/country')->getResourceCollection()
+            $this->_countryCollection = AO::getSingleton('directory/country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -94,7 +94,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
+            $this->_regionCollection = AO::getModel('directory/region')->getResourceCollection()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -138,7 +138,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 ->setValue($addressId)
                 ->setOptions($options);
 
-            $select->addOption('', Mage::helper('checkout')->__('New Address'));
+            $select->addOption('', AO::helper('checkout')->__('New Address'));
 
             return $select->getHtml();
         }
@@ -149,12 +149,12 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         $countryId = $this->getAddress()->getCountryId();
         if (is_null($countryId)) {
-            $countryId = Mage::getStoreConfig('general/country/default');
+            $countryId = AO::getStoreConfig('general/country/default');
         }
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(Mage::helper('checkout')->__('Country'))
+            ->setTitle(AO::helper('checkout')->__('Country'))
             ->setClass('validate-select')
             ->setValue($countryId)
             ->setOptions($this->getCountryOptions());
@@ -171,7 +171,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(Mage::helper('checkout')->__('State/Province'))
+            ->setTitle(AO::helper('checkout')->__('State/Province'))
             ->setClass('required-entry validate-state')
             ->setValue($this->getAddress()->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());
@@ -182,11 +182,11 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     public function getCountryOptions()
     {
         $options    = false;
-        $useCache   = Mage::app()->useCache('config');
+        $useCache   = AO::app()->useCache('config');
         if ($useCache) {
-            $cacheId    = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+            $cacheId    = 'DIRECTORY_COUNTRY_SELECT_STORE_' . AO::app()->getStore()->getCode();
             $cacheTags  = array('config');
-            if ($optionsCache = Mage::app()->loadCache($cacheId)) {
+            if ($optionsCache = AO::app()->loadCache($cacheId)) {
                 $options = unserialize($optionsCache);
             }
         }
@@ -194,7 +194,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         if ($options == false) {
             $options = $this->getCountryCollection()->toOptionArray();
             if ($useCache) {
-                Mage::app()->saveCache(serialize($options), $cacheId, $cacheTags);
+                AO::app()->saveCache(serialize($options), $cacheId, $cacheTags);
             }
         }
         return $options;

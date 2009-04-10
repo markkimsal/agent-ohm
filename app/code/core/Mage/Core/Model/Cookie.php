@@ -56,7 +56,7 @@ class Mage_Core_Model_Cookie
      */
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = AO::app()->getStore($store);
         return $this;
     }
 
@@ -68,7 +68,7 @@ class Mage_Core_Model_Cookie
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = AO::app()->getStore();
         }
         return $this->_store;
     }
@@ -80,7 +80,7 @@ class Mage_Core_Model_Cookie
      */
     protected function _getRequest()
     {
-        return Mage::app()->getRequest();
+        return AO::app()->getRequest();
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Core_Model_Cookie
      */
     protected function _getResponse()
     {
-        return Mage::app()->getResponse();
+        return AO::app()->getResponse();
     }
 
     /**
@@ -100,7 +100,7 @@ class Mage_Core_Model_Cookie
      */
     public function getDomain()
     {
-        $domain = Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
+        $domain = AO::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
         if (empty($domain)) {
             $domain = $this->_getRequest()->getHttpHost();
         }
@@ -114,7 +114,7 @@ class Mage_Core_Model_Cookie
      */
     public function getPath()
     {
-        $path = Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
+        $path = AO::getStoreConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
         if (empty($path)) {
             $path = $this->_getRequest()->getBasePath();
         }
@@ -132,7 +132,7 @@ class Mage_Core_Model_Cookie
             $lifetime = $this->_lifetime;
         }
         else {
-            $lifetime = Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
+            $lifetime = AO::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
         }
         if (!is_numeric($lifetime)) {
             $lifetime = 3600;
@@ -159,7 +159,7 @@ class Mage_Core_Model_Cookie
      */
     public function getHttponly()
     {
-        $httponly = Mage::getStoreConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
+        $httponly = AO::getStoreConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
         if (is_null($httponly)) {
             return null;
         }

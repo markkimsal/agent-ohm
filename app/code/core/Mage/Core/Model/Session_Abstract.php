@@ -92,7 +92,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateRemoteAddr()
     {
-        $use = Mage::getStoreConfig(self::XML_PATH_USE_REMOTE_ADDR);
+        $use = AO::getStoreConfig(self::XML_PATH_USE_REMOTE_ADDR);
         if (is_null($use)) {
             return parent::useValidateRemoteAddr();
         }
@@ -106,7 +106,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateHttpVia()
     {
-        $use = Mage::getStoreConfig(self::XML_PATH_USE_HTTP_VIA);
+        $use = AO::getStoreConfig(self::XML_PATH_USE_HTTP_VIA);
         if (is_null($use)) {
             return parent::useValidateHttpVia();
         }
@@ -120,7 +120,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateHttpXForwardedFor()
     {
-        $use = Mage::getStoreConfig(self::XML_PATH_USE_X_FORWARDED);
+        $use = AO::getStoreConfig(self::XML_PATH_USE_X_FORWARDED);
         if (is_null($use)) {
             return parent::useValidateHttpXForwardedFor();
         }
@@ -134,7 +134,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function useValidateHttpUserAgent()
     {
-        $use = Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT);
+        $use = AO::getStoreConfig(self::XML_PATH_USE_USER_AGENT);
         if (is_null($use)) {
             return parent::useValidateHttpUserAgent();
         }
@@ -149,7 +149,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getValidateHttpUserAgentSkip()
     {
         $userAgents = array();
-        $skip = Mage::getConfig()->getNode(self::XML_NODE_USET_AGENT_SKIP);
+        $skip = AO::getConfig()->getNode(self::XML_NODE_USET_AGENT_SKIP);
         foreach ($skip->children() as $userAgent) {
             $userAgents[] = (string)$userAgent;
         }
@@ -165,7 +165,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getMessages($clear=false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages(Mage::getModel('core/message_collection'));
+            $this->setMessages(AO::getModel('core/message_collection'));
         }
 
         if ($clear) {
@@ -185,7 +185,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addException(Exception $exception, $alternativeText)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($alternativeText));
+        $this->addMessage(AO::getSingleton('core/message')->error($alternativeText));
         return $this;
     }
 
@@ -209,7 +209,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        $this->addMessage(AO::getSingleton('core/message')->error($message));
         return $this;
     }
 
@@ -221,7 +221,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        $this->addMessage(AO::getSingleton('core/message')->warning($message));
         return $this;
     }
 
@@ -233,7 +233,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        $this->addMessage(AO::getSingleton('core/message')->notice($message));
         return $this;
     }
 
@@ -245,7 +245,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        $this->addMessage(AO::getSingleton('core/message')->success($message));
         return $this;
     }
 
@@ -279,7 +279,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
                 /**
                  * No reason use crypt key for session
                  */
-//                if ($tryId = Mage::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
+//                if ($tryId = AO::helper('core')->decrypt($_GET[self::SESSION_ID_QUERY_PARAM])) {
 //                    $id = $tryId;
 //                }
             }
@@ -299,7 +299,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function getEncryptedSessionId()
     {
         if (!self::$_encryptedSessionId) {
-//            $helper = Mage::helper('core');
+//            $helper = AO::helper('core');
 //            if (!$helper) {
 //                return $this;
 //            }
@@ -348,7 +348,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
             return '';
         }
 
-        if (!$httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost()) {
+        if (!$httpHost = AO::app()->getFrontController()->getRequest()->getHttpHost()) {
             return '';
         }
 
@@ -381,7 +381,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function addHost($host)
     {
         if ($host === true) {
-            if (!$host = Mage::app()->getFrontController()->getRequest()->getHttpHost()) {
+            if (!$host = AO::app()->getFrontController()->getRequest()->getHttpHost()) {
                 return $this;
             }
         }
@@ -408,7 +408,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function getSessionSaveMethod()
     {
-        if (Mage::isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+        if (AO::isInstalled() && $sessionSave = AO::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
             return $sessionSave;
         }
         return parent::getSessionSaveMethod();
@@ -421,7 +421,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function getSessionSavePath()
     {
-        if (Mage::isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+        if (AO::isInstalled() && $sessionSavePath = AO::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
             return $sessionSavePath;
         }
         return parent::getSessionSavePath();

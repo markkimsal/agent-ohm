@@ -42,8 +42,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Startdate extends Mage_Eav_Mo
         $startDate = $object->getData($attributeName);
 
         if ($startDate=='' && $object->getSpecialPrice()) {
-            $startDate = Mage::app()->getLocale()->date();
-//            $startDate = Mage::getModel('core/date')->gmtDate('');
+            $startDate = AO::app()->getLocale()->date();
+//            $startDate = AO::getModel('core/date')->gmtDate('');
         }
 
         $object->setData($attributeName, $startDate);

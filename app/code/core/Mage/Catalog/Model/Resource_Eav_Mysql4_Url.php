@@ -79,7 +79,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     public function getStores($storeId = null)
     {
         if (is_null($this->_stores)) {
-            $this->_stores = $this->_prepareStoreRootCategories(Mage::app()->getStores());
+            $this->_stores = $this->_prepareStoreRootCategories(AO::app()->getStores());
         }
         if ($storeId && isset($this->_stores[$storeId])) {
             return $this->_stores[$storeId];
@@ -94,7 +94,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      */
     public function getCategoryModel()
     {
-        return Mage::getSingleton('catalog/category');
+        return AO::getSingleton('catalog/category');
     }
 
     /**
@@ -104,7 +104,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      */
     public function getProductModel()
     {
-        return Mage::getSingleton('catalog/product');
+        return AO::getSingleton('catalog/product');
     }
 
     /**
@@ -208,7 +208,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData);
             }
             catch (Exception $e) {
-                Mage::throwException(Mage::helper('catalog')->__('Url rewrie save problem.'));
+                AO::throwException(AO::helper('catalog')->__('Url rewrie save problem.'));
             }
         }
         unset($rewriteData);
@@ -539,7 +539,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
-        $isActiveAttribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_category', 'is_active');
+        $isActiveAttribute = AO::getModel('eav/entity_attribute')->loadByCode('catalog_category', 'is_active');
         $categories = array();
 
         if (!is_array($categoryIds)) {
@@ -645,7 +645,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 
     public function getCategoryParentPath(Varien_Object $category)
     {
-        $store = Mage::app()->getStore($category->getStoreId());
+        $store = AO::app()->getStore($category->getStoreId());
         if ($category->getId() == $store->getRootCategoryId()) {
             return '';
         }
@@ -683,7 +683,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     {
         $products = array();
 
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = AO::app()->getStore($storeId)->getWebsiteId();
         if (!is_null($productIds)) {
             if (!is_array($productIds)) {
                 $productIds = array($productIds);
@@ -821,7 +821,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 //    protected function _getCategoryRootsByStore()
 //    {
 //        if (!$this->_catRoots) {
-//            $res = Mage::getSingleton('core/resource');
+//            $res = AO::getSingleton('core/resource');
 //            /* @var $res Mage_Core_Model_Resource */
 //            $read = $res->getConnection('core_read');
 //            /* @var $read Zend_Db_Adapter_Abstract */
@@ -845,7 +845,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 //        if (empty($this->_rewrite[0]['category'])) {
 //            return;
 //        }
-//        $res = Mage::getSingleton('core/resource');
+//        $res = AO::getSingleton('core/resource');
 //        /* @var $res Mage_Core_Model_Resource */
 //        $read = $res->getConnection('core_read');
 //        /* @var $read Zend_Db_Adapter_Abstract */
@@ -870,7 +870,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 //                $this->_rewrite[$storeId]['category']
 //            }
 //        }
-//        $collection = Mage::getModel('catalog/category')->getCollection()
+//        $collection = AO::getModel('catalog/category')->getCollection()
 //            ->;
 //    }
 //

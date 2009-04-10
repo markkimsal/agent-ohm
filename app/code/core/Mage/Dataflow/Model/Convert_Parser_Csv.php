@@ -41,7 +41,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
     public function parse()
     {
         // fixed for multibyte characters
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+        setlocale(LC_ALL, AO::app()->getLocale()->getLocaleCode().'.UTF-8');
 
         $fDel = $this->getVar('delimiter', ',');
         $fEnc = $this->getVar('enclose', '"');
@@ -53,22 +53,22 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         $adapterMethod = $this->getVar('method', 'saveRow');
 
         if (!$adapterName || !$adapterMethod) {
-            $message = Mage::helper('dataflow')->__('Please declare "adapter" and "method" node first');
+            $message = AO::helper('dataflow')->__('Please declare "adapter" and "method" node first');
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
 
         try {
-            $adapter = Mage::getModel($adapterName);
+            $adapter = AO::getModel($adapterName);
         }
         catch (Exception $e) {
-            $message = Mage::helper('dataflow')->__('Declared adapter %s not found', $adapterName);
+            $message = AO::helper('dataflow')->__('Declared adapter %s not found', $adapterName);
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
 
         if (!is_callable(array($adapter, $adapterMethod))) {
-            $message = Mage::helper('dataflow')->__('Method "%s" not defined in adapter %s', $adapterMethod, $adapterName);
+            $message = AO::helper('dataflow')->__('Method "%s" not defined in adapter %s', $adapterMethod, $adapterName);
             $this->addException($message, Mage_Dataflow_Model_Convert_Exception::FATAL);
             return $this;
         }
@@ -76,9 +76,9 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
         $batchModel = $this->getBatchModel();
         $batchIoAdapter = $this->getBatchModel()->getIoAdapter();
 
-        if (Mage::app()->getRequest()->getParam('files')) {
-            $file = Mage::app()->getConfig()->getTempVarDir().'/import/'
-                . urldecode(Mage::app()->getRequest()->getParam('files'));
+        if (AO::app()->getRequest()->getParam('files')) {
+            $file = AO::app()->getConfig()->getTempVarDir().'/import/'
+                . urldecode(AO::app()->getRequest()->getParam('files'));
             $this->_copy($file);
         }
 
@@ -116,8 +116,8 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
                 ->save();
         }
 
-        $this->addException(Mage::helper('dataflow')->__('Found %d rows', $countRows));
-        $this->addException(Mage::helper('dataflow')->__('Starting %s :: %s', $adapterName, $adapterMethod));
+        $this->addException(AO::helper('dataflow')->__('Found %d rows', $countRows));
+        $this->addException(AO::helper('dataflow')->__('Starting %s :: %s', $adapterName, $adapterMethod));
 
         $batchModel->setParams($this->getVars())
             ->setAdapter($adapterName)
@@ -138,7 +138,7 @@ class Mage_Dataflow_Model_Convert_Parser_Csv extends Mage_Dataflow_Model_Convert
 //        }
 //
 //        if ($this->getVar('adapter') && $this->getVar('method')) {
-//            $adapter = Mage::getModel($this->getVar('adapter'));
+//            $adapter = AO::getModel($this->getVar('adapter'));
 //        }
 //
 //        $i = 0;

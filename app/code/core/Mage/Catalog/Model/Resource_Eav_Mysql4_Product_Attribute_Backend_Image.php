@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Image ext
         catch (Exception $e){
             return $this;
         }
-        $uploader->save(Mage::getStoreConfig('system/filesystem/media').'/catalog/product');
+        $uploader->save(AO::getStoreConfig('system/filesystem/media').'/catalog/product');
 
         if ($fileName = $uploader->getUploadedFileName()) {
             $object->setData($this->getAttribute()->getName(), $fileName);

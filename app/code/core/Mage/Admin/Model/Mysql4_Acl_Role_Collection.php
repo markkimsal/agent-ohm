@@ -37,10 +37,10 @@ class Mage_Admin_Model_Mysql4_Acl_Role_Collection extends Varien_Data_Collection
     
     public function __construct() 
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('admin_read'));
-        $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('admin_read'));
+        $this->_roleTable = AO::getSingleton('core/resource')->getTableName('admin/role');
         $this->_select->from($this->_roleTable);
         
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('admin/acl_role'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('admin/acl_role'));
     }
 }

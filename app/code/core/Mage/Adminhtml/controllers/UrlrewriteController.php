@@ -41,18 +41,18 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     protected function _initRegistry()
     {
         // initialize urlrewrite, product and category models
-        Mage::register('current_urlrewrite', Mage::getModel('core/url_rewrite')
+        AO::register('current_urlrewrite', AO::getModel('core/url_rewrite')
             ->load($this->getRequest()->getParam('id', 0))
         );
         $productId  = $this->getRequest()->getParam('product', 0);
         $categoryId = $this->getRequest()->getParam('category', 0);
-        if (Mage::registry('current_urlrewrite')->getId()) {
-            $productId  = Mage::registry('current_urlrewrite')->getProductId();
-            $categoryId = Mage::registry('current_urlrewrite')->getCategoryId();
+        if (AO::registry('current_urlrewrite')->getId()) {
+            $productId  = AO::registry('current_urlrewrite')->getProductId();
+            $categoryId = AO::registry('current_urlrewrite')->getCategoryId();
         }
 
-        Mage::register('current_product', Mage::getModel('catalog/product')->load($productId));
-        Mage::register('current_category', Mage::getModel('catalog/category')->load($categoryId));
+        AO::register('current_product', AO::getModel('catalog/product')->load($productId));
+        AO::register('current_category', AO::getModel('catalog/category')->load($categoryId));
 
         return $this;
     }
@@ -102,7 +102,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     public function categoriesJsonAction()
     {
         $id = $this->getRequest()->getParam('id', null);
-        $this->getResponse()->setBody(Mage::getBlockSingleton('adminhtml/urlrewrite_category_tree')
+        $this->getResponse()->setBody(AO::getBlockSingleton('adminhtml/urlrewrite_category_tree')
             ->getTreeArray($id, true, 1)
         );
     }
@@ -118,7 +118,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         if ($data = $this->getRequest()->getPost()) {
             try {
                 // set basic urlrewrite data
-                $model = Mage::registry('current_urlrewrite');
+                $model = AO::registry('current_urlrewrite');
 
                 $model->setIdPath($this->getRequest()->getParam('id_path'))
                     ->setTargetPath($this->getRequest()->getParam('target_path'))
@@ -134,30 +134,30 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 }
 
                 // override urlrewrite data, basing on current registry combination
-                $category = Mage::registry('current_category')->getId() ? Mage::registry('current_category') : null;
+                $category = AO::registry('current_category')->getId() ? AO::registry('current_category') : null;
                 if ($category) {
                     $model->setCategoryId($category->getId());
                 }
-                $product  = Mage::registry('current_product')->getId() ? Mage::registry('current_product') : null;
+                $product  = AO::registry('current_product')->getId() ? AO::registry('current_product') : null;
                 if ($product) {
                     $model->setProductId($product->getId());
                 }
                 if ($product || $category) {
-                    $catalogUrlModel = Mage::getSingleton('catalog/url');
+                    $catalogUrlModel = AO::getSingleton('catalog/url');
                     $model->setIdPath($catalogUrlModel->generatePath('id', $product, $category));
                     $model->setTargetPath($catalogUrlModel->generatePath('target', $product, $category));
                 }
 
                 // save and redirect
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__(
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__(
                     'Urlrewrite has been successfully saved'
                 ));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')
+                AO::getSingleton('adminhtml/session')
                     ->addError($e->getMessage())
                     ->setUrlrewriteData($data)
                 ;
@@ -175,15 +175,15 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     {
         $this->_initRegistry();
 
-        if (Mage::registry('current_urlrewrite')->getId()) {
+        if (AO::registry('current_urlrewrite')->getId()) {
             try {
-                Mage::registry('current_urlrewrite')->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__(
+                AO::registry('current_urlrewrite')->delete();
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__(
                     'Urlrewrite has been successfully deleted'
                 ));
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirectReferer();
                 return;
             }
@@ -198,6 +198,6 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/urlrewrite');
+        return AO::getSingleton('admin/session')->isAllowed('catalog/urlrewrite');
     }
 }

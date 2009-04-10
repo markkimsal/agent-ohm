@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
     {
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('catalog/category')->load($parentId);
+            $category = AO::getModel('catalog/category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('catalog/category')->getCollection()
+            $collection = AO::getModel('catalog/category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true)
             ;
@@ -127,6 +127,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
      */
     public function getLoadTreeUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('*/*/categoriesJson');
+        return AO::helper('adminhtml')->getUrl('*/*/categoriesJson');
     }
 }

@@ -51,11 +51,11 @@ class Mage_Cybersource_Model_Config extends Mage_Payment_Model_Config
 
     public function addExtraCcTypes()
     {
-        $this->_ccTypes['JCB'] = Mage::helper('cybersource')->__('JCB');
-        $this->_ccTypes['LASER'] = Mage::helper('cybersource')->__('Laser');
-        $this->_ccTypes['UATP'] = Mage::helper('cybersource')->__('UATP');
-        $this->_ccTypes['MCI'] = Mage::helper('cybersource')->__('Maestro (International)');
-        $this->_ccTypes[Mage_Cybersource_Model_Soap::CC_CARDTYPE_SS] = Mage::helper('cybersource')->__('Switch/Solo/Maestro(UK Domestic)');
+        $this->_ccTypes['JCB'] = AO::helper('cybersource')->__('JCB');
+        $this->_ccTypes['LASER'] = AO::helper('cybersource')->__('Laser');
+        $this->_ccTypes['UATP'] = AO::helper('cybersource')->__('UATP');
+        $this->_ccTypes['MCI'] = AO::helper('cybersource')->__('Maestro (International)');
+        $this->_ccTypes[Mage_Cybersource_Model_Soap::CC_CARDTYPE_SS] = AO::helper('cybersource')->__('Switch/Solo/Maestro(UK Domestic)');
 
     }
 

@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Mage_Adminhtm
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return AO::registry('current_invoice');
     }
 
     protected function _prepareLayout()

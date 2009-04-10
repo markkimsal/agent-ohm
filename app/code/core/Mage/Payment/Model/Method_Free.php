@@ -42,7 +42,7 @@ class Mage_Payment_Model_Method_Free extends Mage_Payment_Model_Method_Abstract
            return false;
         }
 
-        if (Mage::app()->getStore()->roundPrice($quote->getGrandTotal()) == 0) {
+        if (AO::app()->getStore()->roundPrice($quote->getGrandTotal()) == 0) {
             return true;
         }
         return false;

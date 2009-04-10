@@ -100,7 +100,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function getJsUrl($file)
     {
-        return Mage::getBaseUrl('js').$file;
+        return AO::getBaseUrl('js').$file;
     }
 
     /**
@@ -111,7 +111,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function getJsSkinUrl($file)
     {
-        return Mage::getDesign()->getSkinUrl($file, array());
+        return AO::getDesign()->getSkinUrl($file, array());
     }
 
     /**

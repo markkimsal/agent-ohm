@@ -38,10 +38,10 @@ class Mage_Chronopay_Model_Source_Language
     public function toOptionArray()
     {
         return array(
-            array('value' => 'EN', 'label' => Mage::helper('chronopay')->__('English')),
-            array('value' => 'RU', 'label' => Mage::helper('chronopay')->__('Russian')),
-            array('value' => 'NL', 'label' => Mage::helper('chronopay')->__('Dutch')),
-            array('value' => 'DE', 'label' => Mage::helper('chronopay')->__('German')),
+            array('value' => 'EN', 'label' => AO::helper('chronopay')->__('English')),
+            array('value' => 'RU', 'label' => AO::helper('chronopay')->__('Russian')),
+            array('value' => 'NL', 'label' => AO::helper('chronopay')->__('Dutch')),
+            array('value' => 'DE', 'label' => AO::helper('chronopay')->__('German')),
         );
     }
 }

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('tax/class')
+        $collection = AO::getModel('tax/class')
             ->getCollection()
             ->setClassTypeFilter($this->getClassType());
         $this->setCollection($collection);
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Tax_Class_Grid extends Mage_Adminhtml_Block_Widget_Gr
     {
         $this->addColumn('class_name',
             array(
-                'header'    => Mage::helper('tax')->__('Class Name'),
+                'header'    => AO::helper('tax')->__('Class Name'),
                 'align'     => 'left',
                 'index'     => 'class_name'
             )

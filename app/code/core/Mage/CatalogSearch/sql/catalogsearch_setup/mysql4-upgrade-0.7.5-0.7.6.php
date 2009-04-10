@@ -71,5 +71,5 @@ $connection->addKey($installer->getTable('catalogsearch_query'), 'IDX_SEARCH_QUE
 
 $installer->endSetup();
 
-//Mage::app()->reinitStores();
-//Mage::getModel('catalogsearch/fulltext')->rebuildIndex();
+//AO::app()->reinitStores();
+//AO::getModel('catalogsearch/fulltext')->rebuildIndex();

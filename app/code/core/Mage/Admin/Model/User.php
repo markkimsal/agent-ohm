@@ -132,7 +132,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function getRole()
     {
         if (null === $this->_role) {
-            $this->_role = Mage::getModel('admin/roles');
+            $this->_role = AO::getModel('admin/roles');
             $roles = $this->getRoles();
             if ($roles && isset($roles[0]) && $roles[0]) {
                 $this->_role->load($roles[0]);
@@ -166,7 +166,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     }
 
     public function getCollection() {
-        return Mage::getResourceModel('admin/user_collection');
+        return AO::getResourceModel('admin/user_collection');
     }
 
     /**
@@ -176,15 +176,15 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function sendNewPasswordEmail()
     {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        Mage::getModel('core/email_template')
+        AO::getModel('core/email_template')
             ->setDesignConfig(array('area' => 'adminhtml', 'store' => $this->getStoreId()))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
+                AO::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE),
+                AO::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY),
                 $this->getEmail(),
                 $this->getName(),
                 array('user' => $this, 'password' => $this->getPlainPassword()));
@@ -229,14 +229,14 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             $this->loadByUsername($username);
             if ($this->getId()) {
                 if ($this->getIsActive() != '1') {
-                    Mage::throwException(Mage::helper('adminhtml')->__('This account is inactive.'));
+                    AO::throwException(AO::helper('adminhtml')->__('This account is inactive.'));
                 }
-                if (Mage::helper('core')->validateHash($password, $this->getPassword())) {
+                if (AO::helper('core')->validateHash($password, $this->getPassword())) {
                     $result = true;
                 }
             }
 
-            Mage::dispatchEvent('admin_user_authenticated', array(
+            AO::dispatchEvent('admin_user_authenticated', array(
                 'username' => $username,
                 'password' => $password,
                 'user'     => $this,
@@ -244,7 +244,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             ));
 
             if (!$this->hasAssigned2Role($this->getId())) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Access Denied.'));
+                AO::throwException(AO::helper('adminhtml')->__('Access Denied.'));
             }
         }
         catch (Mage_Core_Exception $e) {
@@ -272,7 +272,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         }
 
         // dispatch event regardless the user was logged in or not
-        Mage::dispatchEvent('admin_user_on_login', array(
+        AO::dispatchEvent('admin_user_on_login', array(
            'user'     => $this,
            'username' => $username,
            'password' => $password,
@@ -302,7 +302,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 
     protected function _getEncodedPassword($pwd)
     {
-        return Mage::helper('core')->getHash($pwd, 2);
+        return AO::helper('core')->getHash($pwd, 2);
     }
 
     /**
@@ -316,11 +316,11 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function findFirstAvailableMenu($parent=null, $path='', $level=0)
     {
         if ($parent == null) {
-            $parent = Mage::getConfig()->getNode('adminhtml/menu');
+            $parent = AO::getConfig()->getNode('adminhtml/menu');
         }
         foreach ($parent->children() as $childName=>$child) {
             $aclResource = 'admin/' . $path . $childName;
-            if (Mage::getSingleton('admin/session')->isAllowed($aclResource)) {
+            if (AO::getSingleton('admin/session')->isAllowed($aclResource)) {
                 if (!$child->children) {
                     return (string)$child->action;
                 } else if ($child->children) {
@@ -350,11 +350,11 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function getStartupPageUrl()
     {
-        $startupPage = Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
+        $startupPage = AO::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
         $aclResource = 'admin/' . $startupPage;
-        if (Mage::getSingleton('admin/session')->isAllowed($aclResource)) {
+        if (AO::getSingleton('admin/session')->isAllowed($aclResource)) {
             $nodePath = 'adminhtml/menu/' . join('/children/', split('/', $startupPage)) . '/action';
-            if ($url = Mage::getConfig()->getNode($nodePath)) {
+            if ($url = AO::getConfig()->getNode($nodePath)) {
                 return $url;
             }
         }

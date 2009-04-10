@@ -35,9 +35,9 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
 {
     public function toOptionArray($addEmpty = true)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree = AO::getResourceModel('catalog/category_tree');
 
-        $collection = Mage::getResourceModel('catalog/category_collection');
+        $collection = AO::getResourceModel('catalog/category_collection');
 
         $collection->addAttributeToSelect('name')
             ->addPathFilter('^1/[0-9]+$')
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Category
 
         if ($addEmpty) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('-- Please select a category --'),
+                'label' => AO::helper('adminhtml')->__('-- Please select a category --'),
                 'value' => ''
             );
         }

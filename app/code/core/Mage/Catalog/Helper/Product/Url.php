@@ -44,7 +44,7 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
     public function getConvertTable()
     {
         if (is_null($this->_convertTable)) {
-            $convertNode = Mage::getConfig()->getNode('default/url/convert');
+            $convertNode = AO::getConfig()->getNode('default/url/convert');
             foreach ($convertNode->children() as $node) {
                 $this->_convertTable[strval($node->from)] = strval($node->to);
             }

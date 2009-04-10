@@ -61,7 +61,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
     protected function _getRangeExpression($range)
     {
         // dont need of this offset bc we are format date in block
-        //$timeZoneOffset = Mage::getModel('core/date')->getGmtOffset();
+        //$timeZoneOffset = AO::getModel('core/date')->getGmtOffset();
 
         switch ($range)
         {
@@ -86,7 +86,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     public function getDateRange($range, $customStart, $customEnd, $returnObjects = false)
     {
-        $dateEnd = new Zend_Date(Mage::getModel('core/date')->gmtTimestamp());
+        $dateEnd = new Zend_Date(AO::getModel('core/date')->gmtTimestamp());
         $dateStart = clone $dateEnd;
 
         // go to the end of a day
@@ -101,7 +101,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
         switch ($range)
         {
             case '24h':
-                $dateEnd = new Zend_Date(Mage::getModel('core/date')->gmtTimestamp());
+                $dateEnd = new Zend_Date(AO::getModel('core/date')->gmtTimestamp());
                 $dateEnd->addHour(1);
                 $dateStart = clone $dateEnd;
                 $dateStart->subDay(1);
@@ -142,9 +142,9 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
     public function addItemCountExpr()
     {
-//        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
+//        $orderItemEntityTypeId = AO::getResourceSingleton('sales/order_item')->getTypeId();
 //        $this->getSelect()->join(
-//                array('items'=>Mage::getResourceSingleton('sales/order_item')->getEntityTable()),
+//                array('items'=>AO::getResourceSingleton('sales/order_item')->getEntityTable()),
 //                'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,
 //                array('items_count'=>new Zend_Db_Expr('COUNT(items.entity_id)'))
 //            )
@@ -228,7 +228,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
          * getting qty count for each order
          */
 
-//        $orderItem = Mage::getResourceSingleton('sales/order_item');
+//        $orderItem = AO::getResourceSingleton('sales/order_item');
 //        /* @var $orderItem Mage_Sales_Model_Entity_Quote */
 //        $attr = $orderItem->getAttribute('parent_id');
 //        /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
@@ -383,7 +383,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
             /**
              * Join store_to_base_rate attribute
              */
-            $order = Mage::getResourceSingleton('sales/order');
+            $order = AO::getResourceSingleton('sales/order');
             /* @var $order Mage_Sales_Model_Entity_Order */
 
             $attr = $order->getAttribute('base_to_global_rate');

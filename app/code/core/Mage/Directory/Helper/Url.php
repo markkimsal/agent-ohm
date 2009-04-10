@@ -39,13 +39,13 @@ class Mage_Directory_Helper_Url extends Mage_Core_Helper_Url
     public function getSwitchCurrencyUrl()
     {
         if ($this->_getRequest()->getAlias('rewrite_request_path')) {
-            $url = Mage::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
+            $url = AO::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
         }
         else {
             $url = $this->getCurrentUrl();
         }
         $params = array(
-            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('core')->urlEncode($url)
+            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => AO::helper('core')->urlEncode($url)
         );
         return $this->_getUrl('directory/currency/switch', $params);
     }

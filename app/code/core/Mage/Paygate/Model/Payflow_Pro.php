@@ -107,16 +107,16 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                         $error = $result->getRespmsg();
                     }
                     else {
-                        $error = Mage::helper('paygate')->__('Error in authorizing the payment');
+                        $error = AO::helper('paygate')->__('Error in authorizing the payment');
                     }
                 break;
             }
         }else{
-            $error = Mage::helper('paygate')->__('Invalid amount for authorization');
+            $error = AO::helper('paygate')->__('Invalid amount for authorization');
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -158,12 +158,12 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                     $error = $result->getRespmsg();
                 }
                 else {
-                    $error = Mage::helper('paygate')->__('Error in capturing the payment');
+                    $error = AO::helper('paygate')->__('Error in capturing the payment');
                 }
             break;
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -191,7 +191,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
                 if($result->getTransstate()>1000){
                     $payment->setStatus(self::STATUS_ERROR);
-                    $payment->setStatusDescription(Mage::helper('paygate')->__('Voided transaction'));
+                    $payment->setStatusDescription(AO::helper('paygate')->__('Voided transaction'));
                 }elseif(in_array($result->getTransstate(),$this->_validVoidTransState)){
                      $payment->setStatus(self::STATUS_VOID);
                 }
@@ -199,11 +199,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg()?
                     $result->getRespmsg():
-                    Mage::helper('paygate')->__('Error in retrieving the transaction'));
+                    AO::helper('paygate')->__('Error in retrieving the transaction'));
             }
         }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction id'));
+            $payment->setStatusDescription(AO::helper('paygate')->__('Invalid transaction id'));
         }
 
         return $this;
@@ -238,11 +238,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             }
          }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $error = Mage::helper('paygate')->__('Invalid transaction id');
+            $error = AO::helper('paygate')->__('Invalid transaction id');
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
 
         return $this;
@@ -279,15 +279,15 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             }else{
                 $error = ($result->getRespmsg()?
                     $result->getRespmsg():
-                    Mage::helper('paygate')->__('Error in refunding the payment.'));
+                    AO::helper('paygate')->__('Error in refunding the payment.'));
 
             }
         }else{
-            $error = Mage::helper('paygate')->__('Error in refunding the payment');
+            $error = AO::helper('paygate')->__('Error in refunding the payment');
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
 
@@ -303,7 +303,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
             $requestData = join('&', $requestData);
 
-            $debug = Mage::getModel('paygate/authorizenet_debug')
+            $debug = AO::getModel('paygate/authorizenet_debug')
                 ->setRequestBody($requestData)
                 ->setRequestSerialized(serialize($request->getData()))
                 ->setRequestDump(print_r($request->getData(),1))
@@ -341,7 +341,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         $response = $client->setUrlEncodeBody(false)
                            ->request();
 
-        $result = Mage::getModel('paygate/payflow_pro_result');
+        $result = AO::getModel('paygate/payflow_pro_result');
 
         $response = strstr($response->getBody(), 'RESULT');
         $valArray = explode('&', $response);
@@ -375,7 +375,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTender(self::TENDER_CC);
         }
 
-        $request = Mage::getModel('paygate/payflow_pro_request')
+        $request = AO::getModel('paygate/payflow_pro_request')
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))
@@ -447,7 +447,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTender(self::TENDER_CC);
         }
 
-        $request = Mage::getModel('paygate/payflow_pro_request')
+        $request = AO::getModel('paygate/payflow_pro_request')
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))

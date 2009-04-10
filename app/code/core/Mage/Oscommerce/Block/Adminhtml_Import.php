@@ -36,8 +36,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         $this->_controller = 'adminhtml_import';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New osCommerce Profile');
+        $this->_headerText = AO::helper('adminhtml')->__('Manage osCommerce Profiles');
+        $this->_addButtonLabel = AO::helper('adminhtml')->__('Add New osCommerce Profile');
         parent::__construct();
     }
 }

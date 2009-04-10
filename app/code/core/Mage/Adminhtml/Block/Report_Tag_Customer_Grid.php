@@ -43,9 +43,9 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_customer_collection');
+        $collection = AO::getResourceModel('reports/tag_customer_collection');
 
-        $collection->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+        $collection->addStatusFilter(AO::getModel('tag/tag')->getApprovedStatus())
             ->addGroupByCustomer()
             ->addTagedCount();
 
@@ -57,24 +57,24 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>AO::helper('reports')->__('ID'),
             'width'     => '50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('reports')->__('First Name'),
+            'header'    =>AO::helper('reports')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('reports')->__('Last Name'),
+            'header'    =>AO::helper('reports')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Total Tags'),
+            'header'    =>AO::helper('reports')->__('Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
@@ -82,13 +82,13 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => AO::helper('catalog')->__('Action'),
                 'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Show Tags'),
+                        'caption' => AO::helper('catalog')->__('Show Tags'),
                         'url'     => array(
                             'base'=>'*/*/customerDetail'
                         ),
@@ -102,8 +102,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportCustomerCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

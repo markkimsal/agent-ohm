@@ -64,7 +64,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($id);
+        $order = AO::getModel('sales/order')->load($id);
 
         if (!$order->getId()) {
             $this->_getSession()->addError($this->__('This order no longer exists.'));
@@ -72,8 +72,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
-        Mage::register('sales_order', $order);
-        Mage::register('current_order', $order);
+        AO::register('sales_order', $order);
+        AO::register('current_order', $order);
         return $order;
     }
 
@@ -268,7 +268,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countCancelOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = AO::getModel('sales/order')->load($orderId);
             if ($order->canCancel()) {
                 $order->cancel()
                     ->save();
@@ -292,7 +292,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countHoldOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = AO::getModel('sales/order')->load($orderId);
             if ($order->canHold()) {
                 $order->hold()
                     ->save();
@@ -316,7 +316,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids', array());
         $countUnholdOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = Mage::getModel('sales/order')->load($orderId);
+            $order = AO::getModel('sales/order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();
@@ -354,24 +354,24 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
+                $order = AO::getModel('sales/order')->load($orderId);
 
-                $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                $invoices = AO::getResourceModel('sales/order_invoice_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize() > 0) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pdf = AO::getModel('sales/order_pdf_invoice')->getPdf($invoices);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pages = AO::getModel('sales/order_pdf_invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                return $this->_prepareDownloadResponse('invoice'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             } else {
                 $this->_getSession()->addError($this->__('There are no printable documents related to selected orders'));
                 $this->_redirect('*/*/');
@@ -387,23 +387,23 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $order = AO::getModel('sales/order')->load($orderId);
+                $shipments = AO::getResourceModel('sales/order_shipment_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pdf = AO::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pages = AO::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                return $this->_prepareDownloadResponse('packingslip'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             } else {
                 $this->_getSession()->addError($this->__('There are no printable documents related to selected orders'));
                 $this->_redirect('*/*/');
@@ -417,24 +417,24 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
+                $order = AO::getModel('sales/order')->load($orderId);
 
-                $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $creditmemos = AO::getResourceModel('sales/order_creditmemo_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pdf = AO::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pages = AO::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                return $this->_prepareDownloadResponse('creditmemo'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             } else {
                 $this->_getSession()->addError($this->__('There are no printable documents related to selected orders'));
                 $this->_redirect('*/*/');
@@ -448,52 +448,52 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
+                $order = AO::getModel('sales/order')->load($orderId);
 
-                $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+                $invoices = AO::getResourceModel('sales/order_invoice_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize()){
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pdf = AO::getModel('sales/order_pdf_invoice')->getPdf($invoices);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                        $pages = AO::getModel('sales/order_pdf_invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
 
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $shipments = AO::getResourceModel('sales/order_shipment_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()){
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pdf = AO::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                        $pages = AO::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
 
-                $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
+                $creditmemos = AO::getResourceModel('sales/order_creditmemo_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pdf = AO::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = Mage::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
+                        $pages = AO::getModel('sales/order_pdf_creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
-                return $this->_prepareDownloadResponse('docs'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                return $this->_prepareDownloadResponse('docs'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             } else {
                 $this->_getSession()->addError($this->__('There are no printable documents related to selected orders'));
                 $this->_redirect('*/*/');
@@ -505,8 +505,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     protected function _isAllowed()
     {
         if ($this->getRequest()->getActionName() == 'view') {
-            return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view');
+            return AO::getSingleton('admin/session')->isAllowed('sales/order/actions/view');
         }
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
+        return AO::getSingleton('admin/session')->isAllowed('sales/order');
     }
 }

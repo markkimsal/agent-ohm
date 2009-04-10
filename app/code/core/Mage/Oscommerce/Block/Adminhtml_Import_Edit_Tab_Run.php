@@ -46,7 +46,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('oscommerce')->__('Start Runing!'),
+                    'label'   => AO::helper('oscommerce')->__('Start Runing!'),
                     'class'   => 'run',
                     'id'      => 'run_import'
                 ))
@@ -56,7 +56,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $this->setChild('check_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('oscommerce')->__('Check requirements!'),
+                    'label'   => AO::helper('oscommerce')->__('Check requirements!'),
                     'class'   => 'run',
                     'id'      => 'check_import'
                 ))
@@ -67,7 +67,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
 
     public function getImportId()
     {
-        return Mage::registry('oscommerce_adminhtml_import')->getId();
+        return AO::registry('oscommerce_adminhtml_import')->getId();
     }
 
     /**
@@ -99,8 +99,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     {
 
         $html  = '<select id="website" name="website">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a website'). '</option>';
-        $websites = Mage::app()->getWebsites();
+        $html .= '  <option value="">'.AO::helper('oscommerce')->__('Select a website'). '</option>';
+        $websites = AO::app()->getWebsites();
         $websiteData = array();
         if ($websites) foreach($websites as $website) {
             $html .= '<option value='. $website->getId() . '>' . $website->getName() . '</option>';
@@ -112,8 +112,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     public function getTimezoneOptionHtml()
     {
         $html  = '<select id="timezone" name="timezone">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a timezone'). '</option>';
-        $options = Mage::getModel('core/locale')->getOptionTimezones();
+        $html .= '  <option value="">'.AO::helper('oscommerce')->__('Select a timezone'). '</option>';
+        $options = AO::getModel('core/locale')->getOptionTimezones();
         if ($options) foreach($options as $option) {
             $html .= '<option value='. $option['value'] . '>' . $option['label'] . '</option>';
         }
@@ -130,7 +130,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     public function getConnectionCharsets()
     {
         $charsetList = array();
-        $fileName = Mage::getModuleDir('etc','Mage_Oscommerce').DS.'charsets.xml';
+        $fileName = AO::getModuleDir('etc','Mage_Oscommerce').DS.'charsets.xml';
         if (is_readable($fileName)) {
             $xml = new Varien_Simplexml_Config();
             $xml->loadFile($fileName);
@@ -152,36 +152,36 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     public function getDataCharsets()
     {
         $charsetList = array(
-            'BIG-5'         => Mage::helper('oscommerce')->__('Traditional Chinese'),
-            'ISO-8859-2'    => Mage::helper('oscommerce')->__('Central European'),
-            'CP850'         => Mage::helper('oscommerce')->__('Western'),
-            'ISO-8859-1'    => Mage::helper('oscommerce')->__('Western'),
-            'HP-ROMAN8'     => Mage::helper('oscommerce')->__('Western'),
-            'KOI8-R'        => Mage::helper('oscommerce')->__('Cyrillic'),
-            'ASCII'         => Mage::helper('oscommerce')->__('Western'),
-            'EUC-JP'        => Mage::helper('oscommerce')->__('Japanese'),
-            'SHIFT-JIS'     => Mage::helper('oscommerce')->__('Japanese'),
-            'windows-1251'  => Mage::helper('oscommerce')->__('Cyrillic'),
-            'ISO-8859-8'    => Mage::helper('oscommerce')->__('Hebrew'),
-            'TIS-620'       => Mage::helper('oscommerce')->__('Thai'),
-            'EUC-KR'        => Mage::helper('oscommerce')->__('Korean'),
-            'ISO-8859-13'   => Mage::helper('oscommerce')->__('Baltic'),
-            'KOI8-U'        => Mage::helper('oscommerce')->__('Cyrillic'),
-            'CHINESE'       => Mage::helper('oscommerce')->__('Simplified Chinese'),
-            'ISO-8859-7'    => Mage::helper('oscommerce')->__('Greek'),
-            'WINDOWS-1250'  => Mage::helper('oscommerce')->__('Central European'),
-            'CP936'         => Mage::helper('oscommerce')->__('East Asian'),
-            'WINDOWS-1257'  => Mage::helper('oscommerce')->__('Baltic'),
-            'ISO-8859-9'    => Mage::helper('oscommerce')->__('South Asian'),
-            'ARMSCII-8'     => Mage::helper('oscommerce')->__('South Asian'),
-            'UTF-8'         => Mage::helper('oscommerce')->__('Unicode'),
-            'UCS-2'         => Mage::helper('oscommerce')->__('Unicode'),
-            'CP866'         => Mage::helper('oscommerce')->__('Cyrillic'),
-            'MACCENTRALEUROPE' => Mage::helper('oscommerce')->__('Central European'),
-            'MAC'           => Mage::helper('oscommerce')->__('Western'),
-            'CP852'         => Mage::helper('oscommerce')->__('Central European'),
-            'CP1256'        => Mage::helper('oscommerce')->__('Arabic'),
-            'CP932'         => Mage::helper('oscommerce')->__('Japanese'),
+            'BIG-5'         => AO::helper('oscommerce')->__('Traditional Chinese'),
+            'ISO-8859-2'    => AO::helper('oscommerce')->__('Central European'),
+            'CP850'         => AO::helper('oscommerce')->__('Western'),
+            'ISO-8859-1'    => AO::helper('oscommerce')->__('Western'),
+            'HP-ROMAN8'     => AO::helper('oscommerce')->__('Western'),
+            'KOI8-R'        => AO::helper('oscommerce')->__('Cyrillic'),
+            'ASCII'         => AO::helper('oscommerce')->__('Western'),
+            'EUC-JP'        => AO::helper('oscommerce')->__('Japanese'),
+            'SHIFT-JIS'     => AO::helper('oscommerce')->__('Japanese'),
+            'windows-1251'  => AO::helper('oscommerce')->__('Cyrillic'),
+            'ISO-8859-8'    => AO::helper('oscommerce')->__('Hebrew'),
+            'TIS-620'       => AO::helper('oscommerce')->__('Thai'),
+            'EUC-KR'        => AO::helper('oscommerce')->__('Korean'),
+            'ISO-8859-13'   => AO::helper('oscommerce')->__('Baltic'),
+            'KOI8-U'        => AO::helper('oscommerce')->__('Cyrillic'),
+            'CHINESE'       => AO::helper('oscommerce')->__('Simplified Chinese'),
+            'ISO-8859-7'    => AO::helper('oscommerce')->__('Greek'),
+            'WINDOWS-1250'  => AO::helper('oscommerce')->__('Central European'),
+            'CP936'         => AO::helper('oscommerce')->__('East Asian'),
+            'WINDOWS-1257'  => AO::helper('oscommerce')->__('Baltic'),
+            'ISO-8859-9'    => AO::helper('oscommerce')->__('South Asian'),
+            'ARMSCII-8'     => AO::helper('oscommerce')->__('South Asian'),
+            'UTF-8'         => AO::helper('oscommerce')->__('Unicode'),
+            'UCS-2'         => AO::helper('oscommerce')->__('Unicode'),
+            'CP866'         => AO::helper('oscommerce')->__('Cyrillic'),
+            'MACCENTRALEUROPE' => AO::helper('oscommerce')->__('Central European'),
+            'MAC'           => AO::helper('oscommerce')->__('Western'),
+            'CP852'         => AO::helper('oscommerce')->__('Central European'),
+            'CP1256'        => AO::helper('oscommerce')->__('Arabic'),
+            'CP932'         => AO::helper('oscommerce')->__('Japanese'),
         );
         return $charsetList;
     }
@@ -201,7 +201,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     {
 
         $html  = '<select id="data_charset" name="data_charset">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a data charset'). '</option>';
+        $html .= '  <option value="">'.AO::helper('oscommerce')->__('Select a data charset'). '</option>';
         $html .= $this->drowOptions($this->getDataCharsets());
         $html .= '</select>';
         return $html;
@@ -210,7 +210,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     public function getConnectionCharsetOptionHtml()
     {
         $html  = '<select id="connection_charset" name="connection_charset">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a connection charset'). '</option>';
+        $html .= '  <option value="">'.AO::helper('oscommerce')->__('Select a connection charset'). '</option>';
         $html .= $this->drowOptions($this->getConnectionCharsets());
         $html .= '</select>';
         return $html;
@@ -224,7 +224,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     public function getCharsetOption()
     {
         $options = '';
-        $fileName = Mage::getModuleDir('etc','Mage_Oscommerce').DS.'charsets.xml';
+        $fileName = AO::getModuleDir('etc','Mage_Oscommerce').DS.'charsets.xml';
         if (is_readable($fileName)) {
             $xml = new Varien_Simplexml_Config();
             $xml->loadFile($fileName);

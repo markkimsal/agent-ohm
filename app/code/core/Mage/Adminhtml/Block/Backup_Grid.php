@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getSingleton('backup/fs_collection');
+        $collection = AO::getSingleton('backup/fs_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -56,16 +56,16 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
-        $url7zip = Mage::helper('adminhtml')->__('The archive can be uncompressed with <a href="%s">%s</a> on Windows systems', 'http://www.7-zip.org/', '7-Zip');
+        $url7zip = AO::helper('adminhtml')->__('The archive can be uncompressed with <a href="%s">%s</a> on Windows systems', 'http://www.7-zip.org/', '7-Zip');
 
         $this->addColumn('time', array(
-            'header'    => Mage::helper('backup')->__('Time'),
+            'header'    => AO::helper('backup')->__('Time'),
             'index'     => 'time_formated',
             'type'      => 'datetime'
         ));
 
         $this->addColumn('size', array(
-            'header'    => Mage::helper('backup')->__('Size, byte'),
+            'header'    => AO::helper('backup')->__('Size, byte'),
             'index'     => 'size',
             'type'      => 'number',
             'sortable'  => false,
@@ -73,14 +73,14 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('backup')->__('Type'),
+            'header'    => AO::helper('backup')->__('Type'),
             'filter'    => 'adminhtml/backup_grid_filter_type',
             'renderer'  => 'adminhtml/backup_grid_renderer_type',
             'index'     =>'type'
         ));
 
         $this->addColumn('download', array(
-            'header'    => Mage::helper('backup')->__('Download'),
+            'header'    => AO::helper('backup')->__('Download'),
             'format'    => '<a href="' . $this->getUrl('*/*/download', array('time' => '$time', 'type' => '$type')) .'">gz</a> &nbsp; <small>('.$url7zip.')</small>',
             'index'     => 'type',
             'sortable'  => false,
@@ -88,15 +88,15 @@ class Mage_Adminhtml_Block_Backup_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('backup')->__('Action'),
+            'header'    => AO::helper('backup')->__('Action'),
             'type'      => 'action',
             'width'     => '80px',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(array(
                 'url'       => $this->getUrl('*/*/delete', array('time' => '$time', 'type' => '$type')),
-                'caption'   => Mage::helper('adminhtml')->__('Delete'),
-                'confirm'   => Mage::helper('adminhtml')->__('Are you sure you want to do this?')
+                'caption'   => AO::helper('adminhtml')->__('Delete'),
+                'confirm'   => AO::helper('adminhtml')->__('Are you sure you want to do this?')
             )),
             'index'     => 'type',
             'sortable'  => false

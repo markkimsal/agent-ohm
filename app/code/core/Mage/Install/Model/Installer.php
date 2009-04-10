@@ -55,7 +55,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function isApplicationInstalled()
     {
-        return Mage::isInstalled();
+        return AO::isInstalled();
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function getDataModel()
     {
         if (is_null($this->_dataModel)) {
-            $this->setDataModel(Mage::getSingleton('install/session'));
+            $this->setDataModel(AO::getSingleton('install/session'));
         }
         return $this->_dataModel;
     }
@@ -91,7 +91,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function checkDownloads()
     {
         try {
-            $result = Mage::getModel('install/installer_pear')->checkDownloads();
+            $result = AO::getModel('install/installer_pear')->checkDownloads();
             $result = true;
         } catch (Exception $e) {
             $result = false;
@@ -108,9 +108,9 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function checkServer()
     {
         try {
-            Mage::getModel('install/installer_filesystem')->install();
+            AO::getModel('install/installer_filesystem')->install();
 
-            Mage::getModel('install/installer_env')->install();
+            AO::getModel('install/installer_env')->install();
             $result = true;
         } catch (Exception $e) {
             $result = false;
@@ -142,8 +142,8 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function installConfig($data)
     {
         $data['db_active'] = true;
-        Mage::getSingleton('install/installer_db')->checkDatabase($data);
-        Mage::getSingleton('install/installer_config')
+        AO::getSingleton('install/installer_db')->checkDatabase($data);
+        AO::getSingleton('install/installer_config')
             ->setConfigData($data)
             ->install();
         return $this;
@@ -168,7 +168,7 @@ class Mage_Install_Model_Installer extends Varien_Object
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_USE_REWRITES, 1);
         }
 
-        $unsecureBaseUrl = Mage::getBaseUrl('web');
+        $unsecureBaseUrl = AO::getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
@@ -188,7 +188,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         /**
          * Saving locale information into DB
          */
-        $locale = Mage::getSingleton('install/session')->getLocaleData();
+        $locale = AO::getSingleton('install/session')->getLocaleData();
         if (!empty($locale['locale'])) {
             $setupModel->setConfigData(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $locale['locale']);
         }
@@ -212,18 +212,18 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function createAdministrator($data)
     {
-        $user = Mage::getModel('admin/user')
+        $user = AO::getModel('admin/user')
             ->load('admin', 'username');
         if ($user && $user->getPassword()=='4297f44b13955235245b2497399d7a93') {
             $user->delete();
         }
 
-        $user = Mage::getModel('admin/user')
+        $user = AO::getModel('admin/user')
             ->load($data['username'], 'username');
         $user->addData($data)->save();
         $user->setRoleIds(array(1))->saveRelations();
 
-        /*Mage::getModel("permissions/user")->setRoleId(1)
+        /*AO::getModel("permissions/user")->setRoleId(1)
             ->setUserId($user->getId())
             ->setFirstname($user->getFirstname())
             ->add();*/
@@ -240,22 +240,22 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function installEnryptionKey($key)
     {
         if ($key) {
-            Mage::helper('core')->validateKey($key);
+            AO::helper('core')->validateKey($key);
         }
-        Mage::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
+        AO::getSingleton('install/installer_config')->replaceTmpEncryptKey($key);
         return $this;
     }
 
     public function finish()
     {
-        Mage::getSingleton('install/installer_config')->replaceTmpInstallDate();
-        Mage::app()->cleanCache();
+        AO::getSingleton('install/installer_config')->replaceTmpInstallDate();
+        AO::app()->cleanCache();
 
         $cacheData = array();
-        foreach (Mage::helper('core')->getCacheTypes() as $type=>$label) {
+        foreach (AO::helper('core')->getCacheTypes() as $type=>$label) {
             $cacheData[$type] = 1;
         }
-        Mage::app()->saveUseCache($cacheData);
+        AO::app()->saveUseCache($cacheData);
         return $this;
     }
 

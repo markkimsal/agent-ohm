@@ -41,7 +41,7 @@ class Mage_AdminNotification_Model_Observer
      */
     public function preDispatch(Varien_Event_Observer $observer)
     {
-        $feedModel  = Mage::getModel('adminnotification/feed');
+        $feedModel  = AO::getModel('adminnotification/feed');
         /* @var $feedModel Mage_AdminNotification_Model_Feed */
 
         $feedModel->checkUpdate();

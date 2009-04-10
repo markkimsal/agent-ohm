@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons extends Mage_Adminhtml_Block_Wid
     public function __construct()
     {
         $this->_controller = 'report_sales_coupons';
-        $this->_headerText = Mage::helper('reports')->__('Coupons');
+        $this->_headerText = AO::helper('reports')->__('Coupons');
         parent::__construct();
         $this->_removeButton('add');
     }

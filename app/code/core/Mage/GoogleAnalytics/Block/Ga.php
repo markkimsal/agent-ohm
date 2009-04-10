@@ -54,7 +54,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
             return '';
         }
 
-        $orders = Mage::getResourceModel('sales/order_collection')
+        $orders = AO::getResourceModel('sales/order_collection')
             ->addAttributeToFilter('quote_id', $quoteId)
             ->load();
 
@@ -80,7 +80,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
         }
 
         if (!$order instanceof Mage_Sales_Model_Order) {
-            $order = Mage::getModel('sales/order')->load($order);
+            $order = AO::getModel('sales/order')->load($order);
         }
 
         if (!$order) {
@@ -132,7 +132,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
     public function getAccount()
     {
         if (!$this->hasData('account')) {
-            $this->setAccount(Mage::getStoreConfig('google/analytics/account'));
+            $this->setAccount(AO::getStoreConfig('google/analytics/account'));
         }
         return $this->getData('account');
     }
@@ -149,7 +149,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
             //if ($this->getRequest() && $this->getRequest()->getQuery()) {
             //    $queryStr = '?' . http_build_query($this->getRequest()->getQuery());
             //}
-            $this->setPageName(Mage::getSingleton('core/url')->escape($_SERVER['REQUEST_URI']));
+            $this->setPageName(AO::getSingleton('core/url')->escape($_SERVER['REQUEST_URI']));
         }
         return $this->getData('page_name');
     }
@@ -161,7 +161,7 @@ class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Text
      */
     protected function _toHtml()
     {
-        if (!Mage::getStoreConfigFlag('google/analytics/active')) {
+        if (!AO::getStoreConfigFlag('google/analytics/active')) {
             return '';
         }
 
@@ -185,7 +185,7 @@ pageTracker._trackPageview("'.$this->getPageName().'");
         $this->addText($this->getQuoteOrdersHtml());
 
         if ($this->getGoogleCheckout()) {
-            $protocol = Mage::app()->getStore()->isCurrentlySecure() ? 'https' : 'http';
+            $protocol = AO::app()->getStore()->isCurrentlySecure() ? 'https' : 'http';
             $this->addText('<script src="'.$protocol.'://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>');
         }
 

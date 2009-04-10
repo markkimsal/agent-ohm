@@ -38,7 +38,7 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
      */
     protected function _getCurrencyCodes()
     {
-        return Mage::getModel('directory/currency')->getConfigAllowCurrencies();
+        return AO::getModel('directory/currency')->getConfigAllowCurrencies();
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
      */
     protected function _getDefaultCurrencyCodes()
     {
-        return Mage::getModel('directory/currency')->getConfigBaseCurrencies();
+        return AO::getModel('directory/currency')->getConfigBaseCurrencies();
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class Mage_Directory_Model_Currency_Import_Abstract
     protected function _saveRates($rates)
     {
         foreach ($rates as $currencyCode => $currencyRates) {
-        	Mage::getModel('directory/currency')
+        	AO::getModel('directory/currency')
                 ->setId($currencyCode)
                 ->setRates($currencyRates)
                 ->save();

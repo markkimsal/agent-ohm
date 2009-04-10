@@ -38,16 +38,16 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type
     public function toOptionArray()
     {
         $groups = array(
-            array('value' => '', 'label' => Mage::helper('adminhtml')->__('-- Please select --'))
+            array('value' => '', 'label' => AO::helper('adminhtml')->__('-- Please select --'))
         );
 
-        foreach (Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
+        foreach (AO::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
             $types = array();
             $typesPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/types';
-            foreach (Mage::getConfig()->getNode($typesPath)->children() as $type) {
+            foreach (AO::getConfig()->getNode($typesPath)->children() as $type) {
                 $labelPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/types/' . $type->getName() . '/label';
                 $types[] = array(
-                    'label' => (string) Mage::getConfig()->getNode($labelPath),
+                    'label' => (string) AO::getConfig()->getNode($labelPath),
                     'value' => $type->getName()
                 );
             }
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Product_Options_Type
             $labelPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/label';
 
             $groups[] = array(
-                'label' => (string) Mage::getConfig()->getNode($labelPath),
+                'label' => (string) AO::getConfig()->getNode($labelPath),
                 'value' => $types
             );
         }

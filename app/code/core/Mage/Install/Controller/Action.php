@@ -31,7 +31,7 @@ class Mage_Install_Controller_Action extends Mage_Core_Controller_Varien_Action
     {
         parent::_construct();
         
-        Mage::getDesign()->setArea('install')
+        AO::getDesign()->setArea('install')
             ->setPackageName('default')
             ->setTheme('default');
 

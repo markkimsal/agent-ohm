@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit extends Mage_Adminhtml_Block_Wi
 
     public function getHeaderText()
     {
-        $ext = Mage::registry('local_extension');
+        $ext = AO::registry('local_extension');
         return $this->htmlEscape($ext->getName());
     }
 }

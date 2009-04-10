@@ -43,11 +43,11 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_product_collection');
+        $collection = AO::getResourceModel('reports/tag_product_collection');
 
         $collection->addTagedCount()
             ->addProductFilter($this->getRequest()->getParam('id'))
-            ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+            ->addStatusFilter(AO::getModel('tag/tag')->getApprovedStatus())
             ->addStoresVisibility()
             ->setActiveFilter()
             ->addGroupByTag()
@@ -61,19 +61,19 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
     {
 
         $this->addColumn('tag_name', array(
-            'header'    =>Mage::helper('reports')->__('Tag Name'),
+            'header'    =>AO::helper('reports')->__('Tag Name'),
             'index'     =>'tag_name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Tag use'),
+            'header'    =>AO::helper('reports')->__('Tag use'),
             'index'     =>'taged',
             'align'     => 'right'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('visible', array(
-                'header'    => Mage::helper('reports')->__('Visible In'),
+                'header'    => AO::helper('reports')->__('Visible In'),
                 'sortable'  => false,
                 'index'     =>  'stores',
                 'type'      => 'store',
@@ -81,8 +81,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid extends Mage_Adminhtml
             ));
         }
 
-        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductDetailExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportProductDetailCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductDetailExcel', AO::helper('reports')->__('Excel'));
 
         $this->setFilterVisibility(false);
 

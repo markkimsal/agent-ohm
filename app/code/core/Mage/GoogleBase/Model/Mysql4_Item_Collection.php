@@ -74,8 +74,8 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
      */
     protected function _joinTables()
     {
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-        $attribute = Mage::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
+        $entityType = AO::getSingleton('eav/config')->getEntityType('catalog_product');
+        $attribute = AO::getModel('eav/config')->getAttribute($entityType->getEntityTypeId(),'name');
 
         $joinConditionDefault = sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
             $attribute->getAttributeId()

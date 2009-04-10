@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Adminhtml_Block_Temp
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
+            AO::throwException(AO::helper('adminhtml')->__('Invalid parrent block for this block'));
         }
         $this->setPayment($this->getParentBlock()->getOrder()->getPayment());
         parent::_beforeToHtml();
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Sales_Order_Payment extends Mage_Adminhtml_Block_Temp
 
     public function setPayment($payment)
     {
-        $paymentInfoBlock = Mage::helper('payment')->getInfoBlock($payment);
+        $paymentInfoBlock = AO::helper('payment')->getInfoBlock($payment);
         if ($payment->getMethod() == 'ccsave') {
             $paymentInfoBlock->setTemplate('payment/info/ccsave.phtml');
         }

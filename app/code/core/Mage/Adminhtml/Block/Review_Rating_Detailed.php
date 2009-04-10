@@ -39,20 +39,20 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_T
     {
         parent::__construct();
         $this->setTemplate('rating/detailed.phtml');
-        if( Mage::registry('review_data') ) {
-            $this->setReviewId(Mage::registry('review_data')->getReviewId());
+        if( AO::registry('review_data') ) {
+            $this->setReviewId(AO::registry('review_data')->getReviewId());
         }
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            if( Mage::registry('review_data') ) {
-                $stores = Mage::registry('review_data')->getStores();
+            if( AO::registry('review_data') ) {
+                $stores = AO::registry('review_data')->getStores();
 
                 $stores = array_diff($stores, array(0));
 
-                $ratingCollection = Mage::getModel('rating/rating')
+                $ratingCollection = AO::getModel('rating/rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter($stores)
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_T
                     ->load()
                     ->addOptionToItems();
 
-                $this->_voteCollection = Mage::getModel('rating/rating_option_vote')
+                $this->_voteCollection = AO::getModel('rating/rating_option_vote')
                     ->getResourceCollection()
                     ->setReviewFilter($this->getReviewId())
                     ->addOptionInfo()
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_T
                     ->addRatingOptions();
 
             } elseif (!$this->getIsIndependentMode()) {
-                $ratingCollection = Mage::getModel('rating/rating')
+                $ratingCollection = AO::getModel('rating/rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter(null)
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_T
                     ->load()
                     ->addOptionToItems();
             } else {
-                 $ratingCollection = Mage::getModel('rating/rating')
+                 $ratingCollection = AO::getModel('rating/rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter($this->getRequest()->getParam('select_stores') ? $this->getRequest()->getParam('select_stores') : $this->getRequest()->getParam('stores'))

@@ -49,12 +49,12 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>AO::helper('reports')->__('Product Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('reports')->__('Price'),
+            'header'    =>AO::helper('reports')->__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => $this->getCurrentCurrencyCode(),
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
         ));
 
         $this->addColumn('ordered_qty', array(
-            'header'    =>Mage::helper('reports')->__('Quantity Ordered'),
+            'header'    =>AO::helper('reports')->__('Quantity Ordered'),
             'width'     =>'120px',
             'align'     =>'right',
             'index'     =>'ordered_qty',
@@ -70,8 +70,8 @@ class Mage_Adminhtml_Block_Report_Product_Ordered_Grid extends Mage_Adminhtml_Bl
             'type'      =>'number'
         ));
 
-        $this->addExportType('*/*/exportOrderedCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportOrderedExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportOrderedCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportOrderedExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

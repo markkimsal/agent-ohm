@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('rotatecw'),
-                    'label'   => Mage::helper('adminhtml')->__('Rotate CW'),
+                    'label'   => AO::helper('adminhtml')->__('Rotate CW'),
                     'onclick' => $this->getJsObjectName() . '.rotateCw()'
                 ))
         );
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('rotateccw'),
-                    'label'   => Mage::helper('adminhtml')->__('Rotate CCW'),
+                    'label'   => AO::helper('adminhtml')->__('Rotate CCW'),
                     'onclick' => $this->getJsObjectName() . '.rotateCCw()'
                 ))
         );
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('adminhtml')->__('Resize'),
+                    'label'   => AO::helper('adminhtml')->__('Resize'),
                     'onclick' => $this->getJsObjectName() . '.resize()'
                 ))
         );
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('image'),
-                    'label'   => Mage::helper('adminhtml')->__('Get Image Base64'),
+                    'label'   => AO::helper('adminhtml')->__('Get Image Base64'),
                     'onclick' => $this->getJsObjectName() . '.getImage()'
                 ))
         );

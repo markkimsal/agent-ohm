@@ -40,7 +40,7 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
 
     public function getProductId()
     {
-        if ($product = Mage::registry('current_product')) {
+        if ($product = AO::registry('current_product')) {
             return $product->getId();
         }
         return false;
@@ -50,12 +50,12 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
     {
         if( !$this->_collection && $this->getProductId() ) {
 
-            $model = Mage::getModel('tag/tag');
+            $model = AO::getModel('tag/tag');
             $this->_collection = $model->getResourceCollection()
                 ->addPopularity()
                 ->addStatusFilter($model->getApprovedStatus())
                 ->addProductFilter($this->getProductId())
-                ->addStoreFilter(Mage::app()->getStore()->getId())
+                ->addStoreFilter(AO::app()->getStore()->getId())
                 ->setActiveFilter()
                 ->load();
         }
@@ -73,9 +73,9 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
 
     public function getFormAction()
     {
-        return Mage::getUrl('tag/index/save', array(
+        return AO::getUrl('tag/index/save', array(
             'product' => $this->getProductId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => Mage::helper('core/url')->getEncodedUrl()
+            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => AO::helper('core/url')->getEncodedUrl()
         ));
     }
 }

@@ -40,37 +40,37 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('adminhtml')->__('Template Information'),'class'=>'fieldset-wide')
+            array('legend'=>AO::helper('adminhtml')->__('Template Information'),'class'=>'fieldset-wide')
         );
 
         $fieldset->addField('template_code', 'text', array(
             'name'=>'template_code',
-            'label' => Mage::helper('adminhtml')->__('Template Name'),
+            'label' => AO::helper('adminhtml')->__('Template Name'),
             'required' => true
 
         ));
 
         $fieldset->addField('template_subject', 'text', array(
             'name'=>'template_subject',
-            'label' => Mage::helper('adminhtml')->__('Template Subject'),
+            'label' => AO::helper('adminhtml')->__('Template Subject'),
             'required' => true
         ));
 
         $fieldset->addField('template_text', 'editor', array(
             'name'=>'template_text',
-            'wysiwyg' => !Mage::registry('email_template')->isPlain(),
-            'label' => Mage::helper('adminhtml')->__('Template Content'),
+            'wysiwyg' => !AO::registry('email_template')->isPlain(),
+            'label' => AO::helper('adminhtml')->__('Template Content'),
             'required' => true,
             'theme' => 'advanced',
             'state' => 'html',
            	'style' => 'height:24em;',
         ));
 
-        if (Mage::registry('email_template')->getId()) {
-            $form->addValues(Mage::registry('email_template')->getData());
+        if (AO::registry('email_template')->getId()) {
+            $form->addValues(AO::registry('email_template')->getData());
         }
 
-        if ($values = Mage::getSingleton('adminhtml/session')->getData('email_template_form_data', true)) {
+        if ($values = AO::getSingleton('adminhtml/session')->getData('email_template_form_data', true)) {
         	$form->setValues($values);
         }
 

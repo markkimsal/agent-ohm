@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model
             return;
         }
 
-        $path = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
+        $path = AO::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
 
         try {
             $uploader = new Varien_File_Uploader($this->getAttribute()->getName());

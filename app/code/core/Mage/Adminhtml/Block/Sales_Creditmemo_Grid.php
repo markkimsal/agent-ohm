@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_Creditmemo_collection')
+        $collection = AO::getResourceModel('sales/order_Creditmemo_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
@@ -61,48 +61,48 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('sales')->__('Credit Memo #'),
+            'header'    => AO::helper('sales')->__('Credit Memo #'),
             'index'     => 'increment_id',
             'type'      => 'number',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('sales')->__('Created At'),
+            'header'    => AO::helper('sales')->__('Created At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header'    => Mage::helper('sales')->__('Order #'),
+            'header'    => AO::helper('sales')->__('Order #'),
             'index'     => 'order_increment_id',
             'type'      => 'number',
         ));
 
         $this->addColumn('order_created_at', array(
-            'header'    => Mage::helper('sales')->__('Order Date'),
+            'header'    => AO::helper('sales')->__('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('billing_firstname', array(
-            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'header' => AO::helper('sales')->__('Bill to First name'),
             'index' => 'billing_firstname',
         ));
 
         $this->addColumn('billing_lastname', array(
-            'header' => Mage::helper('sales')->__('Bill to Last name'),
+            'header' => AO::helper('sales')->__('Bill to Last name'),
             'index' => 'billing_lastname',
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('sales')->__('Status'),
+            'header'    => AO::helper('sales')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('sales/order_creditmemo')->getStates(),
+            'options'   => AO::getModel('sales/order_creditmemo')->getStates(),
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('customer')->__('Refunded'),
+            'header'    => AO::helper('customer')->__('Refunded'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'align'     => 'right',
@@ -111,13 +111,13 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('sales')->__('Action'),
+                'header'    => AO::helper('sales')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('sales')->__('View'),
+                        'caption' => AO::helper('sales')->__('View'),
                         'url'     => array('base'=>'*/*/view'),
                         'field'   => 'creditmemo_id'
                     )
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         $this->getMassactionBlock()->setFormFieldName('creditmemo_ids');
 
         $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
-             'label'=> Mage::helper('sales')->__('PDF Credit Memos'),
+             'label'=> AO::helper('sales')->__('PDF Credit Memos'),
              'url'  => $this->getUrl('*/*/pdfcreditmemos'),
         ));
 

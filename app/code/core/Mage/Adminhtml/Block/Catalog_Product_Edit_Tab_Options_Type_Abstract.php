@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Abstract extend
                     'class' => 'select product-option-price-type'
                 ))
                 ->setName('product[options][{{option_id}}][price_type]')
-                ->setOptions(Mage::getSingleton('adminhtml/system_config_source_product_options_price')->toOptionArray())
+                ->setOptions(AO::getSingleton('adminhtml/system_config_source_product_options_price')->toOptionArray())
         );
 
         return parent::_prepareLayout();

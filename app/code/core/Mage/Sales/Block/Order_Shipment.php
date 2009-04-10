@@ -62,35 +62,35 @@ class Mage_Sales_Block_Order_Shipment extends Mage_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return AO::getUrl('*/*/history');
     }
 
     public function getInvoiceUrl($order)
     {
-        return Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/invoice', array('order_id' => $order->getId()));
     }
 
     public function getViewUrl($order)
     {
-        return Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/view', array('order_id' => $order->getId()));
     }
 
     public function getCreditmemoUrl($order)
     {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
 
 
     public function getPrintShipmentUrl($shipment){
-        return Mage::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
+        return AO::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
     }
 
     public function getPrintAllShipmentsUrl($order){
-        return Mage::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
     }
 }

@@ -46,8 +46,8 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
     public function getOrder()
     {
         if ($this->_order == null) {
-            $session = Mage::getSingleton('checkout/session');
-            $this->_order = Mage::getModel('sales/order');
+            $session = AO::getSingleton('checkout/session');
+            $this->_order = AO::getModel('sales/order');
             $this->_order->loadByIncrementId($session->getLastRealOrderId());
         }
         return $this->_order;
@@ -59,7 +59,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setCybermutPaymentQuoteId($session->getQuoteId());
 
         $order = $this->getOrder();
@@ -71,7 +71,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('cybermut')->__('Customer was redirected to Cybermut')
+            AO::helper('cybermut')->__('Customer was redirected to Cybermut')
         );
         $order->save();
 
@@ -90,7 +90,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function notifyAction()
     {
-        $model = Mage::getModel('cybermut/payment');
+        $model = AO::getModel('cybermut/payment');
 
         if (!$this->getRequest()->isPost()) {
             $model->generateErrorResponse();
@@ -101,12 +101,12 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
         $correctMAC = $model->getResponseMAC($postData);
 
         if ($model->getConfigData('debug_flag')) {
-            Mage::getModel('cybermut/api_debug')
+            AO::getModel('cybermut/api_debug')
                 ->setResponseBody(print_r($postData ,1))
                 ->save();
         }
 
-        $order = Mage::getModel('sales/order')
+        $order = AO::getModel('sales/order')
             ->loadByIncrementId($this->getRequest()->getPost('reference'));
 
         if (!$order->getId()) {
@@ -124,7 +124,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
         } else {
             $order->addStatusToHistory(
                 $order->getStatus(),
-                Mage::helper('cybermut')->__('Returned MAC is invalid. Order cancelled.')
+                AO::helper('cybermut')->__('Returned MAC is invalid. Order cancelled.')
             );
             $order->cancel();
             $order->save();
@@ -143,7 +143,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
         if ($order->canInvoice()) {
             $invoice = $order->prepareInvoice();
             $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
+            AO::getModel('core/resource_transaction')
                ->addObject($invoice)
                ->addObject($invoice->getOrder())
                ->save();
@@ -158,7 +158,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function successAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setQuoteId($session->getCybermutPaymentQuoteId());
         $session->unsCybermutPaymentQuoteId();
 
@@ -171,7 +171,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('cybermut')->__('Customer successfully returned from Cybermut')
+            AO::helper('cybermut')->__('Customer successfully returned from Cybermut')
         );
 
         $order->save();
@@ -183,7 +183,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
      */
     public function errorAction()
     {
-        $errorMsg = Mage::helper('cybermut')->__(' There was an error occurred during paying process.');
+        $errorMsg = AO::helper('cybermut')->__(' There was an error occurred during paying process.');
 
         $order = $this->getOrder();
 
@@ -194,7 +194,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
         if ($order instanceof Mage_Sales_Model_Order && $order->getId()) {
             $order->addStatusToHistory(
                 $order->getStatus(),
-                Mage::helper('cybermut')->__('Customer returned from Cybermut.') . $errorMsg
+                AO::helper('cybermut')->__('Customer returned from Cybermut.') . $errorMsg
             );
             $order->cancel();
             $order->save();
@@ -202,6 +202,6 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
 
         $this->loadLayout();
         $this->renderLayout();
-        Mage::getSingleton('checkout/session')->unsLastRealOrderId();
+        AO::getSingleton('checkout/session')->unsLastRealOrderId();
     }
 }

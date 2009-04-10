@@ -32,11 +32,11 @@ class Mage_Adminhtml_Block_Permissions_Tab_Userroles extends Mage_Adminhtml_Bloc
 
         $uid = $this->getRequest()->getParam('id', false);
         $uid = !empty($uid) ? $uid : 0;
-        $roles = Mage::getModel("admin/roles")
+        $roles = AO::getModel("admin/roles")
             ->getCollection()
             ->load();
 
-        $user_roles = Mage::getModel("admin/roles")
+        $user_roles = AO::getModel("admin/roles")
             ->getUsersCollection()
             ->setUserFilter($uid)
             ->load();

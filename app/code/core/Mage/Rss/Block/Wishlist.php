@@ -35,22 +35,22 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
 {
     protected function _toHtml()
     {
-        $descrpt = Mage::helper('core')->urlDecode($this->getRequest()->getParam('data'));
+        $descrpt = AO::helper('core')->urlDecode($this->getRequest()->getParam('data'));
         $data = explode(',',$descrpt);
         $cid = (int)$data[0];
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
 
         if ($cid) {
-            $customer = Mage::getModel('customer/customer')->load($cid);
+            $customer = AO::getModel('customer/customer')->load($cid);
             if ($customer && $customer->getId()) {
 
-                $wishlist = Mage::getModel('wishlist/wishlist')
+                $wishlist = AO::getModel('wishlist/wishlist')
                 ->loadByCustomer($customer, true);
 
-                $newurl = Mage::getUrl('wishlist/shared/index',array('code'=>$wishlist->getSharingCode()));
-                $title = Mage::helper('rss')->__('%s\'s Wishlist',$customer->getName());
-                $lang = Mage::getStoreConfig('general/locale/code');
+                $newurl = AO::getUrl('wishlist/shared/index',array('code'=>$wishlist->getSharingCode()));
+                $title = AO::helper('rss')->__('%s\'s Wishlist',$customer->getName());
+                $lang = AO::getStoreConfig('general/locale/code');
 
                 $data = array('title' => $title,
                     'description' => $title,
@@ -68,16 +68,16 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
                             ->addAttributeToFilter('store_id', array('in'=> $wishlist->getSharedStoreIds()))
                             ->load();
 
-                $product = Mage::getModel('catalog/product');
+                $product = AO::getModel('catalog/product');
                 foreach($collection as $item){
                     $product->unsetData()->load($item->getProductId());
                     $description = '<table><tr>'.
                         '<td><a href="'.$item->getProductUrl().'"><img src="' . $this->helper('catalog/image')->init($item, 'thumbnail')->resize(75, 75) . '" border="0" align="left" height="75" width="75"></a></td>'.
                         '<td  style="text-decoration:none;">'.
                         $product->getDescription().
-                        '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-                        ($product->getPrice() != $product->getFinalPrice() ? ' Special Price:'. Mage::helper('core')->currency($product->getFinalPrice()) : '').
-                        ($item->getDescription() && $item->getDescription() != Mage::helper('wishlist')->defaultCommentString() ? '<p>Comment: '.$item->getDescription().'<p>' : '').
+                        '<p> Price:'.AO::helper('core')->currency($product->getPrice()).
+                        ($product->getPrice() != $product->getFinalPrice() ? ' Special Price:'. AO::helper('core')->currency($product->getFinalPrice()) : '').
+                        ($item->getDescription() && $item->getDescription() != AO::helper('wishlist')->defaultCommentString() ? '<p>Comment: '.$item->getDescription().'<p>' : '').
                         '</td>'.
                         '</tr></table>';
                     $data = array(
@@ -91,9 +91,9 @@ class Mage_Rss_Block_Wishlist extends Mage_Core_Block_Template
             }
 
         } else {
-             $data = array('title' => Mage::helper('rss')->__('Cannot retrieve the wishlist'),
-                    'description' => Mage::helper('rss')->__('Cannot retrieve the wishlist'),
-                    'link'        => Mage::getUrl(),
+             $data = array('title' => AO::helper('rss')->__('Cannot retrieve the wishlist'),
+                    'description' => AO::helper('rss')->__('Cannot retrieve the wishlist'),
+                    'link'        => AO::getUrl(),
                     'charset'     => 'UTF-8',
                 );
                 $rssObj->_addHeader($data);

@@ -46,7 +46,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function getDebug ()
     {
-        return Mage::getSingleton('chronopay/config')->getDebug();
+        return AO::getSingleton('chronopay/config')->getDebug();
     }
 
     /**
@@ -57,8 +57,8 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
     public function getOrder ()
     {
         if ($this->_order == null) {
-            $session = Mage::getSingleton('checkout/session');
-            $this->_order = Mage::getModel('sales/order');
+            $session = AO::getSingleton('checkout/session');
+            $this->_order = AO::getModel('sales/order');
             $this->_order->loadByIncrementId($session->getLastRealOrderId());
         }
         return $this->_order;
@@ -70,7 +70,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function redirectAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setChronopayStandardQuoteId($session->getQuoteId());
 
         $order = $this->getOrder();
@@ -82,7 +82,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('chronopay')->__('Customer was redirected to Chronopay')
+            AO::helper('chronopay')->__('Customer was redirected to Chronopay')
         );
         $order->save();
 
@@ -100,7 +100,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function  successAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setQuoteId($session->getChronopayStandardQuoteId());
         $session->unsChronopayStandardQuoteId();
 
@@ -113,7 +113,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('chronopay')->__('Customer successfully returned from Chronopay')
+            AO::helper('chronopay')->__('Customer successfully returned from Chronopay')
         );
 
         $order->save();
@@ -134,15 +134,15 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
         }
 
         if ($this->getDebug()) {
-            $debug = Mage::getModel('chronopay/api_debug');
+            $debug = AO::getModel('chronopay/api_debug');
             if (isset($postData['cs2']) && $postData['cs2'] > 0) {
                 $debug->setId($postData['cs2']);
             }
             $debug->setResponseBody(print_r($postData,1))->save();
         }
 
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId(Mage::helper('core')->decrypt($postData['cs1']));
+        $order = AO::getModel('sales/order');
+        $order->loadByIncrementId(AO::helper('core')->decrypt($postData['cs1']));
         if ($order->getId()) {
             $result = $order->getPayment()->getMethodInstance()->setOrder($order)->validateResponse($postData);
 
@@ -154,7 +154,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
                     );
                     $order->cancel();
                 }
-                Mage::throwException($result->getMessage());
+                AO::throwException($result->getMessage());
                 return;
             }
 
@@ -180,7 +180,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
         if ($order->canInvoice()) {
             $invoice = $order->prepareInvoice();
             $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
+            AO::getModel('core/resource_transaction')
                ->addObject($invoice)
                ->addObject($invoice->getOrder())
                ->save();
@@ -195,7 +195,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function failureAction ()
     {
-        $errorMsg = Mage::helper('chronopay')->__('There was an error occurred during paying process.');
+        $errorMsg = AO::helper('chronopay')->__('There was an error occurred during paying process.');
 
         $order = $this->getOrder();
 
@@ -213,7 +213,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
         $this->loadLayout();
         $this->renderLayout();
 
-        Mage::getSingleton('checkout/session')->unsLastRealOrderId();
+        AO::getSingleton('checkout/session')->unsLastRealOrderId();
     }
 
 }

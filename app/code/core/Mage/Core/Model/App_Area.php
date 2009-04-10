@@ -138,14 +138,14 @@ class Mage_Core_Model_App_Area
 
     protected function _initEvents()
     {
-        Mage::app()->addEventArea($this->_code);
-        #Mage::app()->getConfig()->loadEventObservers($this->_code);
+        AO::app()->addEventArea($this->_code);
+        #AO::app()->getConfig()->loadEventObservers($this->_code);
         return $this;
     }
 
     protected function _initTranslate()
     {
-        Mage::app()->getTranslator()->init($this->_code);
+        AO::app()->getTranslator()->init($this->_code);
         return $this;
     }
 
@@ -155,9 +155,9 @@ class Mage_Core_Model_App_Area
         if ($designPackage->getArea() != self::AREA_FRONTEND)
             return;
 
-        $currentStore = Mage::app()->getStore()->getStoreId();
+        $currentStore = AO::app()->getStore()->getStoreId();
 
-        $designChange = Mage::getSingleton('core/design')
+        $designChange = AO::getSingleton('core/design')
             ->loadChange($currentStore);
 
         if ($designChange->getData()) {

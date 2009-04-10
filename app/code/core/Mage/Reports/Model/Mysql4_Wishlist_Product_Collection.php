@@ -41,7 +41,7 @@ class Mage_Reports_Model_Mysql4_Wishlist_Product_Collection extends Mage_Wishlis
     
     public function addWishlistCount()
     {
-        $wishlistItemTable = Mage::getSingleton('core/resource')->getTableName('wishlist/item');
+        $wishlistItemTable = AO::getSingleton('core/resource')->getTableName('wishlist/item');
               
         $this->getSelect()
             ->from(array('wi' => $wishlistItemTable), 'count(wishlist_item_id) as wishlists')

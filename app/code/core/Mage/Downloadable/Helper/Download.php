@@ -88,7 +88,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
     protected function _getHandle()
     {
         if (!$this->_resourceFile) {
-            Mage::throwException(Mage::helper('downloadable')->__('Please set resource file and link type'));
+            AO::throwException(AO::helper('downloadable')->__('Please set resource file and link type'));
         }
 
         if (is_null($this->_handle)) {
@@ -100,10 +100,10 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                  */
                 $urlProp = parse_url($this->_resourceFile);
                 if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
-                    Mage::throwException(Mage::helper('downloadable')->__('Invalid download URL scheme'));
+                    AO::throwException(AO::helper('downloadable')->__('Invalid download URL scheme'));
                 }
                 if (!isset($urlProp['host'])) {
-                    Mage::throwException(Mage::helper('downloadable')->__('Invalid download URL host'));
+                    AO::throwException(AO::helper('downloadable')->__('Invalid download URL host'));
                 }
                 $hostname = $urlProp['host'];
 
@@ -128,12 +128,12 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
 
                 if ($this->_handle === false) {
-                    Mage::throwException(Mage::helper('downloadable')->__('Can\'t connect to remote host, error: %s', $errstr));
+                    AO::throwException(AO::helper('downloadable')->__('Can\'t connect to remote host, error: %s', $errstr));
                 }
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
                     . 'Host: ' . $hostname . "\r\n"
-                    . 'User-Agent: Magento ver/' . Mage::getVersion() . "\r\n"
+                    . 'User-Agent: Magento ver/' . AO::getVersion() . "\r\n"
                     . 'Connection: close' . "\r\n"
                     . "\r\n";
                 fwrite($this->_handle, $headers);
@@ -160,19 +160,19 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
 
                 if (!isset($this->_urlHeaders['code']) || $this->_urlHeaders['code'] != 200) {
-                    Mage::throwException(Mage::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
+                    AO::throwException(AO::helper('downloadable')->__('Sorry, the was an error getting requested content. Please contact store owner.'));
                 }
             }
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
                 $this->_handle = new Varien_Io_File();
-                $this->_handle->open(array('path'=>Mage::getBaseDir('var')));
+                $this->_handle->open(array('path'=>AO::getBaseDir('var')));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
-                    Mage::throwException(Mage::helper('downloadable')->__('File does not exists'));
+                    AO::throwException(AO::helper('downloadable')->__('File does not exists'));
                 }
                 $this->_handle->streamOpen($this->_resourceFile, 'r');
             }
             else {
-                Mage::throwException(Mage::helper('downloadable')->__('Invalid download link type'));
+                AO::throwException(AO::helper('downloadable')->__('Invalid download link type'));
             }
         }
         return $this->_handle;
@@ -202,7 +202,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
             if (function_exists('mime_content_type')) {
                 return mime_content_type($this->_resourceFile);
             } else {
-                return Mage::helper('downloadable/file')->getFileType($this->_resourceFile);
+                return AO::helper('downloadable/file')->getFileType($this->_resourceFile);
             }
         }
         elseif ($this->_linkType == self::LINK_TYPE_URL) {
@@ -256,7 +256,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
      */
     public function getHttpRequest()
     {
-        return Mage::app()->getFrontController()->getRequest();
+        return AO::app()->getFrontController()->getRequest();
     }
 
     /**
@@ -266,7 +266,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
      */
     public function getHttpResponse()
     {
-        return Mage::app()->getFrontController()->getResponse();
+        return AO::app()->getFrontController()->getResponse();
     }
 
     public function output()
@@ -292,6 +292,6 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
      */
     public function getContentDisposition($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
+        return AO::getStoreConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
     }
 }

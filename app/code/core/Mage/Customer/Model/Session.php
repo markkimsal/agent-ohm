@@ -42,18 +42,18 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function getCustomerConfigShare()
     {
-        return Mage::getSingleton('customer/config_share');
+        return AO::getSingleton('customer/config_share');
     }
 
     public function __construct()
     {
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
-            $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());
+            $namespace .= '_' . (AO::app()->getStore()->getWebsite()->getCode());
         }
 
         $this->init($namespace);
-        Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
+        AO::dispatchEvent('customer_session_init', array('customer_session'=>$this));
     }
 
     /**
@@ -93,8 +93,8 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this->_customer;
         }
 
-        $customer = Mage::getModel('customer/customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $customer = AO::getModel('customer/customer')
+            ->setWebsiteId(AO::app()->getStore()->getWebsiteId());
         if ($this->getId()) {
             $customer->load($this->getId());
         }
@@ -146,7 +146,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function checkCustomerId($customerId)
     {
-        return Mage::getResourceSingleton('customer/customer')
+        return AO::getResourceSingleton('customer/customer')
             ->checkCustomerId($customerId);
     }
 
@@ -159,12 +159,12 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function login($username, $password)
     {
-        $customer = Mage::getModel('customer/customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $customer = AO::getModel('customer/customer')
+            ->setWebsiteId(AO::app()->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
             $this->setCustomer($customer);
-            Mage::dispatchEvent('customer_login', array('customer'=>$customer));
+            AO::dispatchEvent('customer_login', array('customer'=>$customer));
             return true;
         }
         return false;
@@ -173,7 +173,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        Mage::dispatchEvent('customer_login', array('customer'=>$customer));
+        AO::dispatchEvent('customer_login', array('customer'=>$customer));
         return $this;
     }
 
@@ -185,10 +185,10 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function loginById($customerId)
     {
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = AO::getModel('customer/customer')->load($customerId);
         if ($customer) {
             $this->setCustomer($customer);
-            Mage::dispatchEvent('customer_login', array('customer'=>$customer));
+            AO::dispatchEvent('customer_login', array('customer'=>$customer));
             return true;
         }
         return false;
@@ -202,7 +202,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
+            AO::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
             $this->setId(null);
         }
         return $this;
@@ -217,9 +217,9 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function authenticate(Mage_Core_Controller_Varien_Action $action, $loginUrl = null)
     {
         if (!$this->isLoggedIn()) {
-            $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current'=>true)));
+            $this->setBeforeAuthUrl(AO::getUrl('*/*/*', array('_current'=>true)));
             if (is_null($loginUrl)) {
-                $loginUrl = Mage::helper('customer')->getLoginUrl();
+                $loginUrl = AO::helper('customer')->getLoginUrl();
             }
             $action->getResponse()->setRedirect($loginUrl);
             return false;

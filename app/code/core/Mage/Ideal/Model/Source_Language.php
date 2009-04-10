@@ -37,8 +37,8 @@ class Mage_Ideal_Model_Source_Language
     public function toOptionArray()
     {
         return array(
-            array('value' => 'en', 'label' => Mage::helper('ideal')->__('English')),
-            array('value' => 'nl', 'label' => Mage::helper('ideal')->__('Dutch'))
+            array('value' => 'en', 'label' => AO::helper('ideal')->__('English')),
+            array('value' => 'nl', 'label' => AO::helper('ideal')->__('Dutch'))
         );
     }
 }

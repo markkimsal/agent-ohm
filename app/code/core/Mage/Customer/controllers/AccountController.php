@@ -40,7 +40,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return AO::getSingleton('customer/session');
     }
 
     /**
@@ -121,8 +121,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 catch (Exception $e) {
                     switch ($e->getCode()) {
                         case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                            $message = Mage::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.',
-                                Mage::helper('customer')->getEmailConfirmationUrl($login['username'])
+                            $message = AO::helper('customer')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.',
+                                AO::helper('customer')->getEmailConfirmationUrl($login['username'])
                             );
                             break;
                         case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
@@ -138,8 +138,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $session->addError($this->__('Login and password are required'));
             }
         }
-        if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == Mage::getBaseUrl() ) {
-            $session->setBeforeAuthUrl(Mage::helper('customer')->getAccountUrl());
+        if (!$session->getBeforeAuthUrl() || $session->getBeforeAuthUrl() == AO::getBaseUrl() ) {
+            $session->setBeforeAuthUrl(AO::helper('customer')->getAccountUrl());
         }
         $this->_redirectUrl($session->getBeforeAuthUrl(true));
     }
@@ -150,7 +150,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     public function logoutAction()
     {
         $this->_getSession()->logout()
-            ->setBeforeAuthUrl(Mage::getUrl());
+            ->setBeforeAuthUrl(AO::getUrl());
 
         $this->_redirect('*/*/logoutSuccess');
     }
@@ -191,9 +191,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $errors = array();
 
-            $customer = Mage::getModel('customer/customer')->setId(null);
+            $customer = AO::getModel('customer/customer')->setId(null);
 
-            foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
+            foreach (AO::getConfig()->getFieldset('customer_account') as $code=>$node) {
                 if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
                     $customer->setData($code, $value);
                 }
@@ -209,7 +209,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $customer->getGroupId();
 
             if ($this->getRequest()->getPost('create_address')) {
-                $address = Mage::getModel('customer/address')
+                $address = AO::getModel('customer/address')
                     ->setData($this->getRequest()->getPost())
                     ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
                     ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false))
@@ -235,9 +235,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     if ($customer->isConfirmationRequired()) {
                         $customer->sendNewAccountEmail('confirmation', $this->_getSession()->getBeforeAuthUrl());
                         $this->_getSession()->addSuccess($this->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.',
-                            Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())
+                            AO::helper('customer')->getEmailConfirmationUrl($customer->getEmail())
                         ));
-                        $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                        $this->_redirectSuccess(AO::getUrl('*/*/index', array('_secure'=>true)));
                         return;
                     }
                     else {
@@ -268,7 +268,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         }
 
-        $this->_redirectError(Mage::getUrl('*/*/create', array('_secure'=>true)));
+        $this->_redirectError(AO::getUrl('*/*/create', array('_secure'=>true)));
     }
 
     /**
@@ -281,11 +281,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     protected function _welcomeCustomer(Mage_Customer_Model_Customer $customer, $isJustConfirmed = false)
     {
-        $this->_getSession()->addSuccess($this->__('Thank you for registering with %s', Mage::app()->getStore()->getName()));
+        $this->_getSession()->addSuccess($this->__('Thank you for registering with %s', AO::app()->getStore()->getName()));
 
         $customer->sendNewAccountEmail($isJustConfirmed ? 'confirmed' : 'registered');
 
-        $successUrl = Mage::getUrl('*/*/index', array('_secure'=>true));
+        $successUrl = AO::getUrl('*/*/index', array('_secure'=>true));
         if ($this->_getSession()->getBeforeAuthUrl()) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         }
@@ -311,7 +311,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             // load customer by id (try/catch in case if it throws exceptions)
             try {
-                $customer = Mage::getModel('customer/customer')->load($id);
+                $customer = AO::getModel('customer/customer')->load($id);
                 if ((!$customer) || (!$customer->getId())) {
                     throw new Exception('Failed to load customer by id.');
                 }
@@ -343,13 +343,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
 
             // die happy
-            $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            $this->_redirectSuccess(AO::getUrl('*/*/index', array('_secure'=>true)));
             return;
         }
         catch (Exception $e) {
             // die unhappy
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirectError(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            $this->_redirectError(AO::getUrl('*/*/index', array('_secure'=>true)));
             return;
         }
     }
@@ -359,7 +359,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function confirmationAction()
     {
-        $customer = Mage::getModel('customer/customer');
+        $customer = AO::getModel('customer/customer');
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
@@ -369,7 +369,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $email = $this->getRequest()->getPost('email');
         if ($email) {
             try {
-                $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId())->loadByEmail($email);
+                $customer->setWebsiteId(AO::app()->getStore()->getWebsiteId())->loadByEmail($email);
                 if (!$customer->getId()) {
                     throw new Exception('');
                 }
@@ -381,11 +381,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $this->_getSession()->addSuccess($this->__('This e-mail does not require confirmation.'));
                 }
                 $this->_getSession()->setUsername($email);
-                $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure' => true)));
+                $this->_redirectSuccess(AO::getUrl('*/*/index', array('_secure' => true)));
             }
             catch (Exception $e) {
                 $this->_getSession()->addError($this->__('Wrong email.'));
-                $this->_redirectError(Mage::getUrl('*/*/*', array('email' => $email, '_secure' => true)));
+                $this->_redirectError(AO::getUrl('*/*/*', array('email' => $email, '_secure' => true)));
             }
             return;
         }
@@ -426,11 +426,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);
                 $this->_getSession()->addError($this->__('Invalid email address'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
+                $this->getResponse()->setRedirect(AO::getUrl('*/*/forgotpassword'));
                 return;
             }
-            $customer = Mage::getModel('customer/customer')
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            $customer = AO::getModel('customer/customer')
+                ->setWebsiteId(AO::app()->getStore()->getWebsiteId())
                 ->loadByEmail($email);
 
             if ($customer->getId()) {
@@ -441,7 +441,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
                     $this->_getSession()->addSuccess($this->__('A new password was sent'));
 
-                    $this->getResponse()->setRedirect(Mage::getUrl('*/*'));
+                    $this->getResponse()->setRedirect(AO::getUrl('*/*'));
                     return;
                 }
                 catch (Exception $e){
@@ -454,11 +454,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             }
         } else {
             $this->_getSession()->addError($this->__('Please enter your email.'));
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
+            $this->getResponse()->setRedirect(AO::getUrl('*/*/forgotpassword'));
             return;
         }
 
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/forgotpassword'));
+        $this->getResponse()->setRedirect(AO::getUrl('*/*/forgotpassword'));
     }
 
     /**
@@ -497,11 +497,11 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         }
 
         if ($this->getRequest()->isPost()) {
-            $customer = Mage::getModel('customer/customer')
+            $customer = AO::getModel('customer/customer')
                 ->setId($this->_getSession()->getCustomerId())
                 ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId());
 
-            $fields = Mage::getConfig()->getFieldset('customer_account');
+            $fields = AO::getConfig()->getFieldset('customer_account');
             foreach ($fields as $code=>$node) {
                 if ($node->is('update') && ($value = $this->getRequest()->getParam($code)) !== null) {
                     $customer->setData($code, $value);

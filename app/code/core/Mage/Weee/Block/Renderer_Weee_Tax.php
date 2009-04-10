@@ -45,7 +45,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     public function render(Varien_Data_Form_Element_Abstract $element)
@@ -96,13 +96,13 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !AO::app()->isSingleStoreMode();
     }
     
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = Mage::getModel('adminhtml/system_config_source_country')
+            $this->_countries = AO::getModel('adminhtml/system_config_source_country')
                 ->toOptionArray();
         }
 
@@ -117,18 +117,18 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         $websites = array();
         $websites[0] = array(
             'name'      => $this->__('All Websites'),
-            'currency'  => Mage::app()->getBaseCurrencyCode()
+            'currency'  => AO::app()->getBaseCurrencyCode()
         );
 
-        if (!Mage::app()->isSingleStoreMode() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!AO::app()->isSingleStoreMode() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
-                $website = Mage::app()->getStore($storeId)->getWebsite();
+                $website = AO::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
                     'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
-                foreach (Mage::app()->getWebsites() as $website) {
+                foreach (AO::app()->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }
@@ -148,7 +148,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Add Tax'),
+                    'label'     => AO::helper('catalog')->__('Add Tax'),
                     'onclick'   => "weeeTaxControl.addItem('".$this->getElement()->getHtmlId()."')",
                     'class' => 'add'
                 )));

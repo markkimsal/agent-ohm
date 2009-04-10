@@ -37,8 +37,8 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
     {
         $this->loadLayout();
         $this->_setActiveMenu('customer/config');
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Customer'),  Mage::helper('customer')->__('Customer'));
-        $this->_addBreadcrumb(Mage::helper('customer')->__('Config'), Mage::helper('customer')->__('Config'));
+        $this->_addBreadcrumb(AO::helper('customer')->__('Customer'),  AO::helper('customer')->__('Customer'));
+        $this->_addBreadcrumb(AO::helper('customer')->__('Config'), AO::helper('customer')->__('Config'));
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/customer_config')
         );
@@ -50,6 +50,6 @@ class Mage_Adminhtml_Customer_ConfigController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('customer/config');
+	    return AO::getSingleton('admin/session')->isAllowed('customer/config');
     }
 }

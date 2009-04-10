@@ -31,7 +31,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout()
             ->_setActiveMenu('catalog/search')
-            ->_addBreadcrumb(Mage::helper('catalog')->__('Search'), Mage::helper('catalog')->__('Search'))
+            ->_addBreadcrumb(AO::helper('catalog')->__('Search'), AO::helper('catalog')->__('Search'))
         ;
         return $this;
     }
@@ -39,7 +39,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     public function indexAction()
     {
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
+            ->_addBreadcrumb(AO::helper('catalog')->__('Catalog'), AO::helper('catalog')->__('Catalog'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/catalog_search'))
             ->renderLayout();
     }
@@ -52,24 +52,24 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('catalogsearch/query');
+        $model = AO::getModel('catalogsearch/query');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('This search no longer exists'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('catalog')->__('This search no longer exists'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        $data = AO::getSingleton('adminhtml/session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
-        Mage::register('current_catalog_search', $model);
+        AO::register('current_catalog_search', $model);
 
         $block = $this->getLayout()->createBlock('adminhtml/catalog_search_edit')
             ->setData('action', $this->getUrl('*/catalog_search/save'));
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         $this->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
         $this
-            ->_addBreadcrumb($id ? Mage::helper('catalog')->__('Edit Search') : Mage::helper('catalog')->__('New Search'), $id ? Mage::helper('catalog')->__('Edit Search') : Mage::helper('catalog')->__('New Search'))
+            ->_addBreadcrumb($id ? AO::helper('catalog')->__('Edit Search') : AO::helper('catalog')->__('New Search'), $id ? AO::helper('catalog')->__('Edit Search') : AO::helper('catalog')->__('New Search'))
             ->_addContent($block)
             ->renderLayout();
 
@@ -88,29 +88,29 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $model = Mage::getModel('catalogsearch/query');
+            $model = AO::getModel('catalogsearch/query');
 
             if ($queryText = $this->getRequest()->getParam('query_text')) {
                 $model->load($queryText);
                 if ($model->getId() && $this->getRequest()->getParam('query_id') != $model->getId()) {
-                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Search Term with such search query already exist.'));
-                    Mage::getSingleton('adminhtml/session')->setPageData($data);
+                    AO::getSingleton('adminhtml/session')->addError(AO::helper('catalog')->__('Search Term with such search query already exist.'));
+                    AO::getSingleton('adminhtml/session')->setPageData($data);
                     $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('query_id')));
                     return;
                 }
             }
 
             $model->addData($data);
-            Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
+            AO::getSingleton('adminhtml/session')->setPageData($model->getData());
             try {
                 $model->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Search Term was successfully saved'));
-                Mage::getSingleton('adminhtml/session')->setPageData(false);
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('catalog')->__('Search Term was successfully saved'));
+                AO::getSingleton('adminhtml/session')->setPageData(false);
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setPageData($data);
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -122,20 +122,20 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('catalogsearch/query');
+                $model = AO::getModel('catalogsearch/query');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Search was successfully deleted'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('catalog')->__('Search was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Unable to find a search term to delete'));
+        AO::getSingleton('adminhtml/session')->addError(AO::helper('catalog')->__('Unable to find a search term to delete'));
         $this->_redirect('*/*/');
     }
 
@@ -143,20 +143,20 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         $searchIds = $this->getRequest()->getParam('search');
         if(!is_array($searchIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select catalog searches'));
+             AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('Please select catalog searches'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {
-                    $model = Mage::getModel('catalogsearch/query')->load($searchId);
+                    $model = AO::getModel('catalogsearch/query')->load($searchId);
                     $model->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                AO::getSingleton('adminhtml/session')->addSuccess(
+                    AO::helper('adminhtml')->__(
                         'Total of %d record(s) were successfully deleted', count($searchIds)
                     )
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
 
@@ -165,6 +165,6 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('catalog/search');
+	    return AO::getSingleton('admin/session')->isAllowed('catalog/search');
     }
 }

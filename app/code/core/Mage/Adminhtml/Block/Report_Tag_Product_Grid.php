@@ -43,11 +43,11 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_product_collection');
+        $collection = AO::getResourceModel('reports/tag_product_collection');
 
         $collection->addUniqueTagedCount()
             ->addAllTagedCount()
-            ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+            ->addStatusFilter(AO::getModel('tag/tag')->getApprovedStatus())
             ->addGroupByProduct();
 
         $this->setCollection($collection);
@@ -58,26 +58,26 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>AO::helper('reports')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>AO::helper('reports')->__('Product Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('utaged', array(
-            'header'    =>Mage::helper('reports')->__('Number of Unique Tags'),
+            'header'    =>AO::helper('reports')->__('Number of Unique Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'utaged'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Number of Total Tags'),
+            'header'    =>AO::helper('reports')->__('Number of Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
@@ -85,13 +85,13 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => AO::helper('catalog')->__('Action'),
                 'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Show Tags'),
+                        'caption' => AO::helper('catalog')->__('Show Tags'),
                         'url'     => array(
                             'base'=>'*/*/productDetail'
                         ),
@@ -105,8 +105,8 @@ class Mage_Adminhtml_Block_Report_Tag_Product_Grid extends Mage_Adminhtml_Block_
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportProductCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

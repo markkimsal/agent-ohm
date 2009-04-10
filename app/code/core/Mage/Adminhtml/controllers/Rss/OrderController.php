@@ -36,14 +36,14 @@ class Mage_Adminhtml_Rss_OrderController extends Mage_Adminhtml_Controller_Actio
 {
     public function preDispatch()
     {
-        Mage::helper('adminhtml/rss')->authAdmin('catalog/reviews_ratings');
+        AO::helper('adminhtml/rss')->authAdmin('catalog/reviews_ratings');
         parent::preDispatch();
         return $this;
     }
 
     public function newAction()
     {
-        Mage::helper('rss')->authAdmin('sales/order');
+        AO::helper('rss')->authAdmin('sales/order');
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();

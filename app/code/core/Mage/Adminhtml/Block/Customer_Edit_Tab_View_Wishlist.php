@@ -41,12 +41,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
         $this->setSortable(false);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(Mage::helper('customer')->__("There are no items in customer's wishlist at the moment"));
+        $this->setEmptyText(AO::helper('customer')->__("There are no items in customer's wishlist at the moment"));
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('current_customer'))
+        $collection = AO::getModel('wishlist/wishlist')->loadByCustomer(AO::registry('current_customer'))
             ->getProductCollection()
             ->addAttributeToSelect('name')
             ->addStoreData();
@@ -59,20 +59,20 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('customer')->__('Product ID'),
+            'header'    => AO::helper('customer')->__('Product ID'),
             'index'     => 'product_id',
             'type'      => 'number',
             'width'     => '100px'
         ));
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('customer')->__('Product Name'),
+            'header'    => AO::helper('customer')->__('Product Name'),
             'index'     => 'name'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
-                'header'    => Mage::helper('customer')->__('Added From'),
+                'header'    => AO::helper('customer')->__('Added From'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'width'     => '160px',
@@ -80,14 +80,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Mage_Adminhtm
         }
 
         $this->addColumn('added_at', array(
-            'header'    => Mage::helper('customer')->__('Date Added'),
+            'header'    => AO::helper('customer')->__('Date Added'),
             'index'     => 'added_at',
             'type'      => 'date',
             'width'     => '140px',
         ));
 
         $this->addColumn('days', array(
-            'header'    => Mage::helper('customer')->__('Days in Wishlist'),
+            'header'    => AO::helper('customer')->__('Days in Wishlist'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number',
             'width'     => '140px',

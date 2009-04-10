@@ -40,9 +40,9 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
      */
     public function fetchUpdatesByHandle($handle, $params = array())
     {
-        $storeId = isset($params['store_id']) ? $params['store_id'] : Mage::app()->getStore()->getId();
-        $package = isset($params['package']) ? $params['package'] : Mage::getSingleton('core/design_package')->getPackageName();
-        $theme = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
+        $storeId = isset($params['store_id']) ? $params['store_id'] : AO::app()->getStore()->getId();
+        $package = isset($params['package']) ? $params['package'] : AO::getSingleton('core/design_package')->getPackageName();
+        $theme = isset($params['theme']) ? $params['theme'] : AO::getSingleton('core/design_package')->getTheme('layout');
 
         $read = $this->_getReadAdapter();
         $updateStr = '';

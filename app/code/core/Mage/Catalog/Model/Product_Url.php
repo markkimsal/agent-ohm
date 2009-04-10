@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('core/url');
+            self::$_url = AO::getModel('core/url');
         }
         return self::$_url;
     }
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('core/url_rewrite');
+            self::$_urlRewrite = AO::getModel('core/url_rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -108,11 +108,11 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
                 $rewrite->setStoreId($product->getStoreId());
             }
             else {
-                $rewrite->setStoreId(Mage::app()->getStore()->getId());
+                $rewrite->setStoreId(AO::app()->getStore()->getId());
             }
 
             $idPath = 'product/'.$product->getId();
-            if ($product->getCategoryId() && !$product->getDoNotUseCategoryId() && Mage::getStoreConfig('catalog/seo/product_use_categories')) {
+            if ($product->getCategoryId() && !$product->getDoNotUseCategoryId() && AO::getStoreConfig('catalog/seo/product_use_categories')) {
                 $idPath .= '/'.$product->getCategoryId();
             }
 
@@ -143,7 +143,7 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
 
     public function formatUrlKey($str)
     {
-        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', Mage::helper('catalog/product_url')->format($str));
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', AO::helper('catalog/product_url')->format($str));
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
 
@@ -166,10 +166,10 @@ class Mage_Catalog_Model_Product_Url extends Varien_Object
             /** @todo get default category */
             return $path;
         } elseif (!$category instanceof Mage_Catalog_Model_Category) {
-            Mage::throwException('Invalid category object supplied');
+            AO::throwException('Invalid category object supplied');
         }
 
-        return Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath())
+        return AO::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath())
             . '/' . $path;
     }
 }

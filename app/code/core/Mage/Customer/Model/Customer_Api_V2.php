@@ -58,7 +58,7 @@ class Mage_Customer_Model_Customer_Api_V2 extends Mage_Customer_Model_Customer_A
     {
         $customerData = $this->_prepareData($customerData);
         try {
-            $customer = Mage::getModel('customer/customer')
+            $customer = AO::getModel('customer/customer')
                 ->setData($customerData)
                 ->save();
         } catch (Mage_Core_Exception $e) {
@@ -75,7 +75,7 @@ class Mage_Customer_Model_Customer_Api_V2 extends Mage_Customer_Model_Customer_A
      */
     public function items($filters)
     {
-        $collection = Mage::getModel('customer/customer')->getCollection()
+        $collection = AO::getModel('customer/customer')->getCollection()
             ->addAttributeToSelect('*');
 
         $preparedFilters = array();
@@ -136,7 +136,7 @@ class Mage_Customer_Model_Customer_Api_V2 extends Mage_Customer_Model_Customer_A
      */
     public function update($customerId, $customerData)
     {
-        $customer = Mage::getModel('customer/customer')->load($customerId);
+        $customer = AO::getModel('customer/customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');

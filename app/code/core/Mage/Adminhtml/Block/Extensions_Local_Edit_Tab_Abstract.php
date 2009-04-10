@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract extends Mage_Admin
 
     public function initForm()
     {
-        $this->setPkg(Mage::registry('local_extension'));
+        $this->setPkg(AO::registry('local_extension'));
         return $this;
     }
 

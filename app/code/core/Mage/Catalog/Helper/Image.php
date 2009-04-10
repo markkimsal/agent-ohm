@@ -64,7 +64,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile=null)
     {
         $this->_reset();
-        $this->_setModel(Mage::getModel('catalog/product_image'));
+        $this->_setModel(AO::getModel('catalog/product_image'));
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($product);
         if ($imageFile) {
@@ -232,7 +232,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
                         ->setWatermarkSize($this->parseSize($this->getWatermarkSize()))
                         ->setWatermark($this->getWatermark(), $this->getWatermarkPosition());
                 } else {
-                    if( $watermark = Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image") ) {
+                    if( $watermark = AO::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image") ) {
                         $this->_getModel()
                             ->setWatermarkPosition( $this->getWatermarkPosition() )
                             ->setWatermarkSize($this->parseSize($this->getWatermarkSize()))
@@ -243,7 +243,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
                 $url = $this->_getModel()->saveFile()->getUrl();
             }
         } catch( Exception $e ) {
-            $url = Mage::getDesign()->getSkinUrl($this->getPlaceholder());
+            $url = AO::getDesign()->getSkinUrl($this->getPlaceholder());
         }
         return $url;
     }
@@ -302,7 +302,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         if( $this->_watermarkPosition ) {
             return $this->_watermarkPosition;
         } else {
-            return Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position");
+            return AO::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position");
         }
     }
 
@@ -317,7 +317,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         if( $this->_watermarkSize ) {
             return $this->_watermarkSize;
         } else {
-            return Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size");
+            return AO::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size");
         }
     }
 

@@ -73,7 +73,7 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getId()) {
-            $object->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreatedAt(AO::getSingleton('core/date')->gmtDate());
         }
         if ($object->hasData('stores') && is_array($object->getStores())) {
             $stores = $object->getStores();
@@ -162,8 +162,8 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
             ->from($this->_reviewStoreTable, array('store_id'))
             ->where('review_id=?', $object->getId());
         $stores = $this->_getReadAdapter()->fetchCol($select);
-        if (empty($stores) && Mage::app()->isSingleStoreMode()) {
-            $object->setStores(array(Mage::app()->getStore(true)->getId()));
+        if (empty($stores) && AO::app()->isSingleStoreMode()) {
+            $object->setStores(array(AO::app()->getStore(true)->getId()));
         } else {
             $object->setStores($stores);
         }
@@ -221,7 +221,7 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = Mage::getModel('rating/rating');
+        $ratingModel    = AO::getModel('rating/rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         $nonDelete = array();
@@ -297,7 +297,7 @@ class Mage_Review_Model_Mysql4_Review extends Mage_Core_Model_Mysql4_Abstract
             $ratingIds = array((int)$ratingIds);
         }
         if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('rating/rating_option'))
+            && ($resource = AO::getResourceSingleton('rating/rating_option'))
             ) {
             foreach ($ratingIds as $ratingId) {
                 $resource->aggregateEntityByRatingId(

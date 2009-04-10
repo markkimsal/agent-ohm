@@ -52,10 +52,10 @@ class Mage_AdminNotification_Model_Inbox extends Mage_Core_Model_Abstract
     public function getSeverities($severity = null)
     {
         $severities = array(
-            self::SEVERITY_CRITICAL => Mage::helper('adminnotification')->__('critical'),
-            self::SEVERITY_MAJOR    => Mage::helper('adminnotification')->__('major'),
-            self::SEVERITY_MINOR    => Mage::helper('adminnotification')->__('minor'),
-            self::SEVERITY_NOTICE   => Mage::helper('adminnotification')->__('notice'),
+            self::SEVERITY_CRITICAL => AO::helper('adminnotification')->__('critical'),
+            self::SEVERITY_MAJOR    => AO::helper('adminnotification')->__('major'),
+            self::SEVERITY_MINOR    => AO::helper('adminnotification')->__('minor'),
+            self::SEVERITY_NOTICE   => AO::helper('adminnotification')->__('notice'),
         );
 
         if (!is_null($severity)) {

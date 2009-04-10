@@ -124,16 +124,16 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('rule')->__('is'),
-            '!='  => Mage::helper('rule')->__('is not'),
-            '>='  => Mage::helper('rule')->__('equals or greater than'),
-            '<='  => Mage::helper('rule')->__('equals or less than'),
-            '>'   => Mage::helper('rule')->__('greater than'),
-            '<'   => Mage::helper('rule')->__('less than'),
-            '{}'  => Mage::helper('rule')->__('contains'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
+            '=='  => AO::helper('rule')->__('is'),
+            '!='  => AO::helper('rule')->__('is not'),
+            '>='  => AO::helper('rule')->__('equals or greater than'),
+            '<='  => AO::helper('rule')->__('equals or less than'),
+            '>'   => AO::helper('rule')->__('greater than'),
+            '<'   => AO::helper('rule')->__('less than'),
+            '{}'  => AO::helper('rule')->__('contains'),
+            '!{}' => AO::helper('rule')->__('does not contain'),
+            '()'  => AO::helper('rule')->__('is one of'),
+            '!()' => AO::helper('rule')->__('is not one of'),
         ));
         $this->setOperatorByInputType(array(
             'string' => array('==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()'),
@@ -179,8 +179,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function loadValueOptions()
     {
 //        $this->setValueOption(array(
-//            true  => Mage::helper('rule')->__('TRUE'),
-//            false => Mage::helper('rule')->__('FALSE'),
+//            true  => AO::helper('rule')->__('TRUE'),
+//            false => AO::helper('rule')->__('FALSE'),
 //        ));
         $this->setValueOption(array());
         return $this;
@@ -212,7 +212,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     {
         if ($this->getInputType()=='date' && !$this->getIsValueParsed()) {
             // date format intentionally hard-coded
-            $this->setValue(Mage::app()->getLocale()->date($this->getData('value'), Varien_Date::DATE_INTERNAL_FORMAT, null, false)
+            $this->setValue(AO::app()->getLocale()->date($this->getData('value'), Varien_Date::DATE_INTERNAL_FORMAT, null, false)
                 ->toString(Varien_Date::DATE_INTERNAL_FORMAT));
             $this->setIsValueParsed(true);
         }
@@ -257,7 +257,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getNewChildSelectOptions()
     {
         return array(
-            array('value'=>'', 'label'=>Mage::helper('rule')->__('Please choose a condition to add...')),
+            array('value'=>'', 'label'=>AO::helper('rule')->__('Please choose a condition to add...')),
         );
     }
 
@@ -311,7 +311,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
             'values'=>$this->getAttributeSelectOptions(),
             'value'=>$this->getAttribute(),
             'value_name'=>$this->getAttributeName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(AO::getBlockSingleton('rule/editable'));
     }
 
     public function getAttributeElementHtml()
@@ -332,7 +332,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
             'values'=>$this->getOperatorSelectOptions(),
             'value'=>$this->getOperator(),
             'value_name'=>$this->getOperatorName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(AO::getBlockSingleton('rule/editable'));
     }
 
     public function getOperatorElementHtml()
@@ -354,9 +354,9 @@ abstract class Mage_Rule_Model_Condition_Abstract
     public function getValueElementRenderer()
     {
         if (strpos($this->getValueElementType(), '/')!==false) {
-            return Mage::getBlockSingleton($this->getValueElementType());
+            return AO::getBlockSingleton($this->getValueElementType());
         }
-        return Mage::getBlockSingleton('rule/editable');
+        return AO::getBlockSingleton('rule/editable');
     }
 
     public function getValueElement()
@@ -387,15 +387,15 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function getAddLinkHtml()
     {
-        $src = Mage::getDesign()->getSkinUrl('images/rule_component_add.gif');
-        $html = '<img src="'.$src.'" class="rule-param-add v-middle" alt="" title="'.Mage::helper('rule')->__('Add').'"/>';
+        $src = AO::getDesign()->getSkinUrl('images/rule_component_add.gif');
+        $html = '<img src="'.$src.'" class="rule-param-add v-middle" alt="" title="'.AO::helper('rule')->__('Add').'"/>';
         return $html;
     }
 
     public function getRemoveLinkHtml()
     {
-        $src = Mage::getDesign()->getSkinUrl('images/rule_component_remove.gif');
-        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="'.Mage::helper('rule')->__('Remove').'"><img src="'.$src.'"  alt="" class="v-middle" /></a></span>';
+        $src = AO::getDesign()->getSkinUrl('images/rule_component_remove.gif');
+        $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="'.AO::helper('rule')->__('Remove').'"><img src="'.$src.'"  alt="" class="v-middle" /></a></span>';
         return $html;
     }
 

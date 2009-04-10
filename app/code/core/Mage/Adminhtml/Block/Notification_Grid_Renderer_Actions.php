@@ -46,21 +46,21 @@ class Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions
         if (!$row->getIsRead()) {
             return sprintf('<a target="_blank" href="%s">%s</a> | <a href="%s">%s</a> | <a href="%s" onClick="deleteConfirm(\'%s\',this.href); return false;">%s</a>',
                 $row->getUrl(),
-                Mage::helper('adminnotification')->__('Read Details'),
+                AO::helper('adminnotification')->__('Read Details'),
                 $this->getUrl('*/*/markAsRead/', array('_current'=>true, 'id' => $row->getId())),
-                Mage::helper('adminnotification')->__('Mark as Read'),
+                AO::helper('adminnotification')->__('Mark as Read'),
                 $this->getUrl('*/*/remove/', array('_current'=>true, 'id' => $row->getId())),
-                Mage::helper('adminnotification')->__('Are you sure?'),
-                Mage::helper('adminnotification')->__('Remove')
+                AO::helper('adminnotification')->__('Are you sure?'),
+                AO::helper('adminnotification')->__('Remove')
             );
         }
         else {
             return sprintf('<a target="_blank" href="%s">%s</a> | <a href="%s" onClick="deleteConfirm(\'%s\',this.href); return false;">%s</a>',
                 $row->getUrl(),
-                Mage::helper('adminnotification')->__('Read Details'),
+                AO::helper('adminnotification')->__('Read Details'),
                 $this->getUrl('*/*/remove/', array('_current'=>true, 'id' => $row->getId())),
-                Mage::helper('adminnotification')->__('Are you sure?'),
-                Mage::helper('adminnotification')->__('Remove')
+                AO::helper('adminnotification')->__('Are you sure?'),
+                AO::helper('adminnotification')->__('Remove')
             );
         }
     }

@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_link_product_collection')
+        $collection = AO::getResourceModel('catalog/product_link_product_collection')
             ->setLinkModel($this);
         return $collection;
     }
@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
      */
     public function getLinkCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_link_collection')
+        $collection = AO::getResourceModel('catalog/product_link_collection')
             ->setLinkModel($this);
         return $collection;
     }

@@ -95,14 +95,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Option_Collection
     public function addValuesToResult($storeId = null)
     {
         if (null === $storeId) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
         $optionIds = array();
         foreach ($this as $option) {
             $optionIds[] = $option->getId();
         }
         if (!empty($optionIds)) {
-            $values = Mage::getModel('catalog/product_option_value')
+            $values = AO::getModel('catalog/product_option_value')
                 ->getCollection()
                 ->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)

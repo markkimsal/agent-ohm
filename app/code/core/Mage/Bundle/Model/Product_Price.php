@@ -69,7 +69,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
             $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
             $product->setFinalPrice($finalPrice);
-            Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
+            AO::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
             $finalPrice = $product->getData('final_price');
         }
 
@@ -410,21 +410,21 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
-        $resource = Mage::getResourceSingleton('bundle/bundle');
-        $selectionResource = Mage::getResourceSingleton('bundle/selection');
-        $productPriceTypeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price_type');
+        $resource = AO::getResourceSingleton('bundle/bundle');
+        $selectionResource = AO::getResourceSingleton('bundle/selection');
+        $productPriceTypeId = AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price_type');
 
         if ($wId instanceof Mage_Core_Model_Store) {
             $store = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
-            $store = Mage::app()->getStore($wId)->getId();
-            $wId = Mage::app()->getStore($wId)->getWebsiteId();
-            //$store = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
+            $store = AO::app()->getStore($wId)->getId();
+            $wId = AO::app()->getStore($wId)->getWebsiteId();
+            //$store = AO::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
 
         if (!$gId) {
-            $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $gId = AO::getSingleton('customer/session')->getCustomerGroupId();
         } else if ($gId instanceof Mage_Customer_Model_Group) {
             $gId = $gId->getId();
         }
@@ -497,7 +497,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         /**
          * adding customer defined options price
          */
-        $customOptions = Mage::getResourceSingleton('catalog/product_option_collection')->reset();
+        $customOptions = AO::getResourceSingleton('catalog/product_option_collection')->reset();
         $customOptions->addFieldToFilter('is_require', '1')
             ->addProductToFilter($productId)
             ->addPriceToResult($store, 'price')
@@ -518,7 +518,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         }
 
         if ($rulePrice === false) {
-            $rulePrice = Mage::getResourceModel('catalogrule/rule')->getRulePrice(Mage::app()->getLocale()->storeTimeStamp($store), $wId, $gId, $productId);
+            $rulePrice = AO::getResourceModel('catalogrule/rule')->getRulePrice(AO::app()->getLocale()->storeTimeStamp($store), $wId, $gId, $productId);
         }
 
         if ($rulePrice !== null && $rulePrice !== false) {
@@ -544,10 +544,10 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
             if (!$store instanceof Mage_Core_Model_Store) {
-                $store = Mage::app()->getStore($store);
+                $store = AO::app()->getStore($store);
             }
 
-            $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
+            $storeTimeStamp = AO::app()->getLocale()->storeTimeStamp($store);
             $fromTimeStamp  = strtotime($specialPriceFrom);
             $toTimeStamp    = strtotime($specialPriceTo);
 
@@ -564,7 +564,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /*
     public function getCustomOptionPrices($productId, $storeId, $which = null) {
 
-        $optionsCollection = Mage::getResourceModel('catalog/product_option_collection')
+        $optionsCollection = AO::getResourceModel('catalog/product_option_collection')
             ->addProductToFilter($productId)
             ->;
 

@@ -47,12 +47,12 @@ class Mage_Adminhtml_Block_Api_Tab_Roleinfo extends Mage_Adminhtml_Block_Widget_
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Role Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('adminhtml')->__('Role Information')));
 
         $fieldset->addField('role_name', 'text',
             array(
                 'name'  => 'rolename',
-                'label' => Mage::helper('adminhtml')->__('Role Name'),
+                'label' => AO::helper('adminhtml')->__('Role Name'),
                 'id'    => 'role_name',
                 'class' => 'required-entry',
                 'required' => true,

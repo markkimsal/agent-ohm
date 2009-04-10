@@ -43,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('googlebase')->__('Add New Attribute'),
+                    'label' => AO::helper('googlebase')->__('Add New Attribute'),
                     'class' => 'add',
                     'id'    => 'add_new_attribute',
                     'on_click' => 'gBaseAttribute.add()'
@@ -52,7 +52,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('googlebase')->__('Remove'),
+                    'label' => AO::helper('googlebase')->__('Remove'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'gBaseAttribute.remove(event)'
                 ))
@@ -75,7 +75,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
     {
         $options = array('' => $this->__('Custom attribute, no mapping'));
 
-        $attributes = Mage::getModel('googlebase/service_feed')
+        $attributes = AO::getModel('googlebase/service_feed')
             ->getAttributes($this->getGbaseItemtype(), $this->getTargetCountry());
         foreach ($attributes as $attr) {
             $options[$attr->getId()] = $attr->getName();
@@ -109,7 +109,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit_Attributes extends Mage_Adminht
 
     public function _getAttributes($setId)
     {
-        $attributes = Mage::getModel('googlebase/attribute')->getAllowedAttributes($setId);
+        $attributes = AO::getModel('googlebase/attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {

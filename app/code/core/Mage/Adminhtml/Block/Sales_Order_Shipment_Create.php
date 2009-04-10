@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create extends Mage_Adminhtml_Bl
 
         parent::__construct();
 
-        //$this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Shipment'));
+        //$this->_updateButton('save', 'label', AO::helper('sales')->__('Submit Shipment'));
         $this->_removeButton('save');
         $this->_removeButton('delete');
     }
@@ -54,12 +54,12 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create extends Mage_Adminhtml_Bl
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     public function getHeaderText()
     {
-        $header = Mage::helper('sales')
+        $header = AO::helper('sales')
             ->__('New Shipment for Order #%s', $this->getShipment()->getOrder()->getRealOrderId());
         return $header;
     }

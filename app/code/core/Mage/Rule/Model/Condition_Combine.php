@@ -46,8 +46,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadAggregatorOptions()
     {
         $this->setAggregatorOption(array(
-            'all' => Mage::helper('rule')->__('ALL'),
-            'any' => Mage::helper('rule')->__('ANY'),
+            'all' => AO::helper('rule')->__('ALL'),
+            'any' => AO::helper('rule')->__('ANY'),
         ));
         return $this;
     }
@@ -79,15 +79,15 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             'values'=>$this->getAggregatorSelectOptions(),
             'value'=>$this->getAggregator(),
             'value_name'=>$this->getAggregatorName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+        ))->setRenderer(AO::getBlockSingleton('rule/editable'));
     }
 /* end aggregator methods */
 
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            1 => Mage::helper('rule')->__('TRUE'),
-            0 => Mage::helper('rule')->__('FALSE'),
+            1 => AO::helper('rule')->__('TRUE'),
+            0 => AO::helper('rule')->__('FALSE'),
         ));
         return $this;
     }
@@ -163,7 +163,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         if (!empty($arr[$key]) && is_array($arr[$key])) {
             foreach ($arr[$key] as $condArr) {
                 try {
-                    $cond = @Mage::getModel($condArr['type']);
+                    $cond = @AO::getModel($condArr['type']);
                     if (!empty($cond)) {
                         $this->addCondition($cond);
                         $cond->loadArray($condArr, $key);
@@ -192,7 +192,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asHtml()
     {
            $html = $this->getTypeElement()->getHtml().
-               Mage::helper('rule')->__("If %s of these conditions are %s:",
+               AO::helper('rule')->__("If %s of these conditions are %s:",
                    $this->getAggregatorElement()->getHtml(),
                    $this->getValueElement()->getHtml()
                );
@@ -208,7 +208,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][new_child]',
             'values'=>$this->getNewChildSelectOptions(),
             'value_name'=>$this->getNewChildName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/newchild'));
+        ))->setRenderer(AO::getBlockSingleton('rule/newchild'));
     }
 
     public function asHtmlRecursive()
@@ -223,7 +223,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
 
     public function asString($format='')
     {
-        $str = Mage::helper('rule')->__("If %s of these conditions are %s:", $this->getAggregatorName(), $this->getValueName());
+        $str = AO::helper('rule')->__("If %s of these conditions are %s:", $this->getAggregatorName(), $this->getValueName());
         return $str;
     }
 

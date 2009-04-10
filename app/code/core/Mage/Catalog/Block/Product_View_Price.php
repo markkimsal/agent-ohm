@@ -36,10 +36,10 @@
  {
     public function getPrice()
     {
-        $product = Mage::registry('product');
+        $product = AO::registry('product');
         /*if($product->isConfigurable()) {
             $price = $product->getCalculatedPrice((array)$this->getRequest()->getParam('super_attribute', array()));
-            return Mage::app()->getStore()->formatPrice($price);
+            return AO::app()->getStore()->formatPrice($price);
         }*/
 
         return $product->getFormatedPrice();

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('admin/user_collection');
+        $collection = AO::getResourceModel('admin/user_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('user_id', array(
-            'header'    => Mage::helper('adminhtml')->__('ID'),
+            'header'    => AO::helper('adminhtml')->__('ID'),
             'width'     => 5,
             'align'     => 'right',
             'sortable'  => true,
@@ -61,32 +61,32 @@ class Mage_Adminhtml_Block_Permissions_User_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('username', array(
-            'header'    => Mage::helper('adminhtml')->__('User Name'),
+            'header'    => AO::helper('adminhtml')->__('User Name'),
             'index'     => 'username'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('adminhtml')->__('First Name'),
+            'header'    => AO::helper('adminhtml')->__('First Name'),
             'index'     => 'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('adminhtml')->__('Last Name'),
+            'header'    => AO::helper('adminhtml')->__('Last Name'),
             'index'     => 'lastname'
         ));
 
         $this->addColumn('email', array(
-            'header'    => Mage::helper('adminhtml')->__('Email'),
+            'header'    => AO::helper('adminhtml')->__('Email'),
             'width'     => 40,
             'align'     => 'left',
             'index'     => 'email'
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('adminhtml')->__('Status'),
+            'header'    => AO::helper('adminhtml')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('adminhtml')->__('Active'), '0' => Mage::helper('adminhtml')->__('Inactive')),
+            'options'   => array('1' => AO::helper('adminhtml')->__('Active'), '0' => AO::helper('adminhtml')->__('Inactive')),
         ));
 
         return parent::_prepareColumns();

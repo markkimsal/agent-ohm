@@ -521,7 +521,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     public function changeColumn($tableName, $oldColumnName, $newColumnName, $definition,  $showStatus = false)
     {
         if (!$this->tableColumnExists($tableName, $oldColumnName)) {
-            Mage::throwException('Column "' . $oldColumnName . '" does not exists on table "' . $tableName . '"');
+            AO::throwException('Column "' . $oldColumnName . '" does not exists on table "' . $tableName . '"');
         }
 
         $sql = 'ALTER TABLE ' . $this->quoteIdentifier($tableName)
@@ -548,7 +548,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     public function modifyColumn($tableName, $columnName, $definition, $showStatus = false)
     {
         if (!$this->tableColumnExists($tableName, $columnName)) {
-            Mage::throwException('Column "' . $columnName . '" does not exists on table "' . $tableName . '"');
+            AO::throwException('Column "' . $columnName . '" does not exists on table "' . $tableName . '"');
         }
 
         $sql = 'ALTER TABLE ' . $this->quoteIdentifier($tableName)

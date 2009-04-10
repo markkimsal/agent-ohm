@@ -39,10 +39,10 @@ class Mage_Bundle_Model_Source_Option_Type
     {
         $types = array();
 
-        foreach (Mage::getConfig()->getNode(self::BUNDLE_OPTIONS_TYPES_PATH)->children() as $type) {
+        foreach (AO::getConfig()->getNode(self::BUNDLE_OPTIONS_TYPES_PATH)->children() as $type) {
             $labelPath = self::BUNDLE_OPTIONS_TYPES_PATH . '/' . $type->getName() . '/label';
             $types[] = array(
-                'label' => (string) Mage::getConfig()->getNode($labelPath),
+                'label' => (string) AO::getConfig()->getNode($labelPath),
                 'value' => $type->getName()
             );
         }

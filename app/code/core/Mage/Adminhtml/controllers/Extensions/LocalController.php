@@ -38,7 +38,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
 {
     public function indexAction()
     {
-        $url = Mage::getBaseUrl('web').'downloader/?return='.urlencode(Mage::getUrl('adminhtml'));
+        $url = AO::getBaseUrl('web').'downloader/?return='.urlencode(AO::getUrl('adminhtml'));
         $this->getResponse()->setRedirect($url);
         return;
 
@@ -61,8 +61,8 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         $this->loadLayout();
 
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $ext = Mage::getModel('adminhtml/extension')->loadLocal($pkg);
-        Mage::register('local_extension', $ext);
+        $ext = AO::getModel('adminhtml/extension')->loadLocal($pkg);
+        AO::register('local_extension', $ext);
 #echo "<pre>".print_r($ext->getData(),1)."</pre>";
         $this->_setActiveMenu('system/extensions/local');
 
@@ -75,14 +75,14 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
     public function prepareAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Preparing to change $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Preparing to change $pkg, please wait...")."\r\n\r\n");
         Varien_Pear::getInstance()->runHtmlConsole($params);
     }
 
     public function upgradeAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Upgrading $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade';
             $params['options'] = array();
@@ -90,15 +90,15 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function uninstallAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Uninstalling $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Uninstalling $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'uninstall';
             $params['options'] = array();
@@ -106,9 +106,9 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function upgradeAllAction()
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
 
     public function upgradeAllRunAction()
     {
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading all available packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Upgrading all available packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade-all';
             $params['options'] = array();
@@ -132,12 +132,12 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
             echo "ALL UPGRADES ARE DONE.\n";
         } else {
             echo "ERROR DURING UPGRADES.\n";
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function massUninstallAction()
@@ -153,7 +153,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
 
     public function massUninstallRunAction()
     {
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Uninstalling selected packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Uninstalling selected packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'uninstall';
             $params['options'] = array();
@@ -165,9 +165,9 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function massUpgradeAction()
@@ -183,7 +183,7 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
 
     public function massUpgradeRunAction()
     {
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading selected packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Upgrading selected packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade';
             $params['options'] = array();
@@ -195,13 +195,13 @@ class Mage_Adminhtml_Extensions_LocalController extends Mage_Adminhtml_Controlle
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/local');
+        return AO::getSingleton('admin/session')->isAllowed('system/extensions/local');
     }
 }

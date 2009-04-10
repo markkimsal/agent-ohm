@@ -71,11 +71,11 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {
             $addInheritCheckbox = true;
-            $checkboxLabel = Mage::helper('adminhtml')->__('Use website');
+            $checkboxLabel = AO::helper('adminhtml')->__('Use website');
         }
         elseif ($element->getCanUseDefaultValue()) {
             $addInheritCheckbox = true;
-            $checkboxLabel = Mage::helper('adminhtml')->__('Use default');
+            $checkboxLabel = AO::helper('adminhtml')->__('Use default');
         }
 
         if ($addInheritCheckbox) {

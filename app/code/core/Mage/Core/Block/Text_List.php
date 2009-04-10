@@ -38,7 +38,7 @@ class Mage_Core_Block_Text_List extends Mage_Core_Block_Text
 		foreach ($this->getSortedChildren() as $name) {
 			$block = $this->getLayout()->getBlock($name);
 			if (!$block) {
-				Mage::throwException(Mage::helper('core')->__('Invalid block: %s', $name));
+				AO::throwException(AO::helper('core')->__('Invalid block: %s', $name));
 			}
 			$this->addText($block->toHtml());
 		}

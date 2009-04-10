@@ -38,19 +38,19 @@ class Mage_Poll_VoteController extends Mage_Core_Controller_Front_Action
         $pollId     = intval($this->getRequest()->getParam('poll_id'));
         $answerId   = intval($this->getRequest()->getParam('vote'));
 
-        $poll = Mage::getModel('poll/poll')->load($pollId);
+        $poll = AO::getModel('poll/poll')->load($pollId);
 
         /**
          * Check poll data
          */
         if ($poll->getId() && !$poll->getClosed() && !$poll->isVoted()) {
-            $vote = Mage::getModel('poll/poll_vote')
+            $vote = AO::getModel('poll/poll_vote')
                 ->setPollAnswerId($answerId)
                 ->setIpAddress(ip2long($this->getRequest()->getServer('REMOTE_ADDR')))
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+                ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId());
 
             $poll->addVote($vote);
-            Mage::getSingleton('core/session')->setJustVotedPoll($pollId);
+            AO::getSingleton('core/session')->setJustVotedPoll($pollId);
         }
         $this->_redirectReferer();
     }

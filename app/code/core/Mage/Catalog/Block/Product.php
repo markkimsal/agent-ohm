@@ -36,7 +36,7 @@ class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
 				$productId = $this->getData('product')->getProductId();
 			}
 			if ($productId) {
-				$product = Mage::getModel('catalog/product')->load($productId);
+				$product = AO::getModel('catalog/product')->load($productId);
 				if ($product) {
 					$this->setProduct($product);
 				}

@@ -36,7 +36,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('checkout/cart');
+        return AO::getSingleton('checkout/cart');
     }
 
     /**
@@ -46,7 +46,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     protected function _goBack()
     {
-        if (!Mage::getStoreConfig('checkout/cart/redirect_to_cart')
+        if (!AO::getStoreConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
             && $backUrl = $this->_getRefererUrl()) {
 
@@ -89,8 +89,8 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $productId = (int) $this->getRequest()->getParam('product');
         if ($productId) {
-            $product = Mage::getModel('catalog/product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = AO::getModel('catalog/product')
+                ->setStoreId(AO::app()->getStore()->getId())
                 ->load($productId);
             if ($product->getId()) {
                 return $product;
@@ -110,7 +110,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             $cart->save();
 
             if (!$this->_getQuote()->validateMinimumAmount()) {
-                $warning = Mage::getStoreConfig('sales/minimum_order/description');
+                $warning = AO::getStoreConfig('sales/minimum_order/description');
                 $cart->getCheckoutSession()->addNotice($warning);
             }
         }
@@ -169,7 +169,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             /**
              * @todo remove wishlist observer processAddToCart
              */
-            Mage::dispatchEvent('checkout_cart_add_product_complete', array('product'=>$product, 'request'=>$this->getRequest()));
+            AO::dispatchEvent('checkout_cart_add_product_complete', array('product'=>$product, 'request'=>$this->getRequest()));
             $message = $this->__('%s was successfully added to your shopping cart.', $product->getName());
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 $this->_getSession()->addSuccess($message);
@@ -190,7 +190,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if ($url) {
                 $this->getResponse()->setRedirect($url);
             } else {
-                $this->_redirectReferer(Mage::helper('checkout/cart')->getCartUrl());
+                $this->_redirectReferer(AO::helper('checkout/cart')->getCartUrl());
             }
         }
         catch (Exception $e) {
@@ -203,7 +203,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     {
         $orderItemIds = $this->getRequest()->getParam('order_items', array());
         if (is_array($orderItemIds)) {
-            $itemsCollection = Mage::getModel('sales/order_item')
+            $itemsCollection = AO::getModel('sales/order_item')
                 ->getCollection()
                 ->addIdFilter($orderItemIds)
                 ->load();
@@ -268,7 +268,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 $this->_getSession()->addError($this->__('Cannot remove item'));
             }
         }
-        $this->_redirectReferer(Mage::getUrl('*/*'));
+        $this->_redirectReferer(AO::getUrl('*/*'));
     }
 
     /**
@@ -335,12 +335,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             if ($couponCode) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_getSession()->addSuccess(
-                        $this->__('Coupon code "%s" was applied successfully.', Mage::helper('core')->htmlEscape($couponCode))
+                        $this->__('Coupon code "%s" was applied successfully.', AO::helper('core')->htmlEscape($couponCode))
                     );
                 }
                 else {
                     $this->_getSession()->addError(
-                        $this->__('Coupon code "%s" is not valid.', Mage::helper('core')->htmlEscape($couponCode))
+                        $this->__('Coupon code "%s" is not valid.', AO::helper('core')->htmlEscape($couponCode))
                     );
                 }
             } else {

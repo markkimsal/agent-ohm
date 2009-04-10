@@ -38,40 +38,40 @@ class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tabs extends Mage_Adminhtml_Bl
         parent::__construct();
         $this->setId('extensions_remote_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Remote Extension Info'));
+        $this->setTitle(AO::helper('adminhtml')->__('Remote Extension Info'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('package', array(
-            'label'     => Mage::helper('adminhtml')->__('Package Info'),
+            'label'     => AO::helper('adminhtml')->__('Package Info'),
             'content'   => $this->_getTabHtml('package'),
             'active'    => true,
         ));
 
         $this->addTab('changelog', array(
-            'label'     => Mage::helper('adminhtml')->__('Changelog'),
+            'label'     => AO::helper('adminhtml')->__('Changelog'),
             'content'   => $this->_getTabHtml('changelog'),
         ));
 
         $this->addTab('actions', array(
-            'label'     => Mage::helper('adminhtml')->__('Actions'),
+            'label'     => AO::helper('adminhtml')->__('Actions'),
             'content'   => $this->_getTabHtml('actions'),
         ));
 
 /*
         $this->addTab('release', array(
-            'label'     => Mage::helper('adminhtml')->__('Release Info'),
+            'label'     => AO::helper('adminhtml')->__('Release Info'),
             'content'   => $this->_getTabHtml('release'),
         ));
 
         $this->addTab('maintainers', array(
-            'label'     => Mage::helper('adminhtml')->__('Maintainers'),
+            'label'     => AO::helper('adminhtml')->__('Maintainers'),
             'content'   => $this->_getTabHtml('maintainers'),
         ));
 
         $this->addTab('depends', array(
-            'label'     => Mage::helper('adminhtml')->__('Dependencies'),
+            'label'     => AO::helper('adminhtml')->__('Dependencies'),
             'content'   => $this->_getTabHtml('depends'),
         ));
 

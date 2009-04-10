@@ -45,16 +45,16 @@ class Mage_Adminhtml_Block_Dashboard_Totals extends Mage_Adminhtml_Block_Dashboa
     {
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
 
-        $collection = Mage::getResourceModel('reports/order_collection')
+        $collection = AO::getResourceModel('reports/order_collection')
             ->calculateTotals($isFilter);
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getRequest()->getParam('store'));
         } else if ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 

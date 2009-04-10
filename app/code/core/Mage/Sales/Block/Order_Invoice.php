@@ -62,34 +62,34 @@ class Mage_Sales_Block_Order_Invoice extends Mage_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return AO::getUrl('*/*/history');
     }
 
     public function getViewUrl($order)
     {
-        return Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/view', array('order_id' => $order->getId()));
     }
 
     public function getShipmentUrl($order)
     {
-        return Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/shipment', array('order_id' => $order->getId()));
     }
 
     public function getCreditmemoUrl($order)
     {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
 
     public function getPrintInvoiceUrl($invoice){
-        return Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return AO::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
     }
 
     public function getPrintAllInvoicesUrl($order){
-        return Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
     }
 }

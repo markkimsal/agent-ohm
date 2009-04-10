@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
 
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')->getResourceCollection();
+        $collection = AO::getModel('core/website')->getResourceCollection();
 
         $websiteIds = $this->getWebsiteIds();
         if (!is_null($websiteIds)) {
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
     public function getGroupCollection($website)
     {
         if (!$website instanceof Mage_Core_Model_Website) {
-            $website = Mage::getModel('core/website')->load($website);
+            $website = AO::getModel('core/website')->load($website);
         }
         return $website->getGroupCollection();
     }
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
     public function getStoreCollection($group)
     {
         if (!$group instanceof Mage_Core_Model_Store_Group) {
-            $group = Mage::getModel('core/store_group')->load($group);
+            $group = AO::getModel('core/store_group')->load($group);
         }
         $stores = $group->getStoreCollection();
         $_storeIds = $this->getStoreIds();
@@ -103,12 +103,12 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
 
     public function isShow()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !AO::app()->isSingleStoreMode();
     }
 
     protected function _toHtml()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             return parent::_toHtml();
         }
         return '';

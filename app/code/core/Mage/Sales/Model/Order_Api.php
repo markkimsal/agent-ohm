@@ -49,7 +49,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
      */
     protected function _initOrder($orderIncrementId)
     {
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
 
         /* @var $order Mage_Sales_Model_Order */
 
@@ -71,7 +71,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
     public function items($filters = null)
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = AO::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
             ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
@@ -157,17 +157,17 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
         try {
             if ($notify && $comment) {
-                $oldStore = Mage::getDesign()->getStore();
-                $oldArea = Mage::getDesign()->getArea();
-                Mage::getDesign()->setStore($order->getStoreId());
-                Mage::getDesign()->setArea('frontend');
+                $oldStore = AO::getDesign()->getStore();
+                $oldArea = AO::getDesign()->getArea();
+                AO::getDesign()->setStore($order->getStoreId());
+                AO::getDesign()->setArea('frontend');
             }
 
             $order->sendOrderUpdateEmail($notify, $comment);
             $order->save();
             if ($notify && $comment) {
-                Mage::getDesign()->setStore($oldStore);
-                Mage::getDesign()->setArea($oldArea);
+                AO::getDesign()->setStore($oldStore);
+                AO::getDesign()->setArea($oldArea);
             }
 
         } catch (Mage_Core_Exception $e) {

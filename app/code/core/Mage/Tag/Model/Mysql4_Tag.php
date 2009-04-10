@@ -48,7 +48,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'name',
-            'title' => Mage::helper('tag')->__('Tag')
+            'title' => AO::helper('tag')->__('Tag')
         ));
         return $this;
     }
@@ -58,8 +58,8 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         if( $name ) {
             $read = $this->_getReadAdapter();
             $select = $read->select();
-            if (Mage::helper('core/string')->strlen($name) > 255) {
-                $name = Mage::helper('core/string')->substr($name, 0, 255);
+            if (AO::helper('core/string')->strlen($name) > 255) {
+                $name = AO::helper('core/string')->substr($name, 0, 255);
             }
 
             $select->from($this->getMainTable())
@@ -82,8 +82,8 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
             }
         }
 
-        if (Mage::helper('core/string')->strlen($object->getName()) > 255) {
-            $object->setName(Mage::helper('core/string')->substr($object->getName(), 0, 255));
+        if (AO::helper('core/string')->strlen($object->getName()) > 255) {
+            $object->setName(AO::helper('core/string')->substr($object->getName(), 0, 255));
         }
 
         return parent::_beforeSave($object);

@@ -42,9 +42,9 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     */
     public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId=null)
     {
-        $page = Mage::getSingleton('cms/page');
+        $page = AO::getSingleton('cms/page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
-            $page->setStoreId(Mage::app()->getStore()->getId());
+            $page->setStoreId(AO::app()->getStore()->getId());
             if (!$page->load($pageId)) {
                 return false;
             }
@@ -56,7 +56,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 
         if ($page->getCustomTheme()) {
             $apply = true;
-            $today = Mage::app()->getLocale()->date()->toValue();
+            $today = AO::app()->getLocale()->date()->toValue();
             if (($from = $page->getCustomThemeFrom()) && strtotime($from)>$today) {
                 $apply = false;
             }
@@ -65,7 +65,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             }
             if ($apply) {
                 list($package, $theme) = explode('/', $page->getCustomTheme());
-                Mage::getSingleton('core/design_package')
+                AO::getSingleton('core/design_package')
                     ->setPackageName($package)
                     ->setTheme($theme);
             }
@@ -75,11 +75,11 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
         $action->generateLayoutXml()->generateLayoutBlocks();
 
-        if ($storage = Mage::getSingleton('catalog/session')) {
+        if ($storage = AO::getSingleton('catalog/session')) {
             $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
         }
 
-        if ($storage = Mage::getSingleton('checkout/session')) {
+        if ($storage = AO::getSingleton('checkout/session')) {
             $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
         }
 

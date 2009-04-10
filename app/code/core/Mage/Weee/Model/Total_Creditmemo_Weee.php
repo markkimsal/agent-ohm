@@ -44,7 +44,7 @@ class Mage_Weee_Model_Total_Creditmemo_Weee extends Mage_Sales_Model_Order_Credi
             $baseTotalTax += $item->getBaseWeeeTaxAppliedAmount()*$item->getQty();
 
             $newApplied = array();
-            $applied = Mage::helper('weee')->getApplied($item);
+            $applied = AO::helper('weee')->getApplied($item);
             foreach ($applied as $one) {
                 $one['base_row_amount'] = $one['base_amount']*$item->getQty();
                 $one['row_amount'] = $one['amount']*$item->getQty();
@@ -53,13 +53,13 @@ class Mage_Weee_Model_Total_Creditmemo_Weee extends Mage_Sales_Model_Order_Credi
 
                 $newApplied[] = $one;
             }
-            Mage::helper('weee')->setApplied($item, $newApplied);
+            AO::helper('weee')->setApplied($item, $newApplied);
 
             $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
             $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
         }
 
-        if (Mage::helper('weee')->includeInSubtotal($store)) {
+        if (AO::helper('weee')->includeInSubtotal($store)) {
             $creditmemo->setSubtotal($creditmemo->getSubtotal() + $totalTax);
             $creditmemo->setBaseSubtotal($creditmemo->getBaseSubtotal() + $baseTotalTax);
         } else {

@@ -58,7 +58,7 @@ class Mage_GoogleBase_Model_Attribute extends Mage_Core_Model_Abstract
 
     public function getAllowedAttributes($setId)
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
+        $attributes = AO::getModel('catalog/product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 

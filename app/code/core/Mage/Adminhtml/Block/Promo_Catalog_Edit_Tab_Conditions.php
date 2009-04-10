@@ -36,47 +36,47 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions extends Mage_Adminh
 {
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = AO::registry('current_promo_catalog_rule');
 
         //$form = new Varien_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $renderer = AO::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('catalogrule')->__('Conditions (leave blank for all products)'))
+            'legend'=>AO::helper('catalogrule')->__('Conditions (leave blank for all products)'))
         )->setRenderer($renderer);
 
     	$fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('catalogrule')->__('Conditions'),
-            'title' => Mage::helper('catalogrule')->__('Conditions'),
+            'label' => AO::helper('catalogrule')->__('Conditions'),
+            'title' => AO::helper('catalogrule')->__('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
+        ))->setRule($model)->setRenderer(AO::getBlockSingleton('rule/conditions'));
 /*
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Actions')));
+        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>AO::helper('catalogrule')->__('Actions')));
 
     	$fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => Mage::helper('catalogrule')->__('Actions'),
-            'title' => Mage::helper('catalogrule')->__('Actions'),
+            'label' => AO::helper('catalogrule')->__('Actions'),
+            'title' => AO::helper('catalogrule')->__('Actions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
+        ))->setRule($model)->setRenderer(AO::getBlockSingleton('rule/actions'));
 
-        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>Mage::helper('catalogrule')->__('Options')));
+        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>AO::helper('catalogrule')->__('Options')));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('catalogrule')->__('Stop further rules processing'),
-            'title'     => Mage::helper('catalogrule')->__('Stop further rules processing'),
+            'label'     => AO::helper('catalogrule')->__('Stop further rules processing'),
+            'title'     => AO::helper('catalogrule')->__('Stop further rules processing'),
             'name'      => 'stop_rules_processing',
             'required' => true,
             'options'    => array(
-                '1' => Mage::helper('catalogrule')->__('Yes'),
-                '0' => Mage::helper('catalogrule')->__('No'),
+                '1' => AO::helper('catalogrule')->__('Yes'),
+                '0' => AO::helper('catalogrule')->__('No'),
             ),
         ));
 */

@@ -35,7 +35,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
 {
     public function addProduct($product)
     {
-        $item = Mage::getModel('catalog/product_compare_item');
+        $item = AO::getModel('catalog/product_compare_item');
         $this->_addVisitorToItem($item);
 
         $item->loadByProduct($product);
@@ -59,7 +59,7 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
 
     public function getItemCollection()
     {
-        return Mage::getResourceModel('catalog/product_compare_item_collection');
+        return AO::getResourceModel('catalog/product_compare_item_collection');
     }
 
     public function removeProduct()
@@ -69,17 +69,17 @@ class Mage_Catalog_Model_Product_Compare_List extends Varien_Object
 
     protected function _addVisitorToItem($item)
     {
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $item->addCustomerData(Mage::getSingleton('customer/session')->getCustomer());
+        if (AO::getSingleton('customer/session')->isLoggedIn()) {
+            $item->addCustomerData(AO::getSingleton('customer/session')->getCustomer());
         }
         else {
-            $item->addVisitorId(Mage::getSingleton('log/visitor')->getId());
+            $item->addVisitorId(AO::getSingleton('log/visitor')->getId());
         }
         return $this;
     }
 
     public function hasItems($customerId, $visitorId)
     {
-        return Mage::getResourceSingleton('catalog/product_compare_item')->getCount($customerId, $visitorId);
+        return AO::getResourceSingleton('catalog/product_compare_item')->getCount($customerId, $visitorId);
     }
 }

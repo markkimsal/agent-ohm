@@ -30,7 +30,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Payment_Cctype
     {
         $options =  array();
         
-        foreach (Mage::getSingleton('payment/config')->getCcTypes() as $code => $name) {
+        foreach (AO::getSingleton('payment/config')->getCcTypes() as $code => $name) {
         	$options[] = array(
         	   'value' => $code,
         	   'label' => $name 

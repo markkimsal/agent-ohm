@@ -36,24 +36,24 @@ class Mage_Adminhtml_Catalog_Product_GroupController extends Mage_Adminhtml_Cont
 {
     public function saveAction()
     {
-        $model = Mage::getModel('eav/entity_attribute_group');
+        $model = AO::getModel('eav/entity_attribute_group');
 
         $model->setAttributeGroupName($this->getRequest()->getParam('attribute_group_name'))
               ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'));
 
         if( $model->itemExists() ) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while saving this group. Group with the same name already exists.'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('catalog')->__('Error while saving this group. Group with the same name already exists.'));
         } else {
             try {
                 $model->save();
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Error while saving this group. Please try again later.'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('catalog')->__('Error while saving this group. Please try again later.'));
             }
         }
     }
     
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
+        return AO::getSingleton('admin/session')->isAllowed('catalog/products');
     }
 }

@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Form extends Mage_Adminht
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     protected function _prepareLayout()

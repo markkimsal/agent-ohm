@@ -44,7 +44,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
 
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('admin/roles_user_collection');
+        return AO::getResourceModel('admin/roles_user_collection');
     }
 
     public function getResourcesTree()
@@ -71,7 +71,7 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
     {
         static $result;
         if (is_null($resource)) {
-            $resource = Mage::getConfig()->getNode('adminhtml/acl/resources');
+            $resource = AO::getConfig()->getNode('adminhtml/acl/resources');
             $resourceName = null;
             $level = -1;
         } else {
@@ -93,10 +93,10 @@ class Mage_Admin_Model_Roles extends Mage_Core_Model_Abstract
                 //   return array();
                 //}
 
-                //$resource->title = Mage::helper($module)->__((string)$resource->title);
+                //$resource->title = AO::helper($module)->__((string)$resource->title);
 
                 if ( is_null($represent2Darray) ) {
-                    $result[$resourceName]['name']  = Mage::helper($module)->__((string)$resource->title);
+                    $result[$resourceName]['name']  = AO::helper($module)->__((string)$resource->title);
                     $result[$resourceName]['level'] = $level;
                 } else {
                     $result[] = $resourceName;

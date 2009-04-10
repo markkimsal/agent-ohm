@@ -38,7 +38,7 @@ class Mage_Chronopay_Block_Standard_Redirect extends Mage_Core_Block_Abstract
 
     protected function _toHtml()
     {
-        $standard = Mage::getModel('chronopay/standard');
+        $standard = AO::getModel('chronopay/standard');
         $form = new Varien_Data_Form();
         $form->setAction($standard->getChronopayUrl())
             ->setId('chronopay_standard_checkout')

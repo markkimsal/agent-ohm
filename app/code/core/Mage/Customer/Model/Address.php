@@ -73,7 +73,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
             return false;
         }
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer')
+            $this->_customer = AO::getModel('customer/customer')
                 ->load($this->getCustomerId());
         }
         return $this->_customer;

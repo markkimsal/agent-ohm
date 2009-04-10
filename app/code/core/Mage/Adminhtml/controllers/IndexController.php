@@ -39,7 +39,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $url = Mage::getSingleton('admin/session')->getUser()->getStartupPageUrl();
+        $url = AO::getSingleton('admin/session')->getUser()->getStartupPageUrl();
 
         $this->_redirect($url);
         return;
@@ -55,7 +55,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function loginAction()
     {
-        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+        if (AO::getSingleton('admin/session')->isLoggedIn()) {
             $this->_redirect('*');
             return;
         }
@@ -73,28 +73,28 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     public function logoutAction()
     {
-        $auth = Mage::getSingleton('admin/session')->unsetAll();
-        Mage::getSingleton('adminhtml/session')->unsetAll();
-        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('You successfully logged out.'));
+        $auth = AO::getSingleton('admin/session')->unsetAll();
+        AO::getSingleton('adminhtml/session')->unsetAll();
+        AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__('You successfully logged out.'));
         $this->_redirect('*');
     }
 
     public function globalSearchAction()
     {
-        $searchModules = Mage::getConfig()->getNode("adminhtml/global_search");
+        $searchModules = AO::getConfig()->getNode("adminhtml/global_search");
         $items = array();
 
-        if ( !Mage::getSingleton('admin/session')->isAllowed('admin/global_search') ) {
+        if ( !AO::getSingleton('admin/session')->isAllowed('admin/global_search') ) {
             $items[] = array(
                 'id'=>'error',
                 'type'=>'Error',
-                'name'=>Mage::helper('adminhtml')->__('Access Deny'),
-                'description'=>Mage::helper('adminhtml')->__('You have not enought permissions to use this functionality.')
+                'name'=>AO::helper('adminhtml')->__('Access Deny'),
+                'description'=>AO::helper('adminhtml')->__('You have not enought permissions to use this functionality.')
             );
             $totalCount = 1;
         } else {
             if (empty($searchModules)) {
-                $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>Mage::helper('adminhtml')->__('No search modules registered'), 'description'=>Mage::helper('adminhtml')->__('Please make sure that all global admin search modules are installed and activated.'));
+                $items[] = array('id'=>'error', 'type'=>'Error', 'name'=>AO::helper('adminhtml')->__('No search modules registered'), 'description'=>AO::helper('adminhtml')->__('Please make sure that all global admin search modules are installed and activated.'));
                 $totalCount = 1;
             } else {
                 $start = $this->getRequest()->getParam('start', 1);
@@ -134,7 +134,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     {
         $locale = $this->getRequest()->getParam('locale');
         if ($locale) {
-            Mage::getSingleton('adminhtml/session')->setLocale($locale);
+            AO::getSingleton('adminhtml/session')->setLocale($locale);
         }
         $this->_redirectReferer();
     }
@@ -169,30 +169,30 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $email = $this->getRequest()->getParam('email');
         $params = $this->getRequest()->getParams();
         if (!empty($email) && !empty($params)) {
-            $collection = Mage::getResourceModel('admin/user_collection');
+            $collection = AO::getResourceModel('admin/user_collection');
             /* @var $collection Mage_Admin_Model_Mysql4_User_Collection */
             $collection->addFieldToFilter('email', $email);
             $collection->load(false);
 
             if ($collection->getSize() > 0) {
                 foreach ($collection as $item) {
-                    $user = Mage::getModel('admin/user')->load($item->getId());
+                    $user = AO::getModel('admin/user')->load($item->getId());
                     if ($user->getId()) {
                         $pass = substr(md5(uniqid(rand(), true)), 0, 6);
                         $user->setPassword($pass);
                         $user->save();
                         $user->setPlainPassword($pass);
                         $user->sendNewPasswordEmail();
-                        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('A new password was sent to your email address. Please check your email and click Back to Login.'));
+                        AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__('A new password was sent to your email address. Please check your email and click Back to Login.'));
                         $email = '';
                     }
                     break;
                 }
             } else {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Can\'t find email address.'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('Can\'t find email address.'));
             }
         } elseif (!empty($params)) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Email address is empty.'));
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('Email address is empty.'));
         }
 
 
@@ -205,12 +205,12 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        /*if ( $this->getRequest()->getActionName() == 'login' && ! Mage::getSingleton('admin/session')->isAllowed('admin') ) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('You have not enought permissions to login.'));
-            $request = Mage::app()->getRequest();
+        /*if ( $this->getRequest()->getActionName() == 'login' && ! AO::getSingleton('admin/session')->isAllowed('admin') ) {
+            AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('You have not enought permissions to login.'));
+            $request = AO::app()->getRequest();
 
         } else {
-            return Mage::getSingleton('admin/session')->isAllowed('admin');
+            return AO::getSingleton('admin/session')->isAllowed('admin');
         }
         */
         return true;

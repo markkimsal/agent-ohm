@@ -63,10 +63,10 @@ class Mage_Newsletter_Model_Mysql4_Template
      */
     public function __construct()
     {
-        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('newsletter/template');
-        $this->_queueTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('newsletter_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('newsletter_write');
+        $this->_templateTable = AO::getSingleton('core/resource')->getTableName('newsletter/template');
+        $this->_queueTable = AO::getSingleton('core/resource')->getTableName('newsletter/queue');
+        $this->_read = AO::getSingleton('core/resource')->getConnection('newsletter_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('newsletter_write');
     }
 
     /**
@@ -219,15 +219,15 @@ class Mage_Newsletter_Model_Mysql4_Template
         $data['template_actual'] = ( !is_null($template->getTemplateActual()) && $template->getTemplateActual() == 0  ? 0 : 1 );
 
         if(!$template->getAddedAt()) {
-        	$template->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
-        	$template->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+        	$template->setAddedAt(AO::getSingleton('core/date')->gmtDate());
+        	$template->setModifiedAt(AO::getSingleton('core/date')->gmtDate());
         }
 
         $data['modified_at']	 = $template->getModifiedAt();
         $data['added_at']	 = $template->getAddedAt();
 
         if($this->checkCodeUsage($template)) {
-            Mage::throwException(Mage::helper('newsletter')->__('Duplicate of template code'));
+            AO::throwException(AO::helper('newsletter')->__('Duplicate of template code'));
         }
 
         $validators = array(
@@ -252,7 +252,7 @@ class Mage_Newsletter_Model_Mysql4_Template
 
             }
 
-            Mage::throwException($errorString);
+            AO::throwException($errorString);
         }
 
         return $data;
@@ -272,7 +272,7 @@ class Mage_Newsletter_Model_Mysql4_Template
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(Mage::helper('newsletter')->__('Cannot delete template'));
+            AO::throwException(AO::helper('newsletter')->__('Cannot delete template'));
         }
     }
 }

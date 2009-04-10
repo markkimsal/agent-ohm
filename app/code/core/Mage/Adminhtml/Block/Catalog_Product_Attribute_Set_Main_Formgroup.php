@@ -41,11 +41,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>Mage::helper('catalog')->__('Add New Group')));
+        $fieldset = $form->addFieldset('set_fieldset', array('legend'=>AO::helper('catalog')->__('Add New Group')));
 
         $fieldset->addField('attribute_group_name', 'text',
                             array(
-                                'label' => Mage::helper('catalog')->__('Name'),
+                                'label' => AO::helper('catalog')->__('Name'),
                                 'name' => 'attribute_group_name',
                                 'required' => true,
                             )
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
                             array(
                                 'text' => $this->getLayout()->createBlock('adminhtml/widget_button')
                                             ->setData(array(
-                                                'label'     => Mage::helper('catalog')->__('Add Group'),
+                                                'label'     => AO::helper('catalog')->__('Add Group'),
                                                 'onclick'   => 'this.form.submit();',
 																								'class' => 'add'
                                             ))
@@ -81,8 +81,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends 
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('eav/entity_type')
-                        ->load(Mage::registry('entityType'))
+                    : AO::getModel('eav/entity_type')
+                        ->load(AO::registry('entityType'))
                         ->getDefaultAttributeSetId();
     }
 }

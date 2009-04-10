@@ -88,7 +88,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item_Collection extends Mage_Core
      */
     public function joinStockStatus($storeId = null)
     {
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = AO::app()->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
             array('status_table' => $this->getTable('cataloginventory/stock_status')),
             '`main_table`.`product_id`=`status_table`.`product_id`'
@@ -115,7 +115,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Item_Collection extends Mage_Core
     {
         $allowedMethods = array('<', '>', '=', '<=', '>=', '<>');
         if (!in_array($comparsionMethod, $allowedMethods)) {
-            Mage::throwException(Mage::helper('cataloginventory')->__('%s is not correct comparsion method.', $comparsionMethod));
+            AO::throwException(AO::helper('cataloginventory')->__('%s is not correct comparsion method.', $comparsionMethod));
         }
         $this->getSelect()->where("main_table.qty {$comparsionMethod} ?", $qty);
         return $this;

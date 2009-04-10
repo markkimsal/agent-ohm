@@ -33,7 +33,7 @@ class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
 {
     public function isAllow()
     {
-        if (Mage::getStoreConfig('sales/reorder/allow')) {
+        if (AO::getStoreConfig('sales/reorder/allow')) {
             return true;
         }
         return false;

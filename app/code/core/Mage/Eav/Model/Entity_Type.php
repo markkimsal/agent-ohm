@@ -111,7 +111,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
      */
     protected function _getAttributeCollection()
     {
-        $collection = Mage::getModel('eav/entity_attribute')->getCollection();
+        $collection = AO::getModel('eav/entity_attribute')->getCollection();
         if ($objectsModel = $this->getAttributeModel()) {
             $collection->setModel($objectsModel);
         }
@@ -126,7 +126,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = Mage::getModel('eav/entity_attribute_set')->getResourceCollection()
+            $this->_sets = AO::getModel('eav/entity_attribute_set')->getResourceCollection()
                 ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
@@ -152,10 +152,10 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
              * store_id null we can have for entity from removed store
              */
             $storeId = 0;
-            //throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Valid store_id is expected!'));
+            //throw AO::exception('Mage_Eav', AO::helper('eav')->__('Valid store_id is expected!'));
         }
 
-        $entityStoreConfig = Mage::getModel('eav/entity_store')
+        $entityStoreConfig = AO::getModel('eav/entity_store')
             ->loadByEntityStore($this->getId(), $storeId);
 
         if (!$entityStoreConfig->getId()) {
@@ -166,7 +166,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
                 ->save();
         }
 
-        $incrementInstance = Mage::getModel($this->getIncrementModel())
+        $incrementInstance = AO::getModel($this->getIncrementModel())
             ->setPrefix($entityStoreConfig->getIncrementPrefix())
             ->setPadLength($this->getIncrementPadLength())
             ->setPadChar($this->getIncrementPadChar())
@@ -265,6 +265,6 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
 
     public function getEntity()
     {
-        return Mage::getResourceSingleton($this->_data['entity_model']);
+        return AO::getResourceSingleton($this->_data['entity_model']);
     }
 }

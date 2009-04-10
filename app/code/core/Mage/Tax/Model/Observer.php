@@ -89,7 +89,7 @@ class Mage_Tax_Model_Observer
                             'base_real_amount'=>$baseRealAmount,
                             );
 
-                Mage::getModel('sales/order_tax')->setData($data)->save();
+                AO::getModel('sales/order_tax')->setData($data)->save();
             }
         }
     }
@@ -108,14 +108,14 @@ class Mage_Tax_Model_Observer
         $storeId = $observer->getEvent()->getStoreId();
 
         $additionalCalculations = $response->getAdditionalCalculations();
-        $calculation = Mage::helper('tax')->getPriceTaxSql(
+        $calculation = AO::helper('tax')->getPriceTaxSql(
             $table . '.value', 'IFNULL(tax_class_c.value, tax_class_d.value)'
         );
 
         if (!empty($calculation)) {
             $additionalCalculations[] = $calculation;
             $response->setAdditionalCalculations($additionalCalculations);
-            Mage::helper('tax')->joinTaxClass($select, $storeId, $table);
+            AO::helper('tax')->joinTaxClass($select, $storeId, $table);
         }
 
         return $this;
@@ -129,7 +129,7 @@ class Mage_Tax_Model_Observer
      */
     public function addTaxPercentToProductCollection($observer)
     {
-        $helper = Mage::helper('tax');
+        $helper = AO::helper('tax');
         $collection = $observer->getEvent()->getCollection();
         $store = $collection->getStoreId();
         if (!$helper->needPriceConversion($store)) {
@@ -137,14 +137,14 @@ class Mage_Tax_Model_Observer
         }
 
         if ($collection->requireTaxPercent()) {
-            $request = Mage::getSingleton('tax/calculation')->getRateRequest();
+            $request = AO::getSingleton('tax/calculation')->getRateRequest();
             foreach ($collection as $item) {
                 if (null === $item->getTaxClassId()) {
                     $item->setTaxClassId($item->getMinimalTaxClassId());
                 }
                 if (!isset($classToRate[$item->getTaxClassId()])) {
                     $request->setProductClassId($item->getTaxClassId());
-                    $classToRate[$item->getTaxClassId()] = Mage::getSingleton('tax/calculation')->getRate($request);
+                    $classToRate[$item->getTaxClassId()] = AO::getSingleton('tax/calculation')->getRate($request);
                 }
                 $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
             }

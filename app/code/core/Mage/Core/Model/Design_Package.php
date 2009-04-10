@@ -85,7 +85,7 @@ class Mage_Core_Model_Design_Package
 		if ($_s === null) {
 			$_s = AO::getModel('core/design_package');
 
-	        $_s->setStore(Mage::app()->getStore());
+	        $_s->setStore(AO::app()->getStore());
 		}
 		Mage_Core_Model_Design_Package::$_singleton = $_s;
 		return Mage_Core_Model_Design_Package::$_singleton;
@@ -111,7 +111,7 @@ class Mage_Core_Model_Design_Package
 	public function getStore()
 	{
 	    if ($this->_store === null) {
-	        return Mage::app()->getStore();
+	        return AO::app()->getStore();
 	    }
 		return $this->_store;
 	}
@@ -157,7 +157,7 @@ class Mage_Core_Model_Design_Package
     	        $this->_name = $customPackage;
             }
             else {
-                $this->_name = Mage::getStoreConfig('design/package/name', $this->getStore());
+                $this->_name = AO::getStoreConfig('design/package/name', $this->getStore());
             }
         }
         else {
@@ -212,7 +212,7 @@ class Mage_Core_Model_Design_Package
 
 	public function designPackageExists($packageName, $area = self::DEFAULT_AREA)
 	{
-	    return is_dir(Mage::getBaseDir('design') . DS . $area . DS . $packageName);
+	    return is_dir(AO::getBaseDir('design') . DS . $area . DS . $packageName);
 	}
 
 	/**
@@ -234,7 +234,7 @@ class Mage_Core_Model_Design_Package
 			    break;
 
 	        default:
-	            throw Mage::exception(Mage::helper('core')->__('Wrong number of arguments for %s', __METHOD__));
+	            throw AO::exception(AO::helper('core')->__('Wrong number of arguments for %s', __METHOD__));
 		}
 		return $this;
 	}
@@ -242,7 +242,7 @@ class Mage_Core_Model_Design_Package
 	public function getTheme($type)
 	{
 		if (!isset($this->_theme[$type])) {
-			$this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type, $this->getStore());
+			$this->_theme[$type] = AO::getStoreConfig('design/theme/'.$type, $this->getStore());
 			if ($type!=='default' && empty($this->_theme[$type])) {
 				$this->_theme[$type] = $this->getTheme('default');
 				if (empty($this->_theme[$type])) {
@@ -294,7 +294,7 @@ class Mage_Core_Model_Design_Package
 	public function getBaseDir(array $params)
 	{
 		$this->updateParamDefaults($params);
-		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
+		$baseDir = (empty($params['_relative']) ? AO::getBaseDir('design').DS : '').
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'].DS.$params['_type'];
 		return $baseDir;
 	}
@@ -302,7 +302,7 @@ class Mage_Core_Model_Design_Package
 	public function getSkinBaseDir(array $params=array())
 	{
 		$this->updateParamDefaults($params);
-		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('skin').DS : '').
+		$baseDir = (empty($params['_relative']) ? AO::getBaseDir('skin').DS : '').
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'];
 		return $baseDir;
 	}
@@ -310,16 +310,16 @@ class Mage_Core_Model_Design_Package
 	public function getLocaleBaseDir(array $params=array())
 	{
 		$this->updateParamDefaults($params);
-		$baseDir = (empty($params['_relative']) ? Mage::getBaseDir('design').DS : '').
+		$baseDir = (empty($params['_relative']) ? AO::getBaseDir('design').DS : '').
 			$params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS .
-			Mage::app()->getLocale()->getLocaleCode();
+			AO::app()->getLocale()->getLocaleCode();
 		return $baseDir;
 	}
 
 	public function getSkinBaseUrl(array $params=array())
 	{
 		$this->updateParamDefaults($params);
-		$baseUrl = Mage::getBaseUrl('skin', isset($params['_secure'])?(bool)$params['_secure']:null)
+		$baseUrl = AO::getBaseUrl('skin', isset($params['_secure'])?(bool)$params['_secure']:null)
 			.$params['_area'].'/'.$params['_package'].'/'.$params['_theme'].'/';
 		return $baseUrl;
 	}
@@ -361,7 +361,7 @@ class Mage_Core_Model_Design_Package
     	}
     	$fileName.= DS.$file;
 
-		$testFile = (empty($params['_relative']) ? '' : Mage::getBaseDir('design').DS) . $fileName;
+		$testFile = (empty($params['_relative']) ? '' : AO::getBaseDir('design').DS) . $fileName;
 
 		if ($this->getDefaultTheme()!==$params['_theme'] && !file_exists($testFile)) {
     		return false;
@@ -404,7 +404,7 @@ class Mage_Core_Model_Design_Package
 
     public function getFallbackTheme()
     {
-        return Mage::getStoreConfig('design/theme/default', $this->getStore());
+        return AO::getStoreConfig('design/theme/default', $this->getStore());
     }
 
     public function getLayoutFilename($file, array $params=array())
@@ -469,7 +469,7 @@ class Mage_Core_Model_Design_Package
 
     public function getPackageList()
     {
-        $directory = Mage::getBaseDir('design') . DS . 'frontend';
+        $directory = AO::getBaseDir('design') . DS . 'frontend';
         return $this->_listDirectories($directory);
     }
 
@@ -482,7 +482,7 @@ class Mage_Core_Model_Design_Package
                 $result[$package] = $this->getThemeList($package);
             }
         } else {
-            $directory = Mage::getBaseDir('design') . DS . 'frontend' . DS . $package;
+            $directory = AO::getBaseDir('design') . DS . 'frontend' . DS . $package;
             $result = $this->_listDirectories($directory);
         }
 
@@ -524,7 +524,7 @@ class Mage_Core_Model_Design_Package
             if (!empty(self::$_customThemeTypeCache[$regexpsConfigPath])) {
                 return self::$_customThemeTypeCache[$regexpsConfigPath];
             }
-            $configValueSerialized = Mage::getStoreConfig($regexpsConfigPath, $this->getStore());
+            $configValueSerialized = AO::getStoreConfig($regexpsConfigPath, $this->getStore());
             if ($configValueSerialized) {
                 $regexps = @unserialize($configValueSerialized);
                 if (!empty($regexps)) {

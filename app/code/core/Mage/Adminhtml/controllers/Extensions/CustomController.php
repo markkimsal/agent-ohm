@@ -56,7 +56,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
 
     public function resetAction()
     {
-        Mage::getSingleton('adminhtml/session')->unsCustomExtensionPackageFormData();
+        AO::getSingleton('adminhtml/session')->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
@@ -64,14 +64,14 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
     {
         $package = $this->getRequest()->getParam('id');
         if ($package) {
-            $session = Mage::getSingleton('adminhtml/session');
+            $session = AO::getSingleton('adminhtml/session');
             try {
-                $data = $this->_loadPackageFile(Mage::getBaseDir('var') . DS . 'pear' . DS . $package);
+                $data = $this->_loadPackageFile(AO::getBaseDir('var') . DS . 'pear' . DS . $package);
 
                 $data = array_merge($data, array('file_name' => $package));
 
                 $session->setCustomExtensionPackageFormData($data);
-                $session->addSuccess(Mage::helper('adminhtml')->__("Package %s data was successfully loaded", $package));
+                $session->addSuccess(AO::helper('adminhtml')->__("Package %s data was successfully loaded", $package));
             }
             catch (Exception $e) {
                 $session->addError($e->getMessage());
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
         $filename = $filenameNoExtension . '.xml';
         if (file_exists($filename)) {
             $xml = simplexml_load_file($filename);
-            $data = Mage::helper('core')->xmlToAssoc($xml);
+            $data = AO::helper('core')->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
         // try to load ser-file
         $filename = $filenameNoExtension . '.ser';
         if (!is_readable($filename)) {
-            throw new Exception(Mage::helper('adminhtml')->__('Failed to load %1$s.xml or %1$s.ser', basename($filenameNoExtension)));
+            throw new Exception(AO::helper('adminhtml')->__('Failed to load %1$s.xml or %1$s.ser', basename($filenameNoExtension)));
         }
         $contents = file_get_contents($filename);
         $data = unserialize($contents);
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
 
     public function saveAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
         $p = $this->getRequest()->getPost();
 
         if (!empty($p['_create'])) {
@@ -124,7 +124,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
 
         $session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = Mage::getModel('adminhtml/extension');
+            $ext = AO::getModel('adminhtml/extension');
             /* @var $ext Mage_Adminhtml_Model_Extension */
             $ext->setData($p);
             $output = $ext->getPear()->getOutput();
@@ -152,11 +152,11 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
 
     public function createAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
         try {
             $p = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($p);
-            $ext = Mage::getModel('adminhtml/extension');
+            $ext = AO::getModel('adminhtml/extension');
             $ext->setData($p);
             $result = $ext->createPackage();
             $pear = Varien_Pear::getInstance();
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
     {
         #Varien_Pear::getInstance()->runHtmlConsole(array('command'=>'list-channels'));
         if (empty($_POST)) {
-            $serFiles = @glob(Mage::getBaseDir('var').DS.'pear'.DS.'*.ser');
+            $serFiles = @glob(AO::getBaseDir('var').DS.'pear'.DS.'*.ser');
             if (!$serFiles) {
                 return;
             }
@@ -216,7 +216,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
                 }
                 echo "<hr/><h4>".$r['name']."</h4>";
 
-                $ext = Mage::getModel('adminhtml/extension');
+                $ext = AO::getModel('adminhtml/extension');
                 $ext->setData(unserialize(file_get_contents($r['file'])));
                 $ext->setData('release_version', $r['release_version']);
                 $ext->setData('release_stability', $r['release_stability']);
@@ -245,7 +245,7 @@ class Mage_Adminhtml_Extensions_CustomController extends Mage_Adminhtml_Controll
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/custom');
+        return AO::getSingleton('admin/session')->isAllowed('system/extensions/custom');
     }
 
     /**

@@ -54,7 +54,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return Mage::getStoreConfig($path, $this->getStore());
+        return AO::getStoreConfig($path, $this->getStore());
     }
 
     public function getConfigFlag($field)
@@ -63,7 +63,7 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return Mage::getStoreConfigFlag($path, $this->getStore());
+        return AO::getStoreConfigFlag($path, $this->getStore());
     }
 
     abstract public function collectRates(Mage_Shipping_Model_Rate_Request $request);
@@ -83,11 +83,11 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
              if ($availableCountries && in_array($request->getDestCountryId(), $availableCountries)) {
                  return $this;
              } elseif ($showMethod && (!$availableCountries || ($availableCountries && !in_array($request->getDestCountryId(), $availableCountries)))){
-                   $error = Mage::getModel('shipping/rate_result_error');
+                   $error = AO::getModel('shipping/rate_result_error');
                    $error->setCarrier($this->_code);
                    $error->setCarrierTitle($this->getConfigData('title'));
                    $errorMsg = $this->getConfigData('specificerrmsg');
-                   $error->setErrorMessage($errorMsg?$errorMsg:Mage::helper('shipping')->__('The shipping module is not available for selected delivery country'));
+                   $error->setErrorMessage($errorMsg?$errorMsg:AO::helper('shipping')->__('The shipping module is not available for selected delivery country'));
                    return $error;
              } else {
                  /*

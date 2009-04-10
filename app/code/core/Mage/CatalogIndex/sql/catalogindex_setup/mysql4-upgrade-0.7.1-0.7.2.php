@@ -28,5 +28,5 @@ $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
-//Mage::getModel('catalogindex/observer')->reindexAll();
+//AO::getModel('catalogindex/observer')->reindexAll();
 $installer->endSetup();

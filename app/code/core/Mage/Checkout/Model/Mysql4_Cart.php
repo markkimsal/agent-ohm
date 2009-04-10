@@ -39,8 +39,8 @@ class Mage_Checkout_Model_Mysql4_Cart extends Mage_Core_Model_Mysql4_Abstract
 
     public function fetchItemsSummaryQty($quoteId)
     {
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('quote_item');
-        $attribute  = Mage::getSingleton('eav/config')->getAttribute($entityType->getEntityTypeId(), 'qty');
+        $entityType = AO::getSingleton('eav/config')->getEntityType('quote_item');
+        $attribute  = AO::getSingleton('eav/config')->getAttribute($entityType->getEntityTypeId(), 'qty');
 
         $qtyAttributeTable = $this->getMainTable().'_'.$attribute->getBackendType();
         $read = $this->_getReadAdapter();

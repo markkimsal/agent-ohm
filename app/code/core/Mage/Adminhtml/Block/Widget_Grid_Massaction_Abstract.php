@@ -44,7 +44,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
     {
         parent::__construct();
         $this->setTemplate('widget/grid/massaction.phtml');
-        $this->setErrorText(Mage::helper('catalog')->jsQuoteEscape(Mage::helper('catalog')->__('Please select  items')));
+        $this->setErrorText(AO::helper('catalog')->jsQuoteEscape(AO::helper('catalog')->__('Please select  items')));
     }
 
     /**

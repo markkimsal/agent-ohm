@@ -49,11 +49,11 @@ class Mage_Api_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('api')->__('Email')
+                'title' => AO::helper('api')->__('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('api')->__('User Name')
+                'title' => AO::helper('api')->__('User Name')
             ),
         );
         return $this;
@@ -211,7 +211,7 @@ class Mage_Api_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('api/role')->load($user->getRoleId());
+            $role = AO::getModel('api/role')->load($user->getRoleId());
         } else {
             $role = array('tree_level' => 0);
         }

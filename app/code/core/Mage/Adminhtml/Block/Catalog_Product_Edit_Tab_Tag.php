@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $tagId = Mage::registry('tagId');
-        $collection = Mage::getModel('tag/tag')
+        $tagId = AO::registry('tagId');
+        $collection = AO::getModel('tag/tag')
             ->getResourceCollection()
             ->addProductFilter($this->getProductId())
             ->addPopularity($tagId);
@@ -63,12 +63,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Tag Name'),
+            'header'    => AO::helper('catalog')->__('Tag Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => Mage::helper('catalog')->__('# of Use'),
+            'header'        => AO::helper('catalog')->__('# of Use'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',
@@ -76,14 +76,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('catalog')->__('Status'),
+            'header'    => AO::helper('catalog')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',
             'options'    => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('catalog')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('catalog')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('catalog')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => AO::helper('catalog')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => AO::helper('catalog')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => AO::helper('catalog')->__('Approved'),
             ),
         ));
 

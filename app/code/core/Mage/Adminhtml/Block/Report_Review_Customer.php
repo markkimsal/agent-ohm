@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Review_Customer extends Mage_Adminhtml_Block_W
     public function __construct()
     {
         $this->_controller = 'report_review_customer';
-        $this->_headerText = Mage::helper('reports')->__('Customers Reviews');
+        $this->_headerText = AO::helper('reports')->__('Customers Reviews');
         parent::__construct();
         $this->_removeButton('add');
     }

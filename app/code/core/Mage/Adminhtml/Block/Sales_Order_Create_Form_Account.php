@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Account Information');
+        return AO::helper('sales')->__('Account Information');
     }
 
     public function getForm()
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
 
             $this->_form = new Varien_Data_Form();
             $fieldset = $this->_form->addFieldset('main', array());
-            $customerModel = Mage::getModel('customer/customer');
+            $customerModel = AO::getModel('customer/customer');
 
             foreach ($customerModel->getAttributes() as $attribute) {
                 if (!array_key_exists($attribute->getAttributeCode(), $display)) {

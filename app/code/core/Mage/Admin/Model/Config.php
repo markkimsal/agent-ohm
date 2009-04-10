@@ -38,7 +38,7 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
     {
         parent::__construct();
         #$this->_elementClass = 'Mage_Core_Model_Config_Element';
-        #$this->loadFile(Mage::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
+        #$this->loadFile(AO::getModuleDir('etc', 'Mage_Admin').DS.'admin.xml');
     }
 
     /**
@@ -52,15 +52,15 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
     public function loadAclResources(Mage_Admin_Model_Acl $acl, $resource=null, $parentName=null)
     {
         if (is_null($resource)) {
-            $resource = Mage::getConfig()->getNode("adminhtml/acl/resources");
+            $resource = AO::getConfig()->getNode("adminhtml/acl/resources");
             $resourceName = null;
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-            $acl->add(Mage::getModel('admin/acl_resource', $resourceName), $parentName);
+            $acl->add(AO::getModel('admin/acl_resource', $resourceName), $parentName);
         }
 
         if (isset($resource->all)) {
-            $acl->add(Mage::getModel('admin/acl_resource', 'all'), null);
+            $acl->add(AO::getModel('admin/acl_resource', 'all'), null);
         }
 
         if (isset($resource->admin)) {

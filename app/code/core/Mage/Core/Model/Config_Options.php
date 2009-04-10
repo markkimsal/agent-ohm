@@ -38,14 +38,14 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $method = 'get'.ucwords($type).'Dir';
         $dir = $this->$method();
         if (!$dir) {
-            throw Mage::exception('Mage_Core', 'Invalid dir type requested: '.$type);
+            throw AO::exception('Mage_Core', 'Invalid dir type requested: '.$type);
         }
         return $dir;
     }
 
     public function getAppDir()
     {
-        return $this->getDataSetDefault('app_dir', Mage::getRoot());
+        return $this->getDataSetDefault('app_dir', AO::getRoot());
     }
 
     public function getBaseDir()
@@ -96,9 +96,9 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     public function getVarDir()
     {
         $dir = $this->getDataSetDefault('var_dir', $this->getBaseDir().DS.'var');
-        if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+        if (!AO::getConfig()->createDirIfNotExists($dir)) {
             $dir = $this->getSysTmpDir().DS.'magento'.DS.'var';
-            if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+            if (!AO::getConfig()->createDirIfNotExists($dir)) {
                 throw new Mage_Core_Exception('Unable to find writable var_dir');
             }
         }
@@ -108,9 +108,9 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     public function getTmpDir()
     {
         $dir = $this->getDataSetDefault('tmp_dir', $this->getVarDir().DS.'tmp');
-        if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+        if (!AO::getConfig()->createDirIfNotExists($dir)) {
             $dir = $this->getSysTmpDir().DS.'magento'.DS.'tmp';
-            if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+            if (!AO::getConfig()->createDirIfNotExists($dir)) {
                 throw new Mage_Core_Exception('Unable to find writable tmp_dir');
             }
         }
@@ -120,35 +120,35 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     public function getCacheDir()
     {
         $dir = $this->getDataSetDefault('cache_dir', $this->getVarDir().DS.'cache');
-        Mage::getConfig()->createDirIfNotExists($dir);
+        AO::getConfig()->createDirIfNotExists($dir);
         return $dir;
     }
 
     public function getLogDir()
     {
         $dir = $this->getDataSetDefault('log_dir', $this->getVarDir().DS.'log');
-        Mage::getConfig()->createDirIfNotExists($dir);
+        AO::getConfig()->createDirIfNotExists($dir);
         return $dir;
     }
 
     public function getSessionDir()
     {
         $dir = $this->getDataSetDefault('session_dir', $this->getVarDir().DS.'session');
-        Mage::getConfig()->createDirIfNotExists($dir);
+        AO::getConfig()->createDirIfNotExists($dir);
         return $dir;
     }
 
     public function getUploadDir()
     {
         $dir = $this->getDataSetDefault('upload_dir', $this->getMediaDir().DS.'upload');
-        Mage::getConfig()->createDirIfNotExists($dir);
+        AO::getConfig()->createDirIfNotExists($dir);
         return $dir;
     }
 
     public function getExportDir()
     {
         $dir = $this->getDataSetDefault('export_dir', $this->getVarDir().DS.'export');
-        Mage::getConfig()->createDirIfNotExists($dir);
+        AO::getConfig()->createDirIfNotExists($dir);
         return $dir;
     }
 }

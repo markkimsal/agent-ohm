@@ -57,9 +57,9 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         $this->loadLayout();
 
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $ext = Mage::getModel('adminhtml/extension')->loadRemote($pkg);
+        $ext = AO::getModel('adminhtml/extension')->loadRemote($pkg);
 #echo "<pre>".print_r($ext->getData(),1)."</pre>";
-        Mage::register('remote_extension', $ext);
+        AO::register('remote_extension', $ext);
         $this->_setActiveMenu('system/extensions/remote');
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/extensions_remote_edit'));
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
     public function installAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Downloading and installing $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Downloading and installing $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps'=>1);
@@ -79,15 +79,15 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function upgradeAction()
     {
         $pkg = str_replace('|', '/', $this->getRequest()->getParam('id'));
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading $pkg, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Upgrading $pkg, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade';
             $params['options'] = array();
@@ -95,9 +95,9 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function massInstallAction()
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
 
     public function massInstallRunAction()
     {
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Installing selected packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Installing selected packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'install';
             $params['options'] = array();
@@ -125,13 +125,13 @@ class Mage_Adminhtml_Extensions_RemoteController extends Mage_Adminhtml_Controll
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/remote');
+        return AO::getSingleton('admin/session')->isAllowed('system/extensions/remote');
     }
 }

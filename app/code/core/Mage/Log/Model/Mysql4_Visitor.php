@@ -45,7 +45,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
             'first_visit_at'=> $visitor->getFirstVisitAt(),
             'last_visit_at' => $visitor->getLastVisitAt(),
             'last_url_id'   => $visitor->getLastUrlId() ? $visitor->getLastUrlId() : 0,
-            'store_id'      => Mage::app()->getStore()->getId(),
+            'store_id'      => AO::app()->getStore()->getId(),
         );
     }
 
@@ -58,8 +58,8 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
     protected function _saveUrlInfo($visitor)
     {
         $this->_getWriteAdapter()->insert($this->getTable('log/url_info_table'), array(
-            'url'    => Mage::helper('core/string')->substr($visitor->getUrl(), 0, 250),
-            'referer'=> Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
+            'url'    => AO::helper('core/string')->substr($visitor->getUrl(), 0, 250),
+            'referer'=> AO::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250)
         ));
         $visitor->setLastUrlId($this->_getWriteAdapter()->lastInsertId());
         return $this;
@@ -102,7 +102,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
         $write = $this->_getWriteAdapter();
         $data = array(
             'visitor_id'        => $visitor->getId(),
-            'http_referer'      => Mage::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250),
+            'http_referer'      => AO::helper('core/string')->substr($visitor->getHttpReferer(), 0, 250),
             'http_user_agent'   => $visitor->getHttpUserAgent(),
             'http_accept_charset'=>$visitor->getHttpAcceptCharset(),
             'http_accept_language'=>$visitor->getHttpAcceptLanguage(),
@@ -146,7 +146,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
                 'login_at'      => now(),
-                'store_id'      => Mage::app()->getStore()->getId(),
+                'store_id'      => AO::app()->getStore()->getId(),
             ));
             $visitor->setCustomerLogId($write->lastInsertId());
             $visitor->setDoCustomerLogin(false);
@@ -156,7 +156,7 @@ class Mage_Log_Model_Mysql4_Visitor extends Mage_Core_Model_Mysql4_Abstract
             $write->update($this->getTable('log/customer'),
                 array(
                     'logout_at' => now(),
-                    'store_id'  => Mage::app()->getStore()->getId(),
+                    'store_id'  => AO::app()->getStore()->getId(),
                 ),
                 $write->quoteInto('log_id=?', $logId)
             );

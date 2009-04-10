@@ -53,13 +53,13 @@ class Mage_Core_Model_Resource_Setup
 
     public function __construct($resourceName)
     {
-        $config = Mage::getConfig();
+        $config = AO::getConfig();
         $this->_resourceName = $resourceName;
         $this->_resourceConfig = $config->getResourceConfig($resourceName);
         $this->_connectionConfig = $config->getResourceConnectionConfig($resourceName);
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
-        $this->_conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
+        $this->_conn = AO::getSingleton('core/resource')->getConnection($this->_resourceName);
     }
 
     /**
@@ -86,7 +86,7 @@ class Mage_Core_Model_Resource_Setup
      */
     public function getTable($tableName) {
         if (!isset($this->_tables[$tableName])) {
-            $this->_tables[$tableName] = Mage::getSingleton('core/resource')->getTableName($tableName);
+            $this->_tables[$tableName] = AO::getSingleton('core/resource')->getTableName($tableName);
         }
         return $this->_tables[$tableName];
     }
@@ -98,8 +98,8 @@ class Mage_Core_Model_Resource_Setup
      */
     static public function applyAllUpdates()
     {
-        Mage::app()->setUpdateMode(true);
-        $res = Mage::getSingleton('core/resource');
+        AO::app()->setUpdateMode(true);
+        $res = AO::getSingleton('core/resource');
         /*
         if ($res->getAutoUpdate() == Mage_Core_Model_Resource::AUTO_UPDATE_NEVER) {
             return true;
@@ -108,7 +108,7 @@ class Mage_Core_Model_Resource_Setup
 
         self::$_hadUpdates = false;
 
-        $resources = Mage::getConfig()->getNode('global/resources')->children();
+        $resources = AO::getConfig()->getNode('global/resources')->children();
         foreach ($resources as $resName=>$resource) {
             if (!$resource->setup) {
                 continue;
@@ -127,13 +127,13 @@ class Mage_Core_Model_Resource_Setup
             }
         }
 */
-        Mage::app()->setUpdateMode(false);
+        AO::app()->setUpdateMode(false);
         return true;
     }
 
     public function applyUpdates()
     {
-        $dbVer = Mage::getResourceModel('core/resource')->getDbVersion($this->_resourceName);
+        $dbVer = AO::getResourceModel('core/resource')->getDbVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
         // Module is installed
         if ($dbVer!==false) {
@@ -217,9 +217,9 @@ class Mage_Core_Model_Resource_Setup
         $resModel = (string)$this->_connectionConfig->model;
         $modName = (string)$this->_moduleConfig[0]->getName();
 
-        $sqlFilesDir = Mage::getModuleDir('sql', $modName).DS.$this->_resourceName;
+        $sqlFilesDir = AO::getModuleDir('sql', $modName).DS.$this->_resourceName;
         if (!is_dir($sqlFilesDir) || !is_readable($sqlFilesDir)) {
-            Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
+            AO::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
             return $toVersion;
         }
         // Read resource files
@@ -233,14 +233,14 @@ class Mage_Core_Model_Resource_Setup
         }
         $sqlDir->close();
         if (empty($arrAvailableFiles)) {
-            Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
+            AO::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
             return $toVersion;
         }
 
         // Get SQL files name
         $arrModifyFiles = $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $arrAvailableFiles);
         if (empty($arrModifyFiles)) {
-            Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
+            AO::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
             return $toVersion;
         }
 
@@ -284,12 +284,12 @@ class Mage_Core_Model_Resource_Setup
                     }
                     if ($result) {
                         /*$this->run("replace into ".$this->getTable('core/resource')." (code, version) values ('".$this->_resourceName."', '".$resourceFile['toVersion']."')");*/
-                        Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
+                        AO::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $resourceFile['toVersion']);
                     }
                 }
                 catch (Exception $e){
                     echo "<pre>".print_r($e,1)."</pre>";
-                    throw Mage::exception('Mage_Core', Mage::helper('core')->__('Error in file: "%s" - %s', $sqlFile, $e->getMessage()));
+                    throw AO::exception('Mage_Core', AO::helper('core')->__('Error in file: "%s" - %s', $sqlFile, $e->getMessage()));
                 }
             }
 
@@ -297,7 +297,7 @@ class Mage_Core_Model_Resource_Setup
         }
 
         if ($actionType == 'upgrade' && $modifyVersion != $toVersion) {
-            Mage::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
+            AO::getResourceModel('core/resource')->setDbVersion($this->_resourceName, $toVersion);
         }
         else {
             $toVersion = $modifyVersion;

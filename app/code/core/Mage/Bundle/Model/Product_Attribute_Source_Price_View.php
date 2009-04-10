@@ -39,11 +39,11 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('bundle')->__('As low as'),
+                    'label' => AO::helper('bundle')->__('As low as'),
                     'value' =>  1
                 ),
                 array(
-                    'label' => Mage::helper('bundle')->__('Price Range'),
+                    'label' => AO::helper('bundle')->__('Price Range'),
                     'value' =>  0
                 ),
             );
@@ -94,7 +94,7 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute_option')
+        return AO::getResourceModel('eav/entity_attribute_option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

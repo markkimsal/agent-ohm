@@ -45,15 +45,15 @@ class Mage_Dataflow_Model_Session_Parser_Csv extends Mage_Dataflow_Model_Convert
         }
 
         // fixed for multibyte characters
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
+        setlocale(LC_ALL, AO::app()->getLocale()->getLocaleCode().'.UTF-8');
 
         $fp = tmpfile();
         fputs($fp, $this->getData());
         fseek($fp, 0);
 
         $data = array();
-        $sessionId = Mage::registry('current_dataflow_session_id');
-        $import = Mage::getModel('dataflow/import');
+        $sessionId = AO::registry('current_dataflow_session_id');
+        $import = AO::getModel('dataflow/import');
         $map = new Varien_Convert_Mapper_Column();
         for ($i=0; $line = fgetcsv($fp, 4096, $fDel, $fEnc); $i++) {
             if (0==$i) {
@@ -80,7 +80,7 @@ class Mage_Dataflow_Model_Session_Parser_Csv extends Mage_Dataflow_Model_Convert
             $map->setData(array($row));
             $map->map();
             $row = $map->getData();
-            //$import = Mage::getModel('dataflow/import');
+            //$import = AO::getModel('dataflow/import');
             $import->setImportId(0);
             $import->setSessionId($sessionId);
             $import->setSerialNumber($i);

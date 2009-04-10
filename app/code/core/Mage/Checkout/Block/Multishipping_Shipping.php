@@ -40,13 +40,13 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return AO::getSingleton('checkout/type_multishipping');
     }
 
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('checkout')->__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(AO::helper('checkout')->__('Shipping Methods') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -94,7 +94,7 @@ class Mage_Checkout_Block_Multishipping_Shipping extends Mage_Sales_Block_Items_
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = AO::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;

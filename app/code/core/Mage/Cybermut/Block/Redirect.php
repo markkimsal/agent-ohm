@@ -37,7 +37,7 @@ class Mage_Cybermut_Block_Redirect extends Mage_Core_Block_Abstract
 
     protected function _toHtml()
     {
-        $standard = Mage::getModel('cybermut/payment');
+        $standard = AO::getModel('cybermut/payment');
         $form = new Varien_Data_Form();
         $form->setAction($standard->getCybermutUrl())
             ->setId('cybermut_payment_checkout')
@@ -57,7 +57,7 @@ class Mage_Cybermut_Block_Redirect extends Mage_Core_Block_Abstract
         $html.= '</body></html>';
 
         if ($standard->getConfigData('debug_flag')) {
-            Mage::getModel('cybermut/api_debug')
+            AO::getModel('cybermut/api_debug')
                 ->setRequestBody($formHTML)
                 ->save();
         }

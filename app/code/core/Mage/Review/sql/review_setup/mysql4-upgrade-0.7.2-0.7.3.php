@@ -39,7 +39,7 @@ ADD COLUMN `percent_approved` tinyint(3) NULL DEFAULT 0 AFTER `percent`;
 
 try {
     // re-aggregate existing reviews
-    $resource = Mage::getResourceSingleton('review/review');
+    $resource = AO::getResourceSingleton('review/review');
     // count quantity and aggregate packs per 100 items
     $total = $this->getConnection()->select()->from($this->getTable('review'), 'count(*)');
     $total = intval($this->getConnection()->fetchOne($total));

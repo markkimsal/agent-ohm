@@ -40,7 +40,7 @@ class Mage_Checkout_Block_Multishipping_Billing_Items extends Mage_Sales_Block_I
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return AO::getSingleton('checkout/type_multishipping');
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_Checkout_Block_Multishipping_Billing_Items extends Mage_Sales_Block_I
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return AO::getSingleton('checkout/session')->getQuote();
     }
 
     /**

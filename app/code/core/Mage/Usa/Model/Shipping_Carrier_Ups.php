@@ -100,17 +100,17 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig('shipping/origin/country_id', $this->getStore());
+            $origCountry = AO::getStoreConfig('shipping/origin/country_id', $this->getStore());
         }
 
-        $r->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
+        $r->setOrigCountry(AO::getModel('directory/country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = Mage::getStoreConfig('shipping/origin/region_id', $this->getStore());
+            $origRegionCode = AO::getStoreConfig('shipping/origin/region_id', $this->getStore());
             if (is_numeric($origRegionCode)) {
-                $origRegionCode = Mage::getModel('directory/region')->load($origRegionCode)->getCode();
+                $origRegionCode = AO::getModel('directory/region')->load($origRegionCode)->getCode();
             }
         }
         $r->setOrigRegionCode($origRegionCode);
@@ -118,13 +118,13 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode', $this->getStore()));
+            $r->setOrigPostal(AO::getStoreConfig('shipping/origin/postcode', $this->getStore()));
         }
 
         if ($request->getOrigCity()) {
             $r->setOrigCity($request->getOrigCity());
         } else {
-            $r->setOrigCity(Mage::getStoreConfig('shipping/origin/city', $this->getStore()));
+            $r->setOrigCity(AO::getStoreConfig('shipping/origin/city', $this->getStore()));
         }
 
 
@@ -139,7 +139,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
 
-        $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
+        $r->setDestCountry(AO::getModel('directory/country')->load($destCountry)->getIso2Code());
 
         $r->setDestRegionCode($request->getDestRegionCode());
 
@@ -252,7 +252,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     {
         $costArr = array();
         $priceArr = array();
-        $errorTitle = Mage::helper('usa')->__('Unknown error');
+        $errorTitle = AO::helper('usa')->__('Unknown error');
         if (strlen(trim($response))>0) {
             $rRows = explode("\n", $response);
             $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
@@ -279,10 +279,10 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             asort($priceArr);
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = AO::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = AO::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             //$error->setErrorMessage($errorTitle);
@@ -290,12 +290,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = AO::getModel('shipping/rate_result_method');
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
                 $method_arr = $this->getCode('method', $method);
-                $rate->setMethodTitle(Mage::helper('usa')->__($method_arr));
+                $rate->setMethodTitle(AO::helper('usa')->__($method_arr));
                 $rate->setCost($costArr[$method]);
                 $rate->setPrice($price);
                 $result->append($rate);
@@ -323,116 +323,116 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             'originShipment'=>array(
                 // United States Domestic Shipments
                 'United States Domestic Shipments' => array(
-                    '01' => Mage::helper('usa')->__('UPS Next Day Air'),
-                    '02' => Mage::helper('usa')->__('UPS Second Day Air'),
-                    '03' => Mage::helper('usa')->__('UPS Ground'),
-                    '07' => Mage::helper('usa')->__('UPS Worldwide Express'),
-                    '08' => Mage::helper('usa')->__('UPS Worldwide Expedited'),
-                    '11' => Mage::helper('usa')->__('UPS Standard'),
-                    '12' => Mage::helper('usa')->__('UPS Three-Day Select'),
-                    '13' => Mage::helper('usa')->__('UPS Next Day Air Saver'),
-                    '14' => Mage::helper('usa')->__('UPS Next Day Air Early A.M.'),
-                    '54' => Mage::helper('usa')->__('UPS Worldwide Express Plus'),
-                    '59' => Mage::helper('usa')->__('UPS Second Day Air A.M.'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '01' => AO::helper('usa')->__('UPS Next Day Air'),
+                    '02' => AO::helper('usa')->__('UPS Second Day Air'),
+                    '03' => AO::helper('usa')->__('UPS Ground'),
+                    '07' => AO::helper('usa')->__('UPS Worldwide Express'),
+                    '08' => AO::helper('usa')->__('UPS Worldwide Expedited'),
+                    '11' => AO::helper('usa')->__('UPS Standard'),
+                    '12' => AO::helper('usa')->__('UPS Three-Day Select'),
+                    '13' => AO::helper('usa')->__('UPS Next Day Air Saver'),
+                    '14' => AO::helper('usa')->__('UPS Next Day Air Early A.M.'),
+                    '54' => AO::helper('usa')->__('UPS Worldwide Express Plus'),
+                    '59' => AO::helper('usa')->__('UPS Second Day Air A.M.'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
                 ),
                 // Shipments Originating in United States
                 'Shipments Originating in United States' => array(
-                    '01' => Mage::helper('usa')->__('UPS Next Day Air'),
-                    '02' => Mage::helper('usa')->__('UPS Second Day Air'),
-                    '03' => Mage::helper('usa')->__('UPS Ground'),
-                    '07' => Mage::helper('usa')->__('UPS Worldwide Express'),
-                    '08' => Mage::helper('usa')->__('UPS Worldwide Expedited'),
-                    '11' => Mage::helper('usa')->__('UPS Standard'),
-                    '12' => Mage::helper('usa')->__('UPS Three-Day Select'),
-                    '14' => Mage::helper('usa')->__('UPS Next Day Air Early A.M.'),
-                    '54' => Mage::helper('usa')->__('UPS Worldwide Express Plus'),
-                    '59' => Mage::helper('usa')->__('UPS Second Day Air A.M.'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '01' => AO::helper('usa')->__('UPS Next Day Air'),
+                    '02' => AO::helper('usa')->__('UPS Second Day Air'),
+                    '03' => AO::helper('usa')->__('UPS Ground'),
+                    '07' => AO::helper('usa')->__('UPS Worldwide Express'),
+                    '08' => AO::helper('usa')->__('UPS Worldwide Expedited'),
+                    '11' => AO::helper('usa')->__('UPS Standard'),
+                    '12' => AO::helper('usa')->__('UPS Three-Day Select'),
+                    '14' => AO::helper('usa')->__('UPS Next Day Air Early A.M.'),
+                    '54' => AO::helper('usa')->__('UPS Worldwide Express Plus'),
+                    '59' => AO::helper('usa')->__('UPS Second Day Air A.M.'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
                 ),
                 // Shipments Originating in Canada
                 'Shipments Originating in Canada' => array(
-                    '01' => Mage::helper('usa')->__('UPS Express'),
-                    '02' => Mage::helper('usa')->__('UPS Expedited'),
-                    '07' => Mage::helper('usa')->__('UPS Worldwide Express'),
-                    '08' => Mage::helper('usa')->__('UPS Worldwide Expedited'),
-                    '11' => Mage::helper('usa')->__('UPS Standard'),
-                    '12' => Mage::helper('usa')->__('UPS Three-Day Select'),
-                    '14' => Mage::helper('usa')->__('UPS Express Early A.M.'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '01' => AO::helper('usa')->__('UPS Express'),
+                    '02' => AO::helper('usa')->__('UPS Expedited'),
+                    '07' => AO::helper('usa')->__('UPS Worldwide Express'),
+                    '08' => AO::helper('usa')->__('UPS Worldwide Expedited'),
+                    '11' => AO::helper('usa')->__('UPS Standard'),
+                    '12' => AO::helper('usa')->__('UPS Three-Day Select'),
+                    '14' => AO::helper('usa')->__('UPS Express Early A.M.'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
                 ),
                 // Shipments Originating in the European Union
                 'Shipments Originating in the European Union' => array(
-                    '07' => Mage::helper('usa')->__('UPS Express'),
-                    '08' => Mage::helper('usa')->__('UPS Expedited'),
-                    '11' => Mage::helper('usa')->__('UPS Standard'),
-                    '54' => Mage::helper('usa')->__('UPS Worldwide Express PlusSM'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '07' => AO::helper('usa')->__('UPS Express'),
+                    '08' => AO::helper('usa')->__('UPS Expedited'),
+                    '11' => AO::helper('usa')->__('UPS Standard'),
+                    '54' => AO::helper('usa')->__('UPS Worldwide Express PlusSM'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
                 ),
                 // Polish Domestic Shipments
                 'Polish Domestic Shipments' => array(
-                    '07' => Mage::helper('usa')->__('UPS Express'),
-                    '08' => Mage::helper('usa')->__('UPS Expedited'),
-                    '11' => Mage::helper('usa')->__('UPS Standard'),
-                    '54' => Mage::helper('usa')->__('UPS Worldwide Express Plus'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
-                    '82' => Mage::helper('usa')->__('UPS Today Standard'),
-                    '83' => Mage::helper('usa')->__('UPS Today Dedicated Courrier'),
-                    '84' => Mage::helper('usa')->__('UPS Today Intercity'),
-                    '85' => Mage::helper('usa')->__('UPS Today Express'),
-                    '86' => Mage::helper('usa')->__('UPS Today Express Saver'),
+                    '07' => AO::helper('usa')->__('UPS Express'),
+                    '08' => AO::helper('usa')->__('UPS Expedited'),
+                    '11' => AO::helper('usa')->__('UPS Standard'),
+                    '54' => AO::helper('usa')->__('UPS Worldwide Express Plus'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
+                    '82' => AO::helper('usa')->__('UPS Today Standard'),
+                    '83' => AO::helper('usa')->__('UPS Today Dedicated Courrier'),
+                    '84' => AO::helper('usa')->__('UPS Today Intercity'),
+                    '85' => AO::helper('usa')->__('UPS Today Express'),
+                    '86' => AO::helper('usa')->__('UPS Today Express Saver'),
                 ),
                 // Puerto Rico Origin
                 'Puerto Rico Origin' => array(
-                    '01' => Mage::helper('usa')->__('UPS Next Day Air'),
-                    '02' => Mage::helper('usa')->__('UPS Second Day Air'),
-                    '03' => Mage::helper('usa')->__('UPS Ground'),
-                    '07' => Mage::helper('usa')->__('UPS Worldwide Express'),
-                    '08' => Mage::helper('usa')->__('UPS Worldwide Expedited'),
-                    '14' => Mage::helper('usa')->__('UPS Next Day Air Early A.M.'),
-                    '54' => Mage::helper('usa')->__('UPS Worldwide Express Plus'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '01' => AO::helper('usa')->__('UPS Next Day Air'),
+                    '02' => AO::helper('usa')->__('UPS Second Day Air'),
+                    '03' => AO::helper('usa')->__('UPS Ground'),
+                    '07' => AO::helper('usa')->__('UPS Worldwide Express'),
+                    '08' => AO::helper('usa')->__('UPS Worldwide Expedited'),
+                    '14' => AO::helper('usa')->__('UPS Next Day Air Early A.M.'),
+                    '54' => AO::helper('usa')->__('UPS Worldwide Express Plus'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
                 ),
                 // Shipments Originating in Mexico
                 'Shipments Originating in Mexico' => array(
-                    '07' => Mage::helper('usa')->__('UPS Express'),
-                    '08' => Mage::helper('usa')->__('UPS Expedited'),
-                    '54' => Mage::helper('usa')->__('UPS Express Plus'),
-                    '65' => Mage::helper('usa')->__('UPS Saver'),
+                    '07' => AO::helper('usa')->__('UPS Express'),
+                    '08' => AO::helper('usa')->__('UPS Expedited'),
+                    '54' => AO::helper('usa')->__('UPS Express Plus'),
+                    '65' => AO::helper('usa')->__('UPS Saver'),
                 ),
                 // Shipments Originating in Other Countries
                 'Shipments Originating in Other Countries' => array(
-                    '07' => Mage::helper('usa')->__('UPS Express'),
-                    '08' => Mage::helper('usa')->__('UPS Worldwide Expedited'),
-                    '11' => Mage::helper('usa')->__('UPS Standard'),
-                    '54' => Mage::helper('usa')->__('UPS Worldwide Express Plus'),
-                    '65' => Mage::helper('usa')->__('UPS Saver')
+                    '07' => AO::helper('usa')->__('UPS Express'),
+                    '08' => AO::helper('usa')->__('UPS Worldwide Expedited'),
+                    '11' => AO::helper('usa')->__('UPS Standard'),
+                    '54' => AO::helper('usa')->__('UPS Worldwide Express Plus'),
+                    '65' => AO::helper('usa')->__('UPS Saver')
                 )
             ),
 
             'method'=>array(
-                '1DM'    => Mage::helper('usa')->__('Next Day Air Early AM'),
-                '1DML'   => Mage::helper('usa')->__('Next Day Air Early AM Letter'),
-                '1DA'    => Mage::helper('usa')->__('Next Day Air'),
-                '1DAL'   => Mage::helper('usa')->__('Next Day Air Letter'),
-                '1DAPI'  => Mage::helper('usa')->__('Next Day Air Intra (Puerto Rico)'),
-                '1DP'    => Mage::helper('usa')->__('Next Day Air Saver'),
-                '1DPL'   => Mage::helper('usa')->__('Next Day Air Saver Letter'),
-                '2DM'    => Mage::helper('usa')->__('2nd Day Air AM'),
-                '2DML'   => Mage::helper('usa')->__('2nd Day Air AM Letter'),
-                '2DA'    => Mage::helper('usa')->__('2nd Day Air'),
-                '2DAL'   => Mage::helper('usa')->__('2nd Day Air Letter'),
-                '3DS'    => Mage::helper('usa')->__('3 Day Select'),
-                'GND'    => Mage::helper('usa')->__('Ground'),
-                'GNDCOM' => Mage::helper('usa')->__('Ground Commercial'),
-                'GNDRES' => Mage::helper('usa')->__('Ground Residential'),
-                'STD'    => Mage::helper('usa')->__('Canada Standard'),
-                'XPR'    => Mage::helper('usa')->__('Worldwide Express'),
-                'WXS'    => Mage::helper('usa')->__('Worldwide Express Saver'),
-                'XPRL'   => Mage::helper('usa')->__('Worldwide Express Letter'),
-                'XDM'    => Mage::helper('usa')->__('Worldwide Express Plus'),
-                'XDML'   => Mage::helper('usa')->__('Worldwide Express Plus Letter'),
-                'XPD'    => Mage::helper('usa')->__('Worldwide Expedited'),
+                '1DM'    => AO::helper('usa')->__('Next Day Air Early AM'),
+                '1DML'   => AO::helper('usa')->__('Next Day Air Early AM Letter'),
+                '1DA'    => AO::helper('usa')->__('Next Day Air'),
+                '1DAL'   => AO::helper('usa')->__('Next Day Air Letter'),
+                '1DAPI'  => AO::helper('usa')->__('Next Day Air Intra (Puerto Rico)'),
+                '1DP'    => AO::helper('usa')->__('Next Day Air Saver'),
+                '1DPL'   => AO::helper('usa')->__('Next Day Air Saver Letter'),
+                '2DM'    => AO::helper('usa')->__('2nd Day Air AM'),
+                '2DML'   => AO::helper('usa')->__('2nd Day Air AM Letter'),
+                '2DA'    => AO::helper('usa')->__('2nd Day Air'),
+                '2DAL'   => AO::helper('usa')->__('2nd Day Air Letter'),
+                '3DS'    => AO::helper('usa')->__('3 Day Select'),
+                'GND'    => AO::helper('usa')->__('Ground'),
+                'GNDCOM' => AO::helper('usa')->__('Ground Commercial'),
+                'GNDRES' => AO::helper('usa')->__('Ground Residential'),
+                'STD'    => AO::helper('usa')->__('Canada Standard'),
+                'XPR'    => AO::helper('usa')->__('Worldwide Express'),
+                'WXS'    => AO::helper('usa')->__('Worldwide Express Saver'),
+                'XPRL'   => AO::helper('usa')->__('Worldwide Express Letter'),
+                'XDM'    => AO::helper('usa')->__('Worldwide Express Plus'),
+                'XDML'   => AO::helper('usa')->__('Worldwide Express Plus Letter'),
+                'XPD'    => AO::helper('usa')->__('Worldwide Expedited'),
             ),
 
             'pickup'=>array(
@@ -453,12 +453,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             ),
 
             'container_description'=>array(
-                'CP'     => Mage::helper('usa')->__('Customer Packaging'),
-                'ULE'    => Mage::helper('usa')->__('UPS Letter Envelope'),
-                'UT'     => Mage::helper('usa')->__('UPS Tube'),
-                'UEB'    => Mage::helper('usa')->__('UPS Express Box'),
-                'UW25'   => Mage::helper('usa')->__('UPS Worldwide 25 kilo'),
-                'UW10'   => Mage::helper('usa')->__('UPS Worldwide 10 kilo'),
+                'CP'     => AO::helper('usa')->__('Customer Packaging'),
+                'ULE'    => AO::helper('usa')->__('UPS Letter Envelope'),
+                'UT'     => AO::helper('usa')->__('UPS Tube'),
+                'UEB'    => AO::helper('usa')->__('UPS Express Box'),
+                'UW25'   => AO::helper('usa')->__('UPS Worldwide 25 kilo'),
+                'UW10'   => AO::helper('usa')->__('UPS Worldwide 10 kilo'),
             ),
 
             'dest_type'=>array(
@@ -467,26 +467,26 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             ),
 
             'dest_type_description'=>array(
-                'RES'    => Mage::helper('usa')->__('Residential'),
-                'COM'    => Mage::helper('usa')->__('Commercial'),
+                'RES'    => AO::helper('usa')->__('Residential'),
+                'COM'    => AO::helper('usa')->__('Commercial'),
             ),
 
             'unit_of_measure'=>array(
-                'LBS'   =>  Mage::helper('usa')->__('Pounds'),
-                'KGS'   =>  Mage::helper('usa')->__('Kilograms'),
+                'LBS'   =>  AO::helper('usa')->__('Pounds'),
+                'KGS'   =>  AO::helper('usa')->__('Kilograms'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid UPS CGI code type: %s', $type));
+//            throw AO::exception('Mage_Shipping', AO::helper('usa')->__('Invalid UPS CGI code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid UPS CGI code for type %s: %s', $type, $code));
+//            throw AO::exception('Mage_Shipping', AO::helper('usa')->__('Invalid UPS CGI code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];
@@ -650,7 +650,7 @@ XMLRequest;
             } else {
                 $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/Error/ErrorDescription/text()");
                 $errorTitle = (string)$arr[0][0];
-                $error = Mage::getModel('shipping/rate_result_error');
+                $error = AO::getModel('shipping/rate_result_error');
                 $error->setCarrier('ups');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 //$error->setErrorMessage($errorTitle);
@@ -658,21 +658,21 @@ XMLRequest;
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = AO::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = AO::getModel('shipping/rate_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             if(!isset($errorTitle)){
-                $errorTitle = Mage::helper('usa')->__('Cannot retrieve shipping rates');
+                $errorTitle = AO::helper('usa')->__('Cannot retrieve shipping rates');
             }
             //$error->setErrorMessage($errorTitle);
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = AO::getModel('shipping/rate_result_method');
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -724,10 +724,10 @@ XMLAuth;
     {
         //ups no longer support tracking for data streaming version
         //so we can only reply the popup window to ups.
-        $result = Mage::getModel('shipping/tracking_result');
+        $result = AO::getModel('shipping/tracking_result');
         $defaults = $this->getDefaults();
         foreach($trackings as $tracking){
-            $status = Mage::getModel('shipping/tracking_result_status');
+            $status = AO::getModel('shipping/tracking_result_status');
             $status->setCarrier('ups');
             $status->setCarrierTitle($this->getConfigData('title'));
             $status->setTracking($tracking);
@@ -864,20 +864,20 @@ XMLAuth;
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('shipping/tracking_result');
+            $this->_result = AO::getModel('shipping/tracking_result');
         }
 
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-            $tracking = Mage::getModel('shipping/tracking_result_status');
+            $tracking = AO::getModel('shipping/tracking_result_status');
             $tracking->setCarrier('ups');
             $tracking->setCarrierTitle($this->getConfigData('title'));
             $tracking->setTracking($trackingvalue);
             $tracking->addData($resultArr);
             $this->_result->append($tracking);
         } else {
-            $error = Mage::getModel('shipping/tracking_result_error');
+            $error = AO::getModel('shipping/tracking_result_error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -895,16 +895,16 @@ XMLAuth;
                 foreach ($trackings as $tracking){
                     if($data = $tracking->getAllData()){
                         if (isset($data['status'])) {
-                            $statuses .= Mage::helper('usa')->__($data['status']);
+                            $statuses .= AO::helper('usa')->__($data['status']);
                         } else {
-                            $statuses .= Mage::helper('usa')->__($data['error_message']);
+                            $statuses .= AO::helper('usa')->__($data['error_message']);
                         }
                     }
                 }
             }
         }
         if (empty($statuses)) {
-            $statuses = Mage::helper('usa')->__('Empty response');
+            $statuses = AO::helper('usa')->__('Empty response');
         }
         return $statuses;
     }

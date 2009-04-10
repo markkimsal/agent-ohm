@@ -120,7 +120,7 @@ class Mage_Core_Model_Locale_Currency extends Zend_Currency
      */
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return AO::app()->getStore();
     }
 
 /**

@@ -56,15 +56,15 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
      */
     protected function _construct()
     {
-        if (Mage::app()->useCache('config_api')) {
+        if (AO::app()->useCache('config_api')) {
             if ($this->loadCache()) {
                 return $this;
             }
         }
 
-        $mergeConfig = Mage::getModel('core/config_base');
+        $mergeConfig = AO::getModel('core/config_base');
 
-        $config = Mage::getConfig();
+        $config = AO::getConfig();
         $modules = $config->getNode('modules')->children();
 
         // check if local modules are disabled
@@ -94,7 +94,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
 
         $this->setXml($config->getNode('api'));
 
-        if (Mage::app()->useCache('config_api')) {
+        if (AO::app()->useCache('config_api')) {
             $this->saveCache();
         }
         return $this;
@@ -191,7 +191,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
             $resource = $this->getNode('acl/resources');
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
-            $acl->add(Mage::getModel('api/acl_resource', $resourceName), $parentName);
+            $acl->add(AO::getModel('api/acl_resource', $resourceName), $parentName);
         }
 
         $children = $resource->children();
@@ -268,7 +268,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         foreach ($faultsNode->children() as $faultName => $fault) {
             $faults[$faultName] = array(
                 'code'    => (string) $fault->code,
-                'message' => Mage::helper($translateModule)->__((string)$fault->message)
+                'message' => AO::helper($translateModule)->__((string)$fault->message)
             );
         }
 
@@ -282,21 +282,21 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
      */
     public function getCache()
     {
-        return Mage::app()->getCache();
+        return AO::app()->getCache();
     }
 
     protected function _loadCache($id)
     {
-        return Mage::app()->loadCache($id);
+        return AO::app()->loadCache($id);
     }
 
     protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
     {
-        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+        return AO::app()->saveCache($data, $id, $tags, $lifetime);
     }
 
     protected function _removeCache($id)
     {
-        return Mage::app()->removeCache($id);
+        return AO::app()->removeCache($id);
     }
 } // Class Mage_Api_Model_Config End

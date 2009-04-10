@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Save Category'),
+                    'label'     => AO::helper('catalog')->__('Save Category'),
                     'onclick'   => "categorySubmit('".$this->getSaveUrl()."',true)",
                     'class' => 'save'
                 ))
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Delete Category'),
+                    'label'     => AO::helper('catalog')->__('Delete Category'),
                     'onclick'   => "categoryDelete('".$this->getUrl('*/*/delete', array('_current'=>true))."',true)",
                     'class' => 'delete'
                 ))
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Reset'),
+                    'label'     => AO::helper('catalog')->__('Reset'),
                     'onclick'   => "categoryReset('".$this->getUrl('*/*/edit', array('_current'=>true))."',true)"
                 ))
         );
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         $params = array();
 //        $params = array('section'=>'catalog');
         if ($storeId) {
-            $store = Mage::app()->getStore($storeId);
+            $store = AO::app()->getStore($storeId);
             $params['website'] = $store->getWebsite()->getCode();
             $params['store']   = $store->getCode();
         }
@@ -167,9 +167,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
     public function getHeader()
     {
         if ($this->hasStoreRootCategory()) {
-            return $this->getCategoryId() ? $this->getCategoryName() : Mage::helper('catalog')->__('New Category');
+            return $this->getCategoryId() ? $this->getCategoryName() : AO::helper('catalog')->__('New Category');
         }
-        return Mage::helper('catalog')->__('Set Root Category For Store');
+        return AO::helper('catalog')->__('Set Root Category For Store');
     }
 
     public function getDeleteUrl(array $args = array())
@@ -190,6 +190,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
 
     public function isAjax()
     {
-        return Mage::app()->getRequest()->isXmlHttpRequest() || Mage::app()->getRequest()->getParam('isAjax');
+        return AO::app()->getRequest()->isXmlHttpRequest() || AO::app()->getRequest()->getParam('isAjax');
     }
 }

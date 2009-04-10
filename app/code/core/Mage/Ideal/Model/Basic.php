@@ -73,14 +73,14 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
         if (!in_array($currency_code, $this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('ideal')->__('Selected currency code (%s) is not compatible with iDEAL', $currency_code));
+            AO::throwException(AO::helper('ideal')->__('Selected currency code (%s) is not compatible with iDEAL', $currency_code));
         }
         return $this;
     }
 
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('ideal/basic/redirect', array('_secure' => true));
+          return AO::getUrl('ideal/basic/redirect', array('_secure' => true));
     }
 
     /**
@@ -168,16 +168,16 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
 
         $description = $this->getConfigData('description');
         if ($description == '') {
-            $description = Mage::app()->getStore()->getName() . ' ' . 'payment';
+            $description = AO::app()->getStore()->getName() . ' ' . 'payment';
         }
 
         $fields = array_merge($fields, array(
             'language' => $this->getConfigData('language'),
             'currency' => $currency_code,
             'description' => $description,
-            'urlCancel' => Mage::getUrl('ideal/basic/cancel', array('_secure' => true)),
-            'urlSuccess' => Mage::getUrl('ideal/basic/success', array('_secure' => true)),
-            'urlError' => Mage::getUrl('ideal/basic/failure', array('_secure' => true))
+            'urlCancel' => AO::getUrl('ideal/basic/cancel', array('_secure' => true)),
+            'urlSuccess' => AO::getUrl('ideal/basic/success', array('_secure' => true)),
+            'urlError' => AO::getUrl('ideal/basic/failure', array('_secure' => true))
         ));
 
         $requestString = '';
@@ -189,7 +189,7 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
         }
 
         if ($this->getDebug()) {
-            Mage::getModel('ideal/api_debug')
+            AO::getModel('ideal/api_debug')
                 ->setRequestBody($this->getApiUrl() . "\n" . $requestString)
                 ->save();
         }

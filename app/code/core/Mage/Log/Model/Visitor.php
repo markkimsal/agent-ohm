@@ -43,7 +43,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('core/session');
+        return AO::getSingleton('core/session');
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('log/visitor');
+        return AO::getResourceSingleton('log/visitor');
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         $this->addData(array(
             'server_addr'       => empty($s['SERVER_ADDR']) ? '' : ip2long($s['SERVER_ADDR']),
             'remote_addr'       => empty($s['REMOTE_ADDR']) ? '' : ip2long($s['REMOTE_ADDR']),
-            'http_secure'       => Mage::app()->getStore()->isCurrentlySecure(),
+            'http_secure'       => AO::app()->getStore()->isCurrentlySecure(),
             'http_host'         => empty($s['HTTP_HOST']) ? '' : $s['HTTP_HOST'],
             'http_user_agent'   => empty($s['HTTP_USER_AGENT']) ? '' : $s['HTTP_USER_AGENT'],
             'http_accept_language'=> empty($s['HTTP_ACCEPT_LANGUAGE']) ? '' : $s['HTTP_ACCEPT_LANGUAGE'],
@@ -87,7 +87,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     public static function getOnlineMinutesInterval()
     {
-        $configValue = Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
+        $configValue = AO::getStoreConfig('customer/online_customers/online_minutes_interval');
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
@@ -123,7 +123,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
 
     public function isModuleIgnored($observer)
     {
-        $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
+        $ignores = AO::getConfig()->getNode('global/ignoredModules/entities')->asArray();
 
         if( is_array($ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();
@@ -248,7 +248,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         if( intval($customerId) <= 0 ) {
             return $this;
         }
-        $customerData = Mage::getModel('customer/customer')->load($customerId);
+        $customerData = AO::getModel('customer/customer')->load($customerId);
         $newCustomerData = array();
         foreach( $customerData->getData() as $propName => $propValue ) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -264,7 +264,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
         if( intval($quoteId) <= 0 ) {
             return $this;
         }
-        $data->setQuoteData(Mage::getModel('sales/quote')->load($quoteId));
+        $data->setQuoteData(AO::getModel('sales/quote')->load($quoteId));
         return $this;
     }
 }

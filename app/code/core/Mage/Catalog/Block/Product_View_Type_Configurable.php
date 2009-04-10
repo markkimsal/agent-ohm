@@ -77,7 +77,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     {
         $attributes = array();
         $options = array();
-        $store = Mage::app()->getStore();
+        $store = AO::app()->getStore();
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
 
@@ -143,21 +143,21 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         print_r($this->_prices);
         echo '</pre>';die();*/
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $_request = AO::getSingleton('tax/calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $defaultTax = AO::getSingleton('tax/calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $_request = AO::getSingleton('tax/calculation')->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $currentTax = AO::getSingleton('tax/calculation')->getRate($_request);
 
         $taxConfig = array(
-            'includeTax'        => Mage::helper('tax')->priceIncludesTax(),
-            'showIncludeTax'    => Mage::helper('tax')->displayPriceIncludingTax(),
-            'showBothPrices'    => Mage::helper('tax')->displayBothPrices(),
+            'includeTax'        => AO::helper('tax')->priceIncludesTax(),
+            'showIncludeTax'    => AO::helper('tax')->displayPriceIncludingTax(),
+            'showBothPrices'    => AO::helper('tax')->displayBothPrices(),
             'defaultTax'        => $defaultTax,
             'currentTax'        => $currentTax,
-            'inclTaxTitle'      => Mage::helper('catalog')->__('Incl. Tax'),
+            'inclTaxTitle'      => AO::helper('catalog')->__('Incl. Tax'),
         );
 
         $config = array(
@@ -167,7 +167,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             'basePrice'         => $this->_registerJsPrice($this->_convertPrice($this->getProduct()->getFinalPrice())),
             'oldPrice'          => $this->_registerJsPrice($this->_convertPrice($this->getProduct()->getPrice())),
             'productId'         => $this->getProduct()->getId(),
-            'chooseText'        => Mage::helper('catalog')->__('Choose option...'),
+            'chooseText'        => AO::helper('catalog')->__('Choose option...'),
             'taxConfig'         => $taxConfig,
         );
 
@@ -219,7 +219,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
         $jsPrice            = str_replace(',', '.', $price);
 
 //        if (!isset($this->_prices[$jsPrice])) {
-//            $this->_prices[$jsPrice] = strip_tags(Mage::app()->getStore()->formatPrice($price));
+//            $this->_prices[$jsPrice] = strip_tags(AO::app()->getStore()->formatPrice($price));
 //        }
         return $jsPrice;
     }
@@ -230,9 +230,9 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
             return 0;
         }
 
-        $price = Mage::app()->getStore()->convertPrice($price);
+        $price = AO::app()->getStore()->convertPrice($price);
         if ($round) {
-            $price = Mage::app()->getStore()->roundPrice($price);
+            $price = AO::app()->getStore()->roundPrice($price);
         }
 
 
@@ -259,7 +259,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
 //        	$additionalPrice = $prevPrice + $price;
 //        	$this->_resPrices[] = $additionalPrice;
 //        	$jsAdditionalPrice = str_replace(',', '.', $additionalPrice);
-//        	$this->_prices[$jsAdditionalPrice] = strip_tags(Mage::app()->getStore()->formatPrice($additionalPrice));
+//        	$this->_prices[$jsAdditionalPrice] = strip_tags(AO::app()->getStore()->formatPrice($additionalPrice));
 //        }
 //        return $this;
 //    }

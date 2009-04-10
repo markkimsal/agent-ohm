@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_invoice_collection')
+        $collection = AO::getResourceModel('sales/order_invoice_collection')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
@@ -62,48 +62,48 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('sales')->__('Invoice #'),
+            'header'    => AO::helper('sales')->__('Invoice #'),
             'index'     => 'increment_id',
             'type'      => 'number',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('sales')->__('Invoice Date'),
+            'header'    => AO::helper('sales')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header'    => Mage::helper('sales')->__('Order #'),
+            'header'    => AO::helper('sales')->__('Order #'),
             'index'     => 'order_increment_id',
             'type'      => 'number',
         ));
 
         $this->addColumn('order_created_at', array(
-            'header'    => Mage::helper('sales')->__('Order Date'),
+            'header'    => AO::helper('sales')->__('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('billing_firstname', array(
-            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'header' => AO::helper('sales')->__('Bill to First name'),
             'index' => 'billing_firstname',
         ));
 
         $this->addColumn('billing_lastname', array(
-            'header' => Mage::helper('sales')->__('Bill to Last name'),
+            'header' => AO::helper('sales')->__('Bill to Last name'),
             'index' => 'billing_lastname',
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('sales')->__('Status'),
+            'header'    => AO::helper('sales')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('sales/order_invoice')->getStates(),
+            'options'   => AO::getModel('sales/order_invoice')->getStates(),
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('customer')->__('Amount'),
+            'header'    => AO::helper('customer')->__('Amount'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'align'     => 'right',
@@ -112,13 +112,13 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('sales')->__('Action'),
+                'header'    => AO::helper('sales')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('sales')->__('View'),
+                        'caption' => AO::helper('sales')->__('View'),
                         'url'     => array('base'=>'*/*/view'),
                         'field'   => 'invoice_id'
                     )
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         $this->getMassactionBlock()->setFormFieldName('invoice_ids');
 
         $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
-             'label'=> Mage::helper('sales')->__('PDF Invoices'),
+             'label'=> AO::helper('sales')->__('PDF Invoices'),
              'url'  => $this->getUrl('*/*/pdfinvoices'),
         ));
 

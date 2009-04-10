@@ -51,12 +51,12 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     protected function _initImport($idFieldName = 'id')
     {
         $id = (int) $this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('oscommerce/oscommerce');
+        $model = AO::getModel('oscommerce/oscommerce');
         if ($id) {
             $model->load($id);
         }
 
-        Mage::register('oscommerce_adminhtml_import', $model);
+        AO::register('oscommerce_adminhtml_import', $model);
         return $this;
     }
 
@@ -80,8 +80,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         $this->_initImport();
         $this->loadLayout();
 
-        $model = Mage::registry('oscommerce_adminhtml_import');
-        $data = Mage::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
+        $model = AO::registry('oscommerce_adminhtml_import');
+        $data = AO::getSingleton('adminhtml/session')->getSystemConvertOscData(true);
 
         if (!empty($data)) {
             $model->addData($data);
@@ -89,8 +89,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 
         $this->_initAction();
         $this->_addBreadcrumb
-                (Mage::helper('oscommerce')->__('Edit osCommerce Profile'),
-                 Mage::helper('oscommerce')->__('Edit osCommerce Profile'));
+                (AO::helper('oscommerce')->__('Edit osCommerce Profile'),
+                 AO::helper('oscommerce')->__('Edit osCommerce Profile'));
         /**
          * Append edit tabs to left block
          */
@@ -122,7 +122,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             }
 
             $this->_initImport('import_id');
-            $model = Mage::registry('oscommerce_adminhtml_import');
+            $model = AO::registry('oscommerce_adminhtml_import');
 
             // Prepare saving data
             if (isset($data)) {
@@ -135,11 +135,11 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('osCommerce Profile was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('oscommerce')->__('osCommerce Profile was successfully saved'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setSystemConvertOscData($data);
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->setSystemConvertOscData($data);
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('id'=>$model->getId())));
                 return;
             }
@@ -155,7 +155,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     {
         @set_time_limit(0);
         $this->_initImport('import_id');
-        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        $importModel = AO::registry('oscommerce_adminhtml_import');
 
         if ($tablePrefix = $importModel->getTablePrefix()) {
             $importModel->getResource()->setTablePrefix($tablePrefix);
@@ -229,9 +229,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function runAction()
     {
         @set_time_limit(0);
-        Mage::app()->cleanCache(); // Clean all cach
+        AO::app()->cleanCache(); // Clean all cach
         $this->_initImport();
-        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        $importModel = AO::registry('oscommerce_adminhtml_import');
         /** @var $importModel Mage_Oscommerce_Model_Oscommerce */
         $totalRecords = array();
 
@@ -302,8 +302,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         }
         if ($totalRecords) {
             $importModel->setTotalRecords($totalRecords);
-            Mage::unRegister('oscommerce_adminhtml_import');
-            Mage::register('oscommerce_adminhtml_import', $importModel);
+            AO::unRegister('oscommerce_adminhtml_import');
+            AO::register('oscommerce_adminhtml_import', $importModel);
         }
         $this->getResponse()->setBody($this->getLayout()->createBlock('oscommerce/adminhtml_import_run')->toHtml());
         $this->getResponse()->sendResponse();
@@ -312,7 +312,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function batchFinishAction()
     {
         if ($importId = $this->getRequest()->getParam('id')) {
-            $importModel = Mage::getModel('oscommerce/oscommerce')->load($importId);
+            $importModel = AO::getModel('oscommerce/oscommerce')->load($importId);
             /* @var $batchModel Mage_Dataflow_Model_Batch */
 
             if ($importId = $importModel->getId()) {
@@ -333,14 +333,14 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function deleteAction()
     {
         $this->_initImport();
-        $model = Mage::registry('oscommerce_adminhtml_import');
+        $model = AO::registry('oscommerce_adminhtml_import');
         if ($model->getId()) {
             try {
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('osCommerce profile was deleted'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('oscommerce')->__('osCommerce profile was deleted'));
             }
             catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/');
@@ -353,7 +353,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     public function checkStoreAction()
     {
         $this->_initImport();
-        $importModel = Mage::registry('oscommerce_adminhtml_import');
+        $importModel = AO::registry('oscommerce_adminhtml_import');
         $error = false;
         if ($importModel->getId()) {
             try {
@@ -363,7 +363,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 
                 $stores = $importModel->getResource()->getOscStores();
 
-                $locales = Mage::app()->getLocale()->getOptionLocales();
+                $locales = AO::app()->getLocale()->getOptionLocales();
                 $options = '';
                 foreach ($locales as $locale) {
                     $options .= "<option value='".$locale['value']."' ".($locale['value']=='en_US'?'selected':'').">{$locale['label']}</option>";
@@ -381,7 +381,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 }
             } catch (Exception $e) {
                 $error = true;
-                $html = (preg_match("/Column not found/",$e->getMessage())? Mage::helper('oscommerce')->__('languages table error '):'') . $e->getMessage();
+                $html = (preg_match("/Column not found/",$e->getMessage())? AO::helper('oscommerce')->__('languages table error '):'') . $e->getMessage();
             }
 
             if ($error) {
@@ -400,9 +400,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     {
 
         $this->_initImport();
-        $model = Mage::registry('oscommerce_adminhtml_import');
+        $model = AO::registry('oscommerce_adminhtml_import');
         if ($model->getId()) {
-            $website = Mage::getModel('core/website');
+            $website = AO::getModel('core/website');
             $collections = $website->getCollection();
             $result = 'false';
             $websiteCode = $this->getRequest()->getParam('website_code');
@@ -417,6 +417,6 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('system/convert/oscimport');
+	    return AO::getSingleton('admin/session')->isAllowed('system/convert/oscimport');
     }
 }

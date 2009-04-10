@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Mage_Adm
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Recently Compared Products');
+        return AO::helper('sales')->__('Recently Compared Products');
     }
 
     /**
@@ -69,11 +69,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Mage_Adm
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = Mage::getModel('catalog/product')->getCollection()
+            $productCollection = AO::getModel('catalog/product')->getCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image');
-            Mage::getResourceSingleton('reports/event')->applyLogToCollection(
+            AO::getResourceSingleton('reports/event')->applyLogToCollection(
                 $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
             );
 

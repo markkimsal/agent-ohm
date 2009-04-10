@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/product_collection');
+        $collection = AO::getResourceModel('reports/product_collection');
         $collection->getEntity()->setStore(0);
 
         $this->setCollection($collection);
@@ -62,19 +62,19 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>AO::helper('reports')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id',
             'total'     =>'Total'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Name'),
+            'header'    =>AO::helper('reports')->__('Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('viewed', array(
-            'header'    =>Mage::helper('reports')->__('Number Viewed'),
+            'header'    =>AO::helper('reports')->__('Number Viewed'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'viewed',
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('added', array(
-            'header'    =>Mage::helper('reports')->__('Number Added'),
+            'header'    =>AO::helper('reports')->__('Number Added'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'added',
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('purchased', array(
-            'header'    =>Mage::helper('reports')->__('Number Purchased'),
+            'header'    =>AO::helper('reports')->__('Number Purchased'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'purchased',
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('fulfilled', array(
-            'header'    =>Mage::helper('reports')->__('Number Fulfilled'),
+            'header'    =>AO::helper('reports')->__('Number Fulfilled'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'fulfilled',
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('revenue', array(
-            'header'    =>Mage::helper('reports')->__('Revenue'),
+            'header'    =>AO::helper('reports')->__('Revenue'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'revenue',
@@ -115,8 +115,8 @@ class Mage_Adminhtml_Block_Report_Product_Grid extends Mage_Adminhtml_Block_Widg
 
         $this->setCountTotals(true);
 
-        $this->addExportType('*/*/exportProductsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductsExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportProductsCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductsExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

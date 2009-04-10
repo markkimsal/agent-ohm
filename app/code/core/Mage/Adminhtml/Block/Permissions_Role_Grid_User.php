@@ -69,8 +69,8 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
-        Mage::register('RID', $roleId);
-        $collection = Mage::getModel('admin/roles')->getUsersCollection();
+        AO::register('RID', $roleId);
+        $collection = AO::getModel('admin/roles')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('role_user_id', array(
-            'header'    =>Mage::helper('adminhtml')->__('User ID'),
+            'header'    =>AO::helper('adminhtml')->__('User ID'),
             'width'     =>5,
             'align'     =>'left',
             'sortable'  =>true,
@@ -95,49 +95,49 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('role_user_username', array(
-            'header'    =>Mage::helper('adminhtml')->__('User Name'),
+            'header'    =>AO::helper('adminhtml')->__('User Name'),
             'align'     =>'left',
             'index'     =>'username'
         ));
 
         $this->addColumn('role_user_firstname', array(
-            'header'    =>Mage::helper('adminhtml')->__('First Name'),
+            'header'    =>AO::helper('adminhtml')->__('First Name'),
             'align'     =>'left',
             'index'     =>'firstname'
         ));
 
         $this->addColumn('role_user_lastname', array(
-            'header'    =>Mage::helper('adminhtml')->__('Last Name'),
+            'header'    =>AO::helper('adminhtml')->__('Last Name'),
             'align'     =>'left',
             'index'     =>'lastname'
         ));
 
         $this->addColumn('role_user_email', array(
-            'header'    =>Mage::helper('adminhtml')->__('Email'),
+            'header'    =>AO::helper('adminhtml')->__('Email'),
             'width'     =>40,
             'align'     =>'left',
             'index'     =>'email'
         ));
 
         $this->addColumn('role_user_is_active', array(
-            'header'    => Mage::helper('adminhtml')->__('Status'),
+            'header'    => AO::helper('adminhtml')->__('Status'),
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',
-            'options'   => array('1' => Mage::helper('adminhtml')->__('Active'), '0' => Mage::helper('adminhtml')->__('Inactive')),
+            'options'   => array('1' => AO::helper('adminhtml')->__('Active'), '0' => AO::helper('adminhtml')->__('Inactive')),
         ));
 
        /*
         $this->addColumn('grid_actions',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Actions'),
+                'header'=>AO::helper('adminhtml')->__('Actions'),
                 'width'=>5,
                 'sortable'=>false,
                 'filter'    =>false,
                 'type' => 'action',
                 'actions'   => array(
                                     array(
-                                        'caption' => Mage::helper('adminhtml')->__('Remove'),
+                                        'caption' => AO::helper('adminhtml')->__('Remove'),
                                         'onClick' => 'role.deleteFromRole($role_id);'
                                     )
                                 )
@@ -159,8 +159,8 @@ class Mage_Adminhtml_Block_Permissions_Role_Grid_User extends Mage_Adminhtml_Blo
         if ( $this->getRequest()->getParam('in_role_user') != "" ) {
             return $this->getRequest()->getParam('in_role_user');
         }
-        $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
-        $users  = Mage::getModel('admin/roles')->setId($roleId)->getRoleUsers();
+        $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : AO::registry('RID');
+        $users  = AO::getModel('admin/roles')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ( $json ) {
                 $jsonUsers = Array();

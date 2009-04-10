@@ -38,9 +38,9 @@ class Mage_Protx_Model_Source_ModeAction
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Protx_Model_Config::MODE_SIMULATOR, 'label' => Mage::helper('protx')->__('Simulator')),
-            array('value' => Mage_Protx_Model_Config::MODE_TEST, 'label' => Mage::helper('protx')->__('Test')),
-            array('value' => Mage_Protx_Model_Config::MODE_LIVE, 'label' => Mage::helper('protx')->__('Live')),
+            array('value' => Mage_Protx_Model_Config::MODE_SIMULATOR, 'label' => AO::helper('protx')->__('Simulator')),
+            array('value' => Mage_Protx_Model_Config::MODE_TEST, 'label' => AO::helper('protx')->__('Test')),
+            array('value' => Mage_Protx_Model_Config::MODE_LIVE, 'label' => AO::helper('protx')->__('Live')),
         );
     }
 }

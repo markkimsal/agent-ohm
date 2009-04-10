@@ -48,7 +48,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
         if ($this->hasData('page_size')) {
             return $this->getData('page_size');
         }
-        return Mage::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
+        return AO::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
     }
 
     /**
@@ -59,11 +59,11 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
     protected function _getProductsToSkip()
     {
         $ids = array();
-        if (Mage::helper('catalog/product_compare')->getItemCount()) {
-            foreach (Mage::helper('catalog/product_compare')->getItemCollection() as $_item) {
+        if (AO::helper('catalog/product_compare')->getItemCount()) {
+            foreach (AO::helper('catalog/product_compare')->getItemCollection() as $_item) {
                 $ids[] = $_item->getId();
             }
-            if (($product = Mage::registry('product')) && $product->getId()) {
+            if (($product = AO::registry('product')) && $product->getId()) {
                 $ids[] = $product->getId();
             }
         }
@@ -77,7 +77,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
      */
     protected function _hasComparedProductsBefore()
     {
-        return Mage::getSingleton('reports/session')->getData('compared_products');
+        return AO::getSingleton('reports/session')->getData('compared_products');
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_Reports_Block_Product_Compared extends Mage_Reports_Block_Product_Abs
         $collection = $this->_getRecentProductsCollection();
         $hasProducts = (bool)count($collection);
         if (is_null($this->_hasComparedProductsBefore())) {
-            Mage::getSingleton('reports/session')->setData('compared_products', $hasProducts);
+            AO::getSingleton('reports/session')->setData('compared_products', $hasProducts);
         }
         if ($hasProducts) {
             $this->setRecentlyComparedProducts($collection);

@@ -33,11 +33,11 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $form = $observer->getEvent()->getForm();
         $product = $observer->getEvent()->getProduct();
 
-        $attributes = Mage::getSingleton('weee/tax')->getWeeeAttributeCodes(true);
+        $attributes = AO::getSingleton('weee/tax')->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
             if ($weeeTax = $form->getElement($code)) {
                 $weeeTax->setRenderer(
-                    Mage::app()->getLayout()->createBlock('weee/renderer_weee_tax')
+                    AO::app()->getLayout()->createBlock('weee/renderer_weee_tax')
                 );
             }
         }
@@ -49,7 +49,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
         $block = $observer->getEvent()->getObject();
         $list = $block->getFormExcludedFieldList();
-        $attributes = Mage::getSingleton('weee/tax')->getWeeeAttributeCodes(true);
+        $attributes = AO::getSingleton('weee/tax')->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
             $list[] = $code;
         }
@@ -58,11 +58,11 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
     public function prepareCatalogIndexSelect(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled($observer->getEvent()->getStoreId())) {
+        if (!AO::helper('weee')->isEnabled($observer->getEvent()->getStoreId())) {
             return $this;
         }
 
-        switch(Mage::helper('weee')->getListPriceDisplayType()) {
+        switch(AO::helper('weee')->getListPriceDisplayType()) {
             case 2:
             case 3:
                 return $this;
@@ -72,27 +72,27 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $table = $observer->getEvent()->getTable();
         $storeId = $observer->getEvent()->getStoreId();
 
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
-        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $websiteId = AO::app()->getStore($storeId)->getWebsiteId();
+        $customerGroupId = AO::getSingleton('customer/session')->getCustomerGroupId();
 
         $response = $observer->getEvent()->getResponseObject();
 
         $additionalCalculations = $response->getAdditionalCalculations();
 
-        $attributes = Mage::getSingleton('weee/tax')->getWeeeAttributeCodes();
-        if ($attributes && Mage::helper('weee')->isDiscounted()) {
+        $attributes = AO::getSingleton('weee/tax')->getWeeeAttributeCodes();
+        if ($attributes && AO::helper('weee')->isDiscounted()) {
             $discountField = 'IFNULL(_discount_percent.value, 0)';
             $joinConditions = array(
                 "_discount_percent.entity_id = {$table}.entity_id",
                 "_discount_percent.website_id = '{$websiteId}'",
                 "_discount_percent.customer_group_id = '{$customerGroupId}'",
             );
-            $select->joinLeft(array('_discount_percent'=>Mage::getSingleton('weee/tax')->getResource()->getTable('weee/discount')), implode(' AND ', $joinConditions), array());
+            $select->joinLeft(array('_discount_percent'=>AO::getSingleton('weee/tax')->getResource()->getTable('weee/discount')), implode(' AND ', $joinConditions), array());
         }
         foreach ($attributes as $attribute) {
             $tableAlias = "weee_{$attribute}_table";
 
-            if (Mage::helper('weee')->isDiscounted()) {
+            if (AO::helper('weee')->isDiscounted()) {
                 $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0)*(1-({$discountField}/100)))";
             } else {
                 $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
@@ -100,11 +100,11 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         }
         $response->setAdditionalCalculations($additionalCalculations);
 
-        $rateRequest = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $rateRequest = AO::getSingleton('tax/calculation')->getRateRequest();
         $attributes = array();
-        $attributes = Mage::getSingleton('weee/tax')->getWeeeTaxAttributeCodes();
+        $attributes = AO::getSingleton('weee/tax')->getWeeeTaxAttributeCodes();
         foreach ($attributes as $attribute) {
-            $attributeId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
+            $attributeId = AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', $attribute);
 
             $tableAlias = "weee_{$attribute}_table";
             $on = array();
@@ -118,7 +118,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             $on[] = "({$tableAlias}.state in ('{$region}', '*'))";
 
             $attributeSelect = $this->_getSelect();
-            $attributeSelect->from(array($tableAlias=>Mage::getSingleton('weee/tax')->getResource()->getTable('weee/tax')));
+            $attributeSelect->from(array($tableAlias=>AO::getSingleton('weee/tax')->getResource()->getTable('weee/tax')));
 
 
             foreach ($on as $one) {
@@ -135,7 +135,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
     protected function _getSelect()
     {
-        return Mage::getSingleton('weee/tax')->getResource()->getReadConnection()->select();
+        return AO::getSingleton('weee/tax')->getResource()->getReadConnection()->select();
     }
 
     public function addWeeeTaxAttributeType(Varien_Event_Observer $observer)
@@ -146,7 +146,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $types = $response->getTypes();
         $types[] = array(
             'value' => 'weee',
-            'label' => Mage::helper('weee')->__('Fixed Product Tax'),
+            'label' => AO::helper('weee')->__('Fixed Product Tax'),
             'hide_fields' => array(
                 'is_unique',
                 'is_required',
@@ -188,35 +188,35 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
     {
         $response = $observer->getEvent()->getResponse();
         $types = $response->getTypes();
-        $types['weee'] = Mage::getConfig()->getBlockClassName('weee/element_weee_tax');
+        $types['weee'] = AO::getConfig()->getBlockClassName('weee/element_weee_tax');
         $response->setTypes($types);
         return $this;
     }
 
     public function updateDiscountPercents(Varien_Event_Observer $observer)
     {
-        Mage::getModel('weee/tax')->updateDiscountPercents();
+        AO::getModel('weee/tax')->updateDiscountPercents();
         return $this;
     }
 
     public function updateCofigurableProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        if (!AO::helper('weee')->isEnabled()) {
             return $this;
         }
 
         $response = $observer->getEvent()->getResponseObject();
         $options = $response->getAdditionalOptions();
 
-        $_product = Mage::registry('current_product');
+        $_product = AO::registry('current_product');
         if (!$_product) {
             return $this;
         }
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!AO::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
             return $this;
         }
-        $amount = Mage::helper('weee')->getAmount($_product);
-        $origAmount = Mage::helper('weee')->getOriginalAmount($_product);
+        $amount = AO::helper('weee')->getAmount($_product);
+        $origAmount = AO::helper('weee')->getOriginalAmount($_product);
 
         $options['oldPlusDisposition'] = $origAmount;
         $options['plusDisposition'] = $amount;
@@ -228,7 +228,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
 
     public function updateBundleProductOptions(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('weee')->isEnabled()) {
+        if (!AO::helper('weee')->isEnabled()) {
             return $this;
         }
 
@@ -236,8 +236,8 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
         $selection = $observer->getEvent()->getSelection();
         $options = $response->getAdditionalOptions();
 
-        $_product = Mage::registry('current_product');
-        if (!Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+        $_product = AO::registry('current_product');
+        if (!AO::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
             return $this;
         }
         $typeDynamic = Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
@@ -245,7 +245,7 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $amount = Mage::helper('weee')->getAmount($selection);
+        $amount = AO::helper('weee')->getAmount($selection);
         $options['plusDisposition'] = $amount;
 
         $response->setAdditionalOptions($options);

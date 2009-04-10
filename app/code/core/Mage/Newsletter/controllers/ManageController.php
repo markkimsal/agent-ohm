@@ -42,7 +42,7 @@ class Mage_Newsletter_ManageController extends Mage_Core_Controller_Front_Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!AO::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -66,14 +66,14 @@ class Mage_Newsletter_ManageController extends Mage_Core_Controller_Front_Action
             return $this->_redirect('customer/account/');
         }
         try {
-            Mage::getSingleton('customer/session')->getCustomer()
-                ->setStoreId(Mage::app()->getStore()->getId())
+            AO::getSingleton('customer/session')->getCustomer()
+                ->setStoreId(AO::app()->getStore()->getId())
                 ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
                 ->save();
-            Mage::getSingleton('customer/session')->addSuccess($this->__('The subscription was successfully saved'));
+            AO::getSingleton('customer/session')->addSuccess($this->__('The subscription was successfully saved'));
         }
         catch (Exception $e) {
-            Mage::getSingleton('customer/session')->addError($this->__('There was an error while saving your subscription'));
+            AO::getSingleton('customer/session')->addError($this->__('There was an error while saving your subscription'));
         }
         $this->_redirect('customer/account/');
     }

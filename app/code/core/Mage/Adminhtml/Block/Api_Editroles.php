@@ -30,32 +30,32 @@ class Mage_Adminhtml_Block_Api_Editroles extends Mage_Adminhtml_Block_Widget_Tab
         parent::__construct();
         $this->setId('role_info_tabs');
         $this->setDestElementId('role_edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Role Information'));
+        $this->setTitle(AO::helper('adminhtml')->__('Role Information'));
     }
 
     protected function _beforeToHtml()
     {
         $roleId = $this->getRequest()->getParam('rid', false);
-        $role = Mage::getModel("api/roles")
+        $role = AO::getModel("api/roles")
            ->load($roleId);
 
         $this->addTab('info', array(
-            'label'     => Mage::helper('adminhtml')->__('Role Info'),
-            'title'     => Mage::helper('adminhtml')->__('Role Info'),
+            'label'     => AO::helper('adminhtml')->__('Role Info'),
+            'title'     => AO::helper('adminhtml')->__('Role Info'),
             'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_roleinfo')->setRole($role)->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('account', array(
-            'label'     => Mage::helper('adminhtml')->__('Role Resources'),
-            'title'     => Mage::helper('adminhtml')->__('Role Resources'),
+            'label'     => AO::helper('adminhtml')->__('Role Resources'),
+            'title'     => AO::helper('adminhtml')->__('Role Resources'),
             'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {
             $this->addTab('roles', array(
-                'label'     => Mage::helper('adminhtml')->__('Role Users'),
-                'title'     => Mage::helper('adminhtml')->__('Role Users'),
+                'label'     => AO::helper('adminhtml')->__('Role Users'),
+                'title'     => AO::helper('adminhtml')->__('Role Users'),
                 'content'   => $this->getLayout()->createBlock('adminhtml/api_tab_rolesusers', 'role.users.grid')->toHtml(),
             ));
         }

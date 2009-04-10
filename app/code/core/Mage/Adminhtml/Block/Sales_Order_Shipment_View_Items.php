@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Items extends Mage_Adminhtm
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     /**

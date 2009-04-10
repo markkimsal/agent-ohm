@@ -59,7 +59,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     {
         if (!$this->_order) {
             $paymentInfo = $this->getInfoInstance();
-            $this->_order = Mage::getModel('sales/order')
+            $this->_order = AO::getModel('sales/order')
                             ->loadByIncrementId($paymentInfo->getOrder()->getRealOrderId());
         }
         return $this->_order;
@@ -72,7 +72,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getCustomerId()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/customer_id');
+        return AO::getStoreConfig('payment/' . $this->getCode() . '/customer_id');
     }
 
     /**
@@ -82,7 +82,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getAccepteCurrency()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
+        return AO::getStoreConfig('payment/' . $this->getCode() . '/currency');
     }
 
     public function validate()
@@ -95,14 +95,14 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
         if ($currency_code != $this->getAccepteCurrency()) {
-            Mage::throwException(Mage::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatible with eWAY'));
+            AO::throwException(AO::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatible with eWAY'));
         }
         return $this;
     }
 
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('eway/' . $this->_paymentMethod . '/redirect');
+          return AO::getUrl('eway/' . $this->_paymentMethod . '/redirect');
     }
 
     /**
@@ -120,12 +120,12 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             if ($item->getParentItem()) {
                 continue;
             }
-            if (Mage::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 10000) {
+            if (AO::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 10000) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        $invoiceDesc = Mage::helper('core/string')->substr($invoiceDesc, 0, -2);
+        $invoiceDesc = AO::helper('core/string')->substr($invoiceDesc, 0, -2);
 
         $address = clone $billing;
         $address->unsFirstname();
@@ -146,12 +146,12 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $fieldsArr['ewayCustomerPostcode'] = $billing->getPostcode();
 //        $fieldsArr['ewayCustomerInvoiceRef'] = '';
         $fieldsArr['ewayCustomerInvoiceDescription'] = $invoiceDesc;
-        $fieldsArr['eWAYSiteTitle '] = Mage::app()->getStore()->getName();
+        $fieldsArr['eWAYSiteTitle '] = AO::app()->getStore()->getName();
         $fieldsArr['eWAYAutoRedirect'] = 1;
-        $fieldsArr['ewayURL'] = Mage::getUrl('eway/' . $this->_paymentMethod . '/success', array('_secure' => true));
+        $fieldsArr['ewayURL'] = AO::getUrl('eway/' . $this->_paymentMethod . '/success', array('_secure' => true));
         $fieldsArr['eWAYTrxnNumber'] = $paymentInfo->getOrder()->getRealOrderId();
         $fieldsArr['ewayOption1'] = '';
-        $fieldsArr['ewayOption2'] = Mage::helper('core')->encrypt($fieldsArr['eWAYTrxnNumber']);
+        $fieldsArr['ewayOption2'] = AO::helper('core')->encrypt($fieldsArr['eWAYTrxnNumber']);
         $fieldsArr['ewayOption3'] = '';
 
         $request = '';
@@ -160,7 +160,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         }
 
         if ($this->getDebug()) {
-            $debug = Mage::getModel('eway/api_debug')
+            $debug = AO::getModel('eway/api_debug')
                 ->setRequestBody($request)
                 ->save();
             $fieldsArr['ewayOption1'] = $debug->getId();
@@ -176,7 +176,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getEwaySharedUrl()
     {
-         if (!$url = Mage::getStoreConfig('payment/eway_shared/api_url')) {
+         if (!$url = AO::getStoreConfig('payment/eway_shared/api_url')) {
              $url = 'https://www.eway.com.au/gateway/payment.asp';
          }
          return $url;
@@ -189,7 +189,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/debug_flag');
+        return AO::getStoreConfig('payment/' . $this->getCode() . '/debug_flag');
     }
 
     public function capture(Varien_Object $payment, $amount)
@@ -218,7 +218,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
         $response = $this->getResponse();
 
         if ($this->getDebug()) {
-            $debug = Mage::getModel('eway/api_debug')
+            $debug = AO::getModel('eway/api_debug')
                 ->load($response['eWAYoption1'])
                 ->setResponseBody(print_r($response, 1))
                 ->save();

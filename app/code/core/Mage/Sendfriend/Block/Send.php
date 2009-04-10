@@ -37,8 +37,8 @@ class Mage_Sendfriend_Block_Send extends Mage_Core_Block_Template
         if ($name = $this->getFormData()->getData('sender/name')) {
             return $name;
         }
-    	$firstName =(string)Mage::getSingleton('customer/session')->getCustomer()->getFirstname();
-    	$lastName = (string)Mage::getSingleton('customer/session')->getCustomer()->getLastname();
+    	$firstName =(string)AO::getSingleton('customer/session')->getCustomer()->getFirstname();
+    	$lastName = (string)AO::getSingleton('customer/session')->getCustomer()->getLastname();
         return $firstName.' '.$lastName;
     }
 
@@ -47,14 +47,14 @@ class Mage_Sendfriend_Block_Send extends Mage_Core_Block_Template
         if ($email = $this->getFormData()->getData('sender/email')) {
             return $email;
         }
-    	return (string) Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+    	return (string) AO::getSingleton('customer/session')->getCustomer()->getEmail();
     }
 
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = new Varien_Object(Mage::getSingleton('catalog/session')->getFormData(true));
+            $data = new Varien_Object(AO::getSingleton('catalog/session')->getFormData(true));
             $this->setFormData($data);
         }
         return $data;
@@ -72,7 +72,7 @@ class Mage_Sendfriend_Block_Send extends Mage_Core_Block_Template
 
 	public function getMaxRecipients()
 	{
-	    $sendToFriendModel = Mage::registry('send_to_friend_model');
+	    $sendToFriendModel = AO::registry('send_to_friend_model');
 	    return $sendToFriendModel->getMaxRecipients();
 	}
 }

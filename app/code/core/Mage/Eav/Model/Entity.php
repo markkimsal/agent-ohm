@@ -50,7 +50,7 @@ class Mage_Eav_Model_Entity extends Mage_Eav_Model_Entity_Abstract
      */
     public function __construct()
     {
-        $this->setConnection(Mage::getSingleton('core/resource')->getConnection('core_read'));
+        $this->setConnection(AO::getSingleton('core/resource')->getConnection('core_read'));
     }
 
 }

@@ -44,8 +44,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         if(!$act)
             $act = 'default';
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products'), Mage::helper('reports')->__('Products'));
+            ->_addBreadcrumb(AO::helper('reports')->__('Reports'), AO::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Products'), AO::helper('reports')->__('Products'));
         return $this;
     }
 
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $this->_initAction()
             ->_setActiveMenu('report/product/ordered')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Bestsellers'), Mage::helper('reports')->__('Bestsellers'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Bestsellers'), AO::helper('reports')->__('Bestsellers'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_ordered'))
             ->renderLayout();
     }
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $this->_initAction()
             ->_setActiveMenu('report/product/viewed')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Most viewed'), Mage::helper('reports')->__('Most viewed'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Most viewed'), AO::helper('reports')->__('Most viewed'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_viewed'))
             ->renderLayout();
     }
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $this->_initAction()
             ->_setActiveMenu('report/product/lowstock')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Low stock'), Mage::helper('reports')->__('Low stock'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Low stock'), AO::helper('reports')->__('Low stock'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_lowstock'))
             ->renderLayout();
     }
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         $this->_initAction()
             ->_setActiveMenu('report/product/downloads')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Downloads'), Mage::helper('reports')->__('Downloads'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Downloads'), AO::helper('reports')->__('Downloads'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_downloads'))
             ->renderLayout();
     }
@@ -189,16 +189,16 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
     {
         switch ($this->getRequest()->getActionName()) {
             case 'ordered':
-                return Mage::getSingleton('admin/session')->isAllowed('report/products/ordered');
+                return AO::getSingleton('admin/session')->isAllowed('report/products/ordered');
                 break;
             case 'viewed':
-                return Mage::getSingleton('admin/session')->isAllowed('report/products/viewed');
+                return AO::getSingleton('admin/session')->isAllowed('report/products/viewed');
                 break;
             case 'lowstock':
-                return Mage::getSingleton('admin/session')->isAllowed('report/products/lowstock');
+                return AO::getSingleton('admin/session')->isAllowed('report/products/lowstock');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/products');
+                return AO::getSingleton('admin/session')->isAllowed('report/products');
                 break;
         }
     }

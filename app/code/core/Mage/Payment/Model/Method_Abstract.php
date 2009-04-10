@@ -203,7 +203,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     protected function _getHelper()
     {
-        return Mage::helper('payment');
+        return AO::helper('payment');
     }
 
     /**
@@ -214,7 +214,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function getCode()
     {
         if (empty($this->_code)) {
-            Mage::throwException($this->_getHelper()->__('Can not retrieve payment method code'));
+            AO::throwException($this->_getHelper()->__('Can not retrieve payment method code'));
         }
         return $this->_code;
     }
@@ -248,7 +248,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         $instance = $this->getData('info_instance');
         if (!($instance instanceof Mage_Payment_Model_Info)) {
-            Mage::throwException($this->_getHelper()->__('Can not retrieve payment iformation object instance'));
+            AO::throwException($this->_getHelper()->__('Can not retrieve payment iformation object instance'));
         }
         return $instance;
     }
@@ -271,7 +271,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
          }
          if (!$this->canUseForCountry($billingCountry)) {
-             Mage::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
+             AO::throwException($this->_getHelper()->__('Selected payment type is not allowed for billing country.'));
          }
          return $this;
     }
@@ -285,7 +285,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function authorize(Varien_Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
-            Mage::throwException($this->_getHelper()->__('Authorize action is not available'));
+            AO::throwException($this->_getHelper()->__('Authorize action is not available'));
         }
         return $this;
     }
@@ -299,7 +299,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function capture(Varien_Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            Mage::throwException($this->_getHelper()->__('Capture action is not available'));
+            AO::throwException($this->_getHelper()->__('Capture action is not available'));
         }
 
         return $this;
@@ -328,7 +328,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
 
         if (!$this->canRefund()) {
-            Mage::throwException($this->_getHelper()->__('Refund action is not available'));
+            AO::throwException($this->_getHelper()->__('Refund action is not available'));
         }
 
 
@@ -367,7 +367,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function void(Varien_Object $payment)
     {
         if (!$this->canVoid($payment)) {
-            Mage::throwException($this->_getHelper()->__('Void action is not available'));
+            AO::throwException($this->_getHelper()->__('Void action is not available'));
         }
         return $this;
     }
@@ -394,7 +394,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return AO::getStoreConfig($path, $storeId);
     }
 
     /**

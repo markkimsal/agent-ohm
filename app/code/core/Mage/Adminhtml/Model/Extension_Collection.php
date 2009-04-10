@@ -41,7 +41,7 @@ class Mage_Adminhtml_Model_Extension_Collection extends Mage_Adminhtml_Model_Ext
      */
     protected function _fetchPackages()
     {
-        $baseDir = Mage::getBaseDir('var') . DS . 'pear';
+        $baseDir = AO::getBaseDir('var') . DS . 'pear';
         $files = array();
         $this->_collectRecursive($baseDir,  $files);
         $result = array();

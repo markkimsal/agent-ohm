@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Adminhtml_Block
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'   => Mage::helper('sales')->__('Submit Comment'),
+                'label'   => AO::helper('sales')->__('Submit Comment'),
                 'class'   => 'save',
                 'onclick' => $onclick
             ));
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Adminhtml_Block
 
     public function canSendCommentEmail()
     {
-        return Mage::helper('sales')->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
+        return AO::helper('sales')->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**
@@ -65,12 +65,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Adminhtml_Block
      */
     public function getOrder()
     {
-        return Mage::registry('sales_order');
+        return AO::registry('sales_order');
     }
 
     public function canAddComment()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/comment');
+        return AO::getSingleton('admin/session')->isAllowed('sales/order/actions/comment');
     }
 
     public function getSubmitUrl()

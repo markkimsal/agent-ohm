@@ -67,7 +67,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                 if (isset($shipItems[$_item->getId()])) {
                     $qty = $shipItems[$_item->getId()]->getQty()*1;
                 } else if ($_item->getIsVirtual()) {
-                    $qty = Mage::helper('bundle')->__('N/A');
+                    $qty = AO::helper('bundle')->__('N/A');
                 } else {
                     $qty = 0;
                 }
@@ -84,14 +84,14 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                 $feed = 60;
                 $name = $_item->getName();
             }
-            foreach (Mage::helper('core/string')->str_split($name, 60, true, true) as $key => $part) {
+            foreach (AO::helper('core/string')->str_split($name, 60, true, true) as $key => $part) {
                 $page->drawText($part, $feed, $pdf->y-$shift[0], 'UTF-8');
                 if ($key > 0) {
                     $shift[0] += 10;
                 }
             }
 
-            foreach (Mage::helper('core/string')->str_split($item->getSku(), 30) as $key => $part) {
+            foreach (AO::helper('core/string')->str_split($item->getSku(), 30) as $key => $part) {
                 if ($key > 0) {
                     $shift[2] += 10;
                 }
@@ -107,7 +107,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
                     $this->_setFontItalic();
-                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60,false,true) as $_option) {
+                    foreach (AO::helper('core/string')->str_split(strip_tags($option['label']), 60,false,true) as $_option) {
                         $page->drawText($_option, 60, $pdf->y-$shift[1], 'UTF-8');
                         $shift[1] += 10;
                     }
@@ -117,7 +117,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                     if ($option['value']) {
                         $values = explode(', ', strip_tags($option['value']));
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 70,true,true) as $_value) {
+                            foreach (AO::helper('core/string')->str_split($value, 70,true,true) as $_value) {
                                 $page->drawText($_value, 65, $pdf->y-$shift[1], 'UTF-8');
                                 $shift[1] += 10;
                             }

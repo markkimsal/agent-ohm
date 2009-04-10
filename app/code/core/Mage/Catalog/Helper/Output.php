@@ -35,7 +35,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
 
     public function __construct()
     {
-        Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
+        AO::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
     }
 
     /**

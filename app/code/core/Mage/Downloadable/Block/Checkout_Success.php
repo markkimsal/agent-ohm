@@ -41,7 +41,7 @@ class Mage_Downloadable_Block_Checkout_Success extends Mage_Checkout_Block_Onepa
      */
     public function getOrderHasDownloadable()
     {
-        $hasDownloadableFlag = Mage::getSingleton('checkout/session')
+        $hasDownloadableFlag = AO::getSingleton('checkout/session')
             ->getHasDownloadableProducts(true);
         if (!$this->isOrderVisible()) {
             return false;
@@ -49,7 +49,7 @@ class Mage_Downloadable_Block_Checkout_Success extends Mage_Checkout_Block_Onepa
         /**
          * if use guest checkout
          */
-        if (!Mage::getSingleton('customer/session')->getCustomerId()) {
+        if (!AO::getSingleton('customer/session')->getCustomerId()) {
             return false;
         }
         return $hasDownloadableFlag;

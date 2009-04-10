@@ -53,7 +53,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
             $count = $this->getData('item_count');
         }
         if ($count === null) {
-            $count = Mage::getStoreConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = AO::getStoreConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
         }
         $items = array();
         if (!$this->getSummaryCount()) {
@@ -124,12 +124,12 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
 
     public function getSummaryCount()
     {
-        return Mage::getSingleton('checkout/cart')->getSummaryQty();
+        return AO::getSingleton('checkout/cart')->getSummaryQty();
     }
 
     public function getIncExcTax($flag)
     {
-        $text = Mage::helper('tax')->getIncExcText($flag);
+        $text = AO::helper('tax')->getIncExcText($flag);
         return $text ? ' ('.$text.')' : '';
     }
 
@@ -151,7 +151,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     protected function _toHtml()
     {
         $html = '';
-        if ((bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display')) {
+        if ((bool) AO::app()->getStore()->getConfig('checkout/sidebar/display')) {
             $html = parent::_toHtml();
         }
         return $html;

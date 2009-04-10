@@ -38,7 +38,7 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
+        $product = AO::registry('product');
         /* @var $product Mage_Catalog_Model_Product */
 
         $this->_itemCollection = $product->getRelatedProductCollection()
@@ -46,13 +46,13 @@ class Mage_Catalog_Block_Product_List_Related extends Mage_Catalog_Block_Product
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
         ;
-        Mage::getResourceSingleton('checkout/cart')->addExcludeProductFilter($this->_itemCollection,
-            Mage::getSingleton('checkout/session')->getQuoteId()
+        AO::getResourceSingleton('checkout/cart')->addExcludeProductFilter($this->_itemCollection,
+            AO::getSingleton('checkout/session')->getQuoteId()
         );
         $this->_addProductAttributesAndPrices($this->_itemCollection);
 
-//        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
+//        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
 
         $this->_itemCollection->load();
 

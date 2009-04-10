@@ -44,12 +44,12 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
 
         $this->_removeButton('reset');
         $this->_removeButton('delete');
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Send Tracking Information'));
+        $this->_updateButton('save', 'label', AO::helper('sales')->__('Send Tracking Information'));
         $this->_updateButton('save', 'onclick', "setLocation('".$this->getEmailUrl()."')");
         
         if ($this->getShipment()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('sales')->__('Print'),
+                'label'     => AO::helper('sales')->__('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -64,19 +64,19 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('Shipment email sent');
+            $emailSent = AO::helper('sales')->__('Shipment email sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('Shipment email not sent');
+            $emailSent = AO::helper('sales')->__('Shipment email not sent');
         }
 
-        $header = Mage::helper('sales')
+        $header = AO::helper('sales')
             ->__('Shipment #%s (%s)', $this->getShipment()->getIncrementId(), $emailSent);
         return $header;
     }

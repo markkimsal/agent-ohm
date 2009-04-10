@@ -36,17 +36,17 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
 {
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     public function getCustomer()
     {
-        return Mage::getSingleton('customer/session');
+        return AO::getSingleton('customer/session');
     }
 
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return AO::app()->getStore();
     }
 
     public function getSaveUrl($type)
@@ -59,11 +59,11 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
 
     public function createBlock($block)
     {
-        $error = Mage::helper('core')->__('Invalid block type: %s', $block);
+        $error = AO::helper('core')->__('Invalid block type: %s', $block);
         if (is_string($block)) {
             if (strpos($block, '/') !== false) {
-                if (!$block = Mage::getConfig()->getBlockClassName($block)) {
-                    Mage::throwException($error);
+                if (!$block = AO::getConfig()->getBlockClassName($block)) {
+                    AO::throwException($error);
                 }
             }
             $fileName = mageFindClassFile($block);
@@ -73,7 +73,7 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $block;
     }

@@ -48,11 +48,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
         );
 
         $this->getUploader()->getConfig()
-            ->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/catalog_product_gallery/upload'))
+            ->setUrl(AO::getModel('adminhtml/url')->addSessionParam()->getUrl('*/catalog_product_gallery/upload'))
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
-                    'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
+                    'label' => AO::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
                     'files' => array('*.gif', '*.jpg','*.jpeg', '*.png')
                 )
             ));
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
     public function getAddImagesButton()
     {
         return $this->getButtonHtml(
-            Mage::helper('catalog')->__('Add New Images'),
+            AO::helper('catalog')->__('Add New Images'),
             $this->getJsObjectName() . '.showUploader()',
             'add',
             $this->getHtmlId() . '_add_images_button'
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             $value = $this->getElement()->getValue();
             if(count($value['images'])>0) {
                 foreach ($value['images'] as &$image) {
-                    $image['url'] = Mage::getSingleton('catalog/product_media_config')
+                    $image['url'] = AO::getSingleton('catalog/product_media_config')
                                         ->getMediaUrl($image['file']);
                 }
                 return Zend_Json::encode($value['images']);
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
             $imageTypes[$attribute->getAttributeCode()] = array(
                 'label' => $attribute->getFrontend()->getLabel() . ' '
-                         . Mage::helper('catalog')->__($this->getElement()->getScopeLabel($attribute)),
+                         . AO::helper('catalog')->__($this->getElement()->getScopeLabel($attribute)),
                 'field' => $this->getElement()->getAttributeFieldName($attribute)
             );
         }

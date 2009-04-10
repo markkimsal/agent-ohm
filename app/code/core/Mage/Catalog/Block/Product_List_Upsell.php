@@ -44,19 +44,19 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
+        $product = AO::registry('product');
         /* @var $product Mage_Catalog_Model_Product */
         $this->_itemCollection = $product->getUpSellProductCollection()
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
         ;
-        Mage::getResourceSingleton('checkout/cart')->addExcludeProductFilter($this->_itemCollection,
-            Mage::getSingleton('checkout/session')->getQuoteId()
+        AO::getResourceSingleton('checkout/cart')->addExcludeProductFilter($this->_itemCollection,
+            AO::getSingleton('checkout/session')->getQuoteId()
         );
         $this->_addProductAttributesAndPrices($this->_itemCollection);
 
-//        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
+//        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
 
         if ($this->getItemLimit('upsell') > 0) {
             $this->_itemCollection->setPageSize($this->getItemLimit('upsell'));
@@ -67,7 +67,7 @@ class Mage_Catalog_Block_Product_List_Upsell extends Mage_Catalog_Block_Product_
         /**
          * Updating collection with desired items
          */
-        Mage::dispatchEvent('catalog_product_upsell', array(
+        AO::dispatchEvent('catalog_product_upsell', array(
             'product'       => $product,
             'collection'    => $this->_itemCollection,
             'limit'         => $this->getItemLimit()

@@ -39,7 +39,7 @@ class Mage_Catalog_Block_Product_View_Attributes extends Mage_Core_Block_Templat
     function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('product');
+            $this->_product = AO::registry('product');
         }
         return $this->_product;
     }
@@ -66,7 +66,7 @@ class Mage_Catalog_Block_Product_View_Attributes extends Mage_Core_Block_Templat
                 if (is_string($value)) {
                     if (strlen($value) && $product->hasData($attribute->getAttributeCode())) {
                         if ($attribute->getFrontendInput() == 'price') {
-                            $value = Mage::app()->getStore()->convertPrice($value,true);
+                            $value = AO::app()->getStore()->convertPrice($value,true);
                         } elseif (!$attribute->getIsHtmlAllowedOnFront()) {
                             $value = $this->htmlEscape($value);
                         }

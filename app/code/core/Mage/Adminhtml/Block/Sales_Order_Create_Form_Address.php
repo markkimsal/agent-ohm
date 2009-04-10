@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         if (!$this->_form) {
             $this->_form = new Varien_Data_Form();
             $fieldset = $this->_form->addFieldset('main', array('no_container'=>true));
-            $addressModel = Mage::getModel('customer/address');
+            $addressModel = AO::getModel('customer/address');
 
             foreach ($addressModel->getAttributes() as $attribute) {
                 if (!$attribute->getIsVisible()) {

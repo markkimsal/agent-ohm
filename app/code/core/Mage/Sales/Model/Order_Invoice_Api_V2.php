@@ -42,7 +42,7 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
     public function items($filters = null)
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_invoice_collection')
+        $collection = AO::getResourceModel('sales/order_invoice_collection')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
@@ -115,7 +115,7 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
      */
     public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = AO::getModel('sales/order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /* @var $order Mage_Sales_Model_Order */
         /**
@@ -129,7 +129,7 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
          * Check invoice create availability
          */
         if (!$order->canInvoice()) {
-             $this->_fault('data_invalid', Mage::helper('sales')->__('Can not do invoice for order.'));
+             $this->_fault('data_invalid', AO::helper('sales')->__('Can not do invoice for order.'));
         }
 
         $invoice = $order->prepareInvoice($itemsQty);
@@ -147,7 +147,7 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            $transactionSave = Mage::getModel('core/resource_transaction')
+            $transactionSave = AO::getModel('core/resource_transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();

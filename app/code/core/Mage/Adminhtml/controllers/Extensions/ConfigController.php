@@ -48,10 +48,10 @@ class Mage_Adminhtml_Extensions_ConfigController extends Mage_Adminhtml_Controll
     public function saveAction()
     {
         $pear = Varien_Pear::getInstance();
-        $error = Mage::helper('adminhtml')->__("Unknown error");
+        $error = AO::helper('adminhtml')->__("Unknown error");
         $state = $this->getRequest()->getPost('preferred_state');
         if (!empty($state)) {
-            $session = Mage::getSingleton('adminhtml/session');
+            $session = AO::getSingleton('adminhtml/session');
             $result = $pear->run('config-set', array(), array('preferred_state', $state));
             if ($result instanceof PEAR_Error) {
                 $error = $result->getMessage();
@@ -62,13 +62,13 @@ class Mage_Adminhtml_Extensions_ConfigController extends Mage_Adminhtml_Controll
         if ($error) {
             $session->addError($result->getMessage());
         } else {
-            $session->addSuccess(Mage::helper('adminhtml')->__("PEAR Configuration was successfully saved"));
+            $session->addSuccess(AO::helper('adminhtml')->__("PEAR Configuration was successfully saved"));
         }
         $this->_redirect('*/*');
     }
     
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions/config');
+        return AO::getSingleton('admin/session')->isAllowed('system/extensions/config');
     }
 }

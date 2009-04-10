@@ -55,7 +55,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('paypal/wpp/'.$key);
+             $value = AO::getStoreConfig('paypal/wpp/'.$key);
              if (is_null($value) || false===$value) {
                  $value = $default;
              }
@@ -66,7 +66,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return AO::getSingleton('paypal/session');
     }
 
     public function getUseSession()
@@ -157,7 +157,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getApiErrorUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_error_url', 'paypal/express/error'));
+        return AO::getUrl($this->getConfigData('api_error_url', 'paypal/express/error'));
     }
 
     /**
@@ -167,7 +167,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getReturnUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_return_url', 'paypal/express/return'));
+        return AO::getUrl($this->getConfigData('api_return_url', 'paypal/express/return'));
     }
 
     /**
@@ -177,7 +177,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getCancelUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_cancel_url', 'paypal/express/cancel'));
+        return AO::getUrl($this->getConfigData('api_cancel_url', 'paypal/express/cancel'));
     }
 
     /**
@@ -291,7 +291,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function getCurrencyCode()
     {
         //return $this->getSessionData('currency_code', 'USD');
-        return $this->getSessionData('currency_code', Mage::app()->getStore()->getBaseCurrencyCode());
+        return $this->getSessionData('currency_code', AO::app()->getStore()->getBaseCurrencyCode());
     }
 
     public function setCurrencyCode($data)
@@ -326,7 +326,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     public function getCcTypeName($ccType)
     {
-        $types = array('AE'=>Mage::helper('paypal')->__('Amex'), 'VI'=>Mage::helper('paypal')->__('Visa'), 'MC'=>Mage::helper('paypal')->__('MasterCard'), 'DI'=>Mage::helper('paypal')->__('Discover'));
+        $types = array('AE'=>AO::helper('paypal')->__('Amex'), 'VI'=>AO::helper('paypal')->__('Visa'), 'MC'=>AO::helper('paypal')->__('MasterCard'), 'DI'=>AO::helper('paypal')->__('Discover'));
         return isset($types[$ccType]) ? $types[$ccType] : false;
     }
 

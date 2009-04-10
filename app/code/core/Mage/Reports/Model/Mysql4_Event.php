@@ -111,27 +111,27 @@ class Mage_Reports_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
     {
         $stores = array();
         // get all or specified stores
-        if (Mage::app()->getStore()->getId() == 0) {
+        if (AO::app()->getStore()->getId() == 0) {
             if (null !== $predefinedStoreIds) {
                 $stores = $predefinedStoreIds;
             }
             else {
-                foreach (Mage::app()->getStores() as $store) {
+                foreach (AO::app()->getStores() as $store) {
                     $stores[] = $store->getId();
                 }
             }
         }
         // get all stores, required by configuration in current store scope
         else {
-            switch (Mage::getStoreConfig('catalog/recently_products/scope')) {
+            switch (AO::getStoreConfig('catalog/recently_products/scope')) {
                 case 'website':
-                    $resourceStore = Mage::app()->getStore()->getWebsite()->getStores();
+                    $resourceStore = AO::app()->getStore()->getWebsite()->getStores();
                     break;
                 case 'group':
-                    $resourceStore = Mage::app()->getStore()->getGroup()->getStores();
+                    $resourceStore = AO::app()->getStore()->getGroup()->getStores();
                     break;
                 default:
-                    $resourceStore = array(Mage::app()->getStore());
+                    $resourceStore = array(AO::app()->getStore());
                     break;
             }
 

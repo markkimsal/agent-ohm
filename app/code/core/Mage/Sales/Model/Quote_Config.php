@@ -31,7 +31,7 @@ class Mage_Sales_Model_Quote_Config
 
     public function getProductAttributes()
     {
-        $attributes = Mage::getConfig()->getNode(self::XML_PATH_QUOTE_PRODUCT_ATTRIBUTES)->asArray();
+        $attributes = AO::getConfig()->getNode(self::XML_PATH_QUOTE_PRODUCT_ATTRIBUTES)->asArray();
         return array_keys($attributes);
     }
 

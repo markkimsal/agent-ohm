@@ -72,7 +72,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     public function rebuildIndex($storeId = null, $productIds = null)
     {
         if (is_null($storeId)) {
-            foreach (Mage::app()->getStores(false) as $store) {
+            foreach (AO::app()->getStores(false) as $store) {
                 $this->_rebuildStoreIndex($store->getId(), $productIds);
             }
         } else {
@@ -106,8 +106,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         // status and visibility filter
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
-        $visibilityVals = Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
-        $statusVals     = Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        $visibilityVals = AO::getSingleton('catalog/product_visibility')->getVisibleInSearchIds();
+        $statusVals     = AO::getSingleton('catalog/product_status')->getVisibleStatusIds();
 
         $lastProductId = 0;
         while (true) {
@@ -180,7 +180,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     protected function _getSearchableProducts($storeId, array $staticFields, $productIds = null, $lastProductId = 0, $limit = 100)
     {
         $entityType = $this->getEavConfig()->getEntityType('catalog_product');
-        $store      = Mage::app()->getStore($storeId);
+        $store      = AO::app()->getStore($storeId);
 
         $select = $this->_getReadAdapter()->select()
             ->from(
@@ -222,7 +222,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             throw $e;
         }
 
-        Mage::dispatchEvent('catalogsearch_reset_search_result');
+        AO::dispatchEvent('catalogsearch_reset_search_result');
 
         return $this;
     }
@@ -262,7 +262,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         if (!$query->getIsProcessed()) {
             $searchType = $object->getSearchType($query->getStoreId());
 
-            $stringHelper = Mage::helper('core/string');
+            $stringHelper = AO::helper('core/string');
             /* @var $stringHelper Mage_Core_Helper_String */
 
             $bind = array(
@@ -320,7 +320,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     public function getEavConfig()
     {
-        return Mage::getSingleton('eav/config');
+        return AO::getSingleton('eav/config');
     }
 
     /**
@@ -437,7 +437,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $productEmulator = new Varien_Object();
             $productEmulator->setTypeId($typeId);
 
-            $typeInstance = Mage::getSingleton('catalog/product_type')->factory($productEmulator);
+            $typeInstance = AO::getSingleton('catalog/product_type')->factory($productEmulator);
             $this->_productTypes[$typeId] = $typeInstance->isComposite() ? $typeInstance->getRelationInfo() : false;
         }
 

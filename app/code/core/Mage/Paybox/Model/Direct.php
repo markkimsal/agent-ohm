@@ -148,7 +148,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         $currencyCode = $this->getPayment()->getOrder()->getBaseCurrencyCode();
         if (!$this->_currenciesNumbers) {
-            $this->_currenciesNumbers = simplexml_load_file(Mage::getBaseDir().'/app/code/core/Mage/Paybox/etc/currency.xml');
+            $this->_currenciesNumbers = simplexml_load_file(AO::getBaseDir().'/app/code/core/Mage/Paybox/etc/currency.xml');
         }
         if ($this->_currenciesNumbers->$currencyCode) {
             return (string)$this->_currenciesNumbers->$currencyCode;
@@ -164,7 +164,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         if (!$this->_questionNumberModel) {
             $accountHash = md5($this->getSiteNumber().$this->getRang());
-            $this->_questionNumberModel = Mage::getModel('paybox/question_number')->load($accountHash, 'account_hash');
+            $this->_questionNumberModel = AO::getModel('paybox/question_number')->load($accountHash, 'account_hash');
         }
         return $this->_questionNumberModel;
     }
@@ -194,11 +194,11 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
+                $message = AO::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
             } else {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = AO::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
-            Mage::throwException($message);
+            AO::throwException($message);
         }
 
         return $this;
@@ -224,11 +224,11 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
+                $message = AO::helper('paybox')->__('There has been an error processing your payment. ') . $e['message'];
             } else {
-                $message = Mage::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = AO::helper('paybox')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
-            Mage::throwException($message);
+            AO::throwException($message);
         }
 
         return $this;
@@ -259,15 +259,15 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
                 if (isset($e['message'])) {
                     $error = $e['message'];
                 } else {
-                    $error = Mage::helper('paybox')->__('Error in refunding the payment');
+                    $error = AO::helper('paybox')->__('Error in refunding the payment');
                 }
             }
         } else {
             $payment->setStatus(self::STATUS_ERROR);
-            $error = Mage::helper('paybox')->__('Error in refunding the payment');
+            $error = AO::helper('paybox')->__('Error in refunding the payment');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
 
         return $this;
@@ -285,7 +285,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         $tmpArr = array(
             'VERSION' => self::PBX_VERSION,
-            'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
+            'DATEQ' => AO::getModel('core/date')->date('dmYHis'),
             'TYPE' => $this->getPaymentAction(),
             'NUMQUESTION' => $this->getQuestionNumberModel()->getNextQuestionNumber(),
             'SITE' => $this->getSiteNumber(),
@@ -296,7 +296,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             'DEVISE' => $this->getCurrencyNumb(),
             'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),
             'PORTEUR' => $payment->getCcNumber(),
-            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
+            'DATEVAL' => AO::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
             'CVV' => $payment->getCcCid(),
             'ACTIVITE' => self::PBX_ACTIVITE_VALUE,
         );
@@ -334,7 +334,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         $tmpArr = array(
             'VERSION' => self::PBX_VERSION,
-            'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
+            'DATEQ' => AO::getModel('core/date')->date('dmYHis'),
             'TYPE' => self::PBX_PAYMENT_ACTION_DEBIT,
             'NUMQUESTION' => $payment->getPayboxQuestionNumber(),
             'SITE' => $this->getSiteNumber(),
@@ -375,7 +375,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         $tmpArr = array(
             'VERSION' => self::PBX_VERSION,
-            'DATEQ' => Mage::getModel('core/date')->date('dmYHis'),
+            'DATEQ' => AO::getModel('core/date')->date('dmYHis'),
             'TYPE' => self::PBX_PAYMENT_ACTION_REFUND,
             'NUMQUESTION' => $this->getQuestionNumberModel()->getNextQuestionNumber(),
             'SITE' => $this->getSiteNumber(),
@@ -385,7 +385,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             'DEVISE' => (string)$this->getCurrencyNumb(),
             'REFERENCE' => base64_encode($payment->getOrder()->getRealOrderId()),
             'PORTEUR' => $payment->getCcNumber(),
-            'DATEVAL' => Mage::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
+            'DATEVAL' => AO::getModel('core/date')->date('my', mktime(0,0,0,$payment->getCcExpMonth(),1,$payment->getCcExpYear())),
             'NUMAPPEL' => '',
             'NUMTRANS' => '',
         );
@@ -418,7 +418,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
     public function call($requestStr)
     {
         if ($this->getDebugFlag()) {
-            $debug = Mage::getModel('paybox/api_debug')
+            $debug = AO::getModel('paybox/api_debug')
                 ->setRequestBody($requestStr)
                 ->save();
         }
@@ -468,7 +468,7 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
         //if backup gateway was down too
         if ($recall) {
             $this->setError(array(
-                'message' => Mage::helper('paybox')->__('Paybox payment gateway is not available right now')
+                'message' => AO::helper('paybox')->__('Paybox payment gateway is not available right now')
             ));
             return false;
         }

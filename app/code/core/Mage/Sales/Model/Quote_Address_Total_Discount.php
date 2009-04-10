@@ -31,7 +31,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount extends Mage_Sales_Model_Quo
     {
         $quote = $address->getQuote();
         $eventArgs = array(
-            'website_id'=>Mage::app()->getStore($quote->getStoreId())->getWebsiteId(),
+            'website_id'=>AO::app()->getStore($quote->getStoreId())->getWebsiteId(),
             'customer_group_id'=>$quote->getCustomerGroupId(),
             'coupon_code'=>$quote->getCouponCode(),
         );
@@ -76,13 +76,13 @@ class Mage_Sales_Model_Quote_Address_Total_Discount extends Mage_Sales_Model_Quo
 
                 if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                     $eventArgs['item'] = $item;
-                    Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                    AO::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
                     if ($item->getDiscountAmount() || $item->getFreeShipping()) {
                         $hasDiscount = true;
                     }
                     foreach ($item->getChildren() as $child) {
                         $eventArgs['item'] = $child;
-                        Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                        AO::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
 
                         if ($child->getDiscountAmount() || $child->getFreeShipping()) {
                             $hasDiscount = true;
@@ -113,7 +113,7 @@ class Mage_Sales_Model_Quote_Address_Total_Discount extends Mage_Sales_Model_Quo
                 }
                 else {
                     $eventArgs['item'] = $item;
-                    Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                    AO::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
 
                     if ($item->getDiscountAmount() || $item->getFreeShipping()) {
                         $hasDiscount = true;
@@ -143,9 +143,9 @@ class Mage_Sales_Model_Quote_Address_Total_Discount extends Mage_Sales_Model_Quo
     {
         $amount = $address->getDiscountAmount();
         if ($amount!=0) {
-            $title = Mage::helper('sales')->__('Discount');
+            $title = AO::helper('sales')->__('Discount');
             if ($code = $address->getCouponCode()) {
-                $title = Mage::helper('sales')->__('Discount (%s)', $code);
+                $title = AO::helper('sales')->__('Discount (%s)', $code);
             }
             $address->addTotal(array(
                 'code'=>$this->getCode(),

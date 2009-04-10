@@ -29,7 +29,7 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Category
 {
     public function toOptionArray()
     {
-        $hlp = Mage::helper('googlecheckout');
+        $hlp = AO::helper('googlecheckout');
         return array(
             array('value'=>'COMMERCIAL', 'label'=>$hlp->__('Commercial')),
             array('value'=>'RESIDENTIAL', 'label'=>$hlp->__('Residential')),

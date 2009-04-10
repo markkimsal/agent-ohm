@@ -46,11 +46,11 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends Mag
     public function getCollection()
     {
         if(is_null($this->_websiteCollection)) {
-            $this->_websiteCollection = Mage::getResourceModel('core/website_collection')
+            $this->_websiteCollection = AO::getResourceModel('core/website_collection')
                 ->load();
         }
 
-        Mage::register('website_collection', $this->_websiteCollection);
+        AO::register('website_collection', $this->_websiteCollection);
 
         return $this->_websiteCollection;
     }
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends Mag
             return null;
         }
 
-        $website = Mage::app()->getWebsite($id);
+        $website = AO::app()->getWebsite($id);
 
         return array('in'=>$website->getStoresIds(true));
     }

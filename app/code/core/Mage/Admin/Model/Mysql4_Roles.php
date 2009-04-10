@@ -59,7 +59,7 @@ class Mage_Admin_Model_Mysql4_Roles extends Mage_Core_Model_Mysql4_Abstract
     protected function _afterSave(Mage_Core_Model_Abstract $role)
     {
         $this->_updateRoleUsersAcl($role);
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+        AO::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
             array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
         return $this;
     }

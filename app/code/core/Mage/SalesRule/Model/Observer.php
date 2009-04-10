@@ -32,7 +32,7 @@ class Mage_SalesRule_Model_Observer
     public function getValidator($event)
     {
         if (!$this->_validator) {
-            $this->_validator = Mage::getModel('salesrule/validator')
+            $this->_validator = AO::getModel('salesrule/validator')
                 ->init($event->getWebsiteId(), $event->getCustomerGroupId(), $event->getCouponCode());
         }
         return $this->_validator;
@@ -64,14 +64,14 @@ class Mage_SalesRule_Model_Observer
             if (!$ruleId) {
                 continue;
             }
-            $rule = Mage::getModel('salesrule/rule');
+            $rule = AO::getModel('salesrule/rule');
             $rule->load($ruleId);
             if ($rule->getId()) {
                 $rule->setTimesUsed($rule->getTimesUsed() + 1);
                 $rule->save();
 
                 if ($customerId) {
-                    $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+                    $ruleCustomer = AO::getModel('salesrule/rule_customer');
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
                     if ($ruleCustomer->getId()) {

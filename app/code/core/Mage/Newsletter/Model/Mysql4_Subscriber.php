@@ -75,10 +75,10 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
      */
     public function __construct()
     {
-        $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName("newsletter/subscriber");
-        $this->_subscriberLinkTable = Mage::getSingleton('core/resource')->getTableName("newsletter/queue_link");
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('newsletter_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('newsletter_write');
+        $this->_subscriberTable = AO::getSingleton('core/resource')->getTableName("newsletter/subscriber");
+        $this->_subscriberLinkTable = AO::getSingleton('core/resource')->getTableName("newsletter/queue_link");
+        $this->_read = AO::getSingleton('core/resource')->getConnection('newsletter_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('newsletter_write');
     }
 
     /**
@@ -182,7 +182,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(Mage::helper('newsletter')->__('Cannot save your subscription: %s', $e->getMessage()));
+            AO::throwException(AO::helper('newsletter')->__('Cannot save your subscription: %s', $e->getMessage()));
         }
 
         return $subscriber;
@@ -214,13 +214,13 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         $data['subscriber_confirm_code'] = $subscriber->getCode();
 
         if($subscriber->getIsStatusChanged()) {
-        	$data['change_status_at'] = Mage::getSingleton('core/date')->gmtDate();
+        	$data['change_status_at'] = AO::getSingleton('core/date')->gmtDate();
         }
 
         $validators = array('subscriber_email' => 'EmailAddress');
         $filters = array();
         $input = new Zend_Filter_Input($filters, $validators, $data);
-        $session = Mage::getSingleton($this->_messagesScope);
+        $session = AO::getSingleton($this->_messagesScope);
         if ($input->hasInvalid() || $input->hasMissing()) {
             foreach ($input->getMessages() as $message) {
                 if(is_array($message)) {
@@ -231,7 +231,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
                 	$session->addError($message);
                 }
             }
-            Mage::throwException(Mage::helper('newsletter')->__('Form was filled incorrectly'));
+            AO::throwException(AO::helper('newsletter')->__('Form was filled incorrectly'));
         }
 
         return $data;
@@ -245,7 +245,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
     public function delete($subscriberId)
     {
         if(!(int)$subscriberId) {
-            Mage::throwException(Mage::helper('newsletter')->__('Invalid subscriber ID'));
+            AO::throwException(AO::helper('newsletter')->__('Invalid subscriber ID'));
         }
 
         $this->_write->beginTransaction();
@@ -256,7 +256,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch (Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(Mage::helper('newsletter')->__('Cannot delete subscriber'));
+            AO::throwException(AO::helper('newsletter')->__('Cannot delete subscriber'));
         }
     }
 
@@ -273,7 +273,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         }
         catch (Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(Mage::helper('newsletter')->__('Cannot mark as received subscriber'));
+            AO::throwException(AO::helper('newsletter')->__('Cannot mark as received subscriber'));
         }
     	return $this;
     }

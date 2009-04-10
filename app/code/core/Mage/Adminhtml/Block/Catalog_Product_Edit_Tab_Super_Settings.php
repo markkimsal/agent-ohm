@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
         $this->setChild('continue_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Continue'),
+                    'label'     => AO::helper('catalog')->__('Continue'),
                     'onclick'   => $onclick,
                     'class'     => 'save'
                     ))
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
 
         $backButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'     => Mage::helper('catalog')->__('Back'),
+                'label'     => AO::helper('catalog')->__('Back'),
                 'onclick'   => "setLocation('".$this->getBackUrl()."')",
                 'class'     => 'back'
             ));
@@ -63,14 +63,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
      */
     protected function _getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('settings', array(
-            'legend'=>Mage::helper('catalog')->__('Select Configurable Attributes ')
+            'legend'=>AO::helper('catalog')->__('Select Configurable Attributes ')
         ));
 
         $product = $this->_getProduct();

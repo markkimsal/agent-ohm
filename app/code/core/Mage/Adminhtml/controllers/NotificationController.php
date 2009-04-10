@@ -32,7 +32,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
     {
         $this->loadLayout()
             ->_setActiveMenu('system/notification')
-            ->_addBreadcrumb(Mage::helper('adminnotification')->__('Messages Inbox'), Mage::helper('adminhtml')->__('Messages Inbox'))
+            ->_addBreadcrumb(AO::helper('adminnotification')->__('Messages Inbox'), AO::helper('adminhtml')->__('Messages Inbox'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/notification_inbox'))
             ->renderLayout();
     }
@@ -40,12 +40,12 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
     public function markAsReadAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $session = Mage::getSingleton('adminhtml/session');
-            $model = Mage::getModel('adminnotification/inbox')
+            $session = AO::getSingleton('adminhtml/session');
+            $model = AO::getModel('adminnotification/inbox')
                 ->load($id);
 
             if (!$model->getId()) {
-                $session->addError(Mage::helper('adminnotification')->__('Unable to proceed. Please, try again'));
+                $session->addError(AO::helper('adminnotification')->__('Unable to proceed. Please, try again'));
                 $this->_redirect('*/*/');
                 return ;
             }
@@ -53,13 +53,13 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
             try {
                 $model->setIsRead(1)
                     ->save();
-                $session->addSuccess(Mage::helper('adminnotification')->__('Message was successfully marked as read'));
+                $session->addSuccess(AO::helper('adminnotification')->__('Message was successfully marked as read'));
             }
             catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $session->addException($e, Mage::helper('adminnotification')->__('Error while marking as read. Please try again later.'));
+                $session->addException($e, AO::helper('adminnotification')->__('Error while marking as read. Please try again later.'));
             }
 
             $this->_redirectReferer();
@@ -70,15 +70,15 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
 
     public function massMarkAsReadAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
         $ids = $this->getRequest()->getParam('notification');
         if (!is_array($ids)) {
-            $session->addError(Mage::helper('adminnotification')->__('Please select messages'));
+            $session->addError(AO::helper('adminnotification')->__('Please select messages'));
         }
         else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getModel('adminnotification/inbox')
+                    $model = AO::getModel('adminnotification/inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRead(1)
@@ -86,13 +86,13 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('adminnotification')->__('Total of %d record(s) were successfully marked as read', count($ids))
+                    AO::helper('adminnotification')->__('Total of %d record(s) were successfully marked as read', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $session->addException($e, Mage::helper('adminnotification')->__('Error while marking as read. Please try again later.'));
+                $session->addException($e, AO::helper('adminnotification')->__('Error while marking as read. Please try again later.'));
             }
         }
         $this->_redirect('*/*/');
@@ -101,12 +101,12 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $session = Mage::getSingleton('adminhtml/session');
-            $model = Mage::getModel('adminnotification/inbox')
+            $session = AO::getSingleton('adminhtml/session');
+            $model = AO::getModel('adminnotification/inbox')
                 ->load($id);
 
             if (!$model->getId()) {
-                $session->addError(Mage::helper('adminnotification')->__('Unable to proceed. Please, try again'));
+                $session->addError(AO::helper('adminnotification')->__('Unable to proceed. Please, try again'));
                 $this->_redirect('*/*/');
                 return ;
             }
@@ -114,13 +114,13 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
             try {
                 $model->setIsRemove(1)
                     ->save();
-                $session->addSuccess(Mage::helper('adminnotification')->__('Message was successfully removed'));
+                $session->addSuccess(AO::helper('adminnotification')->__('Message was successfully removed'));
             }
             catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $session->addException($e, Mage::helper('adminnotification')->__('Error while removing. Please try again later.'));
+                $session->addException($e, AO::helper('adminnotification')->__('Error while removing. Please try again later.'));
             }
 
             $this->_redirectReferer();
@@ -131,15 +131,15 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
 
     public function massRemoveAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
         $ids = $this->getRequest()->getParam('notification');
         if (!is_array($ids)) {
-            $session->addError(Mage::helper('adminnotification')->__('Please select messages'));
+            $session->addError(AO::helper('adminnotification')->__('Please select messages'));
         }
         else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getModel('adminnotification/inbox')
+                    $model = AO::getModel('adminnotification/inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRemove(1)
@@ -147,13 +147,13 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('adminnotification')->__('Total of %d record(s) were successfully removed', count($ids))
+                    AO::helper('adminnotification')->__('Total of %d record(s) were successfully removed', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $session->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $session->addException($e, Mage::helper('adminnotification')->__('Error while marking. Please try again later.'));
+                $session->addException($e, AO::helper('adminnotification')->__('Error while marking. Please try again later.'));
             }
         }
         $this->_redirectReferer();
@@ -181,6 +181,6 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
             default:
                 $acl = 'system/adminnotification/show_list';
         }
-        return Mage::getSingleton('admin/session')->isAllowed($acl);
+        return AO::getSingleton('admin/session')->isAllowed($acl);
     }
 }

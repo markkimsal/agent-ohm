@@ -40,8 +40,8 @@ class Mage_Eway_Block_Shared_Failure extends Mage_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        $msg = Mage::getSingleton('checkout/session')->getEwayErrorMessage();
-        Mage::getSingleton('checkout/session')->unsEwayErrorMessage();
+        $msg = AO::getSingleton('checkout/session')->getEwayErrorMessage();
+        AO::getSingleton('checkout/session')->unsEwayErrorMessage();
         return $msg;
     }
 
@@ -50,6 +50,6 @@ class Mage_Eway_Block_Shared_Failure extends Mage_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return AO::getUrl('checkout/cart');
     }
 }

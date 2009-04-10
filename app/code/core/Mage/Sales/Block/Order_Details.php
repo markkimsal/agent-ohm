@@ -39,24 +39,24 @@ class Mage_Sales_Block_Order_Details extends Mage_Core_Block_Template
     {
         parent::__construct();
         $this->setTemplate('sales/order/details.phtml');
-        $this->setOrder(Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id')));
-        Mage::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('sales')->__('Order Details'));
+        $this->setOrder(AO::getModel('sales/order')->load($this->getRequest()->getParam('order_id')));
+        AO::registry('action')->getLayout()->getBlock('root')->setHeaderTitle(AO::helper('sales')->__('Order Details'));
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return AO::getUrl('*/*/history');
     }
 
     public function getInvoices()
     {
-        $invoices = Mage::getResourceModel('sales/invoice_collection')->setOrderFilter($this->getOrder()->getId())->load();
+        $invoices = AO::getResourceModel('sales/invoice_collection')->setOrderFilter($this->getOrder()->getId())->load();
         return $invoices;
     }
 
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return AO::getUrl('*/*/print');
     }
 
 }

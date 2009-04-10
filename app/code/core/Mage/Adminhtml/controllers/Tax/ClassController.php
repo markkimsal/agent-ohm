@@ -40,7 +40,7 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
     public function saveAction()
     {
         if ($postData = $this->getRequest()->getPost()) {
-            $model = Mage::getModel('tax/class')
+            $model = AO::getModel('tax/class')
                 ->setData($postData);
 
             try {
@@ -49,19 +49,19 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
                 $classType  = $model->getClassType();
                 $classUrl   = '*/tax_class_' . strtolower($classType);
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('tax')->__('Tax class was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('tax')->__('Tax class was successfully saved'));
                 $this->_redirect($classUrl);
 
                 return ;
             }
             catch (Mage_Core_Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setClassData($postData);
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->setClassData($postData);
                 $this->_redirectReferer();
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Error while saving this tax class. Please try again later.'));
-                Mage::getSingleton('adminhtml/session')->setClassData($postData);
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('tax')->__('Error while saving this tax class. Please try again later.'));
+                AO::getSingleton('adminhtml/session')->setClassData($postData);
                 $this->_redirectReferer();
             }
 
@@ -79,8 +79,8 @@ class Mage_Adminhtml_Tax_ClassController extends Mage_Adminhtml_Controller_Actio
         $classType = strtolower($this->getRequest()->getParam('classType'));
         $this->loadLayout()
             ->_setActiveMenu('sales/tax/tax_classes_' . $classType)
-            ->_addBreadcrumb(Mage::helper('tax')->__('Sales'), Mage::helper('tax')->__('Sales'))
-            ->_addBreadcrumb(Mage::helper('tax')->__('Tax'), Mage::helper('tax')->__('Tax'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Sales'), AO::helper('tax')->__('Sales'))
+            ->_addBreadcrumb(AO::helper('tax')->__('Tax'), AO::helper('tax')->__('Tax'))
         ;
 
         return $this;

@@ -37,11 +37,11 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('eav')->__('Yes'),
+                    'label' => AO::helper('eav')->__('Yes'),
                     'value' =>  1
                 ),
                 array(
-                    'label' => Mage::helper('eav')->__('No'),
+                    'label' => AO::helper('eav')->__('No'),
                     'value' =>  0
                 ),
             );
@@ -117,7 +117,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Boolean extends Mage_Eav_Model_Enti
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute')
+        return AO::getResourceModel('eav/entity_attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

@@ -33,7 +33,7 @@ class Mage_Customer_Model_Observer
 {
     public function beforeLoadLayout($observer)
     {
-        $loggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+        $loggedIn = AO::getSingleton('customer/session')->isLoggedIn();
 
     	$observer->getEvent()->getLayout()->getUpdate()
     	   ->addHandle('customer_logged_'.($loggedIn?'in':'out'));

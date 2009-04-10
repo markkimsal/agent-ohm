@@ -41,17 +41,17 @@ class Mage_Adminhtml_Block_Tax_Class_Edit extends Mage_Adminhtml_Block_Widget_Fo
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('tax')->__('Save Class'));
-        $this->_updateButton('delete', 'label', Mage::helper('tax')->__('Delete Class'));
+        $this->_updateButton('save', 'label', AO::helper('tax')->__('Save Class'));
+        $this->_updateButton('delete', 'label', AO::helper('tax')->__('Delete Class'));
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('tax_class')->getId()) {
-            return Mage::helper('tax')->__("Edit Class '%s'", $this->htmlEscape(Mage::registry('tax_class')->getClassName()));
+        if (AO::registry('tax_class')->getId()) {
+            return AO::helper('tax')->__("Edit Class '%s'", $this->htmlEscape(AO::registry('tax_class')->getClassName()));
         }
         else {
-            return Mage::helper('tax')->__('New Class');
+            return AO::helper('tax')->__('New Class');
         }
     }
 

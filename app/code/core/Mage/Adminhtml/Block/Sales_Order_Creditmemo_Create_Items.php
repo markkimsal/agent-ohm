@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
         $this->setChild(
             'update_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('sales')->__('Update Qty\'s'),
+                'label'     => AO::helper('sales')->__('Update Qty\'s'),
                 'class'     => 'update-button',
                 'onclick'   => $onclick,
             ))
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
                 $this->setChild(
                     'submit_button',
                     $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                        'label'     => Mage::helper('sales')->__('Refund'),
+                        'label'     => AO::helper('sales')->__('Refund'),
                         'class'     => 'save submit-button',
                         'onclick'   => 'editForm.submit()',
                     ))
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
                 $this->setChild(
                     'submit_offline',
                     $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                        'label'     => Mage::helper('sales')->__('Refund Offline'),
+                        'label'     => AO::helper('sales')->__('Refund Offline'),
                         'class'     => 'save submit-button',
                         'onclick'   => 'editForm.submit()',
                     ))
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
             $this->setChild(
                 'submit_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                    'label'     => Mage::helper('sales')->__('Refund'),
+                    'label'     => AO::helper('sales')->__('Refund'),
                     'class'     => 'save submit-button',
                     'onclick'   => 'editForm.submit()',
                 ))
@@ -128,11 +128,11 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
     {
         $totalbarData = array();
         $this->setPriceDataObject($this->getOrder());
-        $totalbarData[] = array(Mage::helper('sales')->__('Paid Amount'), $this->displayPriceAttribute('base_total_invoiced'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Refund Amount'), $this->displayPriceAttribute('base_total_refunded'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Shipping Amount'), $this->displayPriceAttribute('base_shipping_invoiced'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Shipping Refund'), $this->displayPriceAttribute('base_shipping_refunded'), false);
-        $totalbarData[] = array(Mage::helper('sales')->__('Order Grand Total'), $this->displayPriceAttribute('base_grand_total'), true);
+        $totalbarData[] = array(AO::helper('sales')->__('Paid Amount'), $this->displayPriceAttribute('base_total_invoiced'), false);
+        $totalbarData[] = array(AO::helper('sales')->__('Refund Amount'), $this->displayPriceAttribute('base_total_refunded'), false);
+        $totalbarData[] = array(AO::helper('sales')->__('Shipping Amount'), $this->displayPriceAttribute('base_shipping_invoiced'), false);
+        $totalbarData[] = array(AO::helper('sales')->__('Shipping Refund'), $this->displayPriceAttribute('base_shipping_refunded'), false);
+        $totalbarData[] = array(AO::helper('sales')->__('Order Grand Total'), $this->displayPriceAttribute('base_grand_total'), true);
 
         return $totalbarData;
     }
@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return AO::registry('current_creditmemo');
     }
 
     public function canEditQty()
@@ -170,8 +170,8 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
 
     public function canReturnToStock() {
 
-        $canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
-        if (Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
+        $canReturnToStock = AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
+        if (AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
@@ -180,6 +180,6 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
 
     public function canSendCreditmemoEmail()
     {
-        return Mage::helper('sales')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
+        return AO::helper('sales')->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());
     }
 }

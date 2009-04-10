@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit extends Mage_Adminhtml_Block_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('checkout')->__('Save Condition'));
-        $this->_updateButton('delete', 'label', Mage::helper('checkout')->__('Delete Condition'));
+        $this->_updateButton('save', 'label', AO::helper('checkout')->__('Save Condition'));
+        $this->_updateButton('delete', 'label', AO::helper('checkout')->__('Delete Condition'));
     }
 
     /**
@@ -56,11 +56,11 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Edit extends Mage_Adminhtml_Block_
      */
     public function getHeaderText()
     {
-        if (Mage::registry('checkout_agreement')->getId()) {
-            return Mage::helper('checkout')->__('Edit Terms and Conditions');
+        if (AO::registry('checkout_agreement')->getId()) {
+            return AO::helper('checkout')->__('Edit Terms and Conditions');
         }
         else {
-            return Mage::helper('checkout')->__('New Condition');
+            return AO::helper('checkout')->__('New Condition');
         }
     }
 }

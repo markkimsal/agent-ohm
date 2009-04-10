@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid_Renderer_Action extends Mage_Adminhtml_
 {
     public function render(Varien_Object $row)
     {
-        $urlModel = Mage::getModel('core/url')->setStore($row->getData('_first_store_id'));
+        $urlModel = AO::getModel('core/url')->setStore($row->getData('_first_store_id'));
         $href = $urlModel->getUrl('', array('_current'=>false)) . "{$row->getIdentifier()}?___store={$row->getStoreCode()}";
         return '<a href="'.$href.'" target="_blank">'.$this->__('Preview').'</a>';
     }

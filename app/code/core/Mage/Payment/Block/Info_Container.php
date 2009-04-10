@@ -43,7 +43,7 @@ class Mage_Payment_Block_Info_Container extends Mage_Core_Block_Template
         if ($info = $this->getPaymentInfo()) {
             $this->setChild(
                 $this->_getInfoBlockName(),
-                Mage::helper('payment')->getInfoBlock($info)
+                AO::helper('payment')->getInfoBlock($info)
             );
         }
         return parent::_prepareLayout();

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('catalogsearch/query_collection');
+        $collection = AO::getResourceModel('catalogsearch/query_collection');
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('query_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>AO::helper('reports')->__('ID'),
             'width'     =>'50px',
             'filter'    =>false,
             'index'     =>'query_id',
@@ -69,9 +69,9 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
             'index'     =>'query_text'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('catalog')->__('Store'),
+                'header'        => AO::helper('catalog')->__('Store'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
         }
 
         $this->addColumn('num_results', array(
-            'header'    =>Mage::helper('reports')->__('Results'),
+            'header'    =>AO::helper('reports')->__('Results'),
             'width'     =>'50px',
             'align'     =>'right',
             'type'      =>'number',
@@ -88,15 +88,15 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('popularity', array(
-            'header'    =>Mage::helper('reports')->__('Hits'),
+            'header'    =>AO::helper('reports')->__('Hits'),
             'width'     =>'50px',
             'align'     =>'right',
             'type'      =>'number',
             'index'     =>'popularity'
         ));
 
-        $this->addExportType('*/*/exportSearchCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportSearchExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportSearchCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportSearchExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

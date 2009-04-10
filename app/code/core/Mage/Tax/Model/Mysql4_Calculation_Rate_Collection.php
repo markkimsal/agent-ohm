@@ -72,7 +72,7 @@ class Mage_Tax_Model_Mysql4_Calculation_Rate_Collection extends Mage_Core_Model_
      */
     public function joinTitle($store = null)
     {
-        $storeId = Mage::app()->getStore($store)->getId();
+        $storeId = AO::app()->getStore($store)->getId();
         $this->_select->joinLeft(
             array('title_table' => $this->getTable('tax/tax_calculation_rate_title')),
             "main_table.tax_calculation_rate_id=title_table.tax_calculation_rate_id AND title_table.store_id = '{$storeId}'",
@@ -88,7 +88,7 @@ class Mage_Tax_Model_Mysql4_Calculation_Rate_Collection extends Mage_Core_Model_
      */
     public function joinStoreTitles()
     {
-        $storeCollection = Mage::getModel('core/store')->getCollection()->setLoadDefault(true);
+        $storeCollection = AO::getModel('core/store')->getCollection()->setLoadDefault(true);
         foreach ($storeCollection as $store) {
             $this->_select->joinLeft(
                 array('title_table_' . $store->getId() => $this->getTable('tax/tax_calculation_rate_title')),

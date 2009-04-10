@@ -39,7 +39,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
 
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         parent::__construct($resource->getConnection('directory_read'));
         $this->_currencyTable       = $resource->getTableName('directory/currency');
         $this->_currencyNameTable   = $resource->getTableName('directory/currency_name');
@@ -49,7 +49,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
         /*$this->_select->join(array('name_table'=>$this->_currencyNameTable),
             "main_table.currency_code=name_table.currency_code");*/
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/currency'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('directory/currency'));
     }
 
     public function joinRates($currency)
@@ -70,7 +70,7 @@ class Mage_Directory_Model_Mysql4_Currency_Collection extends Varien_Data_Collec
     public function addLanguageFilter($lang=null)
     {
         if (is_null($lang)) {
-            $lang = Mage::app()->getStore()->getLanguageCode();
+            $lang = AO::app()->getStore()->getLanguageCode();
         }
         $this->addFilter('language', "main_table.language_code='$lang'", 'string');
         return $this;

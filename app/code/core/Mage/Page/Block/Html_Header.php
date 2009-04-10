@@ -48,7 +48,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     public function getLogoSrc()
     {
         if (empty($this->_data['logo_src'])) {
-            $this->_data['logo_src'] = Mage::getStoreConfig('design/header/logo_src');
+            $this->_data['logo_src'] = AO::getStoreConfig('design/header/logo_src');
         }
         return $this->getSkinUrl($this->_data['logo_src']);
     }
@@ -56,7 +56,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     public function getLogoAlt()
     {
         if (empty($this->_data['logo_alt'])) {
-            $this->_data['logo_alt'] = Mage::getStoreConfig('design/header/logo_alt');
+            $this->_data['logo_alt'] = AO::getStoreConfig('design/header/logo_alt');
         }
         return $this->_data['logo_alt'];
     }
@@ -64,10 +64,10 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     public function getWelcome()
     {
         if (empty($this->_data['welcome'])) {
-            if (Mage::isInstalled() && Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $this->_data['welcome'] = $this->__('Welcome, %s!', $this->htmlEscape(Mage::getSingleton('customer/session')->getCustomer()->getName()));
+            if (AO::isInstalled() && AO::getSingleton('customer/session')->isLoggedIn()) {
+                $this->_data['welcome'] = $this->__('Welcome, %s!', $this->htmlEscape(AO::getSingleton('customer/session')->getCustomer()->getName()));
             } else {
-                $this->_data['welcome'] = Mage::getStoreConfig('design/header/welcome');
+                $this->_data['welcome'] = AO::getStoreConfig('design/header/welcome');
             }
         }
 

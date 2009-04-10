@@ -48,7 +48,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
         $page->drawText($item->getQty()*1, 435, $pdf->y, 'UTF-8');
 
         /* in case Product name is longer than 80 chars - it is written in a few lines */
-        foreach (Mage::helper('core/string')->str_split($item->getName(), 60, true, true) as $key => $part) {
+        foreach (AO::helper('core/string')->str_split($item->getName(), 60, true, true) as $key => $part) {
             $page->drawText($part, 35, $pdf->y-$shift[0], 'UTF-8');
             $shift[0] += 10;
         }
@@ -58,7 +58,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
             foreach ($options as $option) {
                 // draw options label
                 $this->_setFontItalic();
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true) as $_option) {
+                foreach (AO::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true) as $_option) {
                     $page->drawText($_option, 35, $pdf->y-$shift[0], 'UTF-8');
                     $shift[0] += 10;
                 }
@@ -67,7 +67,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
                 if ($option['value']) {
                     $values = explode(', ', strip_tags($option['value']));
                     foreach ($values as $value) {
-                        foreach (Mage::helper('core/string')->str_split($value, 60,true,true) as $_value) {
+                        foreach (AO::helper('core/string')->str_split($value, 60,true,true) as $_value) {
                             $page->drawText($_value, 40, $pdf->y-$shift[0], 'UTF-8');
                             $shift[0] += 10;
                         }
@@ -82,7 +82,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
         }
 
         /* in case Product SKU is longer than 36 chars - it is written in a few lines */
-        foreach (Mage::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
+        foreach (AO::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
             if ($key > 0) {
                 $shift[2] += 10;
             }

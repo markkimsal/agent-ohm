@@ -40,7 +40,7 @@ abstract class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Abstract extends 
     public function __construct()
     {
         parent::__construct();
-        $this->setData(Mage::getSingleton('adminhtml/session')->getCustomExtensionPackageFormData());
+        $this->setData(AO::getSingleton('adminhtml/session')->getCustomExtensionPackageFormData());
     }
 
     public function initForm()

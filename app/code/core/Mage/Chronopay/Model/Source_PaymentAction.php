@@ -38,11 +38,11 @@ class Mage_Chronopay_Model_Source_PaymentAction
         return array(
             array(
                 'value' => Mage_Chronopay_Model_Gateway::ACTION_AUTHORIZE,
-                'label' => Mage::helper('chronopay')->__('Authorize Only')
+                'label' => AO::helper('chronopay')->__('Authorize Only')
             ),
             array(
                 'value' => Mage_Chronopay_Model_Gateway::ACTION_AUTHORIZE_CAPTURE,
-                'label' => Mage::helper('chronopay')->__('Authorize and Capture')
+                'label' => AO::helper('chronopay')->__('Authorize and Capture')
             ),
         );
     }

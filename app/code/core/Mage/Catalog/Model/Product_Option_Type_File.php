@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     public function validateUserValue($values)
     {
-        Mage::getSingleton('checkout/session')->setUseNotice(false);
+        AO::getSingleton('checkout/session')->setUseNotice(false);
 
         $this->setIsValid(true);
         $option = $this->getOption();
@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         // Set option value from request (Admin/Front reorders)
         if (isset($values[$option->getId()]) && is_array($values[$option->getId()])) {
             if (isset($values[$option->getId()]['order_path'])) {
-                $orderFileFullPath = Mage::getBaseDir() . $values[$option->getId()]['order_path'];
+                $orderFileFullPath = AO::getBaseDir() . $values[$option->getId()]['order_path'];
             } else {
                 $this->setUserValue(null);
                 return $this;
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
         } catch (Exception $e) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__("Files upload failed"));
+            AO::throwException(AO::helper('catalog')->__("Files upload failed"));
         }
 
         /**
@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             ));
             if (!$upload->receive()) {
                 $this->setIsValid(false);
-                Mage::throwException(Mage::helper('catalog')->__("File upload failed"));
+                AO::throwException(AO::helper('catalog')->__("File upload failed"));
             }
 
             $_imageSize = @getimagesize($fileFullPath);
@@ -172,19 +172,19 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $errors = array();
             foreach ($upload->getErrors() as $errorCode) {
                 if ($errorCode == Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION) {
-                    $errors[] = Mage::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
+                    $errors[] = AO::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
                         $fileInfo['name'],
                         $option->getTitle()
                     );
                 } elseif ($errorCode == Zend_Validate_File_Extension::FALSE_EXTENSION) {
-                    $errors[] = Mage::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
+                    $errors[] = AO::helper('catalog')->__("The file '%s' for '%s' has an invalid extension",
                         $fileInfo['name'],
                         $option->getTitle()
                     );
                 } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
                     || $errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG)
                 {
-                    $errors[] = Mage::helper('catalog')->__("Maximum allowed image size for '%s' is %sx%s px.",
+                    $errors[] = AO::helper('catalog')->__("Maximum allowed image size for '%s' is %sx%s px.",
                         $option->getTitle(),
                         $option->getImageSizeX(),
                         $option->getImageSizeY()
@@ -193,11 +193,11 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             }
             if (count($errors) > 0) {
                 $this->setIsValid(false);
-                Mage::throwException( implode("\n", $errors) );
+                AO::throwException( implode("\n", $errors) );
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
+            AO::throwException(AO::helper('catalog')->__('Please specify the product required option(s)'));
         }
         return $this;
     }
@@ -233,13 +233,13 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $value = unserialize($optionValue);
             if ($value !== false) {
                 if ($value['width'] > 0 && $value['height'] > 0) {
-                    $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . Mage::helper('catalog')->__('px.');
+                    $sizes = $value['width'] . ' x ' . $value['height'] . ' ' . AO::helper('catalog')->__('px.');
                 } else {
                     $sizes = '';
                 }
                 $result = sprintf('<a href="%s" target="_blank">%s</a> %s',
                     $this->_getOptionDownloadUrl($value['secret_key']),
-                    Mage::helper('core')->htmlEscape($value['title']),
+                    AO::helper('core')->htmlEscape($value['title']),
                     $sizes
                 );
                 return $result;
@@ -264,7 +264,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $value = unserialize($optionValue);
             if ($value !== false) {
                 $result = sprintf('%s [%d]',
-                    Mage::helper('core')->htmlEscape($value['title']),
+                    AO::helper('core')->htmlEscape($value['title']),
                     $this->getQuoteItemOption()->getId()
                 );
                 return $result;
@@ -289,7 +289,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         // search quote item option Id in option value
         if (preg_match('/\[([0-9]+)\]/', $optionValue, $matches)) {
             $quoteItemOptionId = $matches[1];
-            $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
+            $option = AO::getModel('sales/quote_item_option')->load($quoteItemOptionId);
             try {
                 unserialize($option->getValue());
                 return $option->getValue();
@@ -330,11 +330,11 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             if (!isset($value['quote_path'])) {
                 throw new Exception();
             }
-            $quoteFileFullPath = Mage::getBaseDir() . $value['quote_path'];
+            $quoteFileFullPath = AO::getBaseDir() . $value['quote_path'];
             if (!is_file($quoteFileFullPath) || !is_readable($quoteFileFullPath)) {
                 throw new Exception();
             }
-            $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
+            $orderFileFullPath = AO::getBaseDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWriteableDir($dir);
             @copy($quoteFileFullPath, $orderFileFullPath);
@@ -352,8 +352,8 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     public function getTargetDir($relative = false)
     {
-        $fullPath = Mage::getBaseDir('media') . DS . 'custom_options';
-        return $relative ? str_replace(Mage::getBaseDir(), '', $fullPath) : $fullPath;
+        $fullPath = AO::getBaseDir('media') . DS . 'custom_options';
+        return $relative ? str_replace(AO::getBaseDir(), '', $fullPath) : $fullPath;
     }
 
     /**
@@ -409,7 +409,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     {
         $io = new Varien_Io_File();
         if (!$io->isWriteable($path) && !$io->mkdir($path, 0777, true)) {
-            Mage::throwException(Mage::helper('catalog')->__("Cannot create writeable directory '%s'", $path));
+            AO::throwException(AO::helper('catalog')->__("Cannot create writeable directory '%s'", $path));
         }
     }
 
@@ -420,7 +420,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     protected function _getOptionDownloadUrl($sekretKey)
     {
-        return Mage::getUrl('sales/download/downloadCustomOption', array(
+        return AO::getUrl('sales/download/downloadCustomOption', array(
             'id'  => $this->getQuoteItemOption()->getId(),
             'key' => $sekretKey
         ));

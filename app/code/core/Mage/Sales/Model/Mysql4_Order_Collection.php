@@ -50,7 +50,7 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Eav_Model_Entity_Col
     public function addItemCountExpr()
     {
         $orderTable = $this->getEntity()->getEntityTable();
-        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
+        $orderItemEntityTypeId = AO::getResourceSingleton('sales/order_item')->getTypeId();
         $this->getSelect()->join(
                 array('items'=>$orderTable),
                 'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,

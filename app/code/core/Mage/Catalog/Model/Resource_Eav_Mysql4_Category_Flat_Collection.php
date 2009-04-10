@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
      */
     protected function _beforeLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_before',
+        AO::dispatchEvent($this->_eventPrefix . '_load_before',
                             array($this->_eventObject => $this));
         return parent::_beforeLoad();
     }
@@ -118,7 +118,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
      */
     protected function _afterLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_after',
+        AO::dispatchEvent($this->_eventPrefix . '_load_after',
                             array($this->_eventObject => $this));
 
         return parent::_afterLoad();
@@ -146,7 +146,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return Mage::app()->getStore()->getId();
+            return AO::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -244,7 +244,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
 
     public function addUrlRewriteToResult()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = AO::app()->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('core/url_rewrite')),
             'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',

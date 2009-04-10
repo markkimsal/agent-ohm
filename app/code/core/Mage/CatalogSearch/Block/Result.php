@@ -65,7 +65,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
             $breadcrumbs->addCrumb('home', array(
                 'label' => $this->__('Home'),
                 'title' => $this->__('Go to Home Page'),
-                'link'  => Mage::getBaseUrl()
+                'link'  => AO::getBaseUrl()
             ))->addCrumb('search', array(
                 'label' => $title,
                 'title' => $title
@@ -92,7 +92,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      * @return Mage_CatalogSearch_Block_Result
      */
     public function setListOrders() {
-        $category = Mage::getSingleton('catalog/layer')
+        $category = AO::getSingleton('catalog/layer')
             ->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
         $availableOrders = $category->getAvailableSortByOptions();
@@ -152,7 +152,7 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $this->_productCollection = Mage::getSingleton('catalogsearch/layer')->getProductCollection();
+            $this->_productCollection = AO::getSingleton('catalogsearch/layer')->getProductCollection();
         }
 
         return $this->_productCollection;
@@ -180,8 +180,8 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      */
     public function getNoResultText()
     {
-        if (Mage::helper('catalogSearch')->isMinQueryLength()) {
-            return Mage::helper('catalogSearch')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLenght());
+        if (AO::helper('catalogSearch')->isMinQueryLength()) {
+            return AO::helper('catalogSearch')->__('Minimum Search query length is %s', $this->_getQuery()->getMinQueryLenght());
         }
         return $this->_getData('no_result_text');
     }
@@ -193,6 +193,6 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
      */
     public function getNoteMessages()
     {
-        return Mage::helper('catalogSearch')->getNoteMessages();
+        return AO::helper('catalogSearch')->getNoteMessages();
     }
 }

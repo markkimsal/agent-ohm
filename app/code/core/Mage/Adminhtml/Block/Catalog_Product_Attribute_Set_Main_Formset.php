@@ -39,14 +39,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
 
     protected function _prepareForm()
     {
-        $data = Mage::getModel('eav/entity_attribute_set')
+        $data = AO::getModel('eav/entity_attribute_set')
             ->load($this->getRequest()->getParam('id'));
 
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('set_name', array('legend'=>__('Edit Set Name')));
         $fieldset->addField('attribute_set_name', 'text',
             array(
-                'label' => Mage::helper('catalog')->__('Name<br/>(For internal use)'),
+                'label' => AO::helper('catalog')->__('Name<br/>(For internal use)'),
                 'name' => 'attribute_set_name',
                 'required' => true,
                 'class' => 'required-entry',
@@ -60,15 +60,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Ma
                     'value' => '1'
             ));
 
-            $sets = Mage::getModel('eav/entity_attribute_set')
+            $sets = AO::getModel('eav/entity_attribute_set')
                 ->getResourceCollection()
-                ->setEntityTypeFilter(Mage::registry('entityType'))
+                ->setEntityTypeFilter(AO::registry('entityType'))
                 ->load()
                 ->toOptionArray();
 
             $fieldset->addField('skeleton_set', 'select',
                 array(
-                    'label' => Mage::helper('catalog')->__('Based On'),
+                    'label' => AO::helper('catalog')->__('Based On'),
                     'name' => 'skeleton_set',
                     'required' => true,
                     'class' => 'required-entry',

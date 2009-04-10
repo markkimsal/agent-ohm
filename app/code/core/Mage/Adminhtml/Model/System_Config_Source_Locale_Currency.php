@@ -35,6 +35,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Locale_Currency
     
     public function toOptionArray()
     {
-        return Mage::app()->getLocale()->getOptionCurrencies();
+        return AO::app()->getLocale()->getOptionCurrencies();
     }
 }

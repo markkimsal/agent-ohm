@@ -721,7 +721,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
 
         if ($logQuery){
-            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+            AO::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
         }
         return $this;
     }

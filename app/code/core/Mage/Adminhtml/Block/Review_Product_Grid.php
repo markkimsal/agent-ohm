@@ -44,44 +44,44 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-                'header'    => Mage::helper('review')->__('ID'),
+                'header'    => AO::helper('review')->__('ID'),
                 'width'     => '50px',
                 'index'     => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-                'header'    => Mage::helper('review')->__('Name'),
+                'header'    => AO::helper('review')->__('Name'),
                 'index'     => 'name',
         ));
 
         if ((int)$this->getRequest()->getParam('store', 0)) {
             $this->addColumn('custom_name', array(
-                    'header'    => Mage::helper('review')->__('Name In Store'),
+                    'header'    => AO::helper('review')->__('Name In Store'),
                     'index'     => 'custom_name'
             ));
         }
 
         $this->addColumn('sku', array(
-                'header'    => Mage::helper('review')->__('SKU'),
+                'header'    => AO::helper('review')->__('SKU'),
                 'width'     => '80px',
                 'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-                'header'    => Mage::helper('review')->__('Price'),
+                'header'    => AO::helper('review')->__('Price'),
                 'type'      => 'currency',
                 'index'     => 'price'
         ));
 
         $this->addColumn('qty', array(
-                'header'    => Mage::helper('review')->__('Qty'),
+                'header'    => AO::helper('review')->__('Qty'),
                 'width'     => '130px',
                 'type'      => 'number',
                 'index'     => 'qty'
         ));
 
         $this->addColumn('status', array(
-                'header'    => Mage::helper('review')->__('Status'),
+                'header'    => AO::helper('review')->__('Status'),
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',
@@ -91,15 +91,15 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
-                    'header'=> Mage::helper('review')->__('Websites'),
+                    'header'=> AO::helper('review')->__('Websites'),
                     'width' => '100px',
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('core/website')->getCollection()->toOptionHash(),
+                    'options'   => AO::getModel('core/website')->getCollection()->toOptionHash(),
             ));
         }
     }

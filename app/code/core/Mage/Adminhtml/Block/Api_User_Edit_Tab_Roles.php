@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
         //$this->setDefaultFilter(array('assigned_user_role'=>1));
-        $this->setTitle(Mage::helper('adminhtml')->__('User Roles Information'));
+        $this->setTitle(AO::helper('adminhtml')->__('User Roles Information'));
         $this->setUseAjax(true);
     }
 
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('api/role_collection');
+        $collection = AO::getResourceModel('api/role_collection');
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
 
         $this->addColumn('assigned_user_role', array(
             'header_css_class' => 'a-center',
-            'header'    => Mage::helper('adminhtml')->__('Assigned'),
+            'header'    => AO::helper('adminhtml')->__('Assigned'),
             'type'      => 'radio',
             'html_name' => 'roles[]',
             'values'    => $this->_getSelectedRoles(),
@@ -82,14 +82,14 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
         ));
 
         /*$this->addColumn('role_id', array(
-            'header'    =>Mage::helper('adminhtml')->__('Role ID'),
+            'header'    =>AO::helper('adminhtml')->__('Role ID'),
             'index'     =>'role_id',
             'align'     => 'right',
             'width'    => '50px'
         ));*/
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('adminhtml')->__('Role Name'),
+            'header'    =>AO::helper('adminhtml')->__('Role Name'),
             'index'     =>'role_name'
         ));
 
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('api_user')->getUserId()));
+        return $this->getUrl('*/*/rolesGrid', array('user_id' => AO::registry('api_user')->getUserId()));
     }
 
     protected function _getSelectedRoles($json=false)
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Mage_Adminhtml_Block_
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');
         }
-        $uRoles = Mage::registry('api_user')->getRoles();
+        $uRoles = AO::registry('api_user')->getRoles();
         if ($json) {
             $jsonRoles = Array();
             foreach($uRoles as $urid) $jsonRoles[$urid] = 0;

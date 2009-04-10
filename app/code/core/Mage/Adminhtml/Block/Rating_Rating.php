@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_Rating_Rating extends Mage_Adminhtml_Block_Widget_Gri
     public function __construct()
     {
         $this->_controller = 'rating';
-        $this->_headerText = Mage::helper('rating')->__('Manage Ratings');
-        $this->_addButtonLabel = Mage::helper('rating')->__('Add New Rating');
+        $this->_headerText = AO::helper('rating')->__('Manage Ratings');
+        $this->_addButtonLabel = AO::helper('rating')->__('Add New Rating');
         parent::__construct();
     }
 }

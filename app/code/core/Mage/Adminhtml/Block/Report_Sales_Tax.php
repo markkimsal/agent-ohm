@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         $this->_controller = 'report_sales_tax';
-        $this->_headerText = Mage::helper('reports')->__('Tax');
+        $this->_headerText = AO::helper('reports')->__('Tax');
         parent::__construct();
         $this->_removeButton('add');
     }

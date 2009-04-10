@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('tag/product_collection')
+        $collection = AO::getResourceModel('tag/product_collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
         ;
@@ -54,33 +54,33 @@ class Mage_Adminhtml_Block_Tag_Grid_Products extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('tag')->__('ID'),
+            'header'    => AO::helper('tag')->__('ID'),
             'align'     => 'center',
             'width'     => '60px',
             'sortable'  => false,
             'index'     => 'product_id'
         ));
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('tag')->__('SKU'),
+            'header'    => AO::helper('tag')->__('SKU'),
             'align'     => 'center',
             'index'     => 'sku'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('tag')->__('Name'),
+            'header'    => AO::helper('tag')->__('Name'),
             'index'     => 'name'
         ));
         $this->addColumn('tags', array(
-            'header'    => Mage::helper('tag')->__('Tags'),
+            'header'    => AO::helper('tag')->__('Tags'),
             'index'     => 'tags',
             'sortable'  => false,
             'filter'    => false,
             'renderer'  => 'adminhtml/tag_grid_column_renderer_tags'
         ));
         $this->addColumn('action', array(
-            'header'    => Mage::helper('tag')->__('Action'),
+            'header'    => AO::helper('tag')->__('Action'),
             'align'     => 'center',
             'width'     => '120px',
-            'format'    => '<a href="'.$this->getUrl('*/*/customers/product_id/$product_id').'">'.Mage::helper('tag')->__('View Customers').'</a>',
+            'format'    => '<a href="'.$this->getUrl('*/*/customers/product_id/$product_id').'">'.AO::helper('tag')->__('View Customers').'</a>',
             'filter'    => false,
             'sortable'  => false,
             'is_system' => true

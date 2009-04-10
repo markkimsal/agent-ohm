@@ -28,7 +28,7 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
 {
     protected function _getApi($area)
     {
-        $api = Mage::getModel('googlecheckout/api_xml_'.$area)->setStoreId($this->getStoreId());
+        $api = AO::getModel('googlecheckout/api_xml_'.$area)->setStoreId($this->getStoreId());
         $api->setApi($this);
         return $api;
     }
@@ -191,7 +191,7 @@ class Mage_GoogleCheckout_Model_Api extends Varien_Object
 
     public function processBeacon()
     {
-        $debug = Mage::getModel('googlecheckout/api_debug')->setDir('in')
+        $debug = AO::getModel('googlecheckout/api_debug')->setDir('in')
             ->setUrl('googlecheckout/api/beacon')
             ->setRequestBody($_SERVER['QUERY_STRING'])
             ->save();

@@ -41,8 +41,8 @@ class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        $error = Mage::getSingleton('checkout/session')->getErrorMessage();
-        Mage::getSingleton('checkout/session')->unsErrorMessage();
+        $error = AO::getSingleton('checkout/session')->getErrorMessage();
+        AO::getSingleton('checkout/session')->unsErrorMessage();
         return $error;
     }
 
@@ -51,6 +51,6 @@ class Mage_Protx_Block_Standard_Failure extends Mage_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return AO::getUrl('checkout/cart');
     }
 }

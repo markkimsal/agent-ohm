@@ -35,7 +35,7 @@ class Mage_Cybersource_Block_Info extends Mage_Payment_Block_Info_Cc
 
     protected function _getConfig()
     {
-        return Mage::getSingleton('cybersource/config');
+        return AO::getSingleton('cybersource/config');
     }
 
 

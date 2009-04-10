@@ -77,8 +77,8 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          * store mode, customize some value per specific store view and than back
          * to single store mode. We should load correct values
          */
-        if (Mage::app()->isSingleStoreMode()) {
-            $storeId = Mage::app()->getStore(true)->getId();
+        if (AO::app()->isSingleStoreMode()) {
+            $storeId = AO::app()->getStore(true)->getId();
         } else {
             $storeId = $object->getStoreId();
         }
@@ -163,7 +163,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          * for default store id
          * In this case we clear all not default values
          */
-        if (Mage::app()->isSingleStoreMode()) {
+        if (AO::app()->isSingleStoreMode()) {
             $this->_getWriteAdapter()->delete(
                 $attribute->getBackend()->getTable(),
                 $this->_getWriteAdapter()->quoteInto('attribute_id=?', $attribute->getId()) .
@@ -367,7 +367,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             $storeId = $this->getStoreId();
         }
 
-        $allStores = Mage::getConfig()->getStoresConfigByPath('system/store/id', array(), 'code');
+        $allStores = AO::getConfig()->getStoresConfigByPath('system/store/id', array(), 'code');
 //echo "<pre>".print_r($allStores ,1)."</pre>"; exit;
         $data = array();
 

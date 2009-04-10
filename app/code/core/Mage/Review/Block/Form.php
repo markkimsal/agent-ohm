@@ -37,12 +37,12 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
     {
         parent::__construct();
 
-        $data =  Mage::getSingleton('review/session')->getFormData(true);
+        $data =  AO::getSingleton('review/session')->getFormData(true);
         $data = new Varien_Object($data);
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = AO::getSingleton('customer/session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $data->setNickname($customer->getFirstname());
             }
@@ -50,29 +50,29 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
 
         $this->setTemplate('review/form.phtml')
             ->assign('data', $data)
-            ->assign('messages', Mage::getSingleton('review/session')->getMessages(true));
+            ->assign('messages', AO::getSingleton('review/session')->getMessages(true));
     }
 
     public function getProductInfo()
     {
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
         return $product->load($this->getRequest()->getParam('id'));
     }
 
     public function getAction()
     {
-        $productId = Mage::app()->getRequest()->getParam('id', false);
-        return Mage::getUrl('review/product/post', array('id' => $productId));
+        $productId = AO::app()->getRequest()->getParam('id', false);
+        return AO::getUrl('review/product/post', array('id' => $productId));
     }
 
     public function getRatings()
     {
-        $ratingCollection = Mage::getModel('rating/rating')
+        $ratingCollection = AO::getModel('rating/rating')
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()
-            ->addRatingPerStoreName(Mage::app()->getStore()->getId())
-            ->setStoreFilter(Mage::app()->getStore()->getId())
+            ->addRatingPerStoreName(AO::app()->getStore()->getId())
+            ->setStoreFilter(AO::app()->getStore()->getId())
             ->load()
             ->addOptionToItems();
         return $ratingCollection;

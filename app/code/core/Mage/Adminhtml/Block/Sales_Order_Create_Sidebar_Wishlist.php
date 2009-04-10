@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist extends Mage_Admi
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Wishlist');
+        return AO::helper('sales')->__('Wishlist');
     }
 
     /**

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('core/website')
+        $collection = AO::getModel('core/website')
             ->getCollection()
             ->joinGroupAndStore();
         $this->setCollection($collection);
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
     protected function _prepareColumns()
     {
         $this->addColumn('website_title', array(
-            'header'        => Mage::helper('core')->__('Website Name'),
+            'header'        => AO::helper('core')->__('Website Name'),
             'align'         =>'left',
             'index'         => 'name',
             'filter_index'  => 'main_table.name',
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('group_title', array(
-            'header'        => Mage::helper('core')->__('Store Name'),
+            'header'        => AO::helper('core')->__('Store Name'),
             'align'         =>'left',
             'index'         => 'group_title',
             'filter_index'  => 'group_table.name',
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_System_Store_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('store_title', array(
-            'header'        => Mage::helper('core')->__('Store View Name'),
+            'header'        => AO::helper('core')->__('Store View Name'),
             'align'         =>'left',
             'index'         => 'store_title',
             'filter_index'  => 'store_table.name',

@@ -49,14 +49,14 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Number of Orders'),
+            'header'    =>AO::helper('reports')->__('Number of Orders'),
             'index'     =>'orders',
             'total'     =>'sum',
             'type'      =>'number'
         ));
 
         $this->addColumn('orders_invoiced', array(
-            'header'    =>Mage::helper('reports')->__('Number of Ivoiced Orders'),
+            'header'    =>AO::helper('reports')->__('Number of Ivoiced Orders'),
             'index'     =>'orders_invoiced',
             'total'     =>'sum',
             'type'      =>'number'
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         $currency_code = $this->getCurrentCurrencyCode();
 
         $this->addColumn('invoiced', array(
-            'header'    =>Mage::helper('reports')->__('Total Invoiced'),
+            'header'    =>AO::helper('reports')->__('Total Invoiced'),
             'type'      =>'currency',
             'currency_code'=>$currency_code,
             'index'     =>'invoiced',
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('invoiced_captured', array(
-            'header'    =>Mage::helper('reports')->__('Total Invoiced Captured'),
+            'header'    =>AO::helper('reports')->__('Total Invoiced Captured'),
             'type'      =>'currency',
             'currency_code'=>$currency_code,
             'index'     =>'invoiced_captured',
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('invoiced_not_captured', array(
-            'header'    =>Mage::helper('reports')->__('Total Invoiced not Captured'),
+            'header'    =>AO::helper('reports')->__('Total Invoiced not Captured'),
             'type'      =>'currency',
             'currency_code'=>$currency_code,
             'index'     =>'invoiced_not_captured',
@@ -91,8 +91,8 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportInvoicedCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportInvoicedExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportInvoicedCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportInvoicedExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

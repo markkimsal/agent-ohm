@@ -38,8 +38,8 @@ class Mage_Core_Model_Mysql4_History
     
     public function __construct() 
     {
-        $this->_changeTable = Mage::getSingleton('core/resource')->getTableName('core/data_change');
-        $this->_changeInfoTable = Mage::getSingleton('core/resource')->getTableName('core/data_change_info');
+        $this->_changeTable = AO::getSingleton('core/resource')->getTableName('core/data_change');
+        $this->_changeInfoTable = AO::getSingleton('core/resource')->getTableName('core/data_change_info');
     }
     
     /**

@@ -37,8 +37,8 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         $act = $this->getRequest()->getActionName();
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Shopping Cart'), Mage::helper('reports')->__('Shopping Cart'));
+            ->_addBreadcrumb(AO::helper('reports')->__('Reports'), AO::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Shopping Cart'), AO::helper('reports')->__('Shopping Cart'));
         return $this;
     }
 
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/customer')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Customers Report'), AO::helper('reports')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_customer'))
             ->renderLayout();
     }
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/product')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Products Report'), AO::helper('reports')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_product'))
             ->renderLayout();
     }
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/shopcart/abandoned')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Abandoned carts'), Mage::helper('reports')->__('Abandoned carts'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Abandoned carts'), AO::helper('reports')->__('Abandoned carts'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_shopcart_abandoned'))
             ->renderLayout();
     }
@@ -145,16 +145,16 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart/customer');
+                return AO::getSingleton('admin/session')->isAllowed('report/shopcart/customer');
                 break;
             case 'product':
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart/product');
+                return AO::getSingleton('admin/session')->isAllowed('report/shopcart/product');
                 break;
             case 'abandoned':
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart/abandoned');
+                return AO::getSingleton('admin/session')->isAllowed('report/shopcart/abandoned');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/shopcart');
+                return AO::getSingleton('admin/session')->isAllowed('report/shopcart');
                 break;
         }
     }

@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalogsearch/query')
+        $collection = AO::getModel('catalogsearch/query')
             ->getResourceCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -68,19 +68,19 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         /*$this->addColumn('query_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => AO::helper('catalog')->__('ID'),
             'width'     => '50px',
             'index'     => 'query_id',
         ));*/
 
         $this->addColumn('search_query', array(
-            'header'    => Mage::helper('catalog')->__('Search Query'),
+            'header'    => AO::helper('catalog')->__('Search Query'),
             'index'     => 'query_text',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('catalog')->__('Store'),
+                'header'        => AO::helper('catalog')->__('Store'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -89,51 +89,51 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         }
 
         $this->addColumn('num_results', array(
-            'header'    => Mage::helper('catalog')->__('Results'),
+            'header'    => AO::helper('catalog')->__('Results'),
             'index'     => 'num_results',
             'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => Mage::helper('catalog')->__('Number of Uses'),
+            'header'    => AO::helper('catalog')->__('Number of Uses'),
             'index'     => 'popularity',
             'type'      => 'number'
         ));
 
         $this->addColumn('synonim_for', array(
-            'header'    => Mage::helper('catalog')->__('Synonym for'),
+            'header'    => AO::helper('catalog')->__('Synonym for'),
             'align'     => 'left',
             'index'     => 'synonim_for',
             'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
-            'header'    => Mage::helper('catalog')->__('Redirect'),
+            'header'    => AO::helper('catalog')->__('Redirect'),
             'align'     => 'left',
             'index'     => 'redirect',
             'width'     => '200px'
         ));
 
         $this->addColumn('display_in_terms', array(
-            'header'=>Mage::helper('catalog')->__('Display in Suggested Terms'),
+            'header'=>AO::helper('catalog')->__('Display in Suggested Terms'),
             'sortable'=>true,
             'index'=>'display_in_terms',
             'type' => 'options',
             'width' => '100px',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Yes'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => AO::helper('catalog')->__('Yes'),
+                '0' => AO::helper('catalog')->__('No'),
             ),
             'align' => 'left',
         ));
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => AO::helper('catalog')->__('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(array(
-                    'caption'   => Mage::helper('catalog')->__('Edit'),
+                    'caption'   => AO::helper('catalog')->__('Edit'),
                     'url'       => array(
                         'base'=>'*/*/edit'
                     ),
@@ -157,9 +157,9 @@ class Mage_Adminhtml_Block_Catalog_Search_Grid extends Mage_Adminhtml_Block_Widg
         $this->getMassactionBlock()->setFormFieldName('search');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('catalog')->__('Delete'),
+             'label'    => AO::helper('catalog')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('catalog')->__('Are you sure?')
+             'confirm'  => AO::helper('catalog')->__('Are you sure?')
         ));
 
         return parent::_prepareMassaction();

@@ -93,7 +93,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->_request = $request;
         $this->_response= $response;
 
-        Mage::app()->getFrontController()->setAction($this);
+        AO::app()->getFrontController()->setAction($this);
 
         $this->_construct();
     }
@@ -189,7 +189,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function getLayout()
     {
-        return Mage::getSingleton('core/layout');
+        return AO::getSingleton('core/layout');
     }
 
     /**
@@ -230,11 +230,11 @@ abstract class Mage_Core_Controller_Varien_Action
         $update = $this->getLayout()->getUpdate();
 
         // load store handle
-        $update->addHandle('STORE_'.Mage::app()->getStore()->getCode());
+        $update->addHandle('STORE_'.AO::app()->getStore()->getCode());
 
         // load theme handle
         $package = Mage_Core_Model_Design_Package::getDesign();
-        //$package = Mage::getSingleton('core/design_package');
+        //$package = AO::getSingleton('core/design_package');
         $update->addHandle('THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout'));
 
         // load action handle
@@ -248,7 +248,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $_profilerKey = self::PROFILER_KEY . '::' .$this->getFullActionName();
 
         // dispatch event for adding handles to layout update
-        Mage::dispatchEvent(
+        AO::dispatchEvent(
             'controller_action_layout_load_before',
             array('action'=>$this, 'layout'=>$this->getLayout())
         );
@@ -266,7 +266,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $_profilerKey = self::PROFILER_KEY . '::' . $this->getFullActionName();
         // dispatch event for adding text layouts
         if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            AO::dispatchEvent(
                 'controller_action_layout_generate_xml_before',
                 array('action'=>$this, 'layout'=>$this->getLayout())
             );
@@ -285,7 +285,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $_profilerKey = self::PROFILER_KEY . '::' . $this->getFullActionName();
         // dispatch event for adding xml layout elements
         if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            AO::dispatchEvent(
                 'controller_action_layout_generate_blocks_before',
                 array('action'=>$this, 'layout'=>$this->getLayout())
             );
@@ -297,7 +297,7 @@ abstract class Mage_Core_Controller_Varien_Action
         if (VPROF) Varien_Profiler::stop("$_profilerKey::layout_generate_blocks");
 
         if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            AO::dispatchEvent(
                 'controller_action_layout_generate_blocks_after',
                 array('action'=>$this, 'layout'=>$this->getLayout())
             );
@@ -320,7 +320,7 @@ abstract class Mage_Core_Controller_Varien_Action
             return;
         }
 
-        if (Mage::app()->getFrontController()->getNoRender()) {
+        if (AO::app()->getFrontController()->getNoRender()) {
             return;
         }
 
@@ -331,8 +331,8 @@ abstract class Mage_Core_Controller_Varien_Action
             $this->getLayout()->addOutputBlock($output);
         }
 
-        Mage::dispatchEvent('controller_action_layout_render_before');
-        Mage::dispatchEvent('controller_action_layout_render_before_'.$this->getFullActionName());
+        AO::dispatchEvent('controller_action_layout_render_before');
+        AO::dispatchEvent('controller_action_layout_render_before_'.$this->getFullActionName());
 
         #ob_implicit_flush();
         $this->getLayout()->setDirectOutput(false);
@@ -387,7 +387,7 @@ abstract class Mage_Core_Controller_Varien_Action
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!Mage::isInstalled()) {
+            if (!AO::isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
@@ -399,21 +399,21 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
+            AO::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
         }
 
-        Mage::app()->loadArea($this->getLayout()->getArea());
+        AO::app()->loadArea($this->getLayout()->getArea());
 
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
             return;
         }
 
-        Mage::dispatchEvent('controller_action_predispatch', array('controller_action'=>$this));
-        Mage::dispatchEvent(
+        AO::dispatchEvent('controller_action_predispatch', array('controller_action'=>$this));
+        AO::dispatchEvent(
             'controller_action_predispatch_'.$this->getRequest()->getRouteName(),
             array('controller_action'=>$this)
         );
-        Mage::dispatchEvent(
+        AO::dispatchEvent(
             'controller_action_predispatch_'.$this->getFullActionName(),
             array('controller_action'=>$this)
         );
@@ -428,15 +428,15 @@ abstract class Mage_Core_Controller_Varien_Action
             return;
         }
 
-        Mage::dispatchEvent(
+        AO::dispatchEvent(
             'controller_action_postdispatch_'.$this->getFullActionName(),
             array('controller_action'=>$this)
         );
-        Mage::dispatchEvent(
+        AO::dispatchEvent(
             'controller_action_postdispatch_'.$this->getRequest()->getRouteName(),
             array('controller_action'=>$this)
         );
-        Mage::dispatchEvent('controller_action_postdispatch', array('controller_action'=>$this));
+        AO::dispatchEvent('controller_action_postdispatch', array('controller_action'=>$this));
     }
 
     public function norouteAction($coreRoute = null)
@@ -445,7 +445,7 @@ abstract class Mage_Core_Controller_Varien_Action
             ? $this->getRequest()->getParam('__status__')
             : new Varien_Object();
 
-        Mage::dispatchEvent('controller_action_noroute', array('action'=>$this, 'status'=>$status));
+        AO::dispatchEvent('controller_action_noroute', array('action'=>$this, 'status'=>$status));
         if ($status->getLoaded() !== true
             || $status->getForwarded() === true
             || !is_null($coreRoute) ) {
@@ -485,12 +485,12 @@ abstract class Mage_Core_Controller_Varien_Action
 
     protected function _initLayoutMessages($messagesStorage)
     {
-        if ($storage = Mage::getSingleton($messagesStorage)) {
+        if ($storage = AO::getSingleton($messagesStorage)) {
             $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
         }
         else {
-            Mage::throwException(
-                 Mage::helper('core')->__('Invalid messages storage "%s" for layout messages initialization', (string)$messagesStorage)
+            AO::throwException(
+                 AO::helper('core')->__('Invalid messages storage "%s" for layout messages initialization', (string)$messagesStorage)
             );
         }
         return $this;
@@ -516,7 +516,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected function _redirect($path, $arguments=array())
     {
-        $this->getResponse()->setRedirect(Mage::getUrl($path, $arguments));
+        $this->getResponse()->setRedirect(AO::getUrl($path, $arguments));
         return $this;
     }
 
@@ -532,7 +532,7 @@ abstract class Mage_Core_Controller_Varien_Action
             $successUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($successUrl)) {
-            $successUrl = Mage::app()->getStore()->getBaseUrl();
+            $successUrl = AO::app()->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($successUrl);
         return $this;
@@ -550,7 +550,7 @@ abstract class Mage_Core_Controller_Varien_Action
             $errorUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($errorUrl)) {
-            $errorUrl = Mage::app()->getStore()->getBaseUrl();
+            $errorUrl = AO::app()->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($errorUrl);
         return $this;
@@ -567,7 +567,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $refererUrl = $this->_getRefererUrl();
         if (empty($refererUrl)) {
-            $refererUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
+            $refererUrl = empty($defaultUrl) ? AO::getBaseUrl() : $defaultUrl;
         }
 
         $this->getResponse()->setRedirect($refererUrl);
@@ -586,14 +586,14 @@ abstract class Mage_Core_Controller_Varien_Action
             $refererUrl = $url;
         }
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
-            $refererUrl = Mage::helper('core')->urlDecode($url);
+            $refererUrl = AO::helper('core')->urlDecode($url);
         }
         if ($url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
-            $refererUrl = Mage::helper('core')->urlDecode($url);
+            $refererUrl = AO::helper('core')->urlDecode($url);
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {
-            $refererUrl = Mage::app()->getStore()->getBaseUrl();
+            $refererUrl = AO::app()->getStore()->getBaseUrl();
         }
         return $refererUrl;
     }
@@ -610,8 +610,8 @@ abstract class Mage_Core_Controller_Varien_Action
             /**
              * Url must start from base secure or base unsecure url
              */
-            if ((strpos($url, Mage::app()->getStore()->getBaseUrl()) === 0)
-                || (strpos($url, Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)) {
+            if ((strpos($url, AO::app()->getStore()->getBaseUrl()) === 0)
+                || (strpos($url, AO::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)) {
                 return true;
             }
         }
@@ -668,7 +668,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
 
-        $rewrite = Mage::getConfig()->getNode('global/routers/'.$route.'/rewrite/'.$controller);
+        $rewrite = AO::getConfig()->getNode('global/routers/'.$route.'/rewrite/'.$controller);
         if (!$rewrite) {
             return false;
         }
@@ -703,7 +703,7 @@ abstract class Mage_Core_Controller_Varien_Action
     protected function _validateFormKey()
     {
         if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != Mage::getSingleton('core/session')->getFormKey()) {
+            || $formKey != AO::getSingleton('core/session')->getFormKey()) {
             return false;
         }
         return true;

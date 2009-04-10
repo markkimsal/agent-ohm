@@ -53,7 +53,7 @@ class Mage_Log_Model_Mysql4_Log extends Mage_Core_Model_Mysql4_Abstract
     {
         $cleanTime = $object->getLogCleanTime();
 
-        Mage::dispatchEvent('log_log_clean_before', array(
+        AO::dispatchEvent('log_log_clean_before', array(
             'log'   => $object
         ));
 
@@ -61,7 +61,7 @@ class Mage_Log_Model_Mysql4_Log extends Mage_Core_Model_Mysql4_Abstract
         $this->_cleanCustomers($cleanTime);
         $this->_cleanUrls();
 
-        Mage::dispatchEvent('log_log_clean_after', array(
+        AO::dispatchEvent('log_log_clean_after', array(
             'log'   => $object
         ));
 

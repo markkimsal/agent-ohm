@@ -120,10 +120,10 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
      */
     public function bindCustomerLogin()
     {
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
-        $visitorItemCollection = Mage::getResourceModel('catalog/product_compare_item_collection')
+        $customer = AO::getSingleton('customer/session')->getCustomer();
+        $visitorItemCollection = AO::getResourceModel('catalog/product_compare_item_collection')
             ->setObject('catalog/product_compare_item')
-            ->setVisitorId(Mage::getSingleton('log/visitor')->getId())
+            ->setVisitorId(AO::getSingleton('log/visitor')->getId())
             ->load();
 
         $customerItemCollection = $this->getResourceCollection()
@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
             }
         }
 
-        Mage::helper('catalog/product_compare')->calculate();
+        AO::helper('catalog/product_compare')->calculate();
         return $this;
     }
 

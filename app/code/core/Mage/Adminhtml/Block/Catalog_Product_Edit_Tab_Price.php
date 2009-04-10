@@ -35,14 +35,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Mage_Adminhtml
 {
     protected function _prepareForm()
     {
-        $product = Mage::registry('product');
+        $product = AO::registry('product');
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('tiered_price', array('legend'=>Mage::helper('catalog')->__('Tier Pricing')));
+        $fieldset = $form->addFieldset('tiered_price', array('legend'=>AO::helper('catalog')->__('Tier Pricing')));
 
         $fieldset->addField('default_price', 'label', array(
-                'label'=> Mage::helper('catalog')->__('Default price'),
-                'title'=> Mage::helper('catalog')->__('Default price'),
+                'label'=> AO::helper('catalog')->__('Default price'),
+                'title'=> AO::helper('catalog')->__('Default price'),
                 'name'=>'default_price',
                 'bold'=>true,
                 'value'=>$product->getPrice()

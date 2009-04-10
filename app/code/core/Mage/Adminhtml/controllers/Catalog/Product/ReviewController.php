@@ -51,14 +51,14 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     public function pendingAction()
     {
         if ($this->getRequest()->getParam('ajax')) {
-            Mage::register('usePendingFilter', true);
+            AO::register('usePendingFilter', true);
             return $this->_forward('reviewGrid');
         }
 
         $this->loadLayout();
         $this->_setActiveMenu('catalog/review');
 
-        Mage::register('usePendingFilter', true);
+        AO::register('usePendingFilter', true);
         $this->_addContent($this->getLayout()->createBlock('adminhtml/review_main'));
 
         $this->renderLayout();
@@ -91,13 +91,13 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         $reviewId = $this->getRequest()->getParam('id', false);
         if ($data = $this->getRequest()->getPost()) {
-            $review = Mage::getModel('review/review')->load($reviewId)->addData($data);
+            $review = AO::getModel('review/review')->load($reviewId)->addData($data);
             try {
                 $review->setId($reviewId)
                     ->save();
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                $votes =  Mage::getModel('rating/rating_option_vote')
+                $votes =  AO::getModel('rating/rating_option_vote')
                     ->getResourceCollection()
                     ->setReviewFilter($reviewId)
                     ->addOptionInfo()
@@ -105,12 +105,12 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                     ->addRatingOptions();
                 foreach ($arrRatingId as $ratingId=>$optionId) {
                     if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
-                        Mage::getModel('rating/rating')
+                        AO::getModel('rating/rating')
                             ->setVoteId($vote->getId())
                             ->setReviewId($review->getId())
                             ->updateOptionVote($optionId);
                     } else {
-                        Mage::getModel('rating/rating')
+                        AO::getModel('rating/rating')
                             ->setRatingId($ratingId)
                             ->setReviewId($review->getId())
                             ->addOptionVote($optionId, $review->getEntityPkValue());
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $review->aggregate();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was saved successfully'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('catalog')->__('Review was saved successfully'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
                 } else {
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 }
                 return;
             } catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
         $this->_redirectReferer();
@@ -138,11 +138,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $reviewId = $this->getRequest()->getParam('id', false);
 
         try {
-            Mage::getModel('review/review')->setId($reviewId)
+            AO::getModel('review/review')->setId($reviewId)
                 ->aggregate()
                 ->delete();
 
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review successfully deleted'));
+            AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('catalog')->__('Review successfully deleted'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
                 $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
             } else {
@@ -150,7 +150,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             }
             return;
         } catch (Exception $e){
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            AO::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
 
         $this->_redirectReferer();
@@ -160,18 +160,18 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
         if(!is_array($reviewsIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select review(s)'));
+             AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('Please select review(s)'));
         } else {
             try {
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('review/review')->load($reviewId);
+                    $model = AO::getModel('review/review')->load($reviewId);
                     $model->delete();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('Total of %d record(s) were successfully deleted', count($reviewsIds))
+                AO::getSingleton('adminhtml/session')->addSuccess(
+                    AO::helper('adminhtml')->__('Total of %d record(s) were successfully deleted', count($reviewsIds))
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
 
@@ -182,27 +182,27 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
         if(!is_array($reviewsIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select review(s)'));
+             AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('Please select review(s)'));
         } else {
-            $session = Mage::getSingleton('adminhtml/session');
+            $session = AO::getSingleton('adminhtml/session');
             /* @var $session Mage_Adminhtml_Model_Session */
             try {
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('review/review')->load($reviewId);
+                    $model = AO::getModel('review/review')->load($reviewId);
                     $model->setStatusId($status)
                         ->save()
                         ->aggregate();
                 }
                 $session->addSuccess(
-                    Mage::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
+                    AO::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
                 );
             }
             catch (Mage_Core_Exception $e) {
                 $session->addException($e->getMessage());
             }
             catch (Exception $e) {
-                $session->addError(Mage::helper('adminhtml')->__('Error while updating selected review(s). Please try again later.'));
+                $session->addError(AO::helper('adminhtml')->__('Error while updating selected review(s). Please try again later.'));
             }
         }
 
@@ -213,26 +213,26 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
         if(!is_array($reviewsIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select review(s)'));
+             AO::getSingleton('adminhtml/session')->addError(AO::helper('adminhtml')->__('Please select review(s)'));
         } else {
-            $session = Mage::getSingleton('adminhtml/session');
+            $session = AO::getSingleton('adminhtml/session');
             /* @var $session Mage_Adminhtml_Model_Session */
             try {
                 $stores = $this->getRequest()->getParam('stores');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('review/review')->load($reviewId);
+                    $model = AO::getModel('review/review')->load($reviewId);
                     $model->setSelectStores($stores);
                     $model->save();
                 }
                 $session->addSuccess(
-                    Mage::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
+                    AO::helper('adminhtml')->__('Total of %d record(s) were successfully updated', count($reviewsIds))
                 );
             }
             catch (Mage_Core_Exception $e) {
                 $session->addException($e->getMessage());
             }
             catch (Exception $e) {
-                $session->addError(Mage::helper('adminhtml')->__('Error while updating selected review(s). Please try again later.'));
+                $session->addError(AO::helper('adminhtml')->__('Error while updating selected review(s). Please try again later.'));
             }
         }
 
@@ -254,7 +254,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $response = new Varien_Object();
         $id = $this->getRequest()->getParam('id');
         if( intval($id) > 0 ) {
-            $product = Mage::getModel('catalog/product')
+            $product = AO::getModel('catalog/product')
                 ->load($id);
 
             $response->setId($id);
@@ -262,7 +262,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
             $response->setError(0);
         } else {
             $response->setError(1);
-            $response->setMessage(Mage::helper('catalog')->__('Unable to get product id.'));
+            $response->setMessage(AO::helper('catalog')->__('Unable to get product id.'));
         }
         $this->getResponse()->setBody($response->toJSON());
     }
@@ -275,9 +275,9 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 $data['stores'] = $data['select_stores'];
             }
 
-            $review = Mage::getModel('review/review')->setData($data);
+            $review = AO::getModel('review/review')->setData($data);
 
-            $product = Mage::getModel('catalog/product')
+            $product = AO::getModel('catalog/product')
                 ->load($productId);
 
             try {
@@ -290,7 +290,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
                 foreach ($arrRatingId as $ratingId=>$optionId) {
-                	Mage::getModel('rating/rating')
+                	AO::getModel('rating/rating')
                 	   ->setRatingId($ratingId)
                 	   ->setReviewId($review->getId())
                 	   ->addOptionVote($optionId, $productId);
@@ -298,7 +298,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                 $review->aggregate();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('catalog')->__('Review was successfully saved'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
                 } else {
@@ -308,7 +308,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 return;
             } catch (Exception $e){
                 die($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('*/*/'));
@@ -324,10 +324,10 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
     	switch ($this->getRequest()->getActionName()) {
             case 'pending':
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/pending');
+                return AO::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/pending');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/all');
+                return AO::getSingleton('admin/session')->isAllowed('catalog/reviews_ratings/reviews/all');
                 break;
     	}
     }

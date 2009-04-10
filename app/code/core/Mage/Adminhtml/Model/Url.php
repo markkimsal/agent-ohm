@@ -40,7 +40,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return Mage::getStoreConfigFlag('web/secure/use_in_adminhtml');
+        return AO::getStoreConfigFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
      */
     public function getSecretKey($controller = null, $action = null)
     {
-        $salt = Mage::getSingleton('core/session')->getFormKey();
+        $salt = AO::getSingleton('core/session')->getFormKey();
         if (!$controller) {
             $controller = $this->getRequest()->getControllerName();
         }
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         }
 
         $secret = $controller . $action . $salt;
-        return Mage::helper('core')->getHash($secret);
+        return AO::helper('core')->getHash($secret);
     }
 
     /**
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
      */
     public function useSecretKey()
     {
-        return Mage::getStoreConfigFlag('admin/security/use_form_key');
+        return AO::getStoreConfigFlag('admin/security/use_form_key');
     }
 
     /**
@@ -126,6 +126,6 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
      */
     public function renewSecretUrls()
     {
-        Mage::app()->cleanCache(array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
+        AO::app()->cleanCache(array(Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS));
     }
 }

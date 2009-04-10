@@ -112,7 +112,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
             $compareCondition = 'visitor_id='.$this->getVisitorId();
         }
 
-        $websiteId = Mage::app($this->getStoreId())->getStore()->getWebsiteId();
+        $websiteId = AO::app($this->getStoreId())->getStore()->getWebsiteId();
 
         $select = $this->getConnection()->select()
             ->from(array('entity'=>$this->getEntity()->getEntityTable()), 'attribute_set_id')
@@ -190,7 +190,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
      */
     public function isEnabledFlat()
     {
-        if (!Mage::helper('catalog/product_compare')->getAllowUsedFlat()) {
+        if (!AO::helper('catalog/product_compare')->getAllowUsedFlat()) {
             return false;
         }
         return parent::isEnabledFlat();

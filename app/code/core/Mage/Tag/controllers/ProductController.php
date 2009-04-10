@@ -37,13 +37,13 @@ class Mage_Tag_ProductController extends Mage_Core_Controller_Front_Action
     public function listAction()
     {
         $tagId = $this->getRequest()->getParam('tagId');
-        $tag = Mage::getModel('tag/tag')->load($tagId);
+        $tag = AO::getModel('tag/tag')->load($tagId);
 
         if(!$tag->getId()) {
             $this->_redirectReferer();
             return;
         }
-        Mage::register('current_tag', $tag);
+        AO::register('current_tag', $tag);
 
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');

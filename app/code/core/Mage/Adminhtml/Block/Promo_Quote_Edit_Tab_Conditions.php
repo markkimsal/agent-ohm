@@ -36,37 +36,37 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions extends Mage_Adminhtm
 {
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = AO::registry('current_promo_quote_rule');
 
         //$form = new Varien_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $renderer = AO::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('salesrule')->__('Apply the rule only if the following conditions are met (leave blank for all products)')
+            'legend'=>AO::helper('salesrule')->__('Apply the rule only if the following conditions are met (leave blank for all products)')
         ))->setRenderer($renderer);
 
     	$fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('salesrule')->__('Conditions'),
-            'title' => Mage::helper('salesrule')->__('Conditions'),
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
+            'label' => AO::helper('salesrule')->__('Conditions'),
+            'title' => AO::helper('salesrule')->__('Conditions'),
+        ))->setRule($model)->setRenderer(AO::getBlockSingleton('rule/conditions'));
 /*
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>Mage::helper('salesrule')->__('Apply the rule to cart items matching the following conditions')
+            'legend'=>AO::helper('salesrule')->__('Apply the rule to cart items matching the following conditions')
         ))->setRenderer($renderer);
 
     	$fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => Mage::helper('salesrule')->__('Apply to'),
-            'title' => Mage::helper('salesrule')->__('Apply to'),
+            'label' => AO::helper('salesrule')->__('Apply to'),
+            'title' => AO::helper('salesrule')->__('Apply to'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/actions'));
+        ))->setRule($model)->setRenderer(AO::getBlockSingleton('rule/actions'));
 */
         $form->setValues($model->getData());
 

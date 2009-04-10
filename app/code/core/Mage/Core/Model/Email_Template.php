@@ -30,10 +30,10 @@
  * Example:
  *
  * // Loading of template
- * $emailTemplate  = Mage::getModel('core/email_template')
- *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
+ * $emailTemplate  = AO::getModel('core/email_template')
+ *    ->load(AO::getStoreConfig('path_to_email_template_id_config'));
  * $variables = array(
- *    'someObject' => Mage::getSingleton('some_model')
+ *    'someObject' => AO::getSingleton('some_model')
  *    'someString' => 'Some string value'
  * );
  * $emailTemplate->send('some@domain.com', 'Name Of User', $variables);
@@ -76,7 +76,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('core/email_template');
+        return AO::getResourceSingleton('core/email_template');
     }
 
     /**
@@ -112,7 +112,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function getTemplateFilter()
     {
         if (empty($this->_templateFilter)) {
-            $this->_templateFilter = Mage::getModel('core/email_template_filter');
+            $this->_templateFilter = AO::getModel('core/email_template_filter');
             $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks());
         }
         return $this->_templateFilter;
@@ -158,7 +158,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $data = &$defaultTemplates[$templateId];
         $this->setTemplateType($data['type']=='html' ? self::TYPE_HTML : self::TYPE_TEXT);
 
-        $templateText = Mage::app()->getTranslator()->getTemplateFile(
+        $templateText = AO::app()->getTranslator()->getTemplateFile(
             $data['file'], 'email', $locale
         );
 
@@ -186,7 +186,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     static public function getDefaultTemplates()
     {
         if(is_null(self::$_defaultTemplates)) {
-            self::$_defaultTemplates = Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
+            self::$_defaultTemplates = AO::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
         }
 
         return self::$_defaultTemplates;
@@ -235,7 +235,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag('system/smtp/disable')
+        return !AO::getStoreConfigFlag('system/smtp/disable')
             && $this->getSenderName()
             && $this->getSenderEmail()
             && $this->getTemplateSubject();
@@ -327,8 +327,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         $variables['email'] = $email;
         $variables['name'] = $name;
 
-        ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
-        ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
+        ini_set('SMTP', AO::getStoreConfig('system/smtp/host'));
+        ini_set('smtp_port', AO::getStoreConfig('system/smtp/port'));
 
         $mail = $this->getMail();
         if (is_array($email)) {
@@ -385,17 +385,17 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         if (is_numeric($templateId)) {
             $this->load($templateId);
         } else {
-            $localeCode = Mage::getStoreConfig('general/locale/code', $storeId);
+            $localeCode = AO::getStoreConfig('general/locale/code', $storeId);
             $this->loadDefault($templateId, $localeCode);
         }
 
         if (!$this->getId()) {
-            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid transactional email code: '.$templateId));
+            throw AO::exception('Mage_Core', AO::helper('core')->__('Invalid transactional email code: '.$templateId));
         }
 
         if (!is_array($sender)) {
-            $this->setSenderName(Mage::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
-            $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
+            $this->setSenderName(AO::getStoreConfig('trans_email/ident_'.$sender.'/name', $storeId));
+            $this->setSenderEmail(AO::getStoreConfig('trans_email/ident_'.$sender.'/email', $storeId));
         } else {
             $this->setSenderName($sender['name']);
             $this->setSenderEmail($sender['email']);
@@ -476,17 +476,17 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     protected function _applyDesignConfig()
     {
         if ($this->getDesignConfig()) {
-            $design = Mage::getDesign();
+            $design = AO::getDesign();
             $this->getDesignConfig()
                 ->setOldArea($design->getArea())
                 ->setOldStore($design->getStore());
 
             if ($this->getDesignConfig()->getArea()) {
-                Mage::getDesign()->setArea($this->getDesignConfig()->getArea());
+                AO::getDesign()->setArea($this->getDesignConfig()->getArea());
             }
 
             if ($this->getDesignConfig()->getStore()) {
-                Mage::app()->getLocale()->emulate($this->getDesignConfig()->getStore());
+                AO::app()->getLocale()->emulate($this->getDesignConfig()->getStore());
                 $design->setStore($this->getDesignConfig()->getStore());
                 $design->setTheme('');
                 $design->setPackageName('');
@@ -505,16 +505,16 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         if ($this->getDesignConfig()) {
             if ($this->getDesignConfig()->getOldArea()) {
-                Mage::getDesign()->setArea($this->getDesignConfig()->getOldArea());
+                AO::getDesign()->setArea($this->getDesignConfig()->getOldArea());
             }
 
             if ($this->getDesignConfig()->getOldStore()) {
-                Mage::getDesign()->setStore($this->getDesignConfig()->getOldStore());
-                Mage::getDesign()->setTheme('');
-                Mage::getDesign()->setPackageName('');
+                AO::getDesign()->setStore($this->getDesignConfig()->getOldStore());
+                AO::getDesign()->setTheme('');
+                AO::getDesign()->setPackageName('');
             }
         }
-        Mage::app()->getLocale()->revert();
+        AO::app()->getLocale()->revert();
         return $this;
     }
 

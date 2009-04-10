@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Recently Viewed Products');
+        return AO::helper('sales')->__('Recently Viewed Products');
     }
 
     /**
@@ -56,12 +56,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
             $stores = array();
-            $website = Mage::app()->getStore($this->getStoreId())->getWebsite();
+            $website = AO::app()->getStore($this->getStoreId())->getWebsite();
             foreach ($website->getStores() as $store) {
                 $stores[] = $store->getId();
             }
 
-            $collection = Mage::getModel('reports/event')
+            $collection = AO::getModel('reports/event')
                 ->getCollection()
                 ->addStoreFilter($stores)
                 ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Mage_Admin
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = Mage::getModel('catalog/product')
+                $productCollection = AO::getModel('catalog/product')
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addAttributeToSelect('name')

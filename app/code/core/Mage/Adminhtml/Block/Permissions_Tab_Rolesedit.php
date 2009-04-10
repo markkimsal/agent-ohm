@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
      */
     public function getTabLabel()
     {
-        return Mage::helper('adminhtml')->__('Role Resources');
+        return AO::helper('adminhtml')->__('Role Resources');
     }
 
     /**
@@ -70,11 +70,11 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
     {
         parent::__construct();
 
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
+        $rid = AO::app()->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel('admin/roles')->getResourcesList();
+        $resources = AO::getModel('admin/roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('admin/rules_collection')->getByRoles($rid)->load();
+        $rules_set = AO::getResourceModel('admin/rules_collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -99,8 +99,8 @@ class Mage_Adminhtml_Block_Permissions_Tab_Rolesedit extends Mage_Adminhtml_Bloc
 
     public function getResTreeJson()
     {
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
-        $resources = Mage::getModel('admin/roles')->getResourcesTree();
+        $rid = AO::app()->getRequest()->getParam('rid', false);
+        $resources = AO::getModel('admin/roles')->getResourcesTree();
 
         $rootArray = $this->_getNodeJson($resources->admin, 1);
 

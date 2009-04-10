@@ -44,7 +44,7 @@ class Mage_Chronopay_Model_Config extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-            $value = Mage::getStoreConfig('payment/chronopay_standard/'.$key);
+            $value = AO::getStoreConfig('payment/chronopay_standard/'.$key);
             if (is_null($value) || false===$value) {
                 $value = $default;
             }

@@ -92,7 +92,7 @@ class Mage_Log_Model_Mysql4_Customer
 
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
 
         $this->_visitorTable    = $resource->getTableName('log/visitor');
         $this->_visitorInfoTable= $resource->getTableName('log/visitor_info');

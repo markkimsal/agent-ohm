@@ -49,7 +49,7 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
 //
 //    public function getResource()
 //    {
-//        return Mage::getResourceModel('tax/class');
+//        return AO::getResourceModel('tax/class');
 //    }
 //
 //    public function load($classId)
@@ -72,7 +72,7 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
 //
 //    public function getCustomerGroupCollection()
 //    {
-//        return Mage::getResourceModel('customer/group_collection');
+//        return AO::getResourceModel('customer/group_collection');
 //    }
 //
 //    public function itemExists()

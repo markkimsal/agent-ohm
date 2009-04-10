@@ -155,7 +155,7 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Abstract extends Mage_Core_Model_Mysql
      */
     public function getMinimalPrice($products, $priceAttributes, $store)
     {
-        $website = Mage::app()->getStore($store)->getWebsiteId();
+        $website = AO::app()->getStore($store)->getWebsiteId();
 
         $fields = array('customer_group_id', 'minimal_value'=>'MIN(value)');
         $select = $this->_getReadAdapter()->select()

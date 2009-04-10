@@ -36,7 +36,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         $this->_controller = 'adminhtml_order';
-        $this->_headerText = Mage::helper('adminhtml')->__('Manage osCommerce Orders');
+        $this->_headerText = AO::helper('adminhtml')->__('Manage osCommerce Orders');
         parent::__construct();
         $this->_removeButton('add');        
     }

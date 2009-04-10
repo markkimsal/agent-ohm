@@ -36,22 +36,22 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
 {
     public function getBaseMediaPath()
     {
-        return Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product';
+        return AO::getBaseDir('media') . DS . 'catalog' . DS . 'product';
     }
 
     public function getBaseMediaUrl()
     {
-        return Mage::getBaseUrl('media') . 'catalog/product';
+        return AO::getBaseUrl('media') . 'catalog/product';
     }
 
     public function getBaseTmpMediaPath()
     {
-        return Mage::getBaseDir('media') . DS . 'tmp' . DS . 'catalog' . DS . 'product';
+        return AO::getBaseDir('media') . DS . 'tmp' . DS . 'catalog' . DS . 'product';
     }
 
     public function getBaseTmpMediaUrl()
     {
-        return Mage::getBaseUrl('media') . 'tmp/catalog/product';
+        return AO::getBaseUrl('media') . 'tmp/catalog/product';
     }
 
     public function getMediaUrl($file)

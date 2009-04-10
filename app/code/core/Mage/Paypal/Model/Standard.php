@@ -47,7 +47,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return AO::getSingleton('paypal/session');
     }
 
     /**
@@ -57,7 +57,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         parent::validate();
         $currency_code = $this->getQuote()->getBaseCurrencyCode();
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('paypal')->__('Selected currency code ('.$currency_code.') is not compatible with PayPal'));
+            AO::throwException(AO::helper('paypal')->__('Selected currency code ('.$currency_code.') is not compatible with PayPal'));
         }
         return $this;
     }
@@ -128,7 +128,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('paypal/standard/redirect', array('_secure' => true));
+          return AO::getUrl('paypal/standard/redirect', array('_secure' => true));
     }
 
     public function getStandardCheckoutFormFields()
@@ -147,7 +147,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
             //if currency code is not allowed currency code, use USD as default
-            $storeCurrency = Mage::getSingleton('directory/currency')
+            $storeCurrency = AO::getSingleton('directory/currency')
                 ->load($this->getQuote()->getStoreCurrencyCode());
             $amount = $storeCurrency->convert($amount, 'USD');
             $currency_code='USD';
@@ -155,10 +155,10 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         */
 
         $sArr = array(
-            'business'          => Mage::getStoreConfig('paypal/wps/business_account'),
-            'return'            => Mage::getUrl('paypal/standard/success',array('_secure' => true)),
-            'cancel_return'     => Mage::getUrl('paypal/standard/cancel',array('_secure' => false)),
-            'notify_url'        => Mage::getUrl('paypal/standard/ipn'),
+            'business'          => AO::getStoreConfig('paypal/wps/business_account'),
+            'return'            => AO::getUrl('paypal/standard/success',array('_secure' => true)),
+            'cancel_return'     => AO::getUrl('paypal/standard/cancel',array('_secure' => false)),
+            'notify_url'        => AO::getUrl('paypal/standard/ipn'),
             'invoice'           => $this->getCheckout()->getLastRealOrderId(),
             'currency_code'     => $currency_code,
             'address_override'  => 1,
@@ -172,7 +172,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             'zip'               => $a->getPostcode(),
         );
 
-        $logoUrl = Mage::getStoreConfig('paypal/wps/logo_url');
+        $logoUrl = AO::getStoreConfig('paypal/wps/logo_url');
         if($logoUrl){
              $sArr = array_merge($sArr, array(
                   'cpp_header_image' => $logoUrl
@@ -191,8 +191,8 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         I=individual items to paypal
         */
         if ($transaciton_type=='O') {
-            $businessName = Mage::getStoreConfig('paypal/wps/business_name');
-            $storeName = Mage::getStoreConfig('store/system/name');
+            $businessName = AO::getStoreConfig('paypal/wps/business_name');
+            $storeName = AO::getStoreConfig('store/system/name');
             $amount = ($a->getBaseSubtotal()+$b->getBaseSubtotal())-($a->getBaseDiscountAmount()+$b->getBaseDiscountAmount());
             $sArr = array_merge($sArr, array(
                     'cmd'           => '_ext-enter',
@@ -270,7 +270,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         if ($this->getDebug() && $sReq) {
             $sReq = substr($sReq, 1);
-            $debug = Mage::getModel('paypal/api_debug')
+            $debug = AO::getModel('paypal/api_debug')
                     ->setApiEndpoint($this->getPaypalUrl())
                     ->setRequestBody($sReq)
                     ->save();
@@ -280,7 +280,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     public function getPaypalUrl()
     {
-         if (Mage::getStoreConfig('paypal/wps/sandbox_flag')==1) {
+         if (AO::getStoreConfig('paypal/wps/sandbox_flag')==1) {
              $url='https://www.sandbox.paypal.com/cgi-bin/webscr';
          } else {
              $url='https://www.paypal.com/cgi-bin/webscr';
@@ -290,7 +290,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     public function getDebug()
     {
-        return Mage::getStoreConfig('paypal/wps/debug_flag');
+        return AO::getStoreConfig('paypal/wps/debug_flag');
     }
 
 
@@ -305,7 +305,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $sReq = substr($sReq, 1);
 
         if ($this->getDebug()) {
-            $debug = Mage::getModel('paypal/api_debug')
+            $debug = AO::getModel('paypal/api_debug')
                     ->setApiEndpoint($this->getPaypalUrl())
                     ->setRequestBody($sReq)
                     ->save();
@@ -321,7 +321,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
          //when verified need to convert order into invoice
         $id = $this->getIpnFormData('invoice');
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($id);
 
         if ($response=='VERIFIED') {
@@ -336,7 +336,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     //when grand total does not equal, need to have some logic to take care
                     $order->addStatusToHistory(
                         $order->getStatus(),//continue setting current order status
-                        Mage::helper('paypal')->__('Order total amount does not match paypal gross total amount')
+                        AO::helper('paypal')->__('Order total amount does not match paypal gross total amount')
                     );
                     $order->save();
                 } else {
@@ -368,7 +368,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                            //when order cannot create invoice, need to have some logic to take care
                            $order->addStatusToHistory(
                                 $order->getStatus(), // keep order status/state
-                                Mage::helper('paypal')->__('Error in creating an invoice', true),
+                                AO::helper('paypal')->__('Error in creating an invoice', true),
                                 $notified = true
                            );
 
@@ -378,20 +378,20 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                            //need to convert from order into invoice
                            $invoice = $order->prepareInvoice();
                            $invoice->register()->capture();
-                           Mage::getModel('core/resource_transaction')
+                           AO::getModel('core/resource_transaction')
                                ->addObject($invoice)
                                ->addObject($invoice->getOrder())
                                ->save();
                            $order->setState(
                                Mage_Sales_Model_Order::STATE_PROCESSING, $newOrderStatus,
-                               Mage::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId()),
+                               AO::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId()),
                                $notified = true
                            );
                        }
                     } else {
                         $order->setState(
                             Mage_Sales_Model_Order::STATE_PROCESSING, $newOrderStatus,
-                            Mage::helper('paypal')->__('Received IPN verification'),
+                            AO::helper('paypal')->__('Received IPN verification'),
                             $notified = true
                         );
                     }
@@ -429,7 +429,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             } else {
                 $order->addStatusToHistory(
                     $order->getStatus(),//continue setting current order status
-                    Mage::helper('paypal')->__('Paypal IPN Invalid %s.', $comment)
+                    AO::helper('paypal')->__('Paypal IPN Invalid %s.', $comment)
                 );
                 $order->save();
             }
@@ -445,7 +445,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
         $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
         $stateObject->setState($state);
-        $stateObject->setStatus(Mage::getSingleton('sales/order_config')->getStateDefaultStatus($state));
+        $stateObject->setStatus(AO::getSingleton('sales/order_config')->getStateDefaultStatus($state));
         $stateObject->setIsNotified(false);
     }
 }

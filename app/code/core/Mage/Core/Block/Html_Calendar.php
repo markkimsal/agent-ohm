@@ -36,7 +36,7 @@ class Mage_Core_Block_Html_Calendar extends Mage_Core_Block_Template
 {
     protected function _toHtml()
     {
-        $localeCode = Mage::app()->getLocale()->getLocaleCode();
+        $localeCode = AO::app()->getLocale()->getLocaleCode();
 
         // get days names
         $days = Zend_Locale_Data::getList($localeCode, 'days');
@@ -61,12 +61,12 @@ class Mage_Core_Block_Html_Calendar extends Mage_Core_Block_Template
         $this->assign('pm', Zend_Json::encode(Zend_Locale_Data::getContent($localeCode, 'pm')));
 
         // get first day of week and weekend days
-        $this->assign('firstDay',    (int)Mage::getStoreConfig('general/locale/firstday'));
-        $this->assign('weekendDays', Zend_Json::encode((string)Mage::getStoreConfig('general/locale/weekend')));
+        $this->assign('firstDay',    (int)AO::getStoreConfig('general/locale/firstday'));
+        $this->assign('weekendDays', Zend_Json::encode((string)AO::getStoreConfig('general/locale/weekend')));
 
         // define default format and tooltip format
-        $this->assign('defaultFormat', Zend_Json::encode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM)));
-        $this->assign('toolTipFormat', Zend_Json::encode(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_LONG)));
+        $this->assign('defaultFormat', Zend_Json::encode(AO::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM)));
+        $this->assign('toolTipFormat', Zend_Json::encode(AO::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_LONG)));
 
         // get days and months for en_US locale - calendar will parse exactly in this locale
         $days = Zend_Locale_Data::getList('en_US', 'days');

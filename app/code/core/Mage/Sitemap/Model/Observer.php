@@ -70,11 +70,11 @@ class Mage_Sitemap_Model_Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
+        if (!AO::getStoreConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
             return;
         }
 
-        $collection = Mage::getModel('sitemap/sitemap')->getCollection();
+        $collection = AO::getModel('sitemap/sitemap')->getCollection();
         /* @var $collection Mage_Sitemap_Model_Mysql4_Sitemap_Collection */
         foreach ($collection as $sitemap) {
             /* @var $sitemap Mage_Sitemap_Model_Sitemap */
@@ -87,18 +87,18 @@ class Mage_Sitemap_Model_Observer
             }
         }
 
-        if ($errors && Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $translate = Mage::getSingleton('core/translate');
+        if ($errors && AO::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
+            $translate = AO::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('core/email_template');
+            $emailTemplate = AO::getModel('core/email_template');
             /* @var $emailTemplate Mage_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    AO::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    AO::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
+                    AO::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings' => join("\n", $errors))
                 );

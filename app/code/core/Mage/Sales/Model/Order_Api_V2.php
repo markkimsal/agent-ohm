@@ -42,7 +42,7 @@ class Mage_Sales_Model_Order_Api_V2 extends Mage_Sales_Model_Order_Api
     public function items($filters = null)
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = AO::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
             ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')

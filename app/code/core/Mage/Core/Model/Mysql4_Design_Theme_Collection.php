@@ -30,7 +30,7 @@ class Mage_Core_Model_Mysql4_Design_Theme extends Varien_Directory_Collection
     {
         $packages = $this->getData('themes');
         if (is_null($packages)) {
-            $packages = Mage::getModel('core/design_package')->getThemeList();
+            $packages = AO::getModel('core/design_package')->getThemeList();
             $this->setData('themes', $packages);
         }
 

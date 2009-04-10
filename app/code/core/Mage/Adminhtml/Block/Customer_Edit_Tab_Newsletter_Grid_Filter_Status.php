@@ -40,11 +40,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status exten
     {
         self::$_statuses = array(
                 null                                        => null,
-                Mage_Newsletter_Model_Queue::STATUS_SENT    => Mage::helper('customer')->__('Sent'),
-                Mage_Newsletter_Model_Queue::STATUS_CANCEL  => Mage::helper('customer')->__('Cancel'),
-                Mage_Newsletter_Model_Queue::STATUS_NEVER   => Mage::helper('customer')->__('Not Sent'),
-                Mage_Newsletter_Model_Queue::STATUS_SENDING => Mage::helper('customer')->__('Sending'),
-                Mage_Newsletter_Model_Queue::STATUS_PAUSE   => Mage::helper('customer')->__('Paused'),
+                Mage_Newsletter_Model_Queue::STATUS_SENT    => AO::helper('customer')->__('Sent'),
+                Mage_Newsletter_Model_Queue::STATUS_CANCEL  => AO::helper('customer')->__('Cancel'),
+                Mage_Newsletter_Model_Queue::STATUS_NEVER   => AO::helper('customer')->__('Not Sent'),
+                Mage_Newsletter_Model_Queue::STATUS_SENDING => AO::helper('customer')->__('Sending'),
+                Mage_Newsletter_Model_Queue::STATUS_PAUSE   => AO::helper('customer')->__('Paused'),
             );
         parent::__construct();
     }
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status exten
     {
         $result = array();
         foreach (self::$_statuses as $code=>$label) {
-            $result[] = array('value'=>$code, 'label'=>Mage::helper('customer')->__($label));
+            $result[] = array('value'=>$code, 'label'=>AO::helper('customer')->__($label));
         }
 
         return $result;

@@ -41,7 +41,7 @@ class Mage_PaypalUk_Block_Express_Review extends Mage_Core_Block_Template
      */
     public function getReview()
     {
-        return Mage::getSingleton('paypaluk/express_review');
+        return AO::getSingleton('paypaluk/express_review');
     }
 
     public function getBillingAddress()
@@ -70,7 +70,7 @@ class Mage_PaypalUk_Block_Express_Review extends Mage_Core_Block_Template
             $groups = $this->getAddress()->getGroupedAllShippingRates();
             /*if (!empty($groups)) {
                 $ratesFilter = new Varien_Filter_Object_Grid();
-                $ratesFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'price');
+                $ratesFilter->addFilter(AO::app()->getStore()->getPriceFilter(), 'price');
 
                 foreach ($groups as $code => $groupItems) {
                 	$groups[$code] = $ratesFilter->filter($groupItems);
@@ -83,7 +83,7 @@ class Mage_PaypalUk_Block_Express_Review extends Mage_Core_Block_Template
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = AO::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;

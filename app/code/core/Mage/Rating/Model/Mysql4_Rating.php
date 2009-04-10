@@ -48,7 +48,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => 'rating_code',
-            'title' => /* Mage::helper('rating')->__('Rating with the same title')*/ ''
+            'title' => /* AO::helper('rating')->__('Rating with the same title')*/ ''
         ));
         return $this;
     }
@@ -60,7 +60,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
         $select = $read->select()
             ->from(array('main'=>$this->getMainTable()), array('rating_id', 'entity_id', 'position'))
             ->joinLeft(array('title'=>$this->getTable('rating_title')),
-                          'main.rating_id=title.rating_id AND title.store_id = '. (int) Mage::getSingleton('core/store')->getId(),
+                          'main.rating_id=title.rating_id AND title.store_id = '. (int) AO::getSingleton('core/store')->getId(),
                           array('IF(title.value IS NULL, main.rating_code, title.value) AS rating_code'))
             ->where('main.'.$field.'=?', $value);
         return $select;
@@ -175,7 +175,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         if($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if($row['store_id']==Mage::app()->getStore()->getId()) {
+                if($row['store_id']==AO::app()->getStore()->getId()) {
                     $object->addData( $row );
                 }
             }
@@ -184,8 +184,8 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         $result = array();
 
-        //$stores = Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = Mage::getModel('core/store')->getResourceCollection()->load();
+        //$stores = AO::app()->getStore()->getResourceCollection()->load();
+        $stores = AO::getModel('core/store')->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;
@@ -234,7 +234,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         if($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if($row['store_id']==Mage::app()->getStore()->getId()) {
+                if($row['store_id']==AO::app()->getStore()->getId()) {
                     $object->addData( $row );
                 }
             }
@@ -243,7 +243,7 @@ class Mage_Rating_Model_Mysql4_Rating extends Mage_Core_Model_Mysql4_Abstract
 
         $result = array();
 
-        $stores = Mage::app()->getStore()->getResourceCollection()->load();
+        $stores = AO::app()->getStore()->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;

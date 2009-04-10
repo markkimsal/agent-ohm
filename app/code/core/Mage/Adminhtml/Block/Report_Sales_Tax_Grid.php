@@ -49,13 +49,13 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header'    =>Mage::helper('reports')->__('Tax'),
+            'header'    =>AO::helper('reports')->__('Tax'),
             'index'     =>'code',
             'type'      =>'string'
         ));
 
         $this->addColumn('percent', array(
-            'header'    =>Mage::helper('reports')->__('Rate'),
+            'header'    =>AO::helper('reports')->__('Rate'),
             'index'     =>'percent',
             'type'      =>'number',
             'renderer'  =>'adminhtml/report_grid_column_renderer_blanknumber',
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
         ));
 
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Number of Orders'),
+            'header'    =>AO::helper('reports')->__('Number of Orders'),
             'index'     =>'orders',
             'total'     =>'sum',
             'type'      =>'number',
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
         ));
 
         $this->addColumn('tax', array(
-            'header'    =>Mage::helper('reports')->__('Tax Amount'),
+            'header'    =>AO::helper('reports')->__('Tax Amount'),
             'type'      =>'currency',
             'currency_code'=>$this->getCurrentCurrencyCode(),
             'index'     =>'tax',
@@ -79,8 +79,8 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportTaxCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTaxExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportTaxCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportTaxExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

@@ -110,7 +110,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = Mage::getModel('sales/quote_item_option')->getCollection()
+        $optionCollection = AO::getModel('sales/quote_item_option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -134,15 +134,15 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('catalog/product')->getCollection()
+        $productCollection = AO::getModel('catalog/product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
+            ->addAttributeToSelect(AO::getSingleton('sales/quote_config')->getProductAttributes())
             ->addOptionsToResult()
             ->addStoreFilter()
             ->addUrlRewrite();
 
-        Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array('product_collection'=>$productCollection));
+        AO::dispatchEvent('sales_quote_item_collection_products_after_load', array('product_collection'=>$productCollection));
 
         $recollectQuote = false;
         foreach ($this as $item) {

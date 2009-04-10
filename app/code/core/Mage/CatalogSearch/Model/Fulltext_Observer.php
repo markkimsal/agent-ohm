@@ -40,7 +40,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      */
     protected function _getFulltextModel()
     {
-        return Mage::getSingleton('catalogsearch/fulltext');
+        return AO::getSingleton('catalogsearch/fulltext');
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getModel('catalogsearch/fulltext')
+        AO::getModel('catalogsearch/fulltext')
             ->rebuildIndex(null, $product->getId())
             ->resetSearchResults();
 
@@ -70,7 +70,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getModel('catalogsearch/fulltext')
+        AO::getModel('catalogsearch/fulltext')
             ->cleanIndex(null, $product->getId())
             ->resetSearchResults();
 
@@ -87,7 +87,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-        $entityType = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $entityType = AO::getSingleton('eav/config')->getEntityType('catalog_product');
         /* @var $entityType Mage_Eav_Model_Entity_Type */
 
         if ($attribute->getEntityTypeId() != $entityType->getId()) {
@@ -110,8 +110,8 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         }
 
         if ($showNotice) {
-            Mage::getSingleton('adminhtml/session')->addNotice(
-                Mage::helper('catalogsearch')->__('Attribute setting change related with Search Index. Please run <a href="%s">Rebuild Search Index</a> process', Mage::getUrl('adminhtml/system_cache'))
+            AO::getSingleton('adminhtml/session')->addNotice(
+                AO::helper('catalogsearch')->__('Attribute setting change related with Search Index. Please run <a href="%s">Rebuild Search Index</a> process', AO::getUrl('adminhtml/system_cache'))
             );
         }
 
@@ -126,7 +126,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      */
     public function refreshIndexAfterImport($observer)
     {
-        Mage::getModel('catalogsearch/fulltext')
+        AO::getModel('catalogsearch/fulltext')
             ->rebuildIndex();
         return $this;
     }
@@ -140,7 +140,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     public function refreshStoreIndex($observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
-        Mage::getModel('catalogsearch/fulltext')->rebuildIndex($storeId);
+        AO::getModel('catalogsearch/fulltext')->rebuildIndex($storeId);
         return $this;
     }
 
@@ -157,7 +157,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         $actionType = $observer->getEvent()->getAction();
 
         foreach ($websiteIds as $websiteId) {
-            foreach (Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
+            foreach (AO::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
                 if ($actionType == 'remove') {
                     $this->_getFulltextModel()
                         ->cleanIndex($storeId, $productIds)

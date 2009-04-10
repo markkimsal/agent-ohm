@@ -38,9 +38,9 @@ class Mage_Core_Model_Mysql4_Resource
 
     public function __construct()
     {
-        $this->_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $this->_resTable = AO::getSingleton('core/resource')->getTableName('core/resource');
+        $this->_read = AO::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('core_write');
     }
 
     /**

@@ -110,7 +110,7 @@ class Mage_CatalogSearch_Model_Mysql4_Query_Collection extends Mage_Core_Model_M
         if ($storeIds) {
             $this->getSelect()->where('num_results>0 and store_id in (?)', $storeIds);
         } else if ($storeIds === null){
-            $this->getSelect()->where('num_results>0 and store_id=?',Mage::app()->getStore()->getId());
+            $this->getSelect()->where('num_results>0 and store_id=?',AO::app()->getStore()->getId());
         }
 
         $this->getSelect()->order(array('popularity desc','name'));

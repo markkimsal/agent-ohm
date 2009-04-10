@@ -41,10 +41,10 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
     protected function _initCurrency()
     {
         $code = $this->getRequest()->getParam('currency');
-        $currency = Mage::getModel('directory/currency')
+        $currency = AO::getModel('directory/currency')
             ->load($code);
 
-        Mage::register('currency', $currency);
+        AO::register('currency', $currency);
         return $this;
     }
 
@@ -65,28 +65,28 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
             if( !$service ) {
-                throw new Exception(Mage::helper('adminhtml')->__('Invalid Import Service Specified'));
+                throw new Exception(AO::helper('adminhtml')->__('Invalid Import Service Specified'));
             }
             try {
-                $importModel = Mage::getModel(Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
+                $importModel = AO::getModel(AO::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
             } catch (Exception $e) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Unable to initialize import model'));
+                AO::throwException(AO::helper('adminhtml')->__('Unable to initialize import model'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
             if( sizeof($errors) > 0 ) {
                 foreach ($errors as $error) {
-                	Mage::getSingleton('adminhtml/session')->addWarning($error);
+                	AO::getSingleton('adminhtml/session')->addWarning($error);
                 }
-                Mage::getSingleton('adminhtml/session')->addWarning(Mage::helper('adminhtml')->__('All possible rates were fetched, click on "Save" to apply'));
+                AO::getSingleton('adminhtml/session')->addWarning(AO::helper('adminhtml')->__('All possible rates were fetched, click on "Save" to apply'));
             } else {
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All rates were fetched, click on "Save" to apply'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__('All rates were fetched, click on "Save" to apply'));
             }
 
-            Mage::getSingleton('adminhtml/session')->setRates($rates);
+            AO::getSingleton('adminhtml/session')->setRates($rates);
         }
         catch (Exception $e){
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            AO::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }
@@ -98,18 +98,18 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
-                        $value = abs(Mage::getSingleton('core/locale')->getNumber($value));
+                        $value = abs(AO::getSingleton('core/locale')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
-                            Mage::getSingleton('adminhtml/session')->addWarning(Mage::helper('adminhtml')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
+                            AO::getSingleton('adminhtml/session')->addWarning(AO::helper('adminhtml')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));
                         }
                     }
                 }
 
-                Mage::getModel('directory/currency')->saveRates($data);
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('All valid rates successfully saved'));
+                AO::getModel('directory/currency')->saveRates($data);
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__('All valid rates successfully saved'));
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
 
@@ -118,6 +118,6 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('system/currency');
+	    return AO::getSingleton('admin/session')->isAllowed('system/currency');
     }
 }

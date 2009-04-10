@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded extends Mage_Adminhtml_Block_Wi
     public function __construct()
     {
         $this->_controller = 'report_sales_refunded';
-        $this->_headerText = Mage::helper('reports')->__('Total refunded');
+        $this->_headerText = AO::helper('reports')->__('Total refunded');
         parent::__construct();
         $this->_removeButton('add');
     }

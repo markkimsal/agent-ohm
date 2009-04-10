@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     /**
@@ -128,12 +128,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Comments History');
+        return AO::helper('sales')->__('Comments History');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order History');
+        return AO::helper('sales')->__('Order History');
     }
 
     public function getTabClass()

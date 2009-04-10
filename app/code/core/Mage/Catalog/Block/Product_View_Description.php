@@ -39,7 +39,7 @@ class Mage_Catalog_Block_Product_View_Description extends Mage_Core_Block_Templa
     function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('product');
+            $this->_product = AO::registry('product');
         }
         return $this->_product;
     }

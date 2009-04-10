@@ -43,7 +43,7 @@ class Mage_GoogleBase_Model_Config extends Varien_Object
     public function getConfigData($key, $storeId = null)
     {
         if (!$this->hasData($key)) {
-            $value = Mage::getStoreConfig('google/googlebase/' . $key, $storeId);
+            $value = AO::getStoreConfig('google/googlebase/' . $key, $storeId);
             $this->setData($key, $value);
         }
         return $this->getData($key);
@@ -113,7 +113,7 @@ class Mage_GoogleBase_Model_Config extends Varien_Object
      */
     public function isValidBaseCurrencyCode($storeId = null)
     {
-        return Mage::app()->getBaseCurrencyCode() == $this->getTargetCurrency($storeId);
+        return AO::app()->getBaseCurrencyCode() == $this->getTargetCurrency($storeId);
     }
 
     /**

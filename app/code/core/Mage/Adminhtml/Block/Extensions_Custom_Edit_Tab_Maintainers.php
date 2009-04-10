@@ -42,6 +42,6 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Maintainers
 
     public function getMaintainerRoles()
     {
-        return Mage::getModel('adminhtml/extension')->getMaintainerRoles();
+        return AO::getModel('adminhtml/extension')->getMaintainerRoles();
     }
 }

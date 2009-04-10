@@ -48,7 +48,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
     public function getWishlist()
     {
         if(is_null($this->_collection)) {
-            $this->_collection = Mage::registry('shared_wishlist')->getProductCollection()
+            $this->_collection = AO::registry('shared_wishlist')->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('special_price')
@@ -57,11 +57,11 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
                 ->addAttributeToSelect('thumbnail')
-                //->addAttributeToFilter('store_id', array('in'=>Mage::registry('shared_wishlist')->getSharedStoreIds()))
+                //->addAttributeToFilter('store_id', array('in'=>AO::registry('shared_wishlist')->getSharedStoreIds()))
                 ->addStoreFilter();
 
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_collection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_collection);
+            AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_collection);
+            AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_collection);
         }
 
         return $this->_collection;
@@ -70,8 +70,8 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
     public function getWishlistCustomer()
     {
         if(is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer')
-                ->load(Mage::registry('shared_wishlist')->getCustomerId());
+            $this->_customer = AO::getModel('customer/customer')
+                ->load(AO::registry('shared_wishlist')->getCustomerId());
 
         }
 
@@ -89,7 +89,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
 
     public function getHeader()
     {
-        return Mage::helper('wishlist')->__("%s's Wishlist", $this->htmlEscape($this->getWishlistCustomer()->getFirstname()));
+        return AO::helper('wishlist')->__("%s's Wishlist", $this->htmlEscape($this->getWishlistCustomer()->getFirstname()));
     }
 
     public function getFormatedDate($date)

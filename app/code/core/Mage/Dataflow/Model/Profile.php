@@ -57,7 +57,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
 
         $actionsXML = $this->getData('actions_xml');
         if (strlen($actionsXML) < 0 && @simplexml_load_string('<data>'.$actionsXML.'</data>', null, LIBXML_NOERROR) === false) {
-            Mage::throwException(Mage::helper("dataflow")->__("Actions XML is not valid."));
+            AO::throwException(AO::helper("dataflow")->__("Actions XML is not valid."));
         }
 
         if (is_array($this->getGuiData())) {
@@ -82,7 +82,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         }
 
         if ($this->_getResource()->isProfileExists($this->getName(), $this->getId())) {
-            Mage::throwException(Mage::helper("dataflow")->__("Profile with such name already exists."));
+            AO::throwException(AO::helper("dataflow")->__("Profile with such name already exists."));
         }
     }
 
@@ -92,7 +92,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
             $this->setGuiData(unserialize($this->getGuiData()));
         }
 
-        Mage::getModel('dataflow/profile_history')
+        AO::getModel('dataflow/profile_history')
             ->setProfileId($this->getId())
             ->setActionCode($this->getOrigData('profile_id') ? 'update' : 'create')
             ->save();
@@ -102,7 +102,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
                 if ($file = $_FILES['file_'.($index+1)]['tmp_name']) {
                     $uploader = new Varien_File_Uploader('file_'.($index+1));
                     $uploader->setAllowedExtensions(array('csv','xml'));
-                    $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
+                    $path = AO::app()->getConfig()->getTempVarDir().'/import/';
                     $uploader->save($path);
                     if ($uploadFile = $uploader->getUploadedFileName()) {
                         $newFilename = 'import-'.date('YmdHis').'-'.($index+1).'_'.$uploadFile;
@@ -124,7 +124,7 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
         /**
          * Save history
          */
-        Mage::getModel('dataflow/profile_history')
+        AO::getModel('dataflow/profile_history')
             ->setProfileId($this->getId())
             ->setActionCode('run')
             ->save();
@@ -133,13 +133,13 @@ class Mage_Dataflow_Model_Profile extends Mage_Core_Model_Abstract
          * Prepare xml convert profile actions data
          */
         $xml = '<convert version="1.0"><profile name="default">'.$this->getActionsXml().'</profile></convert>';
-        $profile = Mage::getModel('core/convert')
+        $profile = AO::getModel('core/convert')
             ->importXml($xml)
             ->getProfile('default');
         /* @var $profile Mage_Dataflow_Model_Convert_Profile */
 
         try {
-            $batch = Mage::getSingleton('dataflow/batch')
+            $batch = AO::getSingleton('dataflow/batch')
                 ->setProfileId($this->getId())
                 ->setStoreId($this->getStoreId())
                 ->save();

@@ -40,7 +40,7 @@ class Mage_Customer_Model_Group_Api extends Mage_Api_Model_Resource_Abstract
      */
     public function items()
     {
-        $collection = Mage::getModel('customer/group')->getCollection();
+        $collection = AO::getModel('customer/group')->getCollection();
 
         $result = array();
         foreach ($collection as $group) {

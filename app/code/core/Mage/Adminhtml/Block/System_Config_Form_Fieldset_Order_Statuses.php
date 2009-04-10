@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
     {
 		$html = ''; //$this->_getHeaderHtml($element);
 
-		$statuses = Mage::getResourceModel('sales/order_status_collection')->load()->toOptionHash();
+		$statuses = AO::getResourceModel('sales/order_status_collection')->load()->toOptionHash();
 
         foreach ($statuses as $id => $status) {
         	$html.= $this->_getFieldHtml($element, $id, $status);
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Order_Statuses
     protected function _getFieldRenderer()
     {
     	if (empty($this->_fieldRenderer)) {
-    		$this->_fieldRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_field');
+    		$this->_fieldRenderer = AO::getBlockSingleton('adminhtml/system_config_form_field');
     	}
     	return $this->_fieldRenderer;
     }

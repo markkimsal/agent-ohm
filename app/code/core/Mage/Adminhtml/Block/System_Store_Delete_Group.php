@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Group extends Mage_Adminhtml_Bloc
         $this->setChild('confirm_deletion_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Delete Store'),
+                    'label'     => AO::helper('core')->__('Delete Store'),
                     'onclick'   => "deleteForm.submit()",
                     'class'     => 'cancel'
                 ))
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Group extends Mage_Adminhtml_Bloc
         $this->setChild('cancel_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Cancel'),
+                    'label'     => AO::helper('core')->__('Cancel'),
                     'onclick'   => $onClick,
                     'class'     => 'cancel'
                 ))
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_System_Store_Delete_Group extends Mage_Adminhtml_Bloc
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Back'),
+                    'label'     => AO::helper('core')->__('Back'),
                     'onclick'   => $onClick,
                     'class'     => 'cancel'
                 ))

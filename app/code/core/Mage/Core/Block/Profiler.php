@@ -30,8 +30,8 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
     protected function _toHtml()
     {
     	if (!$this->_beforeToHtml()
-    	    || !Mage::getStoreConfig('dev/debug/profiler')
-    	    || !Mage::helper('core')->isDevAllowed()) {
+    	    || !AO::getStoreConfig('dev/debug/profiler')
+    	    || !AO::helper('core')->isDevAllowed()) {
     		return '';
     	}
 
@@ -63,7 +63,7 @@ class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract
         }
         $out .= '</table>';
         $out .= '<pre>';
-        $out .= print_r(Varien_Profiler::getSqlProfiler(Mage::getSingleton('core/resource')->getConnection('core_write')), 1);
+        $out .= print_r(Varien_Profiler::getSqlProfiler(AO::getSingleton('core/resource')->getConnection('core_write')), 1);
         $out .= '</pre>';
         $out .= '</div>';
 

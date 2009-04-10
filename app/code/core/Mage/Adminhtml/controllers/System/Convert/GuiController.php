@@ -61,8 +61,8 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         /**
          * Add breadcrumb item
          */
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Import/Export'), Mage::helper('adminhtml')->__('Import/Export'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Profiles'), Mage::helper('adminhtml')->__('Profiles'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Import/Export'), AO::helper('adminhtml')->__('Import/Export'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Profiles'), AO::helper('adminhtml')->__('Profiles'));
 
         $this->renderLayout();
     }
@@ -80,10 +80,10 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
         $this->_initProfile();
         $this->loadLayout();
 
-        $profile = Mage::registry('current_convert_profile');
+        $profile = AO::registry('current_convert_profile');
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getConvertProfileData(true);
+        $data = AO::getSingleton('adminhtml/session')->getConvertProfileData(true);
 
         if (!empty($data)) {
             $profile->addData($data);
@@ -107,13 +107,13 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
     public function uploadAction()
     {
         $this->_initProfile();
-        $profile = Mage::registry('current_convert_profile');
+        $profile = AO::registry('current_convert_profile');
     }
 
     public function uploadPostAction()
     {
         $this->_initProfile();
-        $profile = Mage::registry('current_convert_profile');
+        $profile = AO::registry('current_convert_profile');
     }
 
     public function downloadAction()
@@ -123,7 +123,7 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
             return;
         }
         $this->_initProfile();
-        $profile = Mage::registry('current_convert_profile');
+        $profile = AO::registry('current_convert_profile');
 
     }
 
@@ -144,6 +144,6 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
 //                break;
 //        }
 
-        return Mage::getSingleton('admin/session')->isAllowed('admin/system/convert/gui');
+        return AO::getSingleton('admin/session')->isAllowed('admin/system/convert/gui');
     }
 }

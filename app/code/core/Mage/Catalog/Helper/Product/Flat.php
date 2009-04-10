@@ -51,7 +51,7 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     public function getFlag()
     {
         if (is_null($this->_flagObject)) {
-            $this->_flagObject = Mage::getSingleton('catalog/product_flat_flag')
+            $this->_flagObject = AO::getSingleton('catalog/product_flat_flag')
                 ->loadSelf();
         }
         return $this->_flagObject;
@@ -75,9 +75,9 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
      */
     public function isEnabled($store = null)
     {
-        if (Mage::app()->getStore($store)->isAdmin()) {
+        if (AO::app()->getStore($store)->isAdmin()) {
             return false;
         }
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT, $store);
+        return AO::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT, $store);
     }
 }

@@ -79,12 +79,12 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function printAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
+            if ($invoice = AO::getModel('sales/order_invoice')->load($invoiceId)) {
                 if ($invoice->getStoreId()) {
-                    Mage::app()->setCurrentStore($invoice->getStoreId());
+                    AO::app()->setCurrentStore($invoice->getStoreId());
                 }
-                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf(array($invoice));
-                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                $pdf = AO::getModel('sales/order_pdf_invoice')->getPdf(array($invoice));
+                $this->_prepareDownloadResponse('invoice'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             }
         }
         else {
@@ -95,24 +95,24 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
     public function pdfinvoicesAction(){
         $invoicesIds = $this->getRequest()->getPost('invoice_ids');
         if (!empty($invoicesIds)) {
-            $invoices = Mage::getResourceModel('sales/order_invoice_collection')
+            $invoices = AO::getResourceModel('sales/order_invoice_collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $invoicesIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pdf = AO::getModel('sales/order_pdf_invoice')->getPdf($invoices);
             } else {
-                $pages = Mage::getModel('sales/order_pdf_invoice')->getPdf($invoices);
+                $pages = AO::getModel('sales/order_pdf_invoice')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('invoice'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/invoice');
+        return AO::getSingleton('admin/session')->isAllowed('sales/invoice');
     }
 }

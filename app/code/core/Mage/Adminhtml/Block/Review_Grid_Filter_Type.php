@@ -38,9 +38,9 @@ class Mage_Adminhtml_Block_Review_Grid_Filter_Type extends Mage_Adminhtml_Block_
 	{
 		return array(
 		      array('label'=>'', 'value'=>''),
-		      array('label'=>Mage::helper('review')->__('Administrator'), 'value'=>1),
-		      array('label'=>Mage::helper('review')->__('Customer'), 'value'=>2),
-		      array('label'=>Mage::helper('review')->__('Guest'), 'value'=>3)
+		      array('label'=>AO::helper('review')->__('Administrator'), 'value'=>1),
+		      array('label'=>AO::helper('review')->__('Customer'), 'value'=>2),
+		      array('label'=>AO::helper('review')->__('Guest'), 'value'=>3)
 		);
 	}
 

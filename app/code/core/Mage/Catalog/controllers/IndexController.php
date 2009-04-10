@@ -50,7 +50,7 @@ class Mage_Catalog_IndexController extends Mage_Core_Controller_Front_Action
         {
             $productId = array_rand($productIds, 1);
             $productId = $productIds[$productId];
-            $product = Mage::getModel('catalog/product');
+            $product = AO::getModel('catalog/product');
             $memory = memory_get_usage();
             $product
                 ->load($productId);

@@ -44,13 +44,13 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
 
     protected function _toHtml()
     {
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
-        $newurl = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order', array('_secure' => true, '_nosecret' => true));
-        $title = Mage::helper('rss')->__('New Orders');
+        $newurl = AO::helper('adminhtml')->getUrl('adminhtml/sales_order', array('_secure' => true, '_nosecret' => true));
+        $title = AO::helper('rss')->__('New Orders');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -63,8 +63,8 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
             ->addAttributeToSort('created_at','desc')
         ;
 
-        $detailBlock = Mage::getBlockSingleton('rss/order_details');
-        Mage::getSingleton('core/resource_iterator')
+        $detailBlock = AO::getBlockSingleton('rss/order_details');
+        AO::getSingleton('core/resource_iterator')
             ->walk($collection->getSelect(), array(array($this, 'addNewOrderXmlCallback')), array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock));
 
         return $rssObj->createRssXml();
@@ -77,8 +77,8 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Template
         $detailBlock = $args['detailBlock'];
         $order->unsetData()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
-            $title = Mage::helper('rss')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-            $url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order/view', array('_secure' => true, 'order_id' => $order->getId(), '_nosecret' => true));
+            $title = AO::helper('rss')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
+            $url = AO::helper('adminhtml')->getUrl('adminhtml/sales_order/view', array('_secure' => true, 'order_id' => $order->getId(), '_nosecret' => true));
             $detailBlock->setOrder($order);
             $data = array(
                     'title'         => $title,

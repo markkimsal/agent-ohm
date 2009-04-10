@@ -48,7 +48,7 @@ class Mage_Strikeiron_Model_Mysql4_Taxrate extends Mage_Core_Model_Mysql4_Abstra
     {
         $this->_uniqueFields = array(array(
             'field' => array('tax_country_id', 'tax_region_id', 'tax_postcode'),
-            'title' => Mage::helper('strikeiron')->__('Country/Region/Postal code combination'),
+            'title' => AO::helper('strikeiron')->__('Country/Region/Postal code combination'),
         ));
         return $this;
     }

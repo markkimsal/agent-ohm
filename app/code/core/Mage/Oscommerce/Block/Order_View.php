@@ -58,12 +58,12 @@ class Mage_Oscommerce_Block_Order_View extends Mage_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_oscommerce_order');
+        return AO::registry('current_oscommerce_order');
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('sales/order/history');
+        return AO::getUrl('sales/order/history');
     }
 
 }

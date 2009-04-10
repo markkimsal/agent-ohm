@@ -72,7 +72,7 @@ class Mage_Catalog_Block_Layer_State extends Mage_Core_Block_Template
         $params['_current'] = true;
         $params['_use_rewrite'] = true;
         $params['_query']   = $filterState;
-        return Mage::getUrl('*/*/*', $params);
+        return AO::getUrl('*/*/*', $params);
     }
 
     /**
@@ -83,7 +83,7 @@ class Mage_Catalog_Block_Layer_State extends Mage_Core_Block_Template
     public function getLayer()
     {
         if (!$this->hasData('layer')) {
-            $this->setLayer(Mage::getSingleton('catalog/layer'));
+            $this->setLayer(AO::getSingleton('catalog/layer'));
         }
         return $this->_getData('layer');
     }

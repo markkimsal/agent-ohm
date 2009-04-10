@@ -40,7 +40,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
 
     public function addOptionVote($optionId, $entityPkValue)
     {
-        Mage::getModel('rating/rating_option')->setOptionId($optionId)
+        AO::getModel('rating/rating_option')->setOptionId($optionId)
             ->setRatingId($this->getId())
             ->setReviewId($this->getReviewId())
             ->setEntityPkValue($entityPkValue)
@@ -50,7 +50,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
 
     public function updateOptionVote($optionId)
     {
-        Mage::getModel('rating/rating_option')->setOptionId($optionId)
+        AO::getModel('rating/rating_option')->setOptionId($optionId)
             ->setVoteId($this->getVoteId())
             ->setReviewId($this->getReviewId())
             ->setDoUpdate(1)
@@ -69,7 +69,7 @@ class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
             return $options;
         }
         elseif ($id = $this->getId()) {
-            return Mage::getResourceModel('rating/rating_option_collection')
+            return AO::getResourceModel('rating/rating_option_collection')
                ->addRatingFilter($id)
                ->setPositionOrder()
                ->load()

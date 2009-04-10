@@ -124,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element extends Mage_A
     {
         $html = '';
         $attribute = $this->getElement()->getEntityAttribute();
-        if (!$attribute || Mage::app()->isSingleStoreMode() || $attribute->getFrontendInput()=='gallery') {
+        if (!$attribute || AO::app()->isSingleStoreMode() || $attribute->getFrontendInput()=='gallery') {
             return $html;
         }
         if ($attribute->isScopeGlobal()) {

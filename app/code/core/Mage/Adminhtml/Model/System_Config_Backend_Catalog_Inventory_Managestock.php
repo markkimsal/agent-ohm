@@ -43,13 +43,13 @@ class Mage_Adminhtml_Model_System_Config_Backend_Catalog_Inventory_Managestock
     protected function _afterSave()
     {
         $newValue = $this->getValue();
-        $oldValue = Mage::getConfig()->getNode(
+        $oldValue = AO::getConfig()->getNode(
             Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );
         if ($newValue != $oldValue) {
-            Mage::getSingleton('cataloginventory/stock_status')->rebuild();
+            AO::getSingleton('cataloginventory/stock_status')->rebuild();
         }
 
         return $this;

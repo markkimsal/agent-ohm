@@ -41,18 +41,18 @@ class Mage_Sales_Block_Order_History extends Mage_Core_Block_Template
         $this->setTemplate('sales/order/history.phtml');
 
         //TODO: add full name logic
-        $orders = Mage::getResourceModel('sales/order_collection')
+        $orders = AO::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-            ->addAttributeToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-            ->addAttributeToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
+            ->addAttributeToFilter('customer_id', AO::getSingleton('customer/session')->getCustomer()->getId())
+            ->addAttributeToFilter('state', array('in' => AO::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
             ->addAttributeToSort('created_at', 'desc')
         ;
 
         $this->setOrders($orders);
 
-        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('sales')->__('My Orders'));
+        AO::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(AO::helper('sales')->__('My Orders'));
     }
 
     protected function _prepareLayout()

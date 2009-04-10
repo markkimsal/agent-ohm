@@ -81,7 +81,7 @@ class Mage_Core_Model_Layout_Update
 
     public function __construct()
     {
-        $subst = Mage::getConfig()->getPathVars();
+        $subst = AO::getConfig()->getPathVars();
         foreach ($subst as $k=>$v) {
             $this->_subst['from'][] = '{{'.$k.'}}';
             $this->_subst['to'][] = $v;
@@ -91,7 +91,7 @@ class Mage_Core_Model_Layout_Update
     public function getElementClass()
     {
         if (!$this->_elementClass) {
-            $this->_elementClass = Mage::getConfig()->getModelClassName('core/layout_element');
+            $this->_elementClass = AO::getConfig()->getModelClassName('core/layout_element');
         }
         return $this->_elementClass;
     }
@@ -155,7 +155,7 @@ class Mage_Core_Model_Layout_Update
     public function getCacheId()
     {
         if (!$this->_cacheId) {
-            $this->_cacheId = Mage::app()->getStore()->getId().'_'.md5(join('__', $this->getHandles()));
+            $this->_cacheId = AO::app()->getStore()->getId().'_'.md5(join('__', $this->getHandles()));
         }
         return $this->_cacheId;
     }
@@ -174,11 +174,11 @@ class Mage_Core_Model_Layout_Update
 
     public function loadCache()
     {
-        if (!Mage::app()->useCache('layout')) {
+        if (!AO::app()->useCache('layout')) {
             return false;
         }
 
-        if (!$result = Mage::app()->loadCache($this->getCacheId())) {
+        if (!$result = AO::app()->loadCache($this->getCacheId())) {
             return false;
         }
 
@@ -189,13 +189,13 @@ class Mage_Core_Model_Layout_Update
 
     public function saveCache()
     {
-        if (!Mage::app()->useCache('layout')) {
+        if (!AO::app()->useCache('layout')) {
             return false;
         }
         $str = $this->asString();
         $tags = $this->getHandles();
         $tags[] = self::LAYOUT_GENERAL_CACHE_TAG;
-        return Mage::app()->saveCache($str, $this->getCacheId(), $tags, null);
+        return AO::app()->saveCache($str, $this->getCacheId(), $tags, null);
     }
 
     /**
@@ -209,7 +209,7 @@ class Mage_Core_Model_Layout_Update
         if (is_string($handles)) {
             $handles = array($handles);
         } elseif (!is_array($handles)) {
-            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid layout update handle'));
+            throw AO::exception('Mage_Core', AO::helper('core')->__('Invalid layout update handle'));
         }
 
         foreach ($handles as $handle) {
@@ -256,22 +256,22 @@ class Mage_Core_Model_Layout_Update
 
         $design = Mage_Core_Model_Design_Package::getDesign();
         $area = $design->getArea();
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = AO::app()->getStore()->getId();
         $cacheKey = 'LAYOUT_'.$area.'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme('layout');
 #echo "TEST:".$cacheKey;
         $cacheTags = array('layout');
 
-        if (Mage::app()->useCache('layout') && ($layoutStr = Mage::app()->loadCache($cacheKey))) {
+        if (AO::app()->useCache('layout') && ($layoutStr = AO::app()->loadCache($cacheKey))) {
             $this->_packageLayout = simplexml_load_string($layoutStr, $elementClass);
         }
 
         if (empty($layoutStr)) {
-            $updatesRoot = Mage::app()->getConfig()->getNode($area.'/layout/updates');
+            $updatesRoot = AO::app()->getConfig()->getNode($area.'/layout/updates');
             $updateFiles = array();
             foreach ($updatesRoot->children() as $updateNode) {
                 if ($updateNode->file) {
                     $module = $updateNode->getAttribute('module');
-                    if ($module && Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $module)) {
+                    if ($module && AO::getStoreConfigFlag('advanced/modules_disable_output/' . $module)) {
                         continue;
                     }
                     $updateFiles[] = (string)$updateNode->file;
@@ -302,8 +302,8 @@ class Mage_Core_Model_Layout_Update
 
             $this->_packageLayout = $layoutXml;
 
-            if (Mage::app()->useCache('layout')) {
-                Mage::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
+            if (AO::app()->useCache('layout')) {
+                AO::app()->saveCache($this->_packageLayout->asXml(), $cacheKey, $cacheTags, null);
             }
         }
 
@@ -336,7 +336,7 @@ class Mage_Core_Model_Layout_Update
         if (VPROF) Varien_Profiler::start($_profilerKey);
 
         try {
-            $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
+            $updateStr = AO::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
             if (!$updateStr) {
                 return false;
             }

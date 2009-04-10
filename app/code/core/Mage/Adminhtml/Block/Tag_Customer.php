@@ -59,10 +59,10 @@ class Mage_Adminhtml_Block_Tag_Customer extends Mage_Adminhtml_Block_Widget_Grid
         $this->setBackUrl($url);
         $this->_addBackButton();
 
-        $tagInfo = Mage::getModel('tag/tag')
-            ->load(Mage::registry('tagId'));
+        $tagInfo = AO::getModel('tag/tag')
+            ->load(AO::registry('tagId'));
 
-        $this->_headerText = Mage::helper('tag')->__("Customers Tagged '%s'", $this->htmlEscape($tagInfo->getName()));
+        $this->_headerText = AO::helper('tag')->__("Customers Tagged '%s'", $this->htmlEscape($tagInfo->getName()));
     }
 
 }

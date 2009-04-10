@@ -45,6 +45,6 @@ class Mage_Adminhtml_Media_EditorController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('media');
+        return AO::getSingleton('admin/session')->isAllowed('media');
     }
 }

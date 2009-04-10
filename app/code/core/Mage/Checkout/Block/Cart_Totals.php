@@ -49,7 +49,7 @@ class Mage_Checkout_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Abstract
     {
         if (!isset($this->_totalRenderers[$code])) {
             $this->_totalRenderers[$code] = $this->_defaultRenderer;
-            $config = Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/renderer");
+            $config = AO::getConfig()->getNode("global/sales/quote/totals/{$code}/renderer");
             if ($config)
                 $this->_totalRenderers[$code] = (string) $config;
 

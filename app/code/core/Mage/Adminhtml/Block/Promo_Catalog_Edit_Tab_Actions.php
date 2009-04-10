@@ -37,23 +37,23 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = AO::registry('current_promo_catalog_rule');
 
         //$form = new Varien_Data_Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>Mage::helper('salesrule')->__('Update prices using the following information')));
+        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>AO::helper('salesrule')->__('Update prices using the following information')));
 
         $fieldset->addField('simple_action', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Apply'),
+            'label'     => AO::helper('salesrule')->__('Apply'),
             'name'      => 'simple_action',
             'options'    => array(
-                'by_percent' => Mage::helper('salesrule')->__('By Percentage of the original price'),
-                'by_fixed' => Mage::helper('salesrule')->__('By Fixed Amount'),
-                'to_percent' => Mage::helper('salesrule')->__('To Percentage of the original price'),
-                'to_fixed' => Mage::helper('salesrule')->__('To Fixed Amount'),
+                'by_percent' => AO::helper('salesrule')->__('By Percentage of the original price'),
+                'by_fixed' => AO::helper('salesrule')->__('By Fixed Amount'),
+                'to_percent' => AO::helper('salesrule')->__('To Percentage of the original price'),
+                'to_fixed' => AO::helper('salesrule')->__('To Fixed Amount'),
             ),
         ));
 
@@ -61,16 +61,16 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions extends Mage_Adminhtml
             'name' => 'discount_amount',
             'required' => true,
             'class' => 'validate-not-negative-number',
-            'label' => Mage::helper('salesrule')->__('Discount amount'),
+            'label' => AO::helper('salesrule')->__('Discount amount'),
         ));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Stop further rules processing'),
-            'title'     => Mage::helper('salesrule')->__('Stop further rules processing'),
+            'label'     => AO::helper('salesrule')->__('Stop further rules processing'),
+            'title'     => AO::helper('salesrule')->__('Stop further rules processing'),
             'name'      => 'stop_rules_processing',
             'options'    => array(
-                '1' => Mage::helper('salesrule')->__('Yes'),
-                '0' => Mage::helper('salesrule')->__('No'),
+                '1' => AO::helper('salesrule')->__('Yes'),
+                '0' => AO::helper('salesrule')->__('No'),
             ),
         ));
 

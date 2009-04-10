@@ -65,7 +65,7 @@ class Mage_Sitemap_Model_Mysql4_Catalog_Category extends Mage_Core_Model_Mysql4_
     {
         $categories = array();
 
-        $store = Mage::app()->getStore($storeId);
+        $store = AO::app()->getStore($storeId);
         /* @var $store Mage_Core_Model_Store */
 
         if (!$store) {
@@ -135,7 +135,7 @@ class Mage_Sitemap_Model_Mysql4_Catalog_Category extends Mage_Core_Model_Mysql4_
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('catalog/category')->getResource()->getAttribute($attributeCode);
+            $attribute = AO::getSingleton('catalog/category')->getResource()->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),

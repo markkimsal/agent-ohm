@@ -36,7 +36,7 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 {
     public function newAction()
     {
-        Mage::helper('rss')->authAdmin('sales/order');
+        AO::helper('rss')->authAdmin('sales/order');
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
@@ -44,9 +44,9 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 
     public function customerAction()
     {
-        if (Mage::app()->getStore()->isCurrentlySecure()) {
+        if (AO::app()->getStore()->isCurrentlySecure()) {
             $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
-            Mage::helper('rss')->authFrontend();
+            AO::helper('rss')->authFrontend();
         } else {
             $this->_redirect('rss/order/customer', array('_secure'=>true));
             return $this;
@@ -55,13 +55,13 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 
     public function statusAction()
     {
-        $decrypt = Mage::helper('core')->decrypt($this->getRequest()->getParam('data'));
+        $decrypt = AO::helper('core')->decrypt($this->getRequest()->getParam('data'));
         $data = explode(":",$decrypt);
         $oid = (int) $data[0];
         if ($oid) {
-            $order = Mage::getModel('sales/order')->load($oid);
+            $order = AO::getModel('sales/order')->load($oid);
             if ($order && $order->getId()) {
-                Mage::register('current_order', $order);
+                AO::register('current_order', $order);
                 $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
                 $this->loadLayout(false);
                 $this->renderLayout();

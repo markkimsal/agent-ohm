@@ -38,39 +38,39 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('googleoptimizer_fields',
-            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
+            array('legend'=>AO::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
-        Mage::helper('googleoptimizer')->setStoreId(Mage::app()->getDefaultStoreView());
+        AO::helper('googleoptimizer')->setStoreId(AO::app()->getDefaultStoreView());
 
         $fieldset->addField('conversion_page', 'select',
             array(
                 'name'  => 'conversion_page',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
-                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'label' => AO::helper('googleoptimizer')->__('Conversion Page'),
+                'values'=> AO::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
             )
         );
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $form->getElement('conversion_page')->setOnchange('googleOptimizerConversionCmsPageAction(this)');
             $fieldset->addField('conversion_page_url', 'note',
                 array(
                     'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'label' => AO::helper('googleoptimizer')->__('Conversion Page URL'),
                 )
             )->setRenderer($this->getLayout()->createBlock('googleoptimizer/adminhtml_cms_page_edit_renderer_conversion'));
         } else {
             $fieldset->addField('conversion_page_url', 'text',
                 array(
                     'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'label' => AO::helper('googleoptimizer')->__('Conversion Page URL'),
                     'class' => 'input-text',
                     'readonly' => 'readonly',
                     'required' => false,
-                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+                    'note' => AO::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
                 )
             );
         }
@@ -82,15 +82,15 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         );
 
         $pageTypes = array(
-            '' => Mage::helper('googleoptimizer')->__('-- Please Select --'),
-            'original' => Mage::helper('googleoptimizer')->__('Original Page'),
-            'variant' => Mage::helper('googleoptimizer')->__('Variant Page')
+            '' => AO::helper('googleoptimizer')->__('-- Please Select --'),
+            'original' => AO::helper('googleoptimizer')->__('Original Page'),
+            'variant' => AO::helper('googleoptimizer')->__('Variant Page')
         );
 
         $fieldset->addField('page_type', 'select',
             array(
                 'name'  => 'page_type',
-                'label' => Mage::helper('googleoptimizer')->__('Page Type'),
+                'label' => AO::helper('googleoptimizer')->__('Page Type'),
                 'values'=> $pageTypes,
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
@@ -101,7 +101,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
-                'label' => Mage::helper('googleoptimizer')->__('Control Script'),
+                'label' => AO::helper('googleoptimizer')->__('Control Script'),
                 'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
@@ -110,7 +110,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         $fieldset->addField('tracking_script', 'textarea',
             array(
                 'name'  => 'tracking_script',
-                'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
+                'label' => AO::helper('googleoptimizer')->__('Tracking Script'),
                 'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
@@ -119,19 +119,19 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
         $fieldset->addField('conversion_script', 'textarea',
             array(
                 'name'  => 'conversion_script',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
+                'label' => AO::helper('googleoptimizer')->__('Conversion Script'),
                 'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
             )
         );
 
-        if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
+        if (AO::helper('googleoptimizer')->getConversionPagesUrl()
             && $this->getGoogleOptimizer()
             && $this->getGoogleOptimizer()->getConversionPage())
         {
             $form->getElement('conversion_page_url')
-                ->setValue(Mage::helper('googleoptimizer')
+                ->setValue(AO::helper('googleoptimizer')
                     ->getConversionPagesUrl()->getData($this->getGoogleOptimizer()->getConversionPage())
                 );
         }
@@ -163,7 +163,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
 
     public function getCmsPage()
     {
-        return Mage::registry('cms_page');
+        return AO::registry('cms_page');
     }
 
     public function getGoogleOptimizer()

@@ -60,7 +60,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     protected function _checkFilesystem()
     {
         $res = true;
-        $config = Mage::getSingleton('install/config')->getPathForCheck();
+        $config = AO::getSingleton('install/config')->getPathForCheck();
 
         if (isset($config['writeable'])) {
             foreach ($config['writeable'] as $item) {
@@ -85,7 +85,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
     protected function _checkPath($path, $recursive, $existence, $mode)
     {
         $res = true;
-        $fullPath = dirname(Mage::getRoot()).$path;
+        $fullPath = dirname(AO::getRoot()).$path;
         if ($mode == self::MODE_WRITE) {
             $setError = false;
             if ($existence) {
@@ -101,7 +101,7 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
 
             if ($setError) {
                 $this->_getInstaller()->getDataModel()->addError(
-                    Mage::helper('install')->__('Path "%s" must be writable', $fullPath)
+                    AO::helper('install')->__('Path "%s" must be writable', $fullPath)
                 );
                 $res = false;
             }

@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Backup extends Mage_Adminhtml_Block_Template
         $this->setChild('createButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('backup')->__('Create Backup'),
+                    'label' => AO::helper('backup')->__('Create Backup'),
                     'onclick' => "window.location.href='" . $this->getUrl('*/*/create') . "'",
                     'class'  => 'task'
                 ))

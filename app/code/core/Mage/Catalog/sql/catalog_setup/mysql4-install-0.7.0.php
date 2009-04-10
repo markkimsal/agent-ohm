@@ -540,14 +540,14 @@ $installer->endSetup();
 $installer->installEntities();
 
 // Create Root Catalog Node
-Mage::getModel('catalog/category')
+AO::getModel('catalog/category')
     ->setId(1)
     ->setPath(1)
     ->setName('Root Catalog')
     ->setInitialSetupFlag(true)
     ->save();
 
-$category = Mage::getModel('catalog/category');
+$category = AO::getModel('catalog/category');
 /* @var $category Mage_Catalog_Model_Category */
 
 $category->setStoreId(0)

@@ -126,7 +126,7 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
 
     protected function _getRates($request)
     {
-        $storeId = Mage::app()->getStore($request->getStore())->getId();
+        $storeId = AO::app()->getStore($request->getStore())->getId();
 
         $select = $this->_getReadAdapter()->select();
         $select

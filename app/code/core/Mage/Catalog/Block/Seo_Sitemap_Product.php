@@ -41,15 +41,15 @@ class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Site
      */
     protected function _prepareLayout()
     {
-        $collection = Mage::getModel('catalog/product')->getCollection();
+        $collection = AO::getModel('catalog/product')->getCollection();
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
 
         $collection->addAttributeToSelect('name');
         $collection->addAttributeToSelect('url_key');
         $collection->addStoreFilter();
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
 
         $this->setCollection($collection);
 
@@ -64,7 +64,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Product extends Mage_Catalog_Block_Seo_Site
      */
     public function getItemUrl($product)
     {
-        $helper = Mage::helper('catalog/product');
+        $helper = AO::helper('catalog/product');
         /* @var $helper Mage_Catalog_Helper_Product */
         return $helper->getProductUrl($product);
     }

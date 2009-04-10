@@ -43,11 +43,11 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive($product->getStoreId())) {
+        if (!AO::helper('googleoptimizer')->isOptimizerActive($product->getStoreId())) {
             return $this;
         }
 
-        $googleOptimizerModel = Mage::getModel('googleoptimizer/code_product')
+        $googleOptimizerModel = AO::getModel('googleoptimizer/code_product')
             ->setEntity($product)
             ->loadScripts($product->getStoreId());
         if ($googleOptimizerModel->getId()) {
@@ -94,7 +94,7 @@ class Mage_GoogleOptimizer_Model_Observer
         $product = $observer->getEvent()->getProduct();
 
         if ($product->getGoogleOptimizerScripts()) {
-            $googleOptimizer = Mage::getModel('googleoptimizer/code_product')
+            $googleOptimizer = AO::getModel('googleoptimizer/code_product')
                 ->setEntity($product)
                 ->saveScripts($product->getStoreId());
         }
@@ -111,7 +111,7 @@ class Mage_GoogleOptimizer_Model_Observer
     public function deleteProductGoogleOptimizerScripts($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        $googleOptimizer = Mage::getModel('googleoptimizer/code_product')
+        $googleOptimizer = AO::getModel('googleoptimizer/code_product')
             ->setEntity($product)
             ->deleteScripts($product->getStoreId());
         return $this;
@@ -128,12 +128,12 @@ class Mage_GoogleOptimizer_Model_Observer
         /**
          * Check activity for frontend
          */
-        if (Mage::app()->getStore()->getId() && !Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (AO::app()->getStore()->getId() && !AO::helper('googleoptimizer')->isOptimizerActive()) {
             return $this;
         }
         
         $cmsPage = $observer->getEvent()->getObject();
-        $googleOptimizerModel = Mage::getModel('googleoptimizer/code_page')
+        $googleOptimizerModel = AO::getModel('googleoptimizer/code_page')
             ->setEntity($cmsPage)
             ->loadScripts(0);
 
@@ -171,7 +171,7 @@ class Mage_GoogleOptimizer_Model_Observer
         $cmsPage = $observer->getEvent()->getObject();
 
         if ($cmsPage->getGoogleOptimizerScripts()) {
-            $googleOptimizer = Mage::getModel('googleoptimizer/code_page')
+            $googleOptimizer = AO::getModel('googleoptimizer/code_page')
                 ->setEntity($cmsPage)
                 ->saveScripts(0);
         }
@@ -188,7 +188,7 @@ class Mage_GoogleOptimizer_Model_Observer
     public function deletePageGoogleOptimizerScripts($observer)
     {
         $cmsPage = $observer->getEvent()->getObject();
-        $googleOptimizer = Mage::getModel('googleoptimizer/code_page')
+        $googleOptimizer = AO::getModel('googleoptimizer/code_page')
             ->setEntity($cmsPage)
             ->deleteScripts(0);
         return $this;
@@ -197,7 +197,7 @@ class Mage_GoogleOptimizer_Model_Observer
     public function assignHandlers($observer)
     {
         $catalogHalper = $observer->getEvent()->getHelper();
-        $helper = Mage::helper('googleoptimizer');
+        $helper = AO::helper('googleoptimizer');
         $catalogHalper->addHandler('productAttribute', $helper)
             ->addHandler('categoryAttribute', $helper);
         return $this;
@@ -213,11 +213,11 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $category = $observer->getEvent()->getCategory();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
+        if (!AO::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
             return $this;
         }
 
-        $googleOptimizerModel = Mage::getModel('googleoptimizer/code_category')
+        $googleOptimizerModel = AO::getModel('googleoptimizer/code_category')
             ->setEntity($category)
             ->loadScripts($category->getStoreId());
         if ($googleOptimizerModel->getId()) {
@@ -253,12 +253,12 @@ class Mage_GoogleOptimizer_Model_Observer
     {
         $category = $observer->getEvent()->getCategory();
 
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
+        if (!AO::helper('googleoptimizer')->isOptimizerActive($category->getStoreId())) {
             return $this;
         }
 
         if ($category->getGoogleOptimizerScripts()) {
-            $googleOptimizer = Mage::getModel('googleoptimizer/code_category')
+            $googleOptimizer = AO::getModel('googleoptimizer/code_category')
                 ->setEntity($category)
                 ->saveScripts($category->getStoreId());
         }
@@ -275,7 +275,7 @@ class Mage_GoogleOptimizer_Model_Observer
     public function deleteCategoryGoogleOptimizerScripts($observer)
     {
         $category = $observer->getEvent()->getCategory();
-        $googleOptimizer = Mage::getModel('googleoptimizer/code_category')
+        $googleOptimizer = AO::getModel('googleoptimizer/code_category')
             ->setEntity($category)
             ->deleteScripts($category->getStoreId());
         return $this;

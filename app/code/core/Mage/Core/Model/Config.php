@@ -113,7 +113,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	public function getResourceModel()
 	{
 		if (is_null($this->_resourceModel)) {
-			$this->_resourceModel = Mage::getResourceModel('core/config');
+			$this->_resourceModel = AO::getResourceModel('core/config');
 		}
 		return $this->_resourceModel;
 	}
@@ -146,8 +146,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		$localConfigLoaded	= $this->loadFile($etcDir.DS.'local.xml');
 		$disableLocalModules= !$this->_canUseLocalModules();
 
-		if (Mage::isInstalled()) {
-			if (Mage::app()->useCache('config')) {
+		if (AO::isInstalled()) {
+			if (AO::app()->useCache('config')) {
 				if (VPROF) Varien_Profiler::start('mage::app::init::config::load_cache');
 				$loaded = $this->loadCache();
 				if (VPROF) Varien_Profiler::stop('mage::app::init::config::load_cache');
@@ -221,7 +221,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			if (VPROF) Varien_Profiler::stop('config/load-db');
 		}
 
-		if (Mage::app()->useCache('config')) {
+		if (AO::app()->useCache('config')) {
 			$this->saveCache(array(self::CACHE_TAG));
 		}
 
@@ -250,7 +250,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 				// excluded '/app/code/local'
 				BP . DS . 'app' . DS . 'code' . DS . 'core' . PS .
 				BP . DS . 'lib' . PS .
-				Mage::registry('original_include_path')
+				AO::registry('original_include_path')
 			);
 		}
 
@@ -336,7 +336,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	protected function _loadCache($id)
 	{
-		return Mage::app()->loadCache($id);
+		return AO::app()->loadCache($id);
 	}
 
 	/**
@@ -350,7 +350,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
 	{
-		return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+		return AO::app()->saveCache($data, $id, $tags, $lifetime);
 	}
 
 	/**
@@ -361,7 +361,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	protected function _removeCache($id)
 	{
-		return Mage::app()->removeCache($id);
+		return AO::app()->removeCache($id);
 	}
 
 	/**
@@ -371,7 +371,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	public function removeCache()
 	{
-		Mage::app()->cleanCache(array(self::CACHE_TAG));
+		AO::app()->cleanCache(array(self::CACHE_TAG));
 		return parent::removeCache();;
 	}
 
@@ -417,11 +417,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			}
 			if (('default' !== $scope) && is_int($scopeCode)) {
 				if ('stores' == $scope) {
-					$scopeCode = Mage::app()->getStore($scopeCode)->getCode();
+					$scopeCode = AO::app()->getStore($scopeCode)->getCode();
 				} elseif ('websites' == $scope) {
-					$scopeCode = Mage::app()->getWebsite($scopeCode)->getCode();
+					$scopeCode = AO::app()->getWebsite($scopeCode)->getCode();
 				} else {
-					Mage::throwException(Mage::helper('core')->__('Unknown scope "%s"', $scope));
+					AO::throwException(AO::helper('core')->__('Unknown scope "%s"', $scope));
 				}
 			}
 			$path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
@@ -581,8 +581,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		foreach ($modules as $moduleProp) {
 			foreach ($moduleProp['depends'] as $dependModule => $true) {
 				if (!isset($definedModules[$dependModule])) {
-					Mage::throwException(
-						Mage::helper('core')->__('Module "%1$s" can not be depended from "%2$s"', $moduleProp['module'], $dependModule)
+					AO::throwException(
+						AO::helper('core')->__('Module "%1$s" can not be depended from "%2$s"', $moduleProp['module'], $dependModule)
 					);
 				}
 			}
@@ -611,7 +611,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	public function getCache()
 	{
-		return Mage::app()->getCache();
+		return AO::app()->getCache();
 	}
 
 	/**
@@ -640,7 +640,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 				$hostArr = explode(':', $_SERVER['HTTP_HOST']);
 				$host = $hostArr[0];
 				$port = isset($hostArr[1]) && (!$secure && $hostArr[1]!=80 || $secure && $hostArr[1]!=443) ? ':'.$hostArr[1] : '';
-				$path = Mage::app()->getRequest()->getBasePath();
+				$path = AO::app()->getRequest()->getBasePath();
 
 				$baseUrl = $scheme.$host.$port.rtrim($path, '/').'/';
 			} else {
@@ -737,7 +737,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	 */
 	public function getVarDir($path=null, $type='var')
 	{
-		$dir = Mage::getBaseDir($type).($path!==null ? DS.$path : '');
+		$dir = AO::getBaseDir($type).($path!==null ? DS.$path : '');
 		if (!$this->createDirIfNotExists($dir)) {
 			return false;
 		}
@@ -824,14 +824,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 				switch ((string)$observer->type) {
 					case 'singleton':
 						$callback = array(
-							Mage::getSingleton((string)$observer->class),
+							AO::getSingleton((string)$observer->class),
 							(string)$observer->method
 						);
 						break;
 					case 'object':
 					case 'model':
 						$callback = array(
-							Mage::getModel((string)$observer->class),
+							AO::getModel((string)$observer->class),
 							(string)$observer->method
 						);
 						break;
@@ -842,7 +842,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
 				$args = (array)$observer->args;
 				$observerClass = $observer->observer_class ? (string)$observer->observer_class : '';
-				Mage::addObserver($eventName, $callback, $args, $observer->getName(), $observerClass);
+				AO::addObserver($eventName, $callback, $args, $observer->getName(), $observerClass);
 			}
 		}
 		return true;
@@ -860,8 +860,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	{
 		$path = array();
 
-		$path['baseUrl'] = Mage::getBaseUrl();
-		$path['baseSecureUrl'] = Mage::getBaseUrl('link', true);
+		$path['baseUrl'] = AO::getBaseUrl();
+		$path['baseSecureUrl'] = AO::getBaseUrl('link', true);
 
 		return $path;
 	}
@@ -997,7 +997,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
 	public function getNodeClassInstance($path)
 	{
-		$config = Mage::getConfig()->getNode($path);
+		$config = AO::getConfig()->getNode($path);
 		if (!$config) {
 			return false;
 		} else {

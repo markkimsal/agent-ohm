@@ -45,7 +45,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
 
         foreach ($creditmemos as $creditmemo) {
             if ($creditmemo->getStoreId()) {
-                Mage::app()->getLocale()->emulate($creditmemo->getStoreId());
+                AO::app()->getLocale()->emulate($creditmemo->getStoreId());
             }
             $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
             $pdf->pages[] = $page;
@@ -59,11 +59,11 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
             $this->insertAddress($page, $creditmemo->getStore());
 
             /* Add head */
-            $this->insertOrder($page, $order, Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID, $order->getStoreId()));
+            $this->insertOrder($page, $order, AO::getStoreConfigFlag(self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID, $order->getStoreId()));
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $this->_setFontRegular($page);
-            $page->drawText(Mage::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Credit Memo # ') . $creditmemo->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table head */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
@@ -113,7 +113,7 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
         $this->_afterGetPdf();
 
         if ($creditmemo->getStoreId()) {
-            Mage::app()->getLocale()->revert();
+            AO::app()->getLocale()->revert();
         }
         return $pdf;
     }
@@ -123,29 +123,29 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
         $font = $page->getFont();
         $size = $page->getFontSize();
 
-        $page->drawText(Mage::helper('sales')->__('Products'), $x = 35, $this->y, 'UTF-8');
+        $page->drawText(AO::helper('sales')->__('Products'), $x = 35, $this->y, 'UTF-8');
         $x += 220;
 
-        $page->drawText(Mage::helper('sales')->__('SKU'), $x, $this->y, 'UTF-8');
+        $page->drawText(AO::helper('sales')->__('SKU'), $x, $this->y, 'UTF-8');
         $x += 100;
 
-        $text = Mage::helper('sales')->__('Total(ex)');
+        $text = AO::helper('sales')->__('Total(ex)');
         $page->drawText($text, $this->getAlignRight($text, $x, 50, $font, $size), $this->y, 'UTF-8');
         $x += 50;
 
-        $text = Mage::helper('sales')->__('Discount');
+        $text = AO::helper('sales')->__('Discount');
         $page->drawText($text, $this->getAlignRight($text, $x, 50, $font, $size), $this->y, 'UTF-8');
         $x += 50;
 
-        $text = Mage::helper('sales')->__('QTY');
+        $text = AO::helper('sales')->__('QTY');
         $page->drawText($text, $this->getAlignCenter($text, $x, 30, $font, $size), $this->y, 'UTF-8');
         $x += 30;
 
-        $text = Mage::helper('sales')->__('Tax');
+        $text = AO::helper('sales')->__('Tax');
         $page->drawText($text, $this->getAlignRight($text, $x, 45, $font, $size, 10), $this->y, 'UTF-8');
         $x += 45;
 
-        $text = Mage::helper('sales')->__('Total(inc)');
+        $text = AO::helper('sales')->__('Total(inc)');
         $page->drawText($text, $this->getAlignRight($text, $x, 570 - $x, $font, $size), $this->y, 'UTF-8');
     }
 }

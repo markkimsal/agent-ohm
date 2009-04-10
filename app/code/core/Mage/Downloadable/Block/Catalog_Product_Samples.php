@@ -71,7 +71,7 @@ class Mage_Downloadable_Block_Catalog_Product_Samples extends Mage_Catalog_Block
         if ($this->getProduct()->getSamplesTitle()) {
             return $this->getProduct()->getSamplesTitle();
         }
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**
@@ -81,6 +81,6 @@ class Mage_Downloadable_Block_Catalog_Product_Samples extends Mage_Catalog_Block
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return AO::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 }

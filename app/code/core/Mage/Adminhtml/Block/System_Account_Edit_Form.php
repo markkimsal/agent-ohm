@@ -36,35 +36,35 @@ class Mage_Adminhtml_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block
 {
     protected function _prepareForm()
     {
-        $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-        $user = Mage::getModel('admin/user')
+        $userId = AO::getSingleton('admin/session')->getUser()->getId();
+        $user = AO::getModel('admin/user')
             ->load($userId);
         $user->unsetData('password');
 
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Account Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('adminhtml')->__('Account Information')));
 
         $fieldset->addField('username', 'text', array(
                 'name'  => 'username',
-                'label' => Mage::helper('adminhtml')->__('User Name'),
-                'title' => Mage::helper('adminhtml')->__('User Name'),
+                'label' => AO::helper('adminhtml')->__('User Name'),
+                'title' => AO::helper('adminhtml')->__('User Name'),
                 'required' => true,
             )
         );
 
         $fieldset->addField('firstname', 'text', array(
                 'name'  => 'firstname',
-                'label' => Mage::helper('adminhtml')->__('First Name'),
-                'title' => Mage::helper('adminhtml')->__('First Name'),
+                'label' => AO::helper('adminhtml')->__('First Name'),
+                'title' => AO::helper('adminhtml')->__('First Name'),
                 'required' => true,
             )
         );
 
         $fieldset->addField('lastname', 'text', array(
                 'name'  => 'lastname',
-                'label' => Mage::helper('adminhtml')->__('Last Name'),
-                'title' => Mage::helper('adminhtml')->__('Last Name'),
+                'label' => AO::helper('adminhtml')->__('Last Name'),
+                'title' => AO::helper('adminhtml')->__('Last Name'),
                 'required' => true,
             )
         );
@@ -76,23 +76,23 @@ class Mage_Adminhtml_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block
 
         $fieldset->addField('email', 'text', array(
                 'name'  => 'email',
-                'label' => Mage::helper('adminhtml')->__('Email'),
-                'title' => Mage::helper('adminhtml')->__('User Email'),
+                'label' => AO::helper('adminhtml')->__('Email'),
+                'title' => AO::helper('adminhtml')->__('User Email'),
                 'required' => true,
             )
         );
 
         $fieldset->addField('password', 'password', array(
                 'name'  => 'password',
-                'label' => Mage::helper('adminhtml')->__('New Password'),
-                'title' => Mage::helper('adminhtml')->__('New Password'),
+                'label' => AO::helper('adminhtml')->__('New Password'),
+                'title' => AO::helper('adminhtml')->__('New Password'),
                 'class' => 'input-text validate-password',
             )
         );
 
         $fieldset->addField('confirmation', 'password', array(
                 'name'  => 'password_confirmation',
-                'label' => Mage::helper('adminhtml')->__('Password Confirmation'),
+                'label' => AO::helper('adminhtml')->__('Password Confirmation'),
                 'class' => 'input-text validate-cpassword',
             )
         );

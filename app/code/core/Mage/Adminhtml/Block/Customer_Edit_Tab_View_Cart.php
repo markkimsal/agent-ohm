@@ -42,17 +42,17 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
         $this->setSortable(false);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setEmptyText(Mage::helper('customer')->__('There are no items in customer\'s shopping cart at the moment'));
+        $this->setEmptyText(AO::helper('customer')->__('There are no items in customer\'s shopping cart at the moment'));
     }
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('sales/quote');
+        $quote = AO::getModel('sales/quote');
         // set website to quote, if any
         if ($this->getWebsiteId()) {
-            $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
+            $quote->setWebsite(AO::app()->getWebsite($this->getWebsiteId()));
         }
-        $quote->loadByCustomer(Mage::registry('current_customer'));
+        $quote->loadByCustomer(AO::registry('current_customer'));
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
@@ -68,41 +68,41 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Mage_Adminhtml_Bl
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => Mage::helper('customer')->__('Product ID'),
+            'header' => AO::helper('customer')->__('Product ID'),
             'index' => 'product_id',
             'width' => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('customer')->__('Product Name'),
+            'header' => AO::helper('customer')->__('Product Name'),
             'index' => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('customer')->__('SKU'),
+            'header' => AO::helper('customer')->__('SKU'),
             'index' => 'sku',
             'width' => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('customer')->__('Qty'),
+            'header' => AO::helper('customer')->__('Qty'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header' => Mage::helper('customer')->__('Price'),
+            'header' => AO::helper('customer')->__('Price'),
             'index' => 'price',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header' => Mage::helper('customer')->__('Total'),
+            'header' => AO::helper('customer')->__('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         return parent::_prepareColumns();

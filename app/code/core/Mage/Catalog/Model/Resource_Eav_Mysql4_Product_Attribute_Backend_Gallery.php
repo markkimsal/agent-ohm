@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Gallery e
     public function __construct()
     {
         parent::__construct();
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setConnection($resource->getConnection('catalog_read'), $resource->getConnection('catalog_write'));
         /**
          * 0 - big image

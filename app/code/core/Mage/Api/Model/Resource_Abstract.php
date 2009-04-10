@@ -48,7 +48,7 @@ class Mage_Api_Model_Resource_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('api/session');
+        return AO::getSingleton('api/session');
     }
 
     /**
@@ -58,7 +58,7 @@ class Mage_Api_Model_Resource_Abstract
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('api/config');
+        return AO::getSingleton('api/config');
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Api_Model_Resource_Abstract
      */
     protected function _getServer()
     {
-        return Mage::getSingleton('api/server');
+        return AO::getSingleton('api/server');
     }
 
     /**

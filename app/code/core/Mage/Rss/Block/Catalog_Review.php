@@ -44,10 +44,10 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
 
     protected function _toHtml()
     {
-        $newurl = Mage::getUrl('rss/catalog/review');
-        $title = Mage::helper('rss')->__('Pending product review(s)');
+        $newurl = AO::getUrl('rss/catalog/review');
+        $title = AO::helper('rss')->__('Pending product review(s)');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -55,14 +55,14 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
                 );
         $rssObj->_addHeader($data);
 
-        $reviewModel = Mage::getModel('review/review');
+        $reviewModel = AO::getModel('review/review');
 
         $collection = $reviewModel->getProductCollection()
             ->addStatusFilter($reviewModel->getPendingStatus())
             ->addAttributeToSelect('name', 'inner')
             ->setDateOrder();
 
-         Mage::getSingleton('core/resource_iterator')
+         AO::getSingleton('core/resource_iterator')
             ->walk($collection->getSelect(), array(array($this, 'addReviewItemXmlCallback')), array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
         return $rssObj->createRssXml();
     }
@@ -73,9 +73,9 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
         $reviewModel = $args['reviewModel'];
         $row = $args['row'];
 
-        $productUrl = Mage::getUrl('catalog/product/view',array('id'=>$row['entity_id']));
-        $reviewUrl = Mage::helper('adminhtml')->getUrl('adminhtml/catalog_product_review/edit/', array('id'=>$row['review_id'],'_secure' => true,'_nosecret' => true));
-        $storeName = Mage::app()->getStore($row['store_id'])->getName();
+        $productUrl = AO::getUrl('catalog/product/view',array('id'=>$row['entity_id']));
+        $reviewUrl = AO::helper('adminhtml')->getUrl('adminhtml/catalog_product_review/edit/', array('id'=>$row['review_id'],'_secure' => true,'_nosecret' => true));
+        $storeName = AO::app()->getStore($row['store_id'])->getName();
 
         $description = '<p>'.
         $this->__('Product: <a href="%s">%s</a> <br/>',$productUrl,$row['name']).

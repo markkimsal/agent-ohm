@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Adminhtml_Block_S
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
+            AO::throwException(AO::helper('adminhtml')->__('Invalid parrent block for this block'));
         }
         $this->setOrder($this->getParentBlock()->getSource());
 
@@ -48,8 +48,8 @@ class Mage_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Adminhtml_Block_S
 
     public function getFullTaxInfo()
     {
-        $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($this->getOrder())->toArray();
-        return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
+        $rates = AO::getModel('sales/order_tax')->getCollection()->loadByOrder($this->getOrder())->toArray();
+        return AO::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
     }
 
     public function displayAmount($amount, $baseAmount)

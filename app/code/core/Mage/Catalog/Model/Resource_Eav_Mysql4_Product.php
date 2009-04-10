@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     public function __construct()
     {
         parent::__construct();
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('catalog_product')
             ->setConnection(
                 $resource->getConnection('catalog_read'),
@@ -116,7 +116,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         $categoryIds = $object->getCategoryIds();
         if ($categoryIds) {
-            $categoryIds = Mage::getModel('catalog/category')->verifyIds($categoryIds);
+            $categoryIds = AO::getModel('catalog/category')->verifyIds($categoryIds);
         }
 
         $object->setData('category_ids', implode(',', $categoryIds));
@@ -265,7 +265,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
             $indexCategoryIds   = array_unique($indexCategoryIds);
             $indexProductIds    = array($product->getId());
-            Mage::getResourceSingleton('catalog/category')->refreshProductIndex($indexCategoryIds, $indexProductIds);
+            AO::getResourceSingleton('catalog/category')->refreshProductIndex($indexCategoryIds, $indexProductIds);
         }
 
         /**
@@ -295,8 +295,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
 
         $indexTable = $this->getTable('catalog/product_enabled_index');
         if (is_null($store) && is_null($product)) {
-            Mage::throwException(
-                Mage::helper('catalog')->__('For reindex enabled product(s) you need specify store or product')
+            AO::throwException(
+                AO::helper('catalog')->__('For reindex enabled product(s) you need specify store or product')
             );
         } elseif (is_null($product) || is_array($product)) {
             $storeId    = $store->getId();
@@ -339,7 +339,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         }
         elseif (is_null($store)) {
             foreach ($product->getStoreIds() as $storeId) {
-            	$store = Mage::app()->getStore($storeId);
+            	$store = AO::app()->getStore($storeId);
             	$this->refreshEnabledIndex($store, $product);
             }
         }
@@ -382,7 +382,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     public function getCategoryCollection($product)
     {
-        $collection = Mage::getResourceModel('catalog/category_collection')
+        $collection = AO::getResourceModel('catalog/category_collection')
             ->joinField('product_id',
                 'catalog/category_product',
                 'product_id',

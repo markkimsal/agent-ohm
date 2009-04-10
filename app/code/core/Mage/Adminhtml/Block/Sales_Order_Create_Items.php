@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Items Ordered');
+        return AO::helper('sales')->__('Items Ordered');
     }
 
     public function getItems()
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items extends Mage_Adminhtml_Block
     public function getButtonsHtml()
     {
         $addButtonData = array(
-            'label' => Mage::helper('sales')->__('Add Products'),
+            'label' => AO::helper('sales')->__('Add Products'),
             'onclick' => "order.productGridShow(this)",
             'class' => 'add',
         );

@@ -41,10 +41,10 @@ class Mage_Api_Model_Server_V2_Adapter_Soap extends Mage_Api_Model_Server_Adapte
      */
     public function run()
     {
-        $urlModel = Mage::getModel('core/url')
+        $urlModel = AO::getModel('core/url')
             ->setUseSession(false);
         if ($this->getController()->getRequest()->getParam('wsdl')) {
-            $wsdlConfig = Mage::getModel('api/wsdl_config');
+            $wsdlConfig = AO::getModel('api/wsdl_config');
             $wsdlConfig->setHandler($this->getHandler())
                 ->init();
             $this->getController()->getResponse()

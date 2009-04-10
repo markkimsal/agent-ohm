@@ -85,7 +85,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
 
     protected function _prepareQty($qty)
     {
-        $qty = Mage::app()->getLocale()->getNumber($qty);
+        $qty = AO::app()->getLocale()->getNumber($qty);
         $qty = ($qty > 0) ? $qty : 1;
         return $qty;
     }
@@ -126,7 +126,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $oldQty = $this->_getData('qty');
         $this->setData('qty', $qty);
 
-        Mage::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
+        AO::dispatchEvent('sales_quote_item_qty_set_after', array('item'=>$this));
 
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
@@ -188,7 +188,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             ->setCost($product->getCost())
             ->setIsQtyDecimal($product->getIsQtyDecimal());
 
-        Mage::dispatchEvent('sales_quote_item_set_product', array(
+        AO::dispatchEvent('sales_quote_item_set_product', array(
             'product' => $product,
             'quote_item'=>$this
         ));
@@ -210,7 +210,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         $product = $this->_getData('product');
         if (($product === null) && $this->getProductId()) {
-            $product = Mage::getModel('catalog/product')
+            $product = AO::getModel('catalog/product')
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->load($this->getProductId());
             $this->setProduct($product);
@@ -365,11 +365,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('sales/quote_item_option')->setData($option)
+            $option = AO::getModel('sales/quote_item_option')->setData($option)
                 ->setItem($this);
         }
         elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
-            $option = Mage::getModel('sales/quote_item_option')->setData($option->getData())
+            $option = AO::getModel('sales/quote_item_option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         }
@@ -377,7 +377,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $option->setItem($this);
         }
         else {
-            Mage::throwException(Mage::helper('sales')->__('Invalid item option format'));
+            AO::throwException(AO::helper('sales')->__('Invalid item option format'));
         }
 
         if ($exOption = $this->getOptionByCode($option->getCode())) {
@@ -442,7 +442,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('sales')->__('Item option with code %s already exist', $option->getCode()));
+            AO::throwException(AO::helper('sales')->__('Item option with code %s already exist', $option->getCode()));
         }
         return $this;
     }

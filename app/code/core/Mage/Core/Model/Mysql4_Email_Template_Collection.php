@@ -42,15 +42,15 @@ class Mage_Core_Model_Mysql4_Email_Template_Collection extends Varien_Data_Colle
     
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('core_read'));
-        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('core/email_template');
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('core_read'));
+        $this->_templateTable = AO::getSingleton('core/resource')->getTableName('core/email_template');
         $this->_select->from($this->_templateTable, array('template_id','template_code',
                                                              'template_type',
                                                              'template_subject','template_sender_name',
                                                              'template_sender_email',
                                                              'added_at',
                                                              'modified_at'));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('core/email_template'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('core/email_template'));
     }
                 
     public function toOptionArray()

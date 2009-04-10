@@ -47,15 +47,15 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
 
     public function installAction()
     {
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Pending installation...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Pending installation...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             switch ($this->getRequest()->getParam('file_type')) {
                 case 'local':
                     if (empty($_FILES['local']['tmp_name'])) {
-                        $params['comment'] = Mage::helper('adminhtml')->__("Error uploading the file")."\r\n\r\n";
+                        $params['comment'] = AO::helper('adminhtml')->__("Error uploading the file")."\r\n\r\n";
                         break;
                     }
-                    $tmpDir = Mage::getBaseDir('var').DS.'pear';
+                    $tmpDir = AO::getBaseDir('var').DS.'pear';
                     if (!is_dir($tmpDir)) {
                         mkdir($tmpDir, 0777, true);
                     }
@@ -67,12 +67,12 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
                 case 'remote':
                     $pkg = $this->getRequest()->getParam('remote');
                     if (empty($pkg)) {
-                        $params['comment'] = Mage::helper('adminhtml')->__("Invalid URL")."\r\n\r\n";
+                        $params['comment'] = AO::helper('adminhtml')->__("Invalid URL")."\r\n\r\n";
                     }
                     break;
             }
             if (!empty($pkg)) {
-                $params['comment'] = Mage::helper('adminhtml')->__("Installing $pkg, please wait...")."\r\n\r\n";
+                $params['comment'] = AO::helper('adminhtml')->__("Installing $pkg, please wait...")."\r\n\r\n";
                 $params['command'] = 'install';
                 $params['options'] = array();
                 $params['params'] = array($pkg);
@@ -80,13 +80,13 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::getModel('adminhtml/extension')->clearAllCache();
+            AO::getModel('adminhtml/extension')->clearAllCache();
         }
     }
 
     public function upgradeAllAction()
     {
-        $params = array('comment'=>Mage::helper('adminhtml')->__("Upgrading all packages, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('adminhtml')->__("Upgrading all packages, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $params['command'] = 'upgrade';
             $params['options'] = array();
@@ -94,12 +94,12 @@ class Mage_Adminhtml_Extensions_FileController extends Mage_Adminhtml_Controller
         }
         $result = Varien_Pear::getInstance()->runHtmlConsole($params);
         if (!$result instanceof PEAR_Error) {
-            Mage::app()->cleanCache();
+            AO::app()->cleanCache();
         }
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions');
+        return AO::getSingleton('admin/session')->isAllowed('system/extensions');
     }
 }

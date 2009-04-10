@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $this->setChild('delete_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Delete Selected Group'),
+                    'label'     => AO::helper('catalog')->__('Delete Selected Group'),
                     'onclick'   => 'editSet.submit();',
                     'class' => 'delete'
         )));
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $this->setChild('add_group_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Add New'),
+                    'label'     => AO::helper('catalog')->__('Add New'),
                     'onclick'   => 'editSet.addGroup();',
                     'class' => 'add'
         )));
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Back'),
+                    'label'     => AO::helper('catalog')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                     'class' => 'back'
         )));
@@ -76,14 +76,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Reset'),
+                    'label'     => AO::helper('catalog')->__('Reset'),
                     'onclick'   => 'window.location.reload()'
         )));
 
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Save Attribute Set'),
+                    'label'     => AO::helper('catalog')->__('Save Attribute Set'),
                     'onclick'   => 'editSet.save();',
                     'class' => 'save'
         )));
@@ -91,15 +91,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Delete Attribute Set'),
-                    'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(Mage::helper('catalog')->__('All products of this set will be deleted! Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
+                    'label'     => AO::helper('catalog')->__('Delete Attribute Set'),
+                    'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(AO::helper('catalog')->__('All products of this set will be deleted! Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
                     'class' => 'delete'
         )));
 
         $this->setChild('rename_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('New Set Name'),
+                    'label'     => AO::helper('catalog')->__('New Set Name'),
                     'onclick'   => 'editSet.rename()'
                 ))
         );
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
 
     protected function _getHeader()
     {
-        return Mage::helper('catalog')->__("Edit Attribute Set '%s'", $this->_getSetData()->getAttributeSetName());
+        return AO::helper('catalog')->__("Edit Attribute Set '%s'", $this->_getSetData()->getAttributeSetName());
     }
 
     public function getMoveUrl()
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
     {
         $setId = $this->_getSetId();
 
-        $groups = Mage::getModel('eav/entity_attribute_group')
+        $groups = AO::getModel('eav/entity_attribute_group')
                     ->getResourceCollection()
                     ->setAttributeSetFilter($setId)
                     ->load();
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             $item['allowDrop'] = true;
             $item['allowDrag'] = true;
 
-            $nodeChildren = Mage::getModel('eav/entity_attribute')
+            $nodeChildren = AO::getModel('eav/entity_attribute')
                                 ->getResourceCollection()
                                 ->setAttributeGroupFilter($node->getAttributeGroupId())
                                 ->addVisibleFilter()
@@ -189,7 +189,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
     {
         $setId = $this->_getSetId();
 
-        $attributesIdsObj = Mage::getModel('eav/entity_attribute')
+        $attributesIdsObj = AO::getModel('eav/entity_attribute')
                             ->getResourceCollection()
                             ->setAttributeSetFilter($setId)
                             ->load();
@@ -197,9 +197,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         foreach( $attributesIdsObj->getItems() as $item ) {
             $attributesIds[] = $item->getAttributeId();
         }
-        $attributes = Mage::getModel('eav/entity_attribute')
+        $attributes = AO::getModel('eav/entity_attribute')
                             ->getResourceCollection()
-                            ->setEntityTypeFilter(Mage::registry('entityType'))
+                            ->setEntityTypeFilter(AO::registry('entityType'))
                             ->setAttributesExcludeFilter($attributesIds)
                             ->addVisibleFilter()
                             ->load();
@@ -221,7 +221,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
 
         if( count($items) == 0 ) {
             $items[] = array(
-                'text' => Mage::helper('catalog')->__('Empty'),
+                'text' => AO::helper('catalog')->__('Empty'),
                 'id' => 'empty',
                 'cls' => 'folder',
                 'allowDrop' => false,
@@ -272,15 +272,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
 
     protected function _getSetId()
     {
-        return Mage::registry('current_attribute_set')->getId();
+        return AO::registry('current_attribute_set')->getId();
     }
 
     public function getIsCurrentSetDefault()
     {
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
-            $defaultSetId = Mage::getModel('eav/entity_type')
-                ->load(Mage::registry('entityType'))
+            $defaultSetId = AO::getModel('eav/entity_type')
+                ->load(AO::registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;
             $this->setData('is_current_set_default', $isDefault);
@@ -290,6 +290,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
 
     protected function _getSetData()
     {
-        return Mage::getModel('eav/entity_attribute_set')->load( $this->_getSetId() );
+        return AO::getModel('eav/entity_attribute_set')->load( $this->_getSetId() );
     }
 }

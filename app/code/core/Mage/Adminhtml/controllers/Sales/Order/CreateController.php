@@ -49,7 +49,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return AO::getSingleton('adminhtml/session_quote');
     }
 
     /**
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return AO::getSingleton('adminhtml/sales_order_create');
     }
 
     /**
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save');
+        return AO::getSingleton('adminhtml/giftmessage_save');
     }
 
     /**
@@ -275,7 +275,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
 //        $this->_initSession();
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = AO::getModel('sales/order')->load($orderId);
 
         if ($order->getId()) {
             $order->setReordered(true);
@@ -424,6 +424,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 $aclResource = 'sales/order/actions';
                 break;
         }
-        return Mage::getSingleton('admin/session')->isAllowed('sales/order');
+        return AO::getSingleton('admin/session')->isAllowed('sales/order');
     }
 }

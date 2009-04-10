@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Frontend_Image ex
     {
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = Mage::getBaseUrl('media').'catalog/product/'.$image;
+            $url = AO::getBaseUrl('media').'catalog/product/'.$image;
         }
         return $url;
     }

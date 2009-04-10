@@ -49,11 +49,11 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         $this->_uniqueFields = array(
             array(
                 'field' => 'email',
-                'title' => Mage::helper('adminhtml')->__('Email')
+                'title' => AO::helper('adminhtml')->__('Email')
             ),
             array(
                 'field' => 'username',
-                'title' => Mage::helper('adminhtml')->__('User Name')
+                'title' => AO::helper('adminhtml')->__('User Name')
             ),
         );
         return $this;
@@ -107,7 +107,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
 
     private function _encryptPassword($pwStr)
     {
-        return Mage::helper('core')->getHash($pwStr, 2);
+        return AO::helper('core')->getHash($pwStr, 2);
     }
 
     protected function _beforeSave(Mage_Core_Model_Abstract $user)
@@ -178,7 +178,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
             foreach ($rolesIds as $rid) {
                 $rid = intval($rid);
                 if ($rid > 0) {
-                    $row = Mage::getModel('admin/role')->load($rid)->getData();
+                    $row = AO::getModel('admin/role')->load($rid)->getData();
                 } else {
                     $row = array('tree_level' => 0);
                 }
@@ -227,7 +227,7 @@ class Mage_Admin_Model_Mysql4_User extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('admin/role')->load($user->getRoleId());
+            $role = AO::getModel('admin/role')->load($user->getRoleId());
         } else {
             $role = new Varien_Object();
             $role->setTreeLevel(0);

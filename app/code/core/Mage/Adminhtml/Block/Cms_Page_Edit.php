@@ -41,11 +41,11 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('cms')->__('Save Page'));
-        $this->_updateButton('delete', 'label', Mage::helper('cms')->__('Delete Page'));
+        $this->_updateButton('save', 'label', AO::helper('cms')->__('Save Page'));
+        $this->_updateButton('delete', 'label', AO::helper('cms')->__('Delete Page'));
 
         $this->_addButton('saveandcontinue', array(
-            'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),
+            'label'     => AO::helper('adminhtml')->__('Save And Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
             'class'     => 'save',
         ), -100);
@@ -67,11 +67,11 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
 
     public function getHeaderText()
     {
-        if (Mage::registry('cms_page')->getId()) {
-            return Mage::helper('cms')->__("Edit Page '%s'", $this->htmlEscape(Mage::registry('cms_page')->getTitle()));
+        if (AO::registry('cms_page')->getId()) {
+            return AO::helper('cms')->__("Edit Page '%s'", $this->htmlEscape(AO::registry('cms_page')->getTitle()));
         }
         else {
-            return Mage::helper('cms')->__('New Page');
+            return AO::helper('cms')->__('New Page');
         }
     }
 

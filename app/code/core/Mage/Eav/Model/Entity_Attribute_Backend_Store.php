@@ -30,7 +30,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Store extends Mage_Eav_Model_Entit
     protected function _beforeSave($object)
     {
         if (!$object->getData($this->getAttribute()->getAttributeCode())) {
-            $object->setData($this->getAttribute()->getAttributeCode(), Mage::app()->getStore()->getId());
+            $object->setData($this->getAttribute()->getAttributeCode(), AO::app()->getStore()->getId());
         }
     }
 }

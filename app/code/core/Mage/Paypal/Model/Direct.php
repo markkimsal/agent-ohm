@@ -55,7 +55,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getApi()
     {
-        return Mage::getSingleton('paypal/api_nvp');
+        return AO::getSingleton('paypal/api_nvp');
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return AO::getSingleton('paypal/session');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function getPaymentAction()
     {
-        $paymentAction = Mage::getStoreConfig('payment/paypal_direct/payment_action');
+        $paymentAction = AO::getStoreConfig('payment/paypal_direct/payment_action');
         if (!$paymentAction) {
             $paymentAction = Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH;
         }
@@ -126,18 +126,18 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcAvsStatus($api->getAvsCode())
                 ->setCcCidStatus($api->getCvv2Match());
 
-            #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+            #$payment->getOrder()->addStatusToHistory(AO::getStoreConfig('payment/paypal_direct/order_status'));
         } else {
             $e = $api->getError();
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = AO::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];
             }
-            Mage::throwException($message);
+            AO::throwException($message);
         }
         return $this;
     }
@@ -168,18 +168,18 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcAvsStatus($api->getAvsCode())
                 ->setCcCidStatus($api->getCvv2Match());
 
-            #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+            #$payment->getOrder()->addStatusToHistory(AO::getStoreConfig('payment/paypal_direct/order_status'));
         } else {
             $e = $api->getError();
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = AO::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];
             }
-            Mage::throwException($message);
+            AO::throwException($message);
         }
         return $this;
     }
@@ -200,13 +200,13 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcAvsStatus($api->getAvsCode())
                 ->setCcCidStatus($api->getCvv2Match());
 
-            #$payment->getOrder()->addStatusToHistory(Mage::getStoreConfig('payment/paypal_direct/order_status'));
+            #$payment->getOrder()->addStatusToHistory(AO::getStoreConfig('payment/paypal_direct/order_status'));
         } else {
             $e = $api->getError();
             if (isset($e['short_message'])) {
                 $message = $e['short_message'];
             } else {
-                $message = Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = AO::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
             if (isset($e['long_message'])) {
                 $message .= ': '.$e['long_message'];
@@ -240,10 +240,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             }
         }else{
             $payment->setStatus('ERROR');
-            $error = Mage::helper('paypal')->__('Invalid transaction id');
+            $error = AO::helper('paypal')->__('Invalid transaction id');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -273,10 +273,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                $error = $e['short_message'].': '.$e['long_message'];
              }
         }else{
-            $error = Mage::helper('paypal')->__('Error in refunding the payment');
+            $error = AO::helper('paypal')->__('Error in refunding the payment');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
       }

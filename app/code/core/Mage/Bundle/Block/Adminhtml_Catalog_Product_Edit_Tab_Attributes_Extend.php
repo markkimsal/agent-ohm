@@ -81,7 +81,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend ext
     public function getProduct()
     {
         if (!$this->getData('product')){
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', AO::registry('product'));
         }
         return $this->getData('product');
     }

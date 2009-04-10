@@ -43,7 +43,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _isCustomerLogIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return AO::getSingleton('customer/session')->isLoggedIn();
     }
 
     /**
@@ -53,7 +53,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getCurrentCustomer()
     {
-        return Mage::getSingleton('customer/session')->getCustomer();
+        return AO::getSingleton('customer/session')->getCustomer();
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     public function getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('wishlist/wishlist')
+            $this->_wishlist = AO::getModel('wishlist/wishlist')
 				->loadByCustomer($this->_getCurrentCustomer());
         }
         return $this->_wishlist;
@@ -172,7 +172,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('wishlist/index/cart', array(
             'item'=>$item->getWishlistItemId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => Mage::helper('core')->urlEncode(
+            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => AO::helper('core')->urlEncode(
                $this->_getUrl('*/*/*', array('_current'=>true))
             )
         ));
@@ -191,7 +191,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isAllow()
     {
-        if (Mage::getStoreConfig('wishlist/general/active')) {
+        if (AO::getStoreConfig('wishlist/general/active')) {
 			return true;
 		}
 		return false;
@@ -211,12 +211,12 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $customer = $this->_getCurrentCustomer();
         $key = $customer->getId().','.$customer->getEmail();
-        return $this->_getUrl('rss/index/wishlist',array('data' => Mage::helper('core')->urlEncode($key), '_secure' => false));
+        return $this->_getUrl('rss/index/wishlist',array('data' => AO::helper('core')->urlEncode($key), '_secure' => false));
     }
 
     public function isRssAllow()
     {
-         if (Mage::getStoreConfig('rss/wishlist/active')) {
+         if (AO::getStoreConfig('rss/wishlist/active')) {
 			return true;
 		}
 		return false;

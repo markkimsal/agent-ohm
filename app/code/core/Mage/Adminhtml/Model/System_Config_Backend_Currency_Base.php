@@ -44,7 +44,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Currency_Base extends Mage_Admi
     protected function _afterSave()
     {
         if (!in_array($this->getValue(), $this->_getInstalledCurrencies())) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Selected base currency is not available in installed currencies'));
+            AO::throwException(AO::helper('adminhtml')->__('Selected base currency is not available in installed currencies'));
         }
 
         return $this;

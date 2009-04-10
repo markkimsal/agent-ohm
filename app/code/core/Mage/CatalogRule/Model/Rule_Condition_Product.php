@@ -35,12 +35,12 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     public function getAttributeObject()
     {
         try {
-            $obj = Mage::getSingleton('eav/config')
+            $obj = AO::getSingleton('eav/config')
                 ->getAttribute('catalog_product', $this->getAttribute());
         }
         catch (Exception $e) {
             $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('catalog/product'))
+            $obj->setEntity(AO::getResourceSingleton('catalog/product'))
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -53,8 +53,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
-        $attributes['attribute_set_id'] = Mage::helper('catalogrule')->__('Attribute Set');
-        $attributes['category_ids'] = Mage::helper('catalogrule')->__('Category');
+        $attributes['attribute_set_id'] = AO::helper('catalogrule')->__('Attribute Set');
+        $attributes['category_ids'] = AO::helper('catalogrule')->__('Category');
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('catalog/product')
+        $productAttributes = AO::getResourceSingleton('catalog/product')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -95,9 +95,9 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         if (!$this->getData('value_option')) {
             if ($this->getAttribute()==='attribute_set_id') {
-                $entityTypeId = Mage::getSingleton('eav/config')
+                $entityTypeId = AO::getSingleton('eav/config')
                     ->getEntityType('catalog_product')->getId();
-                $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                $options = AO::getResourceModel('eav/entity_attribute_set_collection')
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()
                     ->toOptionHash();
@@ -133,9 +133,9 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         if (!$this->getData('value_select_options')) {
             if ($this->getAttribute()==='attribute_set_id') {
-                $entityTypeId = Mage::getSingleton('eav/config')
+                $entityTypeId = AO::getSingleton('eav/config')
                     ->getEntityType('catalog_product')->getId();
-                $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
+                $options = AO::getResourceModel('eav/entity_attribute_set_collection')
                     ->setEntityTypeFilter($entityTypeId)
                     ->load()->toOptionArray();
                 $this->setData('value_select_options', $options);
@@ -163,12 +163,12 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
         switch ($this->getAttribute()) {
             case 'sku': case 'category_ids':
-                $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
+                $image = AO::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
                 break;
         }
 
         if (!empty($image)) {
-            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" class="v-middle rule-chooser-trigger" title="' . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
+            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" class="v-middle rule-chooser-trigger" title="' . AO::helper('rule')->__('Open Chooser') . '" /></a>';
         }
         return $html;
     }
@@ -267,7 +267,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'));
+                    $element->setImage(AO::getDesign()->getSkinUrl('images/grid-cal.gif'));
                     break;
             }
         }
@@ -292,7 +292,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
                 }
                 break;
         }
-        return $url!==false ? Mage::helper('adminhtml')->getUrl($url) : '';
+        return $url!==false ? AO::helper('adminhtml')->getUrl($url) : '';
     }
 
     /**
@@ -327,8 +327,8 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         $attribute = $this->getAttributeObject();
 
         if ($attribute && $attribute->getBackendType() == 'decimal') {
-            $arr['value'] = isset($arr['value']) ? Mage::app()->getLocale()->getNumber($arr['value']) : false;
-            $arr['is_value_parsed'] = isset($arr['is_value_parsed']) ? Mage::app()->getLocale()->getNumber($arr['is_value_parsed']) : false;
+            $arr['value'] = isset($arr['value']) ? AO::app()->getLocale()->getNumber($arr['value']) : false;
+            $arr['is_value_parsed'] = isset($arr['is_value_parsed']) ? AO::app()->getLocale()->getNumber($arr['is_value_parsed']) : false;
         }
 
         return parent::loadArray($arr);

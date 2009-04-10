@@ -311,9 +311,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             && !empty($superProductConfig['product_type'])) {
             $superProductId = (int) $superProductConfig['product_id'];
             if ($superProductId) {
-                if (!$superProduct = Mage::registry('used_super_product_'.$superProductId)) {
-                    $superProduct = Mage::getModel('catalog/product')->load($superProductId);
-                    Mage::register('used_super_product_'.$superProductId, $superProduct);
+                if (!$superProduct = AO::registry('used_super_product_'.$superProductId)) {
+                    $superProduct = AO::getModel('catalog/product')->load($superProductId);
+                    AO::register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
                     $assocProductIds = $superProduct->getTypeInstance(true)->getAssociatedProductIds($superProduct);
@@ -353,7 +353,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('catalog')->__('Please specify the product required option(s)');
+        return AO::helper('catalog')->__('Please specify the product required option(s)');
     }
 
     /**
@@ -395,8 +395,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             foreach ($this->getProduct($product)->getOptions() as $option) {
                 if ($option->getIsRequire() && (!$this->getProduct($product)->getCustomOption('option_'.$option->getId())
                 || strlen($this->getProduct($product)->getCustomOption('option_'.$option->getId())->getValue()) == 0)) {
-                    Mage::throwException(
-                        Mage::helper('catalog')->__('Product has required options')
+                    AO::throwException(
+                        AO::helper('catalog')->__('Product has required options')
                     );
                     break;
                 }

@@ -46,12 +46,12 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     public function getProductCollection()
     {
-        return Mage::getResourceModel('review/review_product_collection');
+        return AO::getResourceModel('review/review_product_collection');
     }
 
     public function getStatusCollection()
     {
-        return Mage::getResourceModel('review/review_status_collection');
+        return AO::getResourceModel('review/review_status_collection');
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -67,7 +67,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = Mage::getModel('review/review_summary')
+        $summaryData = AO::getModel('review/review_summary')
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new Varien_Object();
@@ -82,14 +82,14 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
 
     public function getReviewUrl()
     {
-        return Mage::getUrl('review/product/view', array('id' => $this->getReviewId()));
+        return AO::getUrl('review/product/view', array('id' => $this->getReviewId()));
     }
 
     public function validate()
     {
         $errors = array();
 
-        $helper = Mage::helper('customer');
+        $helper = AO::helper('customer');
 
         if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = $helper->__('Review summary can\'t be empty');
@@ -120,9 +120,9 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
             return;
         }
 
-        $summaryData = Mage::getResourceModel('review/review_summary_collection')
+        $summaryData = AO::getResourceModel('review/review_summary_collection')
             ->addEntityFilter($entityIds)
-            ->addStoreFilter(Mage::app()->getStore()->getId())
+            ->addStoreFilter(AO::app()->getStore()->getId())
             ->load();
 
         foreach( $collection->getItems() as $_item ) {

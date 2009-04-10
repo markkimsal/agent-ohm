@@ -48,7 +48,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstr
         if ($this->hasData('page_size')) {
             return $this->getData('page_size');
         }
-        return Mage::getStoreConfig(self::XML_PATH_RECENTLY_VIEWED_COUNT);
+        return AO::getStoreConfig(self::XML_PATH_RECENTLY_VIEWED_COUNT);
     }
 
     /**
@@ -59,7 +59,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstr
     protected function _getProductsToSkip()
     {
         $ids = array();
-        if (($product = Mage::registry('product')) && $product->getId()) {
+        if (($product = AO::registry('product')) && $product->getId()) {
             $ids = (int)$product->getId();
         }
         return $ids;
@@ -72,7 +72,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstr
      */
     protected function _hasViewedProductsBefore()
     {
-        return Mage::getSingleton('reports/session')->getData('viewed_products');
+        return AO::getSingleton('reports/session')->getData('viewed_products');
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Reports_Block_Product_Viewed extends Mage_Reports_Block_Product_Abstr
         $collection = $this->_getRecentProductsCollection();
         $hasProducts = (bool)count($collection);
         if (is_null($this->_hasViewedProductsBefore())) {
-            Mage::getSingleton('reports/session')->setData('viewed_products', $hasProducts);
+            AO::getSingleton('reports/session')->setData('viewed_products', $hasProducts);
         }
         if ($hasProducts) {
             $this->setRecentlyViewedProducts($collection);

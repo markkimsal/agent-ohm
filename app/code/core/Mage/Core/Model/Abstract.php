@@ -122,10 +122,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected function _getResource()
     {
         if (empty($this->_resourceName)) {
-            Mage::throwException(Mage::helper('core')->__('Resource is not set'));
+            AO::throwException(AO::helper('core')->__('Resource is not set'));
         }
 
-        return Mage::getResourceSingleton($this->_resourceName);
+        return AO::getResourceSingleton($this->_resourceName);
     }
 
 
@@ -191,9 +191,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('core')->__('Model collection resource name is not defined'));
+            AO::throwException(AO::helper('core')->__('Model collection resource name is not defined'));
         }
-        return Mage::getResourceModel($this->_resourceCollectionName, $this->_getResource());
+        return AO::getResourceModel($this->_resourceCollectionName, $this->_getResource());
     }
 
     public function getCollection()
@@ -222,8 +222,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _afterLoad()
     {
-        Mage::dispatchEvent('model_load_after', array('object'=>$this));
-        Mage::dispatchEvent($this->_eventPrefix.'_load_after', array($this->_eventObject=>$this));
+        AO::dispatchEvent('model_load_after', array('object'=>$this));
+        AO::dispatchEvent($this->_eventPrefix.'_load_after', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -263,8 +263,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _beforeSave()
     {
-        Mage::dispatchEvent('model_save_before', array('object'=>$this));
-        Mage::dispatchEvent($this->_eventPrefix.'_save_before', array($this->_eventObject=>$this));
+        AO::dispatchEvent('model_save_before', array('object'=>$this));
+        AO::dispatchEvent($this->_eventPrefix.'_save_before', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -282,10 +282,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             else {
                 $tags = array($this->_cacheTag);
             }
-            Mage::app()->cleanCache($tags);
+            AO::app()->cleanCache($tags);
         }
-        Mage::dispatchEvent('model_save_after', array('object'=>$this));
-        Mage::dispatchEvent($this->_eventPrefix.'_save_after', array($this->_eventObject=>$this));
+        AO::dispatchEvent('model_save_after', array('object'=>$this));
+        AO::dispatchEvent($this->_eventPrefix.'_save_after', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -318,8 +318,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _beforeDelete()
     {
-        Mage::dispatchEvent('model_delete_before', array('object'=>$this));
-        Mage::dispatchEvent($this->_eventPrefix.'_delete_before', array($this->_eventObject=>$this));
+        AO::dispatchEvent('model_delete_before', array('object'=>$this));
+        AO::dispatchEvent($this->_eventPrefix.'_delete_before', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -330,11 +330,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _protectFromNonAdmin()
     {
-        if (Mage::registry('isSecureArea')) {
+        if (AO::registry('isSecureArea')) {
             return;
         }
-        if (!Mage::app()->getStore()->isAdmin()) {
-            Mage::throwException(Mage::helper('core')->__('Cannot complete this operation from non-admin area.'));
+        if (!AO::app()->getStore()->isAdmin()) {
+            AO::throwException(AO::helper('core')->__('Cannot complete this operation from non-admin area.'));
         }
     }
 
@@ -352,10 +352,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             else {
                 $tags = array($this->_cacheTag);
             }
-            Mage::app()->cleanCache($tags);
+            AO::app()->cleanCache($tags);
         }
-        Mage::dispatchEvent('model_delete_after', array('object'=>$this));
-        Mage::dispatchEvent($this->_eventPrefix.'_delete_after', array($this->_eventObject=>$this));
+        AO::dispatchEvent('model_delete_after', array('object'=>$this));
+        AO::dispatchEvent($this->_eventPrefix.'_delete_after', array($this->_eventObject=>$this));
         return $this;
     }
 

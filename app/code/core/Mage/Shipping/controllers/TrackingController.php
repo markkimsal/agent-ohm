@@ -40,7 +40,7 @@ class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
             $response = '';
             $tracks = $order->getTracksCollection();
 
-            $className = Mage::getConfig()->getBlockClassName('core/template');
+            $className = AO::getConfig()->getBlockClassName('core/template');
             $block = new $className();
             $block->setType('core/template')
                 ->setIsAnonymous(true)
@@ -72,8 +72,8 @@ class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
     {
         $id = $this->getRequest()->getParam('order_id');
 
-        $order = Mage::getModel('sales/order')->load($id);
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $order = AO::getModel('sales/order')->load($id);
+        $customerId = AO::getSingleton('customer/session')->getCustomerId();
 
         if (!$order->getId() || !$customerId || $order->getCustomerId() != $customerId) {
             return false;

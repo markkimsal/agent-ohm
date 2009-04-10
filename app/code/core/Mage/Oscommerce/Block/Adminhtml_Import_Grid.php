@@ -42,7 +42,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('oscommerce/oscommerce')->getCollection();
+        $collection = AO::getModel('oscommerce/oscommerce')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -50,34 +50,34 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    =>Mage::helper('oscommerce')->__('ID'),
+            'header'    =>AO::helper('oscommerce')->__('ID'),
             'width'     =>'50px',
             'index'     =>'import_id',
         ));
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('oscommerce')->__('Adapter Name'),
+            'header'    =>AO::helper('oscommerce')->__('Adapter Name'),
             'index'     =>'name',
         ));
         $this->addColumn('host', array(
-            'header'    =>Mage::helper('oscommerce')->__('IP or Hostname'),
+            'header'    =>AO::helper('oscommerce')->__('IP or Hostname'),
             'index'     =>'host',
             'width'     =>'120px',
         ));
 
         $this->addColumn('db_name', array(
-            'header'    =>Mage::helper('oscommerce')->__('Db Name'),
+            'header'    =>AO::helper('oscommerce')->__('Db Name'),
             'index'     =>'db_name',
             'width'     =>'120px',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    =>Mage::helper('oscommerce')->__('Created At'),
+            'header'    =>AO::helper('oscommerce')->__('Created At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'created_at',
         ));
         $this->addColumn('updated_at', array(
-            'header'    =>Mage::helper('oscommerce')->__('Updated At'),
+            'header'    =>AO::helper('oscommerce')->__('Updated At'),
             'type'      => 'date',
             'align'     => 'center',
             'index'     =>'updated_at',

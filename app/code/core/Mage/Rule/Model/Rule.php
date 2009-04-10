@@ -38,7 +38,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('rule/condition_combine');
+        return AO::getModel('rule/condition_combine');
     }
 
     public function _resetConditions($conditions=null)
@@ -73,7 +73,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function getActionsInstance()
     {
-        return Mage::getModel('rule/action_collection');
+        return AO::getModel('rule/action_collection');
     }
 
     public function _resetActions($actions=null)
@@ -111,10 +111,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asString($format='')
     {
-        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = AO::helper('rule')->__("Name: %s", $this->getName()) ."\n"
+             . AO::helper('rule')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . AO::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . AO::helper('rule')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->asStringRecursive() ."\n\n"
              . $this->getActions()->asStringRecursive() ."\n\n";
         return $str;
@@ -122,10 +122,10 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
 
     public function asHtml()
     {
-        $str = Mage::helper('rule')->__("Name: %s", $this->getName()) ."<br/>"
-             . Mage::helper('rule')->__("Start at: %s", $this->getStartAt()) ."<br/>"
-             . Mage::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."<br/>"
-             . Mage::helper('rule')->__("Description: %s", $this->getDescription()) .'<br/>'
+        $str = AO::helper('rule')->__("Name: %s", $this->getName()) ."<br/>"
+             . AO::helper('rule')->__("Start at: %s", $this->getStartAt()) ."<br/>"
+             . AO::helper('rule')->__("Expire at: %s", $this->getExpireAt()) ."<br/>"
+             . AO::helper('rule')->__("Description: %s", $this->getDescription()) .'<br/>'
              . '<ul class="rule-conditions">'.$this->getConditions()->asHtmlRecursive().'</ul>'
              . '<ul class="rule-actions">'.$this->getActions()->asHtmlRecursive()."</ul>";
         return $str;
@@ -167,9 +167,9 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
                  * convert dates into Zend_Date
                  */
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
-                    $value = Mage::app()->getLocale()->date(
+                    $value = AO::app()->getLocale()->date(
                         $value,
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                        AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
                         null,
                         false
                     );
@@ -240,7 +240,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
     {
         // check if discount amount > 0
         if ((int)$this->getDiscountAmount() < 0) {
-            Mage::throwException(Mage::helper('rule')->__('Invalid discount amount.'));
+            AO::throwException(AO::helper('rule')->__('Invalid discount amount.'));
         }
 
 

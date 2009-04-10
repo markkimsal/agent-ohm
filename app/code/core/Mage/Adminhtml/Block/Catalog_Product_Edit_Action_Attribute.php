@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Back'),
+                    'label'     => AO::helper('catalog')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
                     'class' => 'back'
                 ))
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('reset_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Reset'),
+                    'label'     => AO::helper('catalog')->__('Reset'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
                 ))
         );
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Save'),
+                    'label'     => AO::helper('catalog')->__('Save'),
                     'onclick'   => 'attributesForm.submit()',
                     'class'     => 'save'
                 ))
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage_Ad
 
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('store'=>Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getSelectedStoreId()));
+        return $this->getUrl('*/*/save', array('store'=>AO::helper('adminhtml/catalog_product_edit_action_attribute')->getSelectedStoreId()));
     }
 
 }

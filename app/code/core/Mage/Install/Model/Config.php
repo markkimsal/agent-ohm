@@ -42,7 +42,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
     public function __construct()
     {
         parent::__construct();
-        $this->loadFile(Mage::getConfig()->getModuleDir('etc','Mage_Install').DS.'install.xml');
+        $this->loadFile(AO::getConfig()->getModuleDir('etc','Mage_Install').DS.'install.xml');
     }
 
     /**

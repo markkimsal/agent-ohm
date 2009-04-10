@@ -43,8 +43,8 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
     {
         if (empty($this->_tags)) {
             $this->_tags = array();
-            $tags = Mage::getModel('tag/tag')->getPopularCollection()
-                ->joinFields(Mage::app()->getStore()->getId())
+            $tags = AO::getModel('tag/tag')->getPopularCollection()
+                ->joinFields(AO::app()->getStore()->getId())
                 ->limit(100)
                 ->load()
                 ->getItems();
@@ -87,6 +87,6 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
 
     protected function _getHeadText()
     {
-        return Mage::helper('tag')->__('All Tags');
+        return AO::helper('tag')->__('All Tags');
     }
 }

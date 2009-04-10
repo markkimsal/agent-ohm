@@ -35,7 +35,7 @@ class Mage_GoogleBase_Model_Source_Country
 {
     public function toOptionArray()
     {
-        $_allowed = Mage::getSingleton('googlebase/config')->getAllowedCountries();
+        $_allowed = AO::getSingleton('googlebase/config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[] = array('value' => $iso, 'label' => $info['name']);

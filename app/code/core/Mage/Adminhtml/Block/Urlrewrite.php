@@ -46,8 +46,8 @@ class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_C
      */
     public function __construct()
     {
-        $this->_headerText = Mage::helper('adminhtml')->__('Url Rewrite Management');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add Urlrewrite');
+        $this->_headerText = AO::helper('adminhtml')->__('Url Rewrite Management');
+        $this->_addButtonLabel = AO::helper('adminhtml')->__('Add Urlrewrite');
         parent::__construct();
     }
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Urlrewrite extends Mage_Adminhtml_Block_Widget_Grid_C
      */
     public function getCreateUrl()
     {
-        $modes = array_keys(Mage::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
+        $modes = array_keys(AO::getBlockSingleton('adminhtml/urlrewrite_selector')->getModes());
         return $this->getUrl('*/*/edit') . array_shift($modes);
     }
 }

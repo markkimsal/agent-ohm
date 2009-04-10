@@ -38,10 +38,10 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!AO::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('customer/session')->getBeforeUrl()) {
-                Mage::getSingleton('customer/session')->setBeforeUrl($this->_getRefererUrl());
+            if(!AO::getSingleton('customer/session')->getBeforeUrl()) {
+                AO::getSingleton('customer/session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -54,22 +54,22 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
             $this->_redirect('');
             return;
         }
-        $session    = Mage::getSingleton('catalog/session');
+        $session    = AO::getSingleton('catalog/session');
 
         /* @var $session Mage_Catalog_Model_Session */
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = AO::getModel('catalog/product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product Mage_Catalog_Model_Product */
-            Mage::getSingleton('customer/session')->addError($this->__('Product not found'));
+            AO::getSingleton('customer/session')->addError($this->__('Product not found'));
             $this->_redirect('customer/account/');
             return ;
         }
 
         try {
-            $model  = Mage::getModel('productalert/price')
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+            $model  = AO::getModel('productalert/price')
+                ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId(AO::app()->getStore()->getWebsiteId())
                 ->loadByParam();
             if ($model->getId()) {
                 $model->delete();
@@ -85,13 +85,13 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
 
     public function priceAllAction()
     {
-        $session = Mage::getSingleton('customer/session');
+        $session = AO::getSingleton('customer/session');
         /* @var $session Mage_Customer_Model_Session */
 
         try {
-            Mage::getModel('productalert/price')->deleteCustomer(
+            AO::getModel('productalert/price')->deleteCustomer(
                 $session->getCustomerId(),
-                Mage::app()->getStore()->getWebsiteId()
+                AO::app()->getStore()->getWebsiteId()
             );
             $session->addSuccess($this->__('You will no longer receive price alerts for this product'));
         }
@@ -110,21 +110,21 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
             return;
         }
 
-        $session = Mage::getSingleton('catalog/session');
+        $session = AO::getSingleton('catalog/session');
         /* @var $session Mage_Catalog_Model_Session */
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = AO::getModel('catalog/product')->load($productId);
         /* @var $product Mage_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            Mage::getSingleton('customer/session')->addError($this->__('Product not found'));
+            AO::getSingleton('customer/session')->addError($this->__('Product not found'));
             $this->_redirect('customer/account/');
             return ;
         }
 
         try {
-            $model  = Mage::getModel('productalert/stock')
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+            $model  = AO::getModel('productalert/stock')
+                ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId(AO::app()->getStore()->getWebsiteId())
                 ->loadByParam();
             if ($model->getId()) {
                 $model->delete();
@@ -139,13 +139,13 @@ class Mage_ProductAlert_UnsubscribeController extends Mage_Core_Controller_Front
 
     public function stockAllAction()
     {
-        $session = Mage::getSingleton('customer/session');
+        $session = AO::getSingleton('customer/session');
         /* @var $session Mage_Customer_Model_Session */
 
         try {
-            Mage::getModel('productalert/stock')->deleteCustomer(
+            AO::getModel('productalert/stock')->deleteCustomer(
                 $session->getCustomerId(),
-                Mage::app()->getStore()->getWebsiteId()
+                AO::app()->getStore()->getWebsiteId()
             );
             $session->addSuccess($this->__('You will no longer receive stock alerts'));
         }

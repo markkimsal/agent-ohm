@@ -28,9 +28,9 @@ class Mage_Adminhtml_Model_System_Config_Source_Tax_Basedon
     public function toOptionArray()
     {
         return array(
-            array('value'=>'shipping', 'label'=>Mage::helper('adminhtml')->__('Shipping address')),
-            array('value'=>'billing', 'label'=>Mage::helper('adminhtml')->__('Billing address')),
-            array('value'=>'origin', 'label'=>Mage::helper('adminhtml')->__("Shipping origin")),
+            array('value'=>'shipping', 'label'=>AO::helper('adminhtml')->__('Shipping address')),
+            array('value'=>'billing', 'label'=>AO::helper('adminhtml')->__('Billing address')),
+            array('value'=>'origin', 'label'=>AO::helper('adminhtml')->__("Shipping origin")),
         );
     }
 

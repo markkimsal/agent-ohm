@@ -72,8 +72,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
         /**
          * @todo Why 'core/resource' is used here ? What if catalog will use another resource ?
          */
-        $this->_productWebsiteTable = Mage::getSingleton('core/resource')->getTableName('catalog/product_website');
-        $this->_productTable = Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+        $this->_productWebsiteTable = AO::getSingleton('core/resource')->getTableName('catalog/product_website');
+        $this->_productTable = AO::getSingleton('core/resource')->getTableName('catalog/category_product');
     }
 
     /**
@@ -124,7 +124,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
      */
     protected function _beforeLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_before',
+        AO::dispatchEvent($this->_eventPrefix . '_load_before',
                             array($this->_eventObject => $this));
         return parent::_beforeLoad();
     }
@@ -136,7 +136,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
      */
     protected function _afterLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_after',
+        AO::dispatchEvent($this->_eventPrefix . '_load_after',
                             array($this->_eventObject => $this));
 
         return parent::_afterLoad();
@@ -282,7 +282,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
      */
     public function joinUrlRewrite()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = AO::app()->getStore()->getId();
         $this->joinTable(
             'core/url_rewrite',
             'category_id=entity_id',

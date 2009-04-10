@@ -42,10 +42,10 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
             $this->_forward('noRoute');
             return;
         }
-        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCode($code);
+        $wishlist = AO::getModel('wishlist/wishlist')->loadByCode($code);
 
-        if ($wishlist->getCustomerId() && $wishlist->getCustomerId() == Mage::getSingleton('customer/session')->getCustomerId()) {
-            $this->_redirectUrl(Mage::helper('wishlist')->getListUrl());
+        if ($wishlist->getCustomerId() && $wishlist->getCustomerId() == AO::getSingleton('customer/session')->getCustomerId()) {
+            $this->_redirectUrl(AO::helper('wishlist')->getListUrl());
             return;
         }
 
@@ -53,7 +53,7 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
             $this->_forward('noRoute');
             return;
         } else {
-            Mage::register('shared_wishlist', $wishlist);
+            AO::register('shared_wishlist', $wishlist);
             $this->loadLayout();
             $this->_initLayoutMessages('wishlist/session');
             $this->renderLayout();
@@ -69,8 +69,8 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCode($code);
-        Mage::getSingleton('checkout/session')->setSharedWishlist($code);
+        $wishlist = AO::getModel('wishlist/wishlist')->loadByCode($code);
+        AO::getSingleton('checkout/session')->setSharedWishlist($code);
 
         if (!$wishlist->getId()) {
             $this->_forward('noRoute');
@@ -79,16 +79,16 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
             $urls = false;
             foreach ($wishlist->getProductCollection() as $item) {
                 try {
-                    $product = Mage::getModel('catalog/product')
+                    $product = AO::getModel('catalog/product')
                         ->load($item->getProductId());
                     if ($product->isSalable()){
-                        Mage::getSingleton('checkout/cart')->addProduct($product);
+                        AO::getSingleton('checkout/cart')->addProduct($product);
                     }
                 }
                 catch (Exception $e) {
-                    $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
+                    $url = AO::getSingleton('checkout/session')->getRedirectUrl(true);
                     if ($url){
-                        $url = Mage::getModel('core/url')->getUrl('catalog/product/view', array(
+                        $url = AO::getModel('core/url')->getUrl('catalog/product/view', array(
                             'id'=>$item->getProductId(),
                             'wishlist_next'=>1
                         ));
@@ -99,15 +99,15 @@ class Mage_Wishlist_SharedController extends Mage_Core_Controller_Front_Action
                     }
                 }
 
-                Mage::getSingleton('checkout/cart')->save();
+                AO::getSingleton('checkout/cart')->save();
             }
             if ($urls) {
-                Mage::getSingleton('checkout/session')->addError(array_shift($messages));
+                AO::getSingleton('checkout/session')->addError(array_shift($messages));
                 $this->getResponse()->setRedirect(array_shift($urls));
 
-                Mage::getSingleton('checkout/session')->setWishlistPendingUrls($urls);
-                Mage::getSingleton('checkout/session')->setWishlistPendingMessages($messages);
-                Mage::getSingleton('checkout/session')->setWishlistIds($wishlistIds);
+                AO::getSingleton('checkout/session')->setWishlistPendingUrls($urls);
+                AO::getSingleton('checkout/session')->setWishlistPendingMessages($messages);
+                AO::getSingleton('checkout/session')->setWishlistIds($wishlistIds);
             } else {
                 $this->_redirect('checkout/cart');
             }

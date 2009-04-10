@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
 
     public function setStore($store)
     {
-        $this->setStoreId(Mage::app()->getStore($store)->getId());
+        $this->setStoreId(AO::app()->getStore($store)->getId());
         return $this;
     }
 
@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId(AO::app()->getStore()->getId());
         }
         return $this->_storeId;
     }
@@ -117,8 +117,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Collection_Abstract extends Mage_Ea
         $entityIdField  = $this->getEntity()->getEntityIdField();
         $entityId       = $valueInfo[$entityIdField];
         if (!isset($this->_items[$entityId])) {
-            Mage::throwException('Mage_Eav',
-                Mage::helper('eav')->__('Data integrity: No header row found for attribute')
+            AO::throwException('Mage_Eav',
+                AO::helper('eav')->__('Data integrity: No header row found for attribute')
             );
         }
         $attributeCode = $this->getEntity()->getAttribute($valueInfo['attribute_id'])

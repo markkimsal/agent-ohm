@@ -38,12 +38,12 @@ class Mage_Cybermut_Model_Source_Language
     public function toOptionArray()
     {
         return array(
-            array('value' => 'EN', 'label' => Mage::helper('cybermut')->__('English')),
-            array('value' => 'FR', 'label' => Mage::helper('cybermut')->__('French')),
-            array('value' => 'DE', 'label' => Mage::helper('cybermut')->__('German')),
-            array('value' => 'IT', 'label' => Mage::helper('cybermut')->__('Italian')),
-            array('value' => 'ES', 'label' => Mage::helper('cybermut')->__('Spain')),
-            array('value' => 'NL', 'label' => Mage::helper('cybermut')->__('Dutch')),
+            array('value' => 'EN', 'label' => AO::helper('cybermut')->__('English')),
+            array('value' => 'FR', 'label' => AO::helper('cybermut')->__('French')),
+            array('value' => 'DE', 'label' => AO::helper('cybermut')->__('German')),
+            array('value' => 'IT', 'label' => AO::helper('cybermut')->__('Italian')),
+            array('value' => 'ES', 'label' => AO::helper('cybermut')->__('Spain')),
+            array('value' => 'NL', 'label' => AO::helper('cybermut')->__('Dutch')),
         );
     }
 }

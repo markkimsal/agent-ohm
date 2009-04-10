@@ -59,12 +59,12 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
         if (!isset($this->_attributes[$entityType])) {
             switch ($entityType) {
                 case 'product':
-                    $attributes = Mage::getSingleton('catalog/convert_parser_product')
+                    $attributes = AO::getSingleton('catalog/convert_parser_product')
                         ->getExternalAttributes();
                     break;
 
                 case 'customer':
-                    $attributes = Mage::getSingleton('customer/convert_parser_customer')
+                    $attributes = AO::getSingleton('customer/convert_parser_customer')
                         ->getExternalAttributes();
                     break;
             }
@@ -125,15 +125,15 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductTypeFilterOptions()
     {
-        $options = Mage::getSingleton('catalog/product_type')->getOptionArray();
+        $options = AO::getSingleton('catalog/product_type')->getOptionArray();
         array_splice($options, 0, 0, array(''=>$this->__('Any Type')));
         return $options;
     }
 
     public function getProductAttributeSetFilterOptions()
     {
-        $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+        $options = AO::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter(AO::getModel('catalog/product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductVisibilityFilterOptions()
     {
-        $options = Mage::getSingleton('catalog/product_visibility')->getOptionArray();
+        $options = AO::getSingleton('catalog/product_visibility')->getOptionArray();
 
         array_splice($options, 0, 0, array(''=>$this->__('Any Visibility')));
         return $options;
@@ -156,7 +156,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getProductStatusFilterOptions()
     {
-        $options = Mage::getSingleton('catalog/product_status')->getOptionArray();
+        $options = AO::getSingleton('catalog/product_status')->getOptionArray();
 
         array_splice($options, 0, 0, array(''=>$this->__('Any Status')));
         return $options;
@@ -167,7 +167,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
         if (!$this->_filterStores) {
             #$this->_filterStores = array(''=>$this->__('Any Store'));
             $this->_filterStores = array();
-            foreach (Mage::getConfig()->getNode('stores')->children() as $storeNode) {
+            foreach (AO::getConfig()->getNode('stores')->children() as $storeNode) {
                 if ($storeNode->getName()==='default') {
                     //continue;
                 }
@@ -179,7 +179,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getCustomerGroupFilterOptions()
     {
-        $options = Mage::getResourceModel('customer/group_collection')
+        $options = AO::getResourceModel('customer/group_collection')
             ->addFieldToFilter('customer_group_id', array('gt'=>0))
             ->load()
             ->toOptionHash();
@@ -190,9 +190,9 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
 
     public function getCountryFilterOptions()
     {
-        $options = Mage::getResourceModel('directory/country_collection')
+        $options = AO::getResourceModel('directory/country_collection')
             ->load()->toOptionArray(false);
-        array_unshift($options, array('value'=>'', 'label'=>Mage::helper('adminhtml')->__('All countries')));
+        array_unshift($options, array('value'=>'', 'label'=>AO::helper('adminhtml')->__('All countries')));
         return $options;
     }
 
@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
      */
     protected function _getStoreModel() {
         if (is_null($this->_storeModel)) {
-            $this->_storeModel = Mage::getSingleton('adminhtml/system_store');
+            $this->_storeModel = AO::getSingleton('adminhtml/system_store');
         }
         return $this->_storeModel;
     }
@@ -226,7 +226,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     public function getShortDateFormat()
     {
         if (!$this->_shortDateFormat) {
-            $this->_shortDateFormat = Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $this->_shortDateFormat = AO::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         }
         return $this->_shortDateFormat;
     }

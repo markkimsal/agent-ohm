@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
 {
     public function getProfile()
     {
-        return Mage::registry('current_convert_profile');
+        return AO::registry('current_convert_profile');
     }
 
     protected function _toHtml()
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         $profile = $this->getProfile();
 
         echo '<html><head>';
-        echo '<script type="text/javascript">var FORM_KEY = "'.Mage::getSingleton('core/session')->getFormKey().'";</script>';
+        echo '<script type="text/javascript">var FORM_KEY = "'.AO::getSingleton('core/session')->getFormKey().'";</script>';
 
         $headBlock = $this->getLayout()->createBlock('page/html_head');
         $headBlock->addJs('prototype/prototype.js');
@@ -60,14 +60,14 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
         echo '<ul>';
         echo '<li>';
         if ($profile->getId()) {
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Starting profile execution, please wait...");
             echo '</li>';
             echo '<li style="background-color:#FFD;">';
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Warning: Please don't close window during importing/exporting data");
         } else {
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("No profile loaded...");
         }
         echo '</li>';
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                         break;
                 }
                 echo '<li style="'.$liStyle.'">';
-                echo '<img src="'.Mage::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
+                echo '<img src="'.AO::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
                 echo $e->getMessage();
                 if ($e->getPosition()) {
                     echo " <small>(".$e->getPosition().")</small>";
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
             }
 
             echo '<li id="liFinished" style="display:none;">';
-            echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+            echo '<img src="'.AO::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
             echo $this->__("Finished profile execution.");
             echo '</li>';
 
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
 
 
             $showFinished = true;
-            $batchModel = Mage::getSingleton('dataflow/batch');
+            $batchModel = AO::getSingleton('dataflow/batch');
             /* @var $batchModel Mage_Dataflow_Model_Batch */
             if ($batchModel->getId()) {
                 if ($batchModel->getAdapter()) {
@@ -132,14 +132,14 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
                     $batchConfig = array(
                         'styles' => array(
                             'error' => array(
-                                'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
+                                'icon' => AO::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
                                 'bg'   => '#FDD'
                             ),
                             'message' => array(
-                                'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
+                                'icon' => AO::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
                                 'bg'   => '#DDF'
                             ),
-                            'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
+                            'loader'  => AO::getDesign()->getSkinUrl('images/ajax-loader.gif')
                         ),
                         'template' => '<li style="#{style}" id="#{id}">'
                                     . '<img id="#{id}_img" src="#{image}" class="v-middle" style="margin-right:5px"/>'
@@ -281,7 +281,7 @@ function addProfileRow(data) {
         }
         /*
         echo '<li>';
-        echo '<img src="'.Mage::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
+        echo '<img src="'.AO::getDesign()->getSkinUrl('images/note_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';
         echo $this->__("Finished profile execution.");
         echo '</li>';
         echo "</ul>";

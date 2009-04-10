@@ -43,9 +43,9 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sales_
      */
     public function getLinks()
     {
-        $this->_purchasedLinks = Mage::getModel('downloadable/link_purchased')
+        $this->_purchasedLinks = AO::getModel('downloadable/link_purchased')
             ->load($this->getOrder()->getId(), 'order_id');
-        $purchasedItems = Mage::getModel('downloadable/link_purchased_item')->getCollection()
+        $purchasedItems = AO::getModel('downloadable/link_purchased_item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getOrderItem()->getId());
         $this->_purchasedLinks->setPurchasedItems($purchasedItems);
 
@@ -62,7 +62,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sales_
         if ($this->_purchasedLinks->getLinkSectionTitle()) {
             return $this->_purchasedLinks->getLinkSectionTitle();
         }
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     public function draw(){}

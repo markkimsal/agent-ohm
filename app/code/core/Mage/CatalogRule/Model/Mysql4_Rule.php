@@ -47,7 +47,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getFromDate()) {
-            $date = new Zend_Date(Mage::getModel('core/date')->gmtTimestamp());
+            $date = new Zend_Date(AO::getModel('core/date')->gmtTimestamp());
             $date->setHour(0)
                 ->setMinute(0)
                 ->setSecond(0);
@@ -244,7 +244,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $productIds[] = $p['product_id'];
         }
 
-        $priceAttr = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
+        $priceAttr = AO::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
 
         $select = $read->select()
             ->from($priceAttr->getBackend()->getTable(), array('entity_id', 'store_id', 'value'))
@@ -259,7 +259,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
          */
         $productPrices = array();
         foreach ($prices as $index => $priceData) {
-            $websiteId = Mage::app()->getStore($priceData['store_id'])->getWebsiteId();
+            $websiteId = AO::app()->getStore($priceData['store_id'])->getWebsiteId();
 
             if (!isset($productPrices[$priceData['entity_id']])) {
                 $productPrices[$priceData['entity_id']] = array(
@@ -319,7 +319,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
+        $priceAttr  = AO::getSingleton('eav/config')->getAttribute('catalog_product', 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 
@@ -332,7 +332,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         );
 
         if ($websiteId !== null) {
-            $website  = Mage::app()->getWebsite($websiteId);
+            $website  = AO::app()->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
             if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
                 $storeId    = $defaultGroup->getDefaultStoreId();
@@ -354,7 +354,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 array($fieldAlias=>$tableAlias.'.value')
             );
         } else {
-	        foreach (Mage::app()->getWebsites() as $website) {
+	        foreach (AO::app()->getWebsites() as $website) {
 	            $websiteId  = $website->getId();
 	            $defaultGroup = $website->getDefaultGroup();
 	            if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
@@ -391,7 +391,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         $write = $this->_getWriteAdapter();
         $write->beginTransaction();
 
-        Mage::dispatchEvent('catalogrule_before_apply', array('resource'=>$this));
+        AO::dispatchEvent('catalogrule_before_apply', array('resource'=>$this));
 
         $clearOldData = false;
         if ($fromDate === null) {
@@ -429,7 +429,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 	         * Update products rules prices per each website separatly
 	         * because of max join limit in mysql
 	         */
-	        foreach (Mage::app()->getWebsites(false) as $website) {
+	        foreach (AO::app()->getWebsites(false) as $website) {
 	            $productsStmt = $this->_getRuleProductsStmt(
 	               $fromDate,
 	               $toDate,
@@ -580,10 +580,10 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             throw $e;
         }
 
-        $productCondition = Mage::getModel('catalog/product_condition')
+        $productCondition = AO::getModel('catalog/product_condition')
             ->setTable($this->getTable('catalogrule/affected_product'))
             ->setPkFieldName('product_id');
-        Mage::dispatchEvent('catalogrule_after_apply', array(
+        AO::dispatchEvent('catalogrule_after_apply', array(
             'product'=>$product,
             'product_condition' => $productCondition
         ));
@@ -631,7 +631,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         }
 
         $productPrice = max($productPrice, 0);
-        return Mage::app()->getStore()->roundPrice($productPrice);
+        return AO::app()->getStore()->roundPrice($productPrice);
     }
 
     /**

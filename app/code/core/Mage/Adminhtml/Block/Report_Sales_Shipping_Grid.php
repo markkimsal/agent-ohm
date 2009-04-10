@@ -49,19 +49,19 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('shipping_description', array(
-            'header'    =>Mage::helper('reports')->__('Carrier/Method'),
+            'header'    =>AO::helper('reports')->__('Carrier/Method'),
             'index'     =>'shipping_description'
         ));
 
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Number of Orders'),
+            'header'    =>AO::helper('reports')->__('Number of Orders'),
             'index'     =>'orders',
             'total'     =>'sum',
             'type'      =>'number'
         ));
 
         $this->addColumn('total', array(
-            'header'    =>Mage::helper('reports')->__('Total Shipping'),
+            'header'    =>AO::helper('reports')->__('Total Shipping'),
             'type'      =>'currency',
             'currency_code' => $this->getCurrentCurrencyCode(),
             'index'     =>'total',
@@ -69,8 +69,8 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportShippingCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportShippingExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportShippingCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportShippingExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

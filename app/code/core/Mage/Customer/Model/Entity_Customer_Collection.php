@@ -52,7 +52,7 @@ class Mage_Customer_Model_Entity_Customer_Collection extends Mage_Eav_Model_Enti
     public function addNameToSelect()
     {
         $fields = array();
-        foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
+        foreach (AO::getConfig()->getFieldset('customer_account') as $code=>$node) {
             if ($node->is('name')) {
                 //$this->addAttributeToSelect($code);
                 $fields[$code] = $code;

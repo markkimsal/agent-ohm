@@ -39,16 +39,16 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
     {
         parent::__construct();
         $this->setId('tag_form');
-        $this->setTitle(Mage::helper('tag')->__('Block Information'));
+        $this->setTitle(AO::helper('tag')->__('Block Information'));
     }
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('tag_tag');
+        $model = AO::registry('tag_tag');
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('tag')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('tag')->__('General Information')));
 
         if ($model->getTagId()) {
         	$fieldset->addField('tag_id', 'hidden', array(
@@ -58,30 +58,30 @@ class Mage_Adminhtml_Block_Tag_Edit_Form extends Mage_Adminhtml_Block_Widget_For
 
     	$fieldset->addField('name', 'text', array(
             'name' => 'name',
-            'label' => Mage::helper('tag')->__('Tag Name'),
-            'title' => Mage::helper('tag')->__('Tag Name'),
+            'label' => AO::helper('tag')->__('Tag Name'),
+            'title' => AO::helper('tag')->__('Tag Name'),
             'required' => true,
         ));
 
     	$fieldset->addField('status', 'select', array(
-            'label' => Mage::helper('tag')->__('Status'),
-            'title' => Mage::helper('tag')->__('Status'),
+            'label' => AO::helper('tag')->__('Status'),
+            'title' => AO::helper('tag')->__('Status'),
             'name' => 'status',
             'required' => true,
             'options' => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('tag')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('tag')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('tag')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => AO::helper('tag')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => AO::helper('tag')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => AO::helper('tag')->__('Approved'),
             ),
         ));
 
-        if (!$model->getId() && !Mage::getSingleton('adminhtml/session')->getTagData() ) {
+        if (!$model->getId() && !AO::getSingleton('adminhtml/session')->getTagData() ) {
             $model->setStatus(Mage_Tag_Model_Tag::STATUS_APPROVED);
         }
 
-        if ( Mage::getSingleton('adminhtml/session')->getTagData() ) {
-            $form->setValues(Mage::getSingleton('adminhtml/session')->getTagData());
-            Mage::getSingleton('adminhtml/session')->setTagData(null);
+        if ( AO::getSingleton('adminhtml/session')->getTagData() ) {
+            $form->setValues(AO::getSingleton('adminhtml/session')->getTagData());
+            AO::getSingleton('adminhtml/session')->setTagData(null);
         } else {
             $form->setValues($model->getData());
         }

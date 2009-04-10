@@ -37,12 +37,12 @@ class Mage_Paybox_Model_Source_PaymentType
     public function toOptionArray()
     {
         return array(
-            array('value' => '', 'label' => Mage::helper('paybox')->__('--Please Select--')),
-            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_CARTE, 'label' => Mage::helper('paybox')->__('CARTE')),
-            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_SYMPASS, 'label' => Mage::helper('paybox')->__('SYMPASS')),
-            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_PAYNOVA , 'label' => Mage::helper('paybox')->__('PAYNOVA')),
-            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_TERMINEO, 'label' => Mage::helper('paybox')->__('TERMINEO')),
-            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_PAYPAL, 'label' => Mage::helper('paybox')->__('PAYPAL')),
+            array('value' => '', 'label' => AO::helper('paybox')->__('--Please Select--')),
+            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_CARTE, 'label' => AO::helper('paybox')->__('CARTE')),
+            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_SYMPASS, 'label' => AO::helper('paybox')->__('SYMPASS')),
+            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_PAYNOVA , 'label' => AO::helper('paybox')->__('PAYNOVA')),
+            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_TERMINEO, 'label' => AO::helper('paybox')->__('TERMINEO')),
+            array('value' => Mage_Paybox_Model_System::PBX_PAYMENT_TYPE_PAYPAL, 'label' => AO::helper('paybox')->__('PAYPAL')),
         );
     }
 }

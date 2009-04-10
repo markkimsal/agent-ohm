@@ -84,8 +84,8 @@ class Mage_Bundle_Model_Observer
         $collection = $observer->getEvent()->getCollection();
         $limit = $observer->getEvent()->getLimit();
 
-        $bundles = Mage::getModel('catalog/product')->getResourceCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+        $bundles = AO::getModel('catalog/product')->getResourceCollection()
+            ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
             ->addStoreFilter()
             ->addMinimalPrice()
 
@@ -97,8 +97,8 @@ class Mage_Bundle_Model_Observer
             $bundles->addIdFilter($ids, true);
         }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($bundles);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($bundles);
+        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($bundles);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($bundles);
 
         $bundles->getSelect()->group('entity_id');
 
@@ -220,7 +220,7 @@ class Mage_Bundle_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-            Mage::helper('adminhtml/catalog')
+            AO::helper('adminhtml/catalog')
                 ->setAttributeTabBlock('bundle/adminhtml_catalog_product_edit_tab_attributes');
         }
         return $this;

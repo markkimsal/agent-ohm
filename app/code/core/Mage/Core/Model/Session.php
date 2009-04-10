@@ -47,7 +47,7 @@ class Mage_Core_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getFormKey()
     {
         if (!$this->getData('_form_key')) {
-            $this->setData('_form_key', Mage::helper('core')->getRandomString(16));
+            $this->setData('_form_key', AO::helper('core')->getRandomString(16));
         }
         return $this->getData('_form_key');
     }

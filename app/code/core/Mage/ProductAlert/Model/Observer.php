@@ -84,7 +84,7 @@ class Mage_ProductAlert_Model_Observer
     {
         if (is_null($this->_websites)) {
             try {
-                $this->_websites = Mage::app()->getWebsites();
+                $this->_websites = AO::app()->getWebsites();
             }
             catch (Exception $e) {
                 $this->_errors[] = $e->getMessage();
@@ -108,11 +108,11 @@ class Mage_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(self::XML_PATH_PRICE_ALLOW, $website->getDefaultGroup()->getDefaultStore()->getId())) {
+            if (!AO::getStoreConfig(self::XML_PATH_PRICE_ALLOW, $website->getDefaultGroup()->getDefaultStore()->getId())) {
                 continue;
             }
             try {
-                $collection = Mage::getModel('productalert/price')
+                $collection = AO::getModel('productalert/price')
                     ->getCollection()
                     ->addWebsiteFilter($website->getId())
                     ->setCustomerOrder();
@@ -127,7 +127,7 @@ class Mage_ProductAlert_Model_Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = Mage::getModel('customer/customer')->load($alert->getCustomerId());
+                        $customer = AO::getModel('customer/customer')->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -142,7 +142,7 @@ class Mage_ProductAlert_Model_Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = Mage::getModel('catalog/product')
+                    $product = AO::getModel('catalog/product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     if (!$product) {
@@ -153,7 +153,7 @@ class Mage_ProductAlert_Model_Observer
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($product->getFinalPrice());
-                        $alert->setLastSendDate(Mage::getModel('core/date')->gmtDate());
+                        $alert->setLastSendDate(AO::getModel('core/date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -191,11 +191,11 @@ class Mage_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(self::XML_PATH_STOCK_ALLOW, $website->getDefaultGroup()->getDefaultStore()->getId())) {
+            if (!AO::getStoreConfig(self::XML_PATH_STOCK_ALLOW, $website->getDefaultGroup()->getDefaultStore()->getId())) {
                 continue;
             }
             try {
-                $collection = Mage::getModel('productalert/stock')
+                $collection = AO::getModel('productalert/stock')
                     ->getCollection()
                     ->addWebsiteFilter($website->getId())
                     ->addStatusFilter(0)
@@ -211,7 +211,7 @@ class Mage_ProductAlert_Model_Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = Mage::getModel('customer/customer')->load($alert->getCustomerId());
+                        $customer = AO::getModel('customer/customer')->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -226,7 +226,7 @@ class Mage_ProductAlert_Model_Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = Mage::getModel('catalog/product')
+                    $product = AO::getModel('catalog/product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     /* @var $product Mage_catalog_Model_Product */
@@ -239,7 +239,7 @@ class Mage_ProductAlert_Model_Observer
                     if ($product->isSalable()) {
                         $email->addStockProduct($product);
 
-                        $alert->setSendDate(Mage::getModel('core/date')->gmtDate());
+                        $alert->setSendDate(AO::getModel('core/date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -271,21 +271,21 @@ class Mage_ProductAlert_Model_Observer
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE)) {
+            if (!AO::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE)) {
                 return $this;
             }
 
-            $translate = Mage::getSingleton('core/translate');
+            $translate = AO::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('core/email_template');
+            $emailTemplate = AO::getModel('core/email_template');
             /* @var $emailTemplate Mage_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area'  => 'backend'))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    AO::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    AO::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
+                    AO::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings' => join("\n", $this->_errors))
                 );
@@ -303,7 +303,7 @@ class Mage_ProductAlert_Model_Observer
      */
     public function process()
     {
-        $email = Mage::getModel('productalert/email');
+        $email = AO::getModel('productalert/email');
         /* @var $email Mage_ProductAlert_Model_Email */
         $this->_processPrice($email);
         $this->_processStock($email);

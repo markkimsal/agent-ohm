@@ -57,9 +57,9 @@ class Mage_Cron_Model_Observer
     public function dispatch($observer)
     {
         $schedules = $this->getPendingSchedules();
-        $scheduleLifetime = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
+        $scheduleLifetime = AO::getStoreConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
-        $jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
+        $jobsRoot = AO::getConfig()->getNode('crontab/jobs');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
@@ -74,27 +74,27 @@ class Mage_Cron_Model_Observer
             }
             try {
                 $errorStatus = Mage_Cron_Model_Schedule::STATUS_ERROR;
-                $errorMessage = Mage::helper('cron')->__('Unknown error');
+                $errorMessage = AO::helper('cron')->__('Unknown error');
 
                 if ($time < $now - $scheduleLifetime) {
                     $errorStatus = Mage_Cron_Model_Schedule::STATUS_MISSED;
-                    Mage::throwException(Mage::helper('cron')->__('Too late for the schedule'));
+                    AO::throwException(AO::helper('cron')->__('Too late for the schedule'));
                 }
 
                 $schedule->setExecutedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
 
                 if ($runConfig->model) {
                     if (!preg_match(self::REGEX_RUN_MODEL, (string)$runConfig->model, $run)) {
-                        Mage::throwException(Mage::helper('cron')->__('Invalid model/method definition, expecting "model/class::method".'));
+                        AO::throwException(AO::helper('cron')->__('Invalid model/method definition, expecting "model/class::method".'));
                     }
-                    if (!($model = Mage::getModel($run[1])) || !method_exists($model, $run[2])) {
-                        Mage::throwException(Mage::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
+                    if (!($model = AO::getModel($run[1])) || !method_exists($model, $run[2])) {
+                        AO::throwException(AO::helper('cron')->__('Invalid callback: %s::%s does not exist', $run[1], $run[2]));
                     }
                     $callback = array($model, $run[2]);
                     $arguments = array($schedule);
                 }
                 if (empty($callback)) {
-                    Mage::throwException(Mage::helper('cron')->__('No callbacks found'));
+                    AO::throwException(AO::helper('cron')->__('No callbacks found'));
                 }
 
                 $schedule->setStatus(Mage_Cron_Model_Schedule::STATUS_RUNNING)
@@ -119,7 +119,7 @@ class Mage_Cron_Model_Observer
     public function getPendingSchedules()
     {
         if (!$this->_pendingSchedules) {
-            $this->_pendingSchedules = Mage::getModel('cron/schedule')->getCollection()
+            $this->_pendingSchedules = AO::getModel('cron/schedule')->getCollection()
                 ->addFieldToFilter('status', Mage_Cron_Model_Schedule::STATUS_PENDING)
                 ->load();
         }
@@ -136,8 +136,8 @@ class Mage_Cron_Model_Observer
         /**
          * check if schedule generation is needed
          */
-        $lastRun = Mage::app()->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
-        if ($lastRun > time() - Mage::getStoreConfig(self::XML_PATH_SCHEDULE_GENERATE_EVERY)*60) {
+        $lastRun = AO::app()->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
+        if ($lastRun > time() - AO::getStoreConfig(self::XML_PATH_SCHEDULE_GENERATE_EVERY)*60) {
             return $this;
         }
 
@@ -150,7 +150,7 @@ class Mage_Cron_Model_Observer
         /**
          * generate global crontab jobs
          */
-        $config = Mage::getConfig()->getNode('crontab/jobs');
+        $config = AO::getConfig()->getNode('crontab/jobs');
         if ($config instanceof Mage_Core_Model_Config_Element) {
         	$this->_generateJobs($config->children(), $exists);
         }
@@ -158,7 +158,7 @@ class Mage_Cron_Model_Observer
         /**
          * generate configurable crontab jobs
          */
-        $config = Mage::getConfig()->getNode('default/crontab/jobs');
+        $config = AO::getConfig()->getNode('default/crontab/jobs');
         if ($config instanceof Mage_Core_Model_Config_Element) {
         	$this->_generateJobs($config->children(), $exists);
         }
@@ -166,7 +166,7 @@ class Mage_Cron_Model_Observer
         /**
          * save time schedules generation was ran with no expiration
          */
-        Mage::app()->saveCache(time(), self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT, array('crontab'), null);
+        AO::app()->saveCache(time(), self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT, array('crontab'), null);
 
         return $this;
     }
@@ -180,13 +180,13 @@ class Mage_Cron_Model_Observer
      */
     protected function _generateJobs($jobs, $exists)
     {
-        $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
-        $schedule = Mage::getModel('cron/schedule');
+        $scheduleAheadFor = AO::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
+        $schedule = AO::getModel('cron/schedule');
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if ($jobConfig->schedule->config_path) {
-                $cronExpr = Mage::getStoreConfig((string)$jobConfig->schedule->config_path);
+                $cronExpr = AO::getStoreConfig((string)$jobConfig->schedule->config_path);
             }
             if (empty($cronExpr) && $jobConfig->schedule->cron_expr) {
                 $cronExpr = (string)$jobConfig->schedule->cron_expr;
@@ -220,12 +220,12 @@ class Mage_Cron_Model_Observer
     public function cleanup()
     {
         // check if history cleanup is needed
-        $lastCleanup = Mage::app()->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
-        if ($lastCleanup > time() - Mage::getStoreConfig(self::XML_PATH_HISTORY_CLEANUP_EVERY)*60) {
+        $lastCleanup = AO::app()->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
+        if ($lastCleanup > time() - AO::getStoreConfig(self::XML_PATH_HISTORY_CLEANUP_EVERY)*60) {
             return $this;
         }
 
-        $history = Mage::getModel('cron/schedule')->getCollection()
+        $history = AO::getModel('cron/schedule')->getCollection()
             ->addFieldToFilter('status', array('in'=>array(
                 Mage_Cron_Model_Schedule::STATUS_SUCCESS,
                 Mage_Cron_Model_Schedule::STATUS_MISSED,
@@ -233,9 +233,9 @@ class Mage_Cron_Model_Observer
             )))->load();
 
         $historyLifetimes = array(
-            Mage_Cron_Model_Schedule::STATUS_SUCCESS => Mage::getStoreConfig(self::XML_PATH_HISTORY_SUCCESS)*60,
-            Mage_Cron_Model_Schedule::STATUS_MISSED => Mage::getStoreConfig(self::XML_PATH_HISTORY_FAILURE)*60,
-            Mage_Cron_Model_Schedule::STATUS_ERROR => Mage::getStoreConfig(self::XML_PATH_HISTORY_FAILURE)*60,
+            Mage_Cron_Model_Schedule::STATUS_SUCCESS => AO::getStoreConfig(self::XML_PATH_HISTORY_SUCCESS)*60,
+            Mage_Cron_Model_Schedule::STATUS_MISSED => AO::getStoreConfig(self::XML_PATH_HISTORY_FAILURE)*60,
+            Mage_Cron_Model_Schedule::STATUS_ERROR => AO::getStoreConfig(self::XML_PATH_HISTORY_FAILURE)*60,
         );
 
         $now = time();
@@ -246,7 +246,7 @@ class Mage_Cron_Model_Observer
         }
 
         // save time history cleanup was ran with no expiration
-        Mage::app()->saveCache(time(), self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT, array('crontab'), null);
+        AO::app()->saveCache(time(), self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT, array('crontab'), null);
 
         return $this;
     }

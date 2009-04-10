@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Product extends Mage_Adminhtml_Block_Widget_Gr
     public function __construct()
     {
         $this->_controller = 'report_product';
-        $this->_headerText = Mage::helper('reports')->__('Products Report');
+        $this->_headerText = AO::helper('reports')->__('Products Report');
         parent::__construct();
         $this->_removeButton('add');
     }

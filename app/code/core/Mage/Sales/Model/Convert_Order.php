@@ -42,7 +42,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     public function toQuote(Mage_Sales_Model_Order $order, $quote=null)
     {
         if (!($quote instanceof Mage_Sales_Model_Quote)) {
-            $quote = Mage::getModel('sales/quote');
+            $quote = AO::getModel('sales/quote');
         }
 
         $quote
@@ -52,7 +52,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
             ->setStoreId($order->getStoreId())
             ->setOrderId($order->getId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order', 'to_quote', $order, $quote);
+        AO::helper('core')->copyFieldset('sales_convert_order', 'to_quote', $order, $quote);
 
 //            /**
 //             * Customer data
@@ -92,7 +92,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
 //            //->collectTotals();
 //
 
-        Mage::dispatchEvent('sales_convert_order_to_quote', array('order'=>$order, 'quote'=>$quote));
+        AO::dispatchEvent('sales_convert_order_to_quote', array('order'=>$order, 'quote'=>$quote));
         return $quote;
     }
 
@@ -106,7 +106,7 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     {
         $address = $this->addressToQuoteAddress($order->getShippingAddress());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order', 'to_quote_address', $order, $address);
+        AO::helper('core')->copyFieldset('sales_convert_order', 'to_quote_address', $order, $address);
 //        $address->setWeight($order->getWeight())
 //            ->setShippingMethod($order->getShippingMethod())
 //            ->setShippingDescription($order->getShippingDescription())
@@ -138,13 +138,13 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function addressToQuoteAddress(Mage_Sales_Model_Order_Address $address)
     {
-        $quoteAddress = Mage::getModel('sales/quote_address')
+        $quoteAddress = AO::getModel('sales/quote_address')
             ->setStoreId($address->getStoreId())
             ->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
             ->setCustomerAddressId($address->getCustomerAddressId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $quoteAddress);
+        AO::helper('core')->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $quoteAddress);
 //            ->setPrefix($address->getPrefix())
 //            ->setFirstname($address->getFirstname())
 //            ->setMiddlename($address->getMiddlename())
@@ -171,13 +171,13 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
     public function paymentToQuotePayment(Mage_Sales_Model_Order_Payment $payment, $quotePayment=null)
     {
         if (!($quotePayment instanceof Mage_Sales_Model_Quote_Payment)) {
-            $quotePayment = Mage::getModel('sales/quote_payment');
+            $quotePayment = AO::getModel('sales/quote_payment');
         }
 
         $quotePayment->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_payment', 'to_quote_payment', $payment, $quotePayment);
+        AO::helper('core')->copyFieldset('sales_convert_order_payment', 'to_quote_payment', $payment, $quotePayment);
 //            ->setMethod($payment->getMethod())
 //            ->setAdditionalData($payment->getAdditionalData())
 //            ->setPoNumber($payment->getPoNumber())
@@ -204,13 +204,13 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToQuoteItem(Mage_Sales_Model_Order_Item $item)
     {
-        $quoteItem = Mage::getModel('sales/quote_item')
+        $quoteItem = AO::getModel('sales/quote_item')
             ->setStoreId($item->getOrder()->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setProductId($item->getProductId())
             ->setParentProductId($item->getParentProductId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_item', 'to_quote_item', $item, $quoteItem);
+        AO::helper('core')->copyFieldset('sales_convert_order_item', 'to_quote_item', $item, $quoteItem);
 //            ->setSku($item->getSku())
 //            ->setName($item->getName())
 //            ->setDescription($item->getDescription())
@@ -240,14 +240,14 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function toInvoice(Mage_Sales_Model_Order $order)
     {
-        $invoice = Mage::getModel('sales/order_invoice');
+        $invoice = AO::getModel('sales/order_invoice');
         $invoice->setOrder($order)
             ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
             ->setBillingAddressId($order->getBillingAddressId())
             ->setShippingAddressId($order->getShippingAddressId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order', 'to_invoice', $order, $invoice);
+        AO::helper('core')->copyFieldset('sales_convert_order', 'to_invoice', $order, $invoice);
 //            ->setBaseCurrencyCode($order->getBaseCurrencyCode())
 //            ->setStoreCurrencyCode($order->getStoreCurrencyCode())
 //            ->setOrderCurrencyCode($order->getOrderCurrencyCode())
@@ -265,11 +265,11 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToInvoiceItem(Mage_Sales_Model_Order_Item $item)
     {
-        $invoiceItem = Mage::getModel('sales/order_invoice_item');
+        $invoiceItem = AO::getModel('sales/order_invoice_item');
         $invoiceItem->setOrderItem($item)
             ->setProductId($item->getProductId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_item', 'to_invoice_item', $item, $invoiceItem);
+        AO::helper('core')->copyFieldset('sales_convert_order_item', 'to_invoice_item', $item, $invoiceItem);
 //            ->setName($item->getName())
 //            ->setSku($item->getSku())
 //            ->setDescription($item->getDescription())
@@ -288,14 +288,14 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function toShipment(Mage_Sales_Model_Order $order)
     {
-        $shipment = Mage::getModel('sales/order_shipment');
+        $shipment = AO::getModel('sales/order_shipment');
         $shipment->setOrder($order)
             ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
             ->setBillingAddressId($order->getBillingAddressId())
             ->setShippingAddressId($order->getShippingAddressId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order', 'to_shipment', $order, $shipment);
+        AO::helper('core')->copyFieldset('sales_convert_order', 'to_shipment', $order, $shipment);
 //            ->setBaseCurrencyCode($order->getBaseCurrencyCode())
 //            ->setStoreCurrencyCode($order->getStoreCurrencyCode())
 //            ->setOrderCurrencyCode($order->getOrderCurrencyCode())
@@ -313,11 +313,11 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToShipmentItem(Mage_Sales_Model_Order_Item $item)
     {
-        $shipmentItem = Mage::getModel('sales/order_shipment_item');
+        $shipmentItem = AO::getModel('sales/order_shipment_item');
         $shipmentItem->setOrderItem($item)
             ->setProductId($item->getProductId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_item', 'to_shipment_item', $item, $shipmentItem);
+        AO::helper('core')->copyFieldset('sales_convert_order_item', 'to_shipment_item', $item, $shipmentItem);
 //            ->setName($item->getName())
 //            ->setSku($item->getSku())
 //            ->setDescription($item->getDescription())
@@ -336,14 +336,14 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function toCreditmemo(Mage_Sales_Model_Order $order)
     {
-        $creditmemo = Mage::getModel('sales/order_creditmemo');
+        $creditmemo = AO::getModel('sales/order_creditmemo');
         $creditmemo->setOrder($order)
             ->setStoreId($order->getStoreId())
             ->setCustomerId($order->getCustomerId())
             ->setBillingAddressId($order->getBillingAddressId())
             ->setShippingAddressId($order->getShippingAddressId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order', 'to_cm', $order, $creditmemo);
+        AO::helper('core')->copyFieldset('sales_convert_order', 'to_cm', $order, $creditmemo);
 //            ->setBaseCurrencyCode($order->getBaseCurrencyCode())
 //            ->setStoreCurrencyCode($order->getStoreCurrencyCode())
 //            ->setOrderCurrencyCode($order->getOrderCurrencyCode())
@@ -361,11 +361,11 @@ class Mage_Sales_Model_Convert_Order extends Varien_Object
      */
     public function itemToCreditmemoItem(Mage_Sales_Model_Order_Item $item)
     {
-        $creditmemoItem = Mage::getModel('sales/order_creditmemo_item');
+        $creditmemoItem = AO::getModel('sales/order_creditmemo_item');
         $creditmemoItem->setOrderItem($item)
             ->setProductId($item->getProductId());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_item', 'to_cm_item', $item, $creditmemoItem);
+        AO::helper('core')->copyFieldset('sales_convert_order_item', 'to_cm_item', $item, $creditmemoItem);
 //            ->setName($item->getName())
 //            ->setSku($item->getSku())
 //            ->setDescription($item->getDescription())

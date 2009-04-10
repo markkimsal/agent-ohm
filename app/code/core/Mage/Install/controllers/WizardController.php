@@ -42,7 +42,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
      */
     protected function _getInstaller()
     {
-        return Mage::getSingleton('install/installer');
+        return AO::getSingleton('install/installer');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
      */
     protected function _getWizard()
     {
-        return Mage::getSingleton('install/wizard');
+        return AO::getSingleton('install/wizard');
     }
 
     /**
@@ -81,7 +81,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     protected function _checkIfInstalled()
     {
         if ($this->_getInstaller()->isApplicationInstalled()) {
-            $this->getResponse()->setRedirect(Mage::getBaseUrl())->sendResponse();
+            $this->getResponse()->setRedirect(AO::getBaseUrl())->sendResponse();
             exit;
         }
         return true;
@@ -160,9 +160,9 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $timezone = $this->getRequest()->getParam('timezone');
         $currency = $this->getRequest()->getParam('currency');
         if ($locale) {
-            Mage::getSingleton('install/session')->setLocale($locale);
-            Mage::getSingleton('install/session')->setTimezone($timezone);
-            Mage::getSingleton('install/session')->setCurrency($currency);
+            AO::getSingleton('install/session')->setLocale($locale);
+            AO::getSingleton('install/session')->setTimezone($timezone);
+            AO::getSingleton('install/session')->setCurrency($currency);
         }
 
         $this->_redirect('*/*/locale');
@@ -177,7 +177,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $step = $this->_getWizard()->getStepByName('locale');
 
         if ($data = $this->getRequest()->getPost('config')) {
-            Mage::getSingleton('install/session')->setLocaleData($data);
+            AO::getSingleton('install/session')->setLocaleData($data);
         }
 
         $this->getResponse()->setRedirect($step->getNextUrl());
@@ -229,11 +229,11 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     public function installAction()
     {
         $pear = Varien_Pear::getInstance();
-        $params = array('comment'=>Mage::helper('install')->__("Downloading and installing Magento, please wait...")."\r\n\r\n");
+        $params = array('comment'=>AO::helper('install')->__("Downloading and installing Magento, please wait...")."\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             if ($state = $this->getRequest()->getParam('state', 'beta')) {
                 $result = $pear->runHtmlConsole(array(
-                'comment'   => Mage::helper('install')->__("Setting preferred state to: %s", $state)."\r\n\r\n",
+                'comment'   => AO::helper('install')->__("Setting preferred state to: %s", $state)."\r\n\r\n",
                 'command'   => 'config-set',
                 'params'    => array('preferred_state', $state)
                 ));
@@ -244,12 +244,12 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             }
             $params['command'] = 'install';
             $params['options'] = array('onlyreqdeps'=>1);
-            $params['params'] = Mage::getModel('install/installer_pear')->getPackages();
+            $params['params'] = AO::getModel('install/installer_pear')->getPackages();
             $params['success_callback'] = array($this, 'installSuccessCallback');
             $params['failure_callback'] = array($this, 'installFailureCallback');
         }
         $pear->runHtmlConsole($params);
-        Mage::app()->getFrontController()->getResponse()->clearAllHeaders();
+        AO::app()->getFrontController()->getResponse()->clearAllHeaders();
     }
 
     public function installSuccessCallback()
@@ -284,7 +284,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
 
         if ($data = $this->getRequest()->getQuery('config')) {
-            Mage::getSingleton('install/session')->setLocaleData($data);
+            AO::getSingleton('install/session')->setLocaleData($data);
         }
 
         $this->_prepareLayout();
@@ -310,15 +310,15 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                $data['db_prefix'] = strtolower($data['db_prefix']);
             }
 
-            Mage::getSingleton('install/session')
+            AO::getSingleton('install/session')
                 ->setConfigData($data)
                 ->setSkipUrlValidation($this->getRequest()->getPost('skip_url_validation'))
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
             try {
                 if($data['db_prefix']!='') {
                     if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$data['db_prefix'])) {
-                        Mage::throwException(
-                            Mage::helper('install')->__('Table prefix should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+                        AO::throwException(
+                            AO::helper('install')->__('Table prefix should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
                     }
                 }
                 $this->_getInstaller()->installConfig($data);
@@ -326,7 +326,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 return $this;
             }
             catch (Exception $e){
-                Mage::getSingleton('install/session')->addError($e->getMessage());
+                AO::getSingleton('install/session')->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());
             }
         }
@@ -345,14 +345,14 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             /**
              * Clear session config data
              */
-            Mage::getSingleton('install/session')->getConfigData(true);
+            AO::getSingleton('install/session')->getConfigData(true);
 
-            Mage::app()->getStore()->resetConfig();
+            AO::app()->getStore()->resetConfig();
 
-            $this->getResponse()->setRedirect(Mage::getUrl($step->getNextUrlPath()));
+            $this->getResponse()->setRedirect(AO::getUrl($step->getNextUrlPath()));
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')->addError($e->getMessage());
+            AO::getSingleton('install/session')->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
         }
     }
@@ -380,7 +380,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     {
         $this->_checkIfInstalled();
 
-        $step = Mage::getSingleton('install/wizard')->getStepByName('administrator');
+        $step = AO::getSingleton('install/wizard')->getStepByName('administrator');
         $adminData      = $this->getRequest()->getPost('admin');
         $encryptionKey  = $this->getRequest()->getPost('encryption_key');
 
@@ -389,7 +389,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 ->installEnryptionKey($encryptionKey);
         }
         catch (Exception $e){
-            Mage::getSingleton('install/session')
+            AO::getSingleton('install/session')
                 ->setAdminData($adminData)
                 ->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
@@ -405,7 +405,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     {
         $this->_checkIfInstalled();
 
-        $date = (string)Mage::getConfig()->getNode('global/install/date');
+        $date = (string)AO::getConfig()->getNode('global/install/date');
         if ($date !== Mage_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
             $this->_redirect('*/*');
             return;
@@ -420,7 +420,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             $this->getLayout()->createBlock('install/end', 'install.end')
         );
         $this->renderLayout();
-        Mage::getSingleton('install/session')->clear();
+        AO::getSingleton('install/session')->clear();
     }
 
     /**

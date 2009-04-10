@@ -97,18 +97,18 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
-            && Mage::getModel('catalog/product')->isReservedAttribute($this)) {
-            Mage::throwException(Mage::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please, try another attribute code.', $this->_data['attribute_code']));
+            && AO::getModel('catalog/product')->isReservedAttribute($this)) {
+            AO::throwException(AO::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please, try another attribute code.', $this->_data['attribute_code']));
         }
 
         // prevent changing attribute scope, if used in configurable products
         if (isset($this->_origData['is_global'])) {
             if (!isset($this->_data['is_global'])) {
-                Mage::throwException('0_o');
+                AO::throwException('0_o');
             }
             if (($this->_data['is_global'] != $this->_origData['is_global'])
                 && $this->_getResource()->isUsedBySuperProducts($this)) {
-                Mage::throwException(Mage::helper('eav')->__('Scope must not be changed, because the attribute is used in configurable products.'));
+                AO::throwException(AO::helper('eav')->__('Scope must not be changed, because the attribute is used in configurable products.'));
             }
         }
 
@@ -123,8 +123,8 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
 
             // save default date value as timestamp
             if ($defaultValue = $this->getDefaultValue()) {
-                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-                $this->setDefaultValue(Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue());
+                $format = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                $this->setDefaultValue(AO::app()->getLocale()->date($defaultValue, $format, null, false)->toValue());
             }
         }
 
@@ -153,7 +153,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     protected function _beforeDelete()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            Mage::throwException(Mage::helper('eav')->__('Attribute used in configurable products.'));
+            AO::throwException(AO::helper('eav')->__('Attribute used in configurable products.'));
         }
         return parent::_beforeDelete();
     }
@@ -189,11 +189,11 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 return 'decimal';
 /*
             default:
-                Mage::dispatchEvent('eav_attribute_get_backend_type_by_input', array('model'=>$this, 'type'=>$type));
+                AO::dispatchEvent('eav_attribute_get_backend_type_by_input', array('model'=>$this, 'type'=>$type));
                 if ($this->hasBackendTypeByInput()) {
                     return $this->getData('backend_type_by_input');
                 }
-                Mage::throwException('Unknown frontend input type');
+                AO::throwException('Unknown frontend input type');
 */
         }
     }
@@ -233,11 +233,11 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                 break;
 /*
             default:
-                Mage::dispatchEvent('eav_attribute_get_default_value_by_input', array('model'=>$this, 'type'=>$type));
+                AO::dispatchEvent('eav_attribute_get_default_value_by_input', array('model'=>$this, 'type'=>$type));
                 if ($this->hasBackendTypeByInput()) {
                     return $this->getData('backend_type_by_input');
                 }
-                Mage::throwException('Unknown frontend input type');
+                AO::throwException('Unknown frontend input type');
 */
         }
 

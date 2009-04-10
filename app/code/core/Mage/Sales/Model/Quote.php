@@ -91,7 +91,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
-            return Mage::app()->getStore()->getId();
+            return AO::app()->getStore()->getId();
         }
         return $this->_getData('store_id');
     }
@@ -103,7 +103,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function getStore()
     {
-        return Mage::app()->getStore($this->getStoreId());
+        return AO::app()->getStore($this->getStoreId());
     }
 
     /**
@@ -160,7 +160,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
          *      base_to_global & base_to_quote/base_to_order - must be used instead
          */
 
-        $globalCurrencyCode  = Mage::app()->getBaseCurrencyCode();
+        $globalCurrencyCode  = AO::app()->getBaseCurrencyCode();
         $baseCurrency = $this->getStore()->getBaseCurrency();
 
         if ($this->hasForcedCurrency()){
@@ -245,18 +245,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
             $defaultBillingAddress = $customer->getDefaultBillingAddress();
             if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                $billingAddress = Mage::getModel('sales/quote_address')
+                $billingAddress = AO::getModel('sales/quote_address')
                     ->importCustomerAddress($defaultBillingAddress);
                 $this->setBillingAddress($billingAddress);
             }
 
             $defaultShippingAddress= $customer->getDefaultShippingAddress();
             if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                $shippingAddress = Mage::getModel('sales/quote_address')
+                $shippingAddress = AO::getModel('sales/quote_address')
                 ->importCustomerAddress($defaultShippingAddress);
             }
             else {
-                $shippingAddress = Mage::getModel('sales/quote_address');
+                $shippingAddress = AO::getModel('sales/quote_address');
             }
             $this->setShippingAddress($shippingAddress);
         }
@@ -273,7 +273,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
         $this->_customer = $customer;
-        Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        AO::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 
@@ -285,7 +285,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer');
+            $this->_customer = AO::getModel('customer/customer');
             if ($customerId = $this->getCustomerId()) {
                 $this->_customer->load($customerId);
                 if (!$this->_customer->getId()) {
@@ -303,7 +303,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         * to get the correct tax class
         */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-            $classId = Mage::getModel('customer/group')->getTaxClassId($this->getCustomerGroupId());
+            $classId = AO::getModel('customer/group')->getTaxClassId($this->getCustomerGroupId());
             $this->setCustomerTaxClassId($classId);
         //}
         return $this->getData('customer_tax_class_id');
@@ -317,7 +317,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getModel('sales/quote_address')->getCollection()
+            $this->_addresses = AO::getModel('sales/quote_address')->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -343,7 +343,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
 
-        $address = Mage::getModel('sales/quote_address')->setAddressType($type);
+        $address = AO::getModel('sales/quote_address')->setAddressType($type);
         $this->addAddress($address);
         return $address;
     }
@@ -511,7 +511,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getItemsCollection($useCache = true)
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getModel('sales/quote_item')->getCollection();
+            $this->_items = AO::getModel('sales/quote_item')->getCollection();
             $this->_items->setQuote($this);
         }
         return $this->_items;
@@ -605,7 +605,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                     $child->isDeleted(true);
                 }
             }
-            Mage::dispatchEvent('sales_quote_remove_item', array('quote_item' => $item));
+            AO::dispatchEvent('sales_quote_remove_item', array('quote_item' => $item));
         }
         return $this;
     }
@@ -621,7 +621,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $item->setQuote($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
-            Mage::dispatchEvent('sales_quote_add_item', array('quote_item' => $item));
+            AO::dispatchEvent('sales_quote_add_item', array('quote_item' => $item));
         }
         return $this;
     }
@@ -644,7 +644,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $request = new Varien_Object(array('qty'=>$request));
         }
         if (!($request instanceof Varien_Object)) {
-            Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote'));
+            AO::throwException(AO::helper('sales')->__('Invalid request for adding product to quote'));
         }
 
         $cartCandidates = $product->getTypeInstance(true)
@@ -694,7 +694,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
         if (!empty($errors)) {
-            Mage::throwException(implode("\n", $errors));
+            AO::throwException(implode("\n", $errors));
         }
         return $item;
     }
@@ -710,7 +710,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
         $item = $this->getItemByProduct($product);
         if (!$item) {
-            $item = Mage::getModel('sales/quote_item');
+            $item = AO::getModel('sales/quote_item');
             $item->setQuote($this);
         }
 
@@ -799,7 +799,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getModel('sales/quote_payment')->getCollection()
+            $this->_payments = AO::getModel('sales/quote_payment')->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -821,7 +821,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 return $payment;
             }
         }
-        $payment = Mage::getModel('sales/quote_payment');
+        $payment = AO::getModel('sales/quote_payment');
         $this->addPayment($payment);
         return $payment;
     }
@@ -899,8 +899,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $this->setBaseGrandTotal((float) $this->getBaseGrandTotal()+$address->getBaseGrandTotal());
         }
 
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
-        Mage::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+        AO::helper('sales')->checkQuoteAmount($this, $this->getGrandTotal());
+        AO::helper('sales')->checkQuoteAmount($this, $this->getBaseGrandTotal());
 
         $this->setItemsCount(0);
         $this->setItemsQty(0);
@@ -962,7 +962,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         if (is_string($message)) {
-            $message = Mage::getSingleton('core/message')->error($message);
+            $message = AO::getSingleton('core/message')->error($message);
         }
 
         $messages[$index] = $message;
@@ -997,8 +997,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     public function validateMinimumAmount($multishipping = false)
     {
         $storeId = $this->getStoreId();
-        $minOrderActive = Mage::getStoreConfigFlag('sales/minimum_order/active', $storeId);
-        $minOrderMulti  = Mage::getStoreConfigFlag('sales/minimum_order/multi_address', $storeId);
+        $minOrderActive = AO::getStoreConfigFlag('sales/minimum_order/active', $storeId);
+        $minOrderMulti  = AO::getStoreConfigFlag('sales/minimum_order/multi_address', $storeId);
 
         if (!$minOrderActive) {
             return true;
@@ -1011,7 +1011,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 $baseTotal += $address->getBaseSubtotalWithDiscount();
             }
 
-            if ($baseTotal < Mage::getStoreConfig('sales/minimum_order/amount', $storeId)) {
+            if ($baseTotal < AO::getStoreConfig('sales/minimum_order/amount', $storeId)) {
                 return false;
             }
         }
@@ -1084,7 +1084,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function isAllowedGuestCheckout()
     {
-        return Mage::helper('checkout')->isAllowedGuestCheckout($this, $this->getStoreId());
+        return AO::helper('checkout')->isAllowedGuestCheckout($this, $this->getStoreId());
     }
 
     /**

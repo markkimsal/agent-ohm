@@ -88,27 +88,27 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return AO::registry('current_category');
     }
 
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     public function getLastViewedUrl()
     {
-        if ($productId = Mage::getSingleton('catalog/session')->getLastViewedProductId()) {
-            $product = Mage::getModel('catalog/product')->load($productId);
+        if ($productId = AO::getSingleton('catalog/session')->getLastViewedProductId()) {
+            $product = AO::getModel('catalog/product')->load($productId);
             /* @var $product Mage_Catalog_Model_Product */
-            if (Mage::helper('catalog/product')->canShow($product, 'catalog')) {
+            if (AO::helper('catalog/product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        if ($categoryId = Mage::getSingleton('catalog/session')->getLastViewedCategoryId()) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+        if ($categoryId = AO::getSingleton('catalog/session')->getLastViewedCategoryId()) {
+            $category = AO::getModel('catalog/category')->load($categoryId);
             /* @var $category Mage_Catalog_Model_Category */
-            if (!Mage::helper('catalog/category')->canShow($category)) {
+            if (!AO::helper('catalog/category')->canShow($category)) {
                 return '';
             }
             return $category->getCategoryUrl();
@@ -126,13 +126,13 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return Mage::helper('core/string')->str_split($sku, $length, true, false, '[\-\s]');
+        return AO::helper('core/string')->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     public function getAttributeHiddenFields()
     {
-        if (Mage::registry('attribute_type_hidden_fields')) {
-            return Mage::registry('attribute_type_hidden_fields');
+        if (AO::registry('attribute_type_hidden_fields')) {
+            return AO::registry('attribute_type_hidden_fields');
         } else {
             return array();
         }
@@ -140,8 +140,8 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getAttributeDisabledTypes()
     {
-        if (Mage::registry('attribute_type_disabled_types')) {
-            return Mage::registry('attribute_type_disabled_types');
+        if (AO::registry('attribute_type_disabled_types')) {
+            return AO::registry('attribute_type_disabled_types');
         } else {
             return array();
         }

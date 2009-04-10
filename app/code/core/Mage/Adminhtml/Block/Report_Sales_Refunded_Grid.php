@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('reports')->__('Number of Refunded Orders'),
+            'header'    =>AO::helper('reports')->__('Number of Refunded Orders'),
             'index'     =>'orders',
             'total'     =>'sum',
             'type'      =>'number'
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
         $currency_code = $this->getCurrentCurrencyCode();
 
         $this->addColumn('refunded', array(
-            'header'    =>Mage::helper('reports')->__('Total Refunded'),
+            'header'    =>AO::helper('reports')->__('Total Refunded'),
             'type'      =>'currency',
             'currency_code'=>$currency_code,
             'index'     =>'refunded',
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('online_refunded', array(
-            'header'    =>Mage::helper('reports')->__('Online Refunded'),
+            'header'    =>AO::helper('reports')->__('Online Refunded'),
             'type'      =>'currency',
             'currency_code'=>$currency_code,
             'index'     =>'online_refunded',
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('offline_refunded', array(
-            'header'    =>Mage::helper('reports')->__('Offline Refunded'),
+            'header'    =>AO::helper('reports')->__('Offline Refunded'),
             'type'      =>'currency',
             'currency_code'=>$currency_code,
             'index'     =>'offline_refunded',
@@ -84,8 +84,8 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportRefundedCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportRefundedExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportRefundedCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportRefundedExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

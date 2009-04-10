@@ -121,7 +121,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     public function getItemCollection()
     {
         if(is_null($this->_itemCollection)) {
-            $this->_itemCollection =  Mage::getResourceModel('wishlist/item_collection')
+            $this->_itemCollection =  AO::getResourceModel('wishlist/item_collection')
                 ->setStoreId($this->getStore()->getId())
                 ->addWishlistFilter($this);
         }
@@ -138,7 +138,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     {
         $collection = $this->getData('product_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('wishlist/product_collection')
+            $collection = AO::getResourceModel('wishlist/product_collection')
                 ->setStoreId($this->getStore()->getId())
                 ->addWishlistFilter($this)
                 ->addWishListSortOrder();
@@ -155,7 +155,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      */
     public function addNewItem($productId)
     {
-        $item = Mage::getModel('wishlist/item');
+        $item = AO::getModel('wishlist/item');
         $item->loadByProductWishlist($this->getId(), $productId, $this->getSharedStoreIds());
 
         if (!$item->getId()) {
@@ -212,7 +212,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     public function getSharedStoreIds()
     {
         if (is_null($this->_storeIds)) {
-            $this->_storeIds = Mage::app()->getStore()->getWebsite()->getStoreIds();
+            $this->_storeIds = AO::app()->getStore()->getWebsite()->getStoreIds();
         }
         return $this->_storeIds;
     }
@@ -237,7 +237,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->setStore(Mage::app()->getStore());
+            $this->setStore(AO::app()->getStore());
         }
         return $this->_store;
     }

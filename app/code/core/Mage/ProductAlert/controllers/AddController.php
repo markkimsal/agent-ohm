@@ -37,10 +37,10 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!AO::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('customer/session')->getBeforeUrl()) {
-                Mage::getSingleton('customer/session')->setBeforeUrl($this->_getRefererUrl());
+            if(!AO::getSingleton('customer/session')->getBeforeUrl()) {
+                AO::getSingleton('customer/session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -48,13 +48,13 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
     public function testObserverAction()
     {
         $object = new Varien_Object();
-        $observer = Mage::getSingleton('productalert/observer');
+        $observer = AO::getSingleton('productalert/observer');
         $observer->process($object);
     }
 
     public function priceAction()
     {
-        $session = Mage::getSingleton('catalog/session');
+        $session = AO::getSingleton('catalog/session');
         $backUrl    = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -62,7 +62,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
             return ;
         }
 
-        $product = Mage::getModel('catalog/product')->load($productId);
+        $product = AO::getModel('catalog/product')->load($productId);
         if (!$product->getId()) {
             /* @var $product Mage_Catalog_Model_Product */
             $session->addError($this->__('Not enough parameters'));
@@ -71,11 +71,11 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $model  = Mage::getModel('productalert/price')
-                ->setCustomerId(Mage::getSingleton('customer/session')->getId())
+            $model  = AO::getModel('productalert/price')
+                ->setCustomerId(AO::getSingleton('customer/session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(AO::app()->getStore()->getWebsiteId());
             $model->save();
             $session->addSuccess($this->__('Alert subscription was saved successfully'));
         }
@@ -87,7 +87,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
 
     public function stockAction()
     {
-        $session = Mage::getSingleton('catalog/session');
+        $session = AO::getSingleton('catalog/session');
         /* @var $session Mage_Catalog_Model_Session */
         $backUrl    = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
@@ -96,7 +96,7 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
             return ;
         }
 
-        if (!$product = Mage::getModel('catalog/product')->load($productId)) {
+        if (!$product = AO::getModel('catalog/product')->load($productId)) {
             /* @var $product Mage_Catalog_Model_Product */
             $session->addError($this->__('Not enough parameters'));
             $this->_redirectUrl($backUrl);
@@ -104,10 +104,10 @@ class Mage_ProductAlert_AddController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $model = Mage::getModel('productalert/stock')
-                ->setCustomerId(Mage::getSingleton('customer/session')->getId())
+            $model = AO::getModel('productalert/stock')
+                ->setCustomerId(AO::getSingleton('customer/session')->getId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(AO::app()->getStore()->getWebsiteId());
             $model->save();
             $session->addSuccess($this->__('Alert subscription was saved successfully'));
         }

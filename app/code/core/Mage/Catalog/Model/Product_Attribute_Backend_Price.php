@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
 
     public function setScope($attribute)
     {
-        $priceScope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $priceScope = (int) AO::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
         if ($priceScope == Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
             $attribute->setIsGlobal(Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL);
@@ -61,19 +61,19 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
             return;
         }
 
-        $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $scope = (int) AO::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
         if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
-            $baseCurrency = Mage::app()->getBaseCurrencyCode();
+            $baseCurrency = AO::app()->getBaseCurrencyCode();
 
             $storeIds = $object->getStoreIds();
             if (is_array($storeIds)) {
                 foreach ($storeIds as $storeId) {
-                    $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                    $storeCurrency = AO::app()->getStore($storeId)->getBaseCurrencyCode();
                     if ($storeCurrency == $baseCurrency) {
                         continue;
                     }
-                    $rate = Mage::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
+                    $rate = AO::getModel('directory/currency')->load($baseCurrency)->getRate($storeCurrency);
                     if (!$rate) {
                         $rate=1;
                     }

@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
      */
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return AO::app()->getStore();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection')
+        $collection = AO::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
         	->addAttributeToSelect('name')
             ->addAttributeToFilter('type_id', array('in'=>array(
@@ -111,20 +111,20 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => AO::helper('sales')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
 
         $this->addColumn('chooser_sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => AO::helper('sales')->__('SKU'),
             'name'      => 'chooser_sku',
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => AO::helper('sales')->__('Product Name'),
             'name'      => 'chooser_name',
             'index'     => 'name'
         ));

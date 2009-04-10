@@ -47,7 +47,7 @@ class Mage_Tax_Model_Mysql4_Calculation_Rule extends Mage_Core_Model_Mysql4_Abst
     {
         $this->_uniqueFields = array(array(
             'field' => array('code'),
-            'title' => Mage::helper('tax')->__('Code'),
+            'title' => AO::helper('tax')->__('Code'),
         ));
         return $this;
     }

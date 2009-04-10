@@ -53,12 +53,12 @@ class Mage_Sales_Block_Order_Print_Invoice extends Mage_Sales_Block_Items_Abstra
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return AO::getUrl('*/*/history');
     }
 
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return AO::getUrl('*/*/print');
     }
 
     public function getPaymentInfoHtml()
@@ -68,12 +68,12 @@ class Mage_Sales_Block_Order_Print_Invoice extends Mage_Sales_Block_Items_Abstra
 
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return AO::registry('current_invoice');
     }
 
     protected function _prepareItem(Mage_Core_Block_Abstract $renderer)

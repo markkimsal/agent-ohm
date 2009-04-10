@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_Totals extends Mage_Adminhtml_Block_Sales
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
+            AO::throwException(AO::helper('adminhtml')->__('Invalid parrent block for this block'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         $this->setSource($this->getParentBlock()->getSource());

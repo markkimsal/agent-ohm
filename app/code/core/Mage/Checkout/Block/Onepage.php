@@ -99,7 +99,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
-            ->setTitle(Mage::helper('checkout')->__('Country'))
+            ->setTitle(AO::helper('checkout')->__('Country'))
             ->setClass('validate-select')
             ->setValue($address->getCountryId())
             ->setOptions($this->getCountryCollection()->toOptionArray());
@@ -117,7 +117,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setName($type.'[region]')
             ->setId($type.':region')
-            ->setTitle(Mage::helper('checkout')->__('State/Province'))
+            ->setTitle(AO::helper('checkout')->__('State/Province'))
             ->setClass('required-entry validate-state')
             ->setValue($address->getRegionId())
             ->setOptions($this->getRegionCollection()->toOptionArray());
@@ -129,12 +129,12 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
 
     public function getMessages()
     {
-        return Mage::getSingleton('customer/session')->getMessages(true);
+        return AO::getSingleton('customer/session')->getMessages(true);
     }
 
     public function getLoginPostAction()
     {
-        return Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
+        return AO::getUrl('customer/account/loginPost', array('_secure'=>true));
     }
 
     public function getSuccessUrl()
@@ -163,7 +163,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getBillingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return AO::getModel('sales/quote_address');
         }
     }
 
@@ -174,7 +174,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getShippingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return AO::getModel('sales/quote_address');
         }
     }
 
@@ -184,7 +184,7 @@ class Mage_Checkout_Block_Onepage extends Mage_Checkout_Block_Onepage_Abstract
     {
         $payment = $this->getQuote()->getPayment();
         if (empty($payment)) {
-            $payment = Mage::getModel('sales/quote_payment');
+            $payment = AO::getModel('sales/quote_payment');
         } else {
             $payment->setCcNumber(null)->setCcCid(null);
         }

@@ -63,7 +63,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
            ->setCustomerGroupId($customerGroupId)
            ->setCouponCode($couponCode);
 
-        $this->_rules = Mage::getResourceModel('salesrule/rule_collection')
+        $this->_rules = AO::getResourceModel('salesrule/rule_collection')
             ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
             ->load();
 
@@ -87,7 +87,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
         }
 
         $customerId = $quote->getCustomerId();
-        $ruleCustomer = Mage::getModel('salesrule/rule_customer');
+        $ruleCustomer = AO::getModel('salesrule/rule_customer');
         $appliedRuleIds = array();
 
         foreach ($this->_rules as $rule) {
@@ -220,7 +220,7 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                 'discount_amount'      => $discountAmount,
                 'base_discount_amount' => $baseDiscountAmount,
             ));
-            Mage::dispatchEvent('salesrule_validator_process', array(
+            AO::dispatchEvent('salesrule_validator_process', array(
                 'rule'    => $rule,
                 'item'    => $item,
                 'address' => $address,

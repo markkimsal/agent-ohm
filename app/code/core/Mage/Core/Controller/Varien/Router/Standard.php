@@ -33,7 +33,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     public function collectRoutes($configArea, $useRouterName)
     {
         $routers = array();
-        $routersConfigNode = Mage::getConfig()->getNode($configArea.'/routers');
+        $routersConfigNode = AO::getConfig()->getNode($configArea.'/routers');
         if($routersConfigNode) {
             $routers = $routersConfigNode->children();
         }
@@ -71,7 +71,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     public function fetchDefault()
     {
-        $d = explode('/', Mage::getStoreConfig('web/default/front'));
+        $d = explode('/', AO::getStoreConfig('web/default/front'));
         $this->getFront()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : 'core',
             'controller' => !empty($d[1]) ? $d[1] : 'index',
@@ -86,7 +86,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
      */
     protected function _beforeModuleMatch()
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if (AO::app()->getStore()->isAdmin()) {
             return false;
         }
         return true;
@@ -128,7 +128,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             }
         }
         if (!$module) {
-            if (Mage::app()->getStore()->isAdmin()) {
+            if (AO::app()->getStore()->isAdmin()) {
                 $module = 'admin';
             } else {
                 return false;
@@ -302,7 +302,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Mage_Core', Mage::helper('core')->__('Controller file was loaded but class does not exist'));
+                throw AO::exception('Mage_Core', AO::helper('core')->__('Controller file was loaded but class does not exist'));
             }
         }
         return true;
@@ -351,7 +351,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     {
         $parts = explode('_', $realModule);
         $realModule = implode('_', array_splice($parts, 0, 2));
-        $file = Mage::getModuleDir('controllers', $realModule);
+        $file = AO::getModuleDir('controllers', $realModule);
         if (count($parts)) {
             $file .= DS . implode(DS, $parts);
         }
@@ -375,7 +375,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     public function rewrite(array $p)
     {
-        $rewrite = Mage::getConfig()->getNode('global/rewrite');
+        $rewrite = AO::getConfig()->getNode('global/rewrite');
         if ($module = $rewrite->{$p[0]}) {
             if (!$module->children()) {
                 $p[0] = trim((string)$module);
@@ -397,14 +397,14 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     protected function _checkShouldBeSecure($request, $path='')
     {
-        if (!Mage::isInstalled() || $request->getPost()) {
+        if (!AO::isInstalled() || $request->getPost()) {
             return;
         }
 
-        if ($this->_shouldBeSecure($path) && !Mage::app()->getStore()->isCurrentlySecure()) {
+        if ($this->_shouldBeSecure($path) && !AO::app()->getStore()->isCurrentlySecure()) {
             $url = $this->_getCurrentSecureUrl($request);
 
-            Mage::app()->getFrontController()->getResponse()
+            AO::app()->getFrontController()->getResponse()
                 ->setRedirect($url)
                 ->sendResponse();
             exit;
@@ -413,14 +413,14 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');
+        return AO::getBaseUrl('link', true).ltrim($request->getPathInfo(), '/');
     }
 
     protected function _shouldBeSecure($path)
     {
-        return substr(Mage::getStoreConfig('web/unsecure/base_url'),0,5)==='https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_frontend')
-            && substr(Mage::getStoreConfig('web/secure/base_url'),0,5)=='https'
-            && Mage::getConfig()->shouldUrlBeSecure($path);
+        return substr(AO::getStoreConfig('web/unsecure/base_url'),0,5)==='https'
+            || AO::getStoreConfigFlag('web/secure/use_in_frontend')
+            && substr(AO::getStoreConfig('web/secure/base_url'),0,5)=='https'
+            && AO::getConfig()->shouldUrlBeSecure($path);
     }
 }

@@ -37,21 +37,21 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     {
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>Mage::helper('catalogsearch')->__('Home'),
-                'title'=>Mage::helper('catalogsearch')->__('Go to Home Page'),
-                'link'=>Mage::getBaseUrl()
+                'label'=>AO::helper('catalogsearch')->__('Home'),
+                'title'=>AO::helper('catalogsearch')->__('Go to Home Page'),
+                'link'=>AO::getBaseUrl()
             ))->addCrumb('search', array(
-                'label'=>Mage::helper('catalogsearch')->__('Catalog Advanced Search'),
+                'label'=>AO::helper('catalogsearch')->__('Catalog Advanced Search'),
                 'link'=>$this->getUrl('*/*/')
             ))->addCrumb('search_result', array(
-                'label'=>Mage::helper('catalogsearch')->__('Results')
+                'label'=>AO::helper('catalogsearch')->__('Results')
             ));
         }
         return parent::_prepareLayout();
     }
 
     public function setListOrders() {
-        $category = Mage::getSingleton('catalog/layer')
+        $category = AO::getSingleton('catalog/layer')
             ->getCurrentCategory();
         /* @var $category Mage_Catalog_Model_Category */
 
@@ -65,8 +65,8 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     public function setListModes() {
         $this->getChild('search_result_list')
             ->setModes(array(
-                'grid' => Mage::helper('catalogsearch')->__('Grid'),
-                'list' => Mage::helper('catalogsearch')->__('List'))
+                'grid' => AO::helper('catalogsearch')->__('Grid'),
+                'list' => AO::helper('catalogsearch')->__('List'))
             );
     }
 
@@ -81,7 +81,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
 
     public function getSearchModel()
     {
-        return Mage::getSingleton('catalogsearch/advanced');
+        return AO::getSingleton('catalogsearch/advanced');
     }
 
     public function getResultCount()
@@ -100,7 +100,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
 
     public function getFormUrl()
     {
-        return Mage::getModel('core/url')
+        return AO::getModel('core/url')
             ->setQueryParams($this->getRequest()->getQuery())
             ->getUrl('*/*/', array('_escape' => true));
     }

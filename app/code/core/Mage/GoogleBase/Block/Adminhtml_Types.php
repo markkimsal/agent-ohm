@@ -38,8 +38,8 @@ class Mage_GoogleBase_Block_Adminhtml_Types extends Mage_Adminhtml_Block_Widget_
     {
         $this->_blockGroup = 'googlebase';
         $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('googlebase')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('googlebase')->__('Manage Attribute Mapping');
+        $this->_addButtonLabel = AO::helper('googlebase')->__('Add Attribute Mapping');
+        $this->_headerText = AO::helper('googlebase')->__('Manage Attribute Mapping');
         parent::__construct();
     }
 

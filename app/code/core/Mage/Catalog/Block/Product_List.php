@@ -56,16 +56,16 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $layer = Mage::getSingleton('catalog/layer');
+            $layer = AO::getSingleton('catalog/layer');
             /* @var $layer Mage_Catalog_Model_Layer */
             if ($this->getShowRootCategory()) {
-                $this->setCategoryId(Mage::app()->getStore()->getRootCategoryId());
+                $this->setCategoryId(AO::app()->getStore()->getRootCategoryId());
             }
 
             // if this is a product view page
-            if (Mage::registry('product')) {
+            if (AO::registry('product')) {
                 // get collection of categories this product is associated with
-                $categories = Mage::registry('product')->getCategoryCollection()
+                $categories = AO::registry('product')->getCategoryCollection()
                     ->setPage(1, 1)
                     ->load();
                 // if the product is associated with any category
@@ -77,7 +77,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+                $category = AO::getModel('catalog/category')->load($this->getCategoryId());
                 if ($category->getId()) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);
@@ -144,12 +144,12 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         $toolbar->setCollection($collection);
 
         $this->setChild('toolbar', $toolbar);
-        Mage::dispatchEvent('catalog_block_product_list_collection', array(
+        AO::dispatchEvent('catalog_block_product_list_collection', array(
             'collection'=>$this->_getProductCollection(),
         ));
 
         $this->_getProductCollection()->load();
-        Mage::getModel('review/review')->appendSummary($this->_getProductCollection());
+        AO::getModel('review/review')->appendSummary($this->_getProductCollection());
         return parent::_beforeToHtml();
     }
 
@@ -203,7 +203,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('catalog/config');
+        return AO::getSingleton('catalog/config');
     }
 
     /**

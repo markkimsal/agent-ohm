@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product_Type_Price
         $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
         $product->setFinalPrice($finalPrice);
 
-        Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
+        AO::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
 
         $finalPrice = $product->getData('final_price');
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Product_Type_Price
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return Mage::getSingleton('customer/session')->getCustomerGroupId();
+        return AO::getSingleton('customer/session')->getCustomerGroupId();
     }
 
     /**
@@ -213,11 +213,11 @@ class Mage_Catalog_Model_Product_Type_Price
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice($price[$index]['website_price'], true);
+                $price[$index]['formated_price'] = AO::app()->getStore()->convertPrice($price[$index]['website_price'], true);
             }
         }
         else {
-            $price = Mage::app()->getStore()->formatPrice($price);
+            $price = AO::app()->getStore()->formatPrice($price);
         }
 
         return $price;
@@ -231,7 +231,7 @@ class Mage_Catalog_Model_Product_Type_Price
      */
     public function getFormatedPrice($product)
     {
-        return Mage::app()->getStore()->formatPrice($product->getFinalPrice());
+        return AO::app()->getStore()->formatPrice($product->getFinalPrice());
     }
 
     /**
@@ -282,7 +282,7 @@ class Mage_Catalog_Model_Product_Type_Price
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
-            $sId = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
+            $sId = AO::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
 
         $finalPrice = $basePrice;
@@ -293,8 +293,8 @@ class Mage_Catalog_Model_Product_Type_Price
         $finalPrice = self::calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
 
         if ($rulePrice === false) {
-            $storeTimestamp = Mage::app()->getLocale()->storeTimeStamp($sId);
-            $rulePrice = Mage::getResourceModel('catalogrule/rule')
+            $storeTimestamp = AO::app()->getLocale()->storeTimeStamp($sId);
+            $rulePrice = AO::getResourceModel('catalogrule/rule')
                 ->getRulePrice($storeTimestamp, $wId, $gId, $productId);
         }
 
@@ -321,10 +321,10 @@ class Mage_Catalog_Model_Product_Type_Price
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
             if (!$store instanceof Mage_Core_Model_Store) {
-                $store = Mage::app()->getStore($store);
+                $store = AO::app()->getStore($store);
             }
 
-            $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
+            $storeTimeStamp = AO::app()->getLocale()->storeTimeStamp($store);
             $fromTimeStamp  = strtotime($specialPriceFrom);
             $toTimeStamp    = strtotime($specialPriceTo);
 

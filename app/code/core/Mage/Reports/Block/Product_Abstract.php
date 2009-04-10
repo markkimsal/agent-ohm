@@ -58,25 +58,25 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     protected function _getRecentProductsCollection()
     {
         // get products collection and apply status and visibility filter
-        $collection = $this->_addProductAttributesAndPrices(Mage::getModel('catalog/product')->getCollection())
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+        $collection = $this->_addProductAttributesAndPrices(AO::getModel('catalog/product')->getCollection())
+            ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
             ->addUrlRewrite()
             ->setPageSize($this->getPageSize())
             ->setCurPage(1)
         ;
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
 
         // apply events log to collection with required parameters
         $skip = $this->_getProductsToSkip();
         $subtype = 0;
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            $subjectId = Mage::getSingleton('customer/session')->getCustomer()->getId();
+        if (AO::getSingleton('customer/session')->isLoggedIn()) {
+            $subjectId = AO::getSingleton('customer/session')->getCustomer()->getId();
         } else {
-            $subjectId = Mage::getSingleton('log/visitor')->getId();
+            $subjectId = AO::getSingleton('log/visitor')->getId();
             $subtype = 1;
         }
-        Mage::getResourceSingleton('reports/event')->applyLogToCollection($collection, $this->_eventTypeId, $subjectId, $subtype, $skip);
+        AO::getResourceSingleton('reports/event')->applyLogToCollection($collection, $this->_eventTypeId, $subjectId, $subtype, $skip);
 
         foreach ($collection as $product) {
             $product->setDoNotUseCategoryId(true);

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Select_Flatproduct
      * @return string
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element) {
-        if (!Mage::helper('catalog/product_flat')->isBuilt()) {
+        if (!AO::helper('catalog/product_flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);
         }

@@ -37,15 +37,15 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_grid' . Mage::registry('tagId'));
+        $this->setId('tag_grid' . AO::registry('tagId'));
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
     }
 
     protected function _prepareCollection()
     {
-        $tagId = Mage::registry('tagId');
-        $collection = Mage::getModel('tag/tag')
+        $tagId = AO::registry('tagId');
+        $collection = AO::getModel('tag/tag')
             ->getEntityCollection()
             ->addTagFilter($tagId)
             ->addPopularity($tagId);
@@ -62,19 +62,19 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'        => Mage::helper('tag')->__('ID'),
+            'header'        => AO::helper('tag')->__('ID'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('tag')->__('Product Name'),
+            'header'    => AO::helper('tag')->__('Product Name'),
             'index'     => 'name',
         ));
 
         $this->addColumn('popularity', array(
-            'header'        => Mage::helper('tag')->__('# of Uses'),
+            'header'        => AO::helper('tag')->__('# of Uses'),
             'width'         => '50px',
             'align'         => 'right',
             'index'         => 'popularity',

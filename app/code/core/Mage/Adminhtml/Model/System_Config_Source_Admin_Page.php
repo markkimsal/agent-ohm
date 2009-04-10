@@ -75,7 +75,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
     protected function _getUrlModel()
     {
         if (is_null($this->_url)) {
-            $this->_url = Mage::getModel('adminhtml/url');
+            $this->_url = AO::getModel('adminhtml/url');
         }
         return $this->_url;
     }
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getConfig()->getNode('adminhtml/menu');
+            $parent = AO::getConfig()->getNode('adminhtml/menu');
         }
 
         $parentArr = array();
@@ -136,7 +136,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
     protected function _checkDepends(Varien_Simplexml_Element $depends)
     {
         if ($depends->module) {
-            $modulesConfig = Mage::getConfig()->getNode('modules');
+            $modulesConfig = AO::getConfig()->getNode('modules');
             foreach ($depends->module as $module) {
                 if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
                     return false;
@@ -158,6 +158,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_Page
 
         $titleNodeName = 'title';
 
-        return Mage::helper($helperName)->__((string)$child->$titleNodeName);
+        return AO::helper($helperName)->__((string)$child->$titleNodeName);
     }
 }

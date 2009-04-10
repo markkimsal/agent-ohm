@@ -98,7 +98,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function place()
     {
-        Mage::dispatchEvent('sales_order_payment_place_start', array('payment' => $this));
+        AO::dispatchEvent('sales_order_payment_place_start', array('payment' => $this));
 
         $this->setAmountOrdered($this->getOrder()->getTotalDue());
         $this->setBaseAmountOrdered($this->getOrder()->getBaseTotalDue());
@@ -181,7 +181,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             (null !== $orderIsNotified ? $orderIsNotified : $this->getOrder()->getCustomerNoteNotify())
         );
 
-        Mage::dispatchEvent('sales_order_payment_place_end', array('payment' => $this));
+        AO::dispatchEvent('sales_order_payment_place_end', array('payment' => $this));
 
         return $this;
     }
@@ -197,7 +197,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $invoice = $this->_invoice();
         }
 
-        Mage::dispatchEvent('sales_order_payment_capture', array('payment' => $this, 'invoice' => $invoice));
+        AO::dispatchEvent('sales_order_payment_capture', array('payment' => $this, 'invoice' => $invoice));
 
         $this->getMethodInstance()->capture($this, sprintf('%.2f', $invoice->getBaseGrandTotal()));
         $this->getMethodInstance()->processInvoice($invoice, $this);
@@ -219,7 +219,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->setShippingCaptured($this->getShippingCaptured()+$invoice->getShippingAmount());
         $this->setBaseShippingCaptured($this->getBaseShippingCaptured()+$invoice->getBaseShippingAmount());
 
-        Mage::dispatchEvent('sales_order_payment_pay', array('payment' => $this, 'invoice' => $invoice));
+        AO::dispatchEvent('sales_order_payment_pay', array('payment' => $this, 'invoice' => $invoice));
 
         return $this;
     }
@@ -238,7 +238,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->setShippingCaptured($this->getShippingCaptured()-$invoice->getShippingAmount());
         $this->setBaseShippingCaptured($this->getBaseShippingCaptured()-$invoice->getBaseShippingAmount());
 
-        Mage::dispatchEvent('sales_order_payment_cancel_invoice', array('payment' => $this, 'invoice' => $invoice));
+        AO::dispatchEvent('sales_order_payment_cancel_invoice', array('payment' => $this, 'invoice' => $invoice));
 
         return $this;
     }
@@ -278,7 +278,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         //$this->getMethodInstance()->void($document);
         $this->getMethodInstance()->void($this);
 
-        Mage::dispatchEvent('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));
+        AO::dispatchEvent('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));
 
         return $this;
     }
@@ -300,7 +300,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->setShippingRefunded($this->getShippingRefunded()+$creditmemo->getShippingAmount());
         $this->setBaseShippingRefunded($this->getBaseShippingRefunded()+$creditmemo->getBaseShippingAmount());
 
-        Mage::dispatchEvent('sales_order_payment_refund', array('payment' => $this, 'creditmemo' => $creditmemo));
+        AO::dispatchEvent('sales_order_payment_refund', array('payment' => $this, 'creditmemo' => $creditmemo));
 
         return $this;
     }
@@ -313,7 +313,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->setShippingRefunded($this->getShippingRefunded()-$creditmemo->getShippingAmount());
         $this->setBaseShippingRefunded($this->getBaseShippingRefunded()-$creditmemo->getBaseShippingAmount());
 
-        Mage::dispatchEvent('sales_order_payment_cancel_creditmemo', array('payment' => $this, 'creditmemo' => $creditmemo));
+        AO::dispatchEvent('sales_order_payment_cancel_creditmemo', array('payment' => $this, 'creditmemo' => $creditmemo));
 
         return $this;
     }
@@ -322,7 +322,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         $this->getMethodInstance()->cancel($this);
 
-        Mage::dispatchEvent('sales_order_payment_cancel', array('payment' => $this));
+        AO::dispatchEvent('sales_order_payment_cancel', array('payment' => $this));
 
         return $this;
     }

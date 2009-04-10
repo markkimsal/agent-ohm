@@ -49,7 +49,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function getServiceItem()
     {
-        return Mage::getModel('googlebase/service_item')->setStoreId($this->getStoreId());
+        return AO::getModel('googlebase/service_item')->setStoreId($this->getStoreId());
     }
 
     /**
@@ -59,7 +59,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     public function getTargetCountry()
     {
-        return Mage::getSingleton('googlebase/config')->getTargetCountry($this->getStoreId());
+        return AO::getSingleton('googlebase/config')->getTargetCountry($this->getStoreId());
     }
 
     /**
@@ -166,7 +166,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     public function setProduct($product)
     {
         if (!($product instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException(Mage::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
+            AO::throwException(AO::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
         }
         $this->setData('product', $product);
         $this->setProductId($product->getId());
@@ -182,7 +182,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
     protected function _checkProduct()
     {
         if (!($this->getProduct() instanceof Mage_Catalog_Model_Product)) {
-            Mage::throwException(Mage::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
+            AO::throwException(AO::helper('googlebase')->__('Invalid Product Model for Google Base Item'));
         }
         return $this;
     }
@@ -197,7 +197,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         $product = clone $this->getProduct();
         /* @var $product Mage_Catalog_Model_Product */
         $url = $product->getProductUrl(false);
-        if (!Mage::getStoreConfigFlag('web/url/use_store')) {
+        if (!AO::getStoreConfigFlag('web/url/use_store')) {
             $urlInfo = parse_url($url);
             $store = $product->getStore()->getCode();
             if (isset($urlInfo['query']) && $urlInfo['query'] != '') {
@@ -208,7 +208,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
         }
         $product->setUrl($url)
             ->setQuantity( $this->getProduct()->getStockItem()->getQty() )
-            ->setImageUrl( Mage::helper('catalog/product')->getImageUrl($product) );
+            ->setImageUrl( AO::helper('catalog/product')->getImageUrl($product) );
         $this->setProduct($product);
         return $this;
     }
@@ -237,7 +237,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
                 }
 
                 $value = $productAttribute->getGbaseValue();
-                $type = Mage::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute);
+                $type = AO::getSingleton('googlebase/attribute')->getGbaseAttributeType($productAttribute);
 
                 if ($name && $value && $type) {
                     $result[$name] = array(
@@ -264,7 +264,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
             $frontendLabel = array_shift($frontendLabel);
         }
         if (!$this->_translations) {
-            $this->_translations = Mage::getModel('core/translate_string')
+            $this->_translations = AO::getModel('core/translate_string')
                ->load(Mage_Catalog_Model_Entity_Attribute::MODULE_NAME.Mage_Core_Model_Translate::SCOPE_SEPARATOR.$frontendLabel)
                ->getStoreTranslations();
         }
@@ -282,15 +282,15 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     protected function _getTypeModel()
     {
-        $registry = Mage::registry(self::TYPES_REGISTRY_KEY);
+        $registry = AO::registry(self::TYPES_REGISTRY_KEY);
         $attributeSetId = $this->getProduct()->getAttributeSetId();
         if (is_array($registry) && isset($registry[$attributeSetId])) {
             return $registry[$attributeSetId];
         }
-        $model = Mage::getModel('googlebase/type')->loadByAttributeSetId($attributeSetId, $this->getTargetCountry());
+        $model = AO::getModel('googlebase/type')->loadByAttributeSetId($attributeSetId, $this->getTargetCountry());
         $registry[$attributeSetId] = $model;
-        Mage::unregister(self::TYPES_REGISTRY_KEY);
-        Mage::register(self::TYPES_REGISTRY_KEY, $registry);
+        AO::unregister(self::TYPES_REGISTRY_KEY);
+        AO::register(self::TYPES_REGISTRY_KEY, $registry);
         return $model;
     }
 
@@ -330,7 +330,7 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
 
         $result = array();
         foreach ($galleryData['images'] as $image) {
-            $image['url'] = Mage::getSingleton('catalog/product_media_config')
+            $image['url'] = AO::getSingleton('catalog/product_media_config')
                 ->getMediaUrl($image['file']);
             $result[] = $image;
         }
@@ -344,17 +344,17 @@ class Mage_GoogleBase_Model_Item extends Mage_Core_Model_Abstract
      */
     protected function _getAttributesCollection()
     {
-        $registry = Mage::registry(self::ATTRIBUTES_REGISTRY_KEY);
+        $registry = AO::registry(self::ATTRIBUTES_REGISTRY_KEY);
         $attributeSetId = $this->getProduct()->getAttributeSetId();
         if (is_array($registry) && isset($registry[$attributeSetId])) {
             return $registry[$attributeSetId];
         }
-        $collection = Mage::getResourceModel('googlebase/attribute_collection')
+        $collection = AO::getResourceModel('googlebase/attribute_collection')
             ->addAttributeSetFilter($attributeSetId, $this->getTargetCountry())
             ->load();
         $registry[$attributeSetId] = $collection;
-        Mage::unregister(self::ATTRIBUTES_REGISTRY_KEY);
-        Mage::register(self::ATTRIBUTES_REGISTRY_KEY, $registry);
+        AO::unregister(self::ATTRIBUTES_REGISTRY_KEY);
+        AO::register(self::ATTRIBUTES_REGISTRY_KEY, $registry);
         return $collection;
     }
 }

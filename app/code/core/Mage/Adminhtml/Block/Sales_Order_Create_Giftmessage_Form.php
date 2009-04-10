@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
 
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return AO::getSingleton('adminhtml/session_quote');
     }
 
     /**
@@ -148,14 +148,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         $fieldset->addField('sender','text',
             array(
                 'name'  =>  $this->_getFieldName('sender'),
-                'label' =>  Mage::helper('sales')->__('From'),
+                'label' =>  AO::helper('sales')->__('From'),
                 'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : ''
             )
         );
         $fieldset->addField('recipient','text',
             array(
                 'name'  =>  $this->_getFieldName('recipient'),
-                'label' =>  Mage::helper('sales')->__('To'),
+                'label' =>  AO::helper('sales')->__('To'),
                 'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : ''
             )
         );
@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
         $fieldset->addField('message', 'textarea',
             array(
                 'name'      =>  $this->_getFieldName('message'),
-                'label'     =>  Mage::helper('sales')->__('Message'),
+                'label'     =>  AO::helper('sales')->__('Message'),
                 'rows'      =>  '5',
                 'cols'      =>  '20',
                 'onchange'  =>  'toogleRequired(\'' . $this->_getFieldId('message')

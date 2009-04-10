@@ -33,6 +33,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Locale_Weekdays
 {
     public function toOptionArray()
     {
-        return Mage::app()->getLocale()->getOptionWeekdays();
+        return AO::app()->getLocale()->getOptionWeekdays();
     }
 }

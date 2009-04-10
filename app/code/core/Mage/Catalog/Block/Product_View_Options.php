@@ -56,10 +56,10 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     public function getProduct()
     {
         if (!$this->_product) {
-            if (Mage::registry('product')) {
-                $this->_product = Mage::registry('current_product');
+            if (AO::registry('product')) {
+                $this->_product = AO::registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('catalog/product');
+                $this->_product = AO::getSingleton('catalog/product');
             }
         }
         return $this->_product;
@@ -112,7 +112,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
 
     public function getGroupOfOption($type)
     {
-        $group = Mage::getSingleton('catalog/product_option')->getGroupByType($type);
+        $group = AO::getSingleton('catalog/product_option')->getGroupByType($type);
 
         return $group == '' ? 'default' : $group;
     }
@@ -146,11 +146,11 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
                 $_tmpPriceValues = array();
                 foreach ($option->getValues() as $value) {
                     /* @var $value Mage_Catalog_Model_Product_Option_Value */
-            	   $_tmpPriceValues[$value->getId()] = Mage::helper('core')->currency($value->getPrice(true), false, false);
+            	   $_tmpPriceValues[$value->getId()] = AO::helper('core')->currency($value->getPrice(true), false, false);
                 }
                 $priceValue = $_tmpPriceValues;
             } else {
-                $priceValue = Mage::helper('core')->currency($option->getPrice(), false, false);
+                $priceValue = AO::helper('core')->currency($option->getPrice(), false, false);
             }
             $config[$option->getId()] = $priceValue;
         }

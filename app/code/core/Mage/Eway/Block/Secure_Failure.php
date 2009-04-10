@@ -40,7 +40,7 @@ class Mage_Eway_Block_Secure_Failure extends Mage_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        return Mage::getSingleton('checkout/session')->getEwayErrorMessage();
+        return AO::getSingleton('checkout/session')->getEwayErrorMessage();
     }
 
     /**
@@ -48,6 +48,6 @@ class Mage_Eway_Block_Secure_Failure extends Mage_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return AO::getUrl('checkout/cart');
     }
 }

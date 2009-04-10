@@ -44,7 +44,7 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('catalogindex/indexer');
+        return AO::getSingleton('catalogindex/indexer');
     }
 
     /**
@@ -54,7 +54,7 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
      */
     protected function _getAggregator()
     {
-        return Mage::getSingleton('catalogindex/aggregation');
+        return AO::getSingleton('catalogindex/aggregation');
     }
 
     /**
@@ -235,7 +235,7 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function runQueuedIndexing()
     {
-        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        $flag = AO::getModel('catalogindex/catalog_index_flag')->loadSelf();
         if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED) {
             $this->_getIndexer()->plainReindex();
             $this->_getAggregator()->clearCacheData();

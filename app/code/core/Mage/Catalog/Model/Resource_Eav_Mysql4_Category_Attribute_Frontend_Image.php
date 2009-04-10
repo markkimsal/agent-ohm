@@ -38,7 +38,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Attribute_Frontend_Image e
     {
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = Mage::getBaseUrl('media').'catalog/category/'.$image;
+            $url = AO::getBaseUrl('media').'catalog/category/'.$image;
         }
         return $url;
     }

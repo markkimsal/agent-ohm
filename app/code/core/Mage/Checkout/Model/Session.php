@@ -49,8 +49,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     public function getQuote()
     {
         if ($this->_quote === null) {
-            $quote = Mage::getModel('sales/quote')
-                ->setStoreId(Mage::app()->getStore()->getId());
+            $quote = AO::getModel('sales/quote')
+                ->setStoreId(AO::app()->getStore()->getId());
 
             /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
@@ -60,7 +60,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
 
-            $customerSession = Mage::getSingleton('customer/session');
+            $customerSession = AO::getSingleton('customer/session');
 
             if (!$this->getQuoteId()) {
                 if ($customerSession->isLoggedIn()) {
@@ -68,7 +68,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
+                    AO::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
                 }
             }
 
@@ -78,7 +78,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 }
             }
 
-            $quote->setStore(Mage::app()->getStore());
+            $quote->setStore(AO::app()->getStore());
             $this->_quote = $quote;
         }
 
@@ -90,7 +90,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     protected function _getQuoteIdKey()
     {
-        return 'quote_id_' . Mage::app()->getStore()->getWebsiteId();
+        return 'quote_id_' . AO::app()->getStore()->getWebsiteId();
     }
 
     public function setQuoteId($quoteId)
@@ -110,9 +110,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function loadCustomerQuote()
     {
-        $customerQuote = Mage::getModel('sales/quote')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
+        $customerQuote = AO::getModel('sales/quote')
+            ->setStoreId(AO::app()->getStore()->getId())
+            ->loadByCustomer(AO::getSingleton('customer/session')->getCustomerId());
 
         if ($this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
@@ -171,7 +171,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
     public function clear()
     {
-        Mage::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
+        AO::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);

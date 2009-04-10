@@ -75,7 +75,7 @@ class Mage_Downloadable_FileController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
+        return AO::getSingleton('admin/session')->isAllowed('catalog/products');
     }
 
 }

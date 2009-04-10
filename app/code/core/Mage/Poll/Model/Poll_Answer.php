@@ -47,7 +47,7 @@ class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
 
     protected function _afterSave()
     {
-        Mage::getModel('poll/poll')
+        AO::getModel('poll/poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }
@@ -59,7 +59,7 @@ class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
 
     protected function _afterDelete()
     {
-        Mage::getModel('poll/poll')
+        AO::getModel('poll/poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }

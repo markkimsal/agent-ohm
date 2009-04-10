@@ -41,7 +41,7 @@ class Mage_ProductAlert_Model_Price extends Mage_Core_Model_Abstract
 
     public function getCustomerCollection()
     {
-        return Mage::getResourceModel('productalert/price_customer_collection');
+        return AO::getResourceModel('productalert/price_customer_collection');
     }
 
     public function loadByParam()

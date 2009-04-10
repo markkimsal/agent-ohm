@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website extends Mage_Core_M
      */
     protected function _getProductResource()
     {
-        return Mage::getResourceSingleton('catalog/product');
+        return AO::getResourceSingleton('catalog/product');
     }
 
     /**
@@ -114,9 +114,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website extends Mage_Core_M
             /**
              * Refresh product enabled index
              */
-            $storeIds = Mage::app()->getWebsite($websiteId)->getStoreIds();
+            $storeIds = AO::app()->getWebsite($websiteId)->getStoreIds();
             foreach ($storeIds as $storeId) {
-                $store = Mage::app()->getStore($storeId);
+                $store = AO::app()->getStore($storeId);
             	$this->_getProductResource()->refreshEnabledIndex($store, $productIds);
             }
         }

@@ -76,11 +76,11 @@ class Mage_Api_Model_Wsdl_Config_Base extends Varien_Simplexml_Config
      */
     public function processFileData($text)
     {
-        $template = Mage::getModel('core/email_template_filter');
+        $template = AO::getModel('core/email_template_filter');
 
         if (null === $this->_wsdlVariables) {
             $this->_wsdlVariables = new Varien_Object();
-            $this->_wsdlVariables->setUrl(Mage::getUrl('*/*/*'));
+            $this->_wsdlVariables->setUrl(AO::getUrl('*/*/*'));
             $this->_wsdlVariables->setName('Magento');
             $this->_wsdlVariables->setHandler($this->getHandler());
         }

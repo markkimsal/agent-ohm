@@ -56,7 +56,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('catalog')->__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(AO::helper('catalog')->__('Compare Products List') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -69,27 +69,27 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     public function getItems()
     {
         if (is_null($this->_items)) {
-            Mage::helper('catalog/product_compare')->setAllowUsedFlat(false);
-            $this->_items = Mage::getResourceModel('catalog/product_compare_item_collection')
+            AO::helper('catalog/product_compare')->setAllowUsedFlat(false);
+            $this->_items = AO::getResourceModel('catalog/product_compare_item_collection')
                 ->useProductItem(true)
-                ->setStoreId(Mage::app()->getStore()->getId());
+                ->setStoreId(AO::app()->getStore()->getId());
 
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (AO::getSingleton('customer/session')->isLoggedIn()) {
                 $this->_items
-                    ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+                    ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId());
             }
             else {
                 $this->_items
-                    ->setVisitorId(Mage::getSingleton('log/visitor')->getId());
+                    ->setVisitorId(AO::getSingleton('log/visitor')->getId());
             }
 
             $this->_items
                 ->loadComaparableAttributes()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
                 ->addMinimalPrice()
                 ->addTaxPercents();
 
-            Mage::getSingleton('catalog/product_visibility')
+            AO::getSingleton('catalog/product_visibility')
                 ->addVisibleInSiteFilterToCollection($this->_items);
         }
 

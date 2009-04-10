@@ -29,7 +29,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Source_Protection_Value
 {
     public function toOptionArray()
     {
-        $carrier = Mage::getSingleton('usa/shipping_carrier_dhl');
+        $carrier = AO::getSingleton('usa/shipping_carrier_dhl');
         $arr = array();
         foreach ($carrier->getAdditionalProtectionValueTypes() as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);

@@ -31,7 +31,7 @@ class Mage_Tax_Model_System_Config_Source_Tax_Region
 
     public function toOptionArray($noEmpty=false, $country = null)
     {
-        $options = Mage::getModel('directory/region')
+        $options = AO::getModel('directory/region')
             ->getCollection()
             ->addCountryFilter($country)
             ->toOptionArray();

@@ -40,13 +40,13 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Sales_Block_Items
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return AO::getSingleton('checkout/type_multishipping');
     }
 
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(Mage::helper('checkout')->__('Ship to Multiple Addresses') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(AO::helper('checkout')->__('Ship to Multiple Addresses') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -119,12 +119,12 @@ class Mage_Checkout_Block_Multishipping_Addresses extends Mage_Sales_Block_Items
 
     public function getNewAddressUrl()
     {
-        return Mage::getUrl('*/multishipping_address/newShipping');
+        return AO::getUrl('*/multishipping_address/newShipping');
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/cart/');
+        return AO::getUrl('*/cart/');
     }
 
     public function isContinueDisabled()

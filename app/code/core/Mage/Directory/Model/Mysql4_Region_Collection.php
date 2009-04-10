@@ -39,13 +39,13 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
 
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('directory_read'));
 
-        $this->_countryTable    = Mage::getSingleton('core/resource')->getTableName('directory/country');
-        $this->_regionTable     = Mage::getSingleton('core/resource')->getTableName('directory/country_region');
-        $this->_regionNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_region_name');
+        $this->_countryTable    = AO::getSingleton('core/resource')->getTableName('directory/country');
+        $this->_regionTable     = AO::getSingleton('core/resource')->getTableName('directory/country_region');
+        $this->_regionNameTable = AO::getSingleton('core/resource')->getTableName('directory/country_region_name');
 
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale = AO::app()->getLocale()->getLocaleCode();
 
         $this->_select->from(array('region'=>$this->_regionTable),
             array('region_id'=>'region_id', 'country_id'=>'country_id', 'code'=>'code', 'default_name'=>'default_name')
@@ -53,7 +53,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
         $this->_select->joinLeft(array('rname'=>$this->_regionNameTable),
             "region.region_id=rname.region_id AND rname.locale='$locale'", array('name'));
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/region'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('directory/region'));
     }
 
     public function addCountryFilter($countryId)
@@ -109,7 +109,7 @@ class Mage_Directory_Model_Mysql4_Region_Collection extends Varien_Data_Collecti
             );
         }
         if (count($options)>0) {
-            array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>Mage::helper('directory')->__('-- Please select --')));
+            array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>AO::helper('directory')->__('-- Please select --')));
         }
         return $options;
     }

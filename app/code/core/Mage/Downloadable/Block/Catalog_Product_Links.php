@@ -90,15 +90,15 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
             return '';
         }
 
-        $_priceInclTax = Mage::helper('tax')->getPrice($link->getProduct(), $price, true);
-        $_priceExclTax = Mage::helper('tax')->getPrice($link->getProduct(), $price);
+        $_priceInclTax = AO::helper('tax')->getPrice($link->getProduct(), $price, true);
+        $_priceExclTax = AO::helper('tax')->getPrice($link->getProduct(), $price);
 
         $priceStr = '<span class="price-notice">+';
-        if (Mage::helper('tax')->displayPriceIncludingTax()) {
+        if (AO::helper('tax')->displayPriceIncludingTax()) {
             $priceStr .= $this->helper('core')->currency($_priceInclTax, true, true);
-        } elseif (Mage::helper('tax')->displayPriceExcludingTax()) {
+        } elseif (AO::helper('tax')->displayPriceExcludingTax()) {
             $priceStr .= $this->helper('core')->currency($_priceExclTax, true, true);
-        } elseif (Mage::helper('tax')->displayBothPrices()) {
+        } elseif (AO::helper('tax')->displayBothPrices()) {
             $priceStr .= $this->helper('core')->currency($_priceExclTax, true, true);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' (+'.$this->helper('core')
@@ -120,7 +120,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         $config = array();
 
         foreach ($this->getLinks() as $link) {
-            $config[$link->getId()] = Mage::helper('core')->currency($link->getPrice(), false, false);
+            $config[$link->getId()] = AO::helper('core')->currency($link->getPrice(), false, false);
         }
 
         return Zend_Json::encode($config);
@@ -141,7 +141,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -151,7 +151,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return AO::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
 }

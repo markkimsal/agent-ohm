@@ -39,10 +39,10 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
 
     protected function _construct()
     {
-        $this->_collection = Mage::getModel('review/review')->getProductCollection();
+        $this->_collection = AO::getModel('review/review')->getProductCollection();
         $this->_collection
-            ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+            ->addStoreFilter(AO::app()->getStore()->getId())
+            ->addCustomerFilter(AO::getSingleton('customer/session')->getCustomerId())
             ->setDateOrder();
     }
 
@@ -77,12 +77,12 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
 
     public function getReviewLink()
     {
-        return Mage::getUrl('review/customer/view/');
+        return AO::getUrl('review/customer/view/');
     }
 
     public function getProductLink()
     {
-        return Mage::getUrl('catalog/product/view/');
+        return AO::getUrl('catalog/product/view/');
     }
 
     public function dateFormat($date)

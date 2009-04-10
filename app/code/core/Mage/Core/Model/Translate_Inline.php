@@ -53,15 +53,15 @@ class Mage_Core_Model_Translate_Inline
     {
         if (is_null($this->_isAllowed)) {
             if ($this->design->getArea()==='adminhtml') {
-                $active = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
+                $active = AO::getStoreConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
-                $active = Mage::getStoreConfigFlag('dev/translate_inline/active', $storeId);
+                $active = AO::getStoreConfigFlag('dev/translate_inline/active', $storeId);
             }
 
-            $this->_isAllowed = $active && Mage::helper('core')->isDevAllowed($storeId);
+            $this->_isAllowed = $active && AO::helper('core')->isDevAllowed($storeId);
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
 
         return $translate->getTranslateInline() && $this->_isAllowed;
@@ -73,7 +73,7 @@ class Mage_Core_Model_Translate_Inline
             return;
         }
 
-        $resource = Mage::getResourceModel('core/translate_string');
+        $resource = AO::getResourceModel('core/translate_string');
         /* @var $resource Mage_Core_Model_Mysql4_Translate_String */
         foreach ($translate as $t) {
 			$d = Mage_Core_Model_Design_Package::getDesign();
@@ -85,7 +85,7 @@ class Mage_Core_Model_Translate_Inline
                 $storeId = 0;
             }
             else {
-                $storeId = Mage::app()->getStore()->getId();
+                $storeId = AO::app()->getStore()->getId();
             }
 
             $resource->saveTranslate($t['original'], $t['custom'], null, $storeId);
@@ -135,8 +135,8 @@ class Mage_Core_Model_Translate_Inline
             return;
         }
 
-        $baseJsUrl = Mage::getBaseUrl('js');
-        $ajaxUrl = Mage::getUrl('core/ajax/translate', array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
+        $baseJsUrl = AO::getBaseUrl('js');
+        $ajaxUrl = AO::getUrl('core/ajax/translate', array('_secure'=>AO::app()->getStore()->isCurrentlySecure()));
         $trigImg = $this->design->getSkinUrl('images/fam_book_open.png');
 
         ob_start();
@@ -151,7 +151,7 @@ class Mage_Core_Model_Translate_Inline
 
 <div id="translate-inline-trig"><img src="<?php echo $trigImg ?>" alt="[TR]"/></div>
 <script type="text/javascript">
-    new TranslateInline('translate-inline-trig', '<?php echo $ajaxUrl ?>', '<?php echo Mage::getDesign()->getArea() ?>');
+    new TranslateInline('translate-inline-trig', '<?php echo $ajaxUrl ?>', '<?php echo AO::getDesign()->getArea() ?>');
 </script>
 <?php
         $html = ob_get_clean();
@@ -346,7 +346,7 @@ class Mage_Core_Model_Translate_Inline
         if (!is_null($this->_isAjaxRequest)) {
             return $this->_isAjaxRequest;
         } else {
-            return Mage::app()->getRequest()->getQuery('isAjax');
+            return AO::app()->getRequest()->getQuery('isAjax');
         }
     }
 

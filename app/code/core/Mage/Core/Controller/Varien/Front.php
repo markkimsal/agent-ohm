@@ -67,7 +67,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     public function getRequest()
     {
-        return Mage::app()->getRequest();
+        return AO::app()->getRequest();
     }
 
     /**
@@ -77,7 +77,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     public function getResponse()
     {
-        return Mage::app()->getResponse();
+        return AO::app()->getResponse();
     }
 
     /**
@@ -110,9 +110,9 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     public function init()
     {
-        Mage::dispatchEvent('controller_front_init_before', array('front'=>$this));
+        AO::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
-        $routersInfo = Mage::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH);
+        $routersInfo = AO::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH);
 
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller::collect_routers');
         foreach ($routersInfo as $routerCode => $routerInfo) {
@@ -129,7 +129,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         }
         if (VPROF) Varien_Profiler::stop('mage::app::init_front_controller::collect_routers');
 
-        Mage::dispatchEvent('controller_front_init_routers', array('front'=>$this));
+        AO::dispatchEvent('controller_front_init_routers', array('front'=>$this));
 
         // Add default router at the last
         $default = new Mage_Core_Controller_Varien_Router_Default();
@@ -144,7 +144,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $request->setPathInfo()->setDispatched(false);
 
         if (VPROF) Varien_Profiler::start('mage::dispatch::db_url_rewrite');
-        Mage::getModel('core/url_rewrite')->rewrite();
+        AO::getModel('core/url_rewrite')->rewrite();
         if (VPROF) Varien_Profiler::stop('mage::dispatch::db_url_rewrite');
 
         if (VPROF) Varien_Profiler::start('mage::dispatch::config_url_rewrite');
@@ -162,7 +162,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         }
         if (VPROF) Varien_Profiler::stop('mage::dispatch::routers_match');
         if ($i>100) {
-            Mage::throwException('Front controller reached 100 router match iterations');
+            AO::throwException('Front controller reached 100 router match iterations');
         }
 
         if (VPROF) Varien_Profiler::start('mage::app::dispatch::send_response');
@@ -217,7 +217,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     public function rewrite()
     {
         $request = $this->getRequest();
-        $config = Mage::getConfig()->getNode('global/rewrite');
+        $config = AO::getConfig()->getNode('global/rewrite');
         if (!$config) {
             return;
         }

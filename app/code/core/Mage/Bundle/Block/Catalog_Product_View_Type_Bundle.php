@@ -65,8 +65,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
 
     public function getJsonConfig()
     {
-        Mage::app()->getLocale()->getJsPriceFormat();
-        $store = Mage::app()->getStore();
+        AO::app()->getLocale()->getJsPriceFormat();
+        $store = AO::app()->getStore();
         $optionsArray = $this->getOptions();
         $options = array();
         $selected = array();
@@ -87,8 +87,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 $selection = array (
                     'qty' => $_qty,
                     'customQty' => $_selection->getSelectionCanChangeQty(),
-                    'price' => Mage::helper('core')->currency($_selection->getFinalPrice(), false, false),
-                    'priceValue' => Mage::helper('core')->currency($_selection->getSelectionPriceValue(), false, false),
+                    'price' => AO::helper('core')->currency($_selection->getFinalPrice(), false, false),
+                    'priceValue' => AO::helper('core')->currency($_selection->getSelectionPriceValue(), false, false),
                     'priceType' => $_selection->getSelectionPriceType(),
                     'tierPrice' => $_selection->getTierPrice(),
                     'plusDisposition' => 0,
@@ -96,7 +96,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                 );
         		$responseObject = new Varien_Object();
         		$args = array('response_object'=>$responseObject, 'selection'=>$_selection);
-        		Mage::dispatchEvent('bundle_product_view_config', $args);
+        		AO::dispatchEvent('bundle_product_view_config', $args);
         		if (is_array($responseObject->getAdditionalOptions())) {
         			foreach ($responseObject->getAdditionalOptions() as $o=>$v) {
         				$selection[$o] = $v;
@@ -115,8 +115,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             'options' => $options,
             'selected' => $selected,
             'bundleId' => $this->getProduct()->getId(),
-            'priceFormat' => Mage::app()->getLocale()->getJsPriceFormat(),
-            'basePrice' => Mage::helper('core')->currency($this->getProduct()->getPrice(), false, false),
+            'priceFormat' => AO::app()->getLocale()->getJsPriceFormat(),
+            'basePrice' => AO::helper('core')->currency($this->getProduct()->getPrice(), false, false),
             'priceType' => $this->getProduct()->getPriceType(),
             'specialPrice' => $this->getProduct()->getSpecialPrice()
         );

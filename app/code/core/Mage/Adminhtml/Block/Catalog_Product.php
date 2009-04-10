@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Template
         $this->setChild('add_new_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Add Product'),
+                    'label'     => AO::helper('catalog')->__('Add Product'),
                     'onclick'   => "setLocation('".$this->getUrl('*/*/new')."')",
                     'class'   => 'add'
                     ))
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Template
 
     public function isSingleStoreMode()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
                return false;
         }
         return true;

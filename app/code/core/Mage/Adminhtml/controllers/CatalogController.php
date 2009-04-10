@@ -37,7 +37,7 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('catalog');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Catalog'), Mage::helper('adminhtml')->__('Catalog'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Catalog'), AO::helper('adminhtml')->__('Catalog'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog'));
         $this->renderLayout();
@@ -45,6 +45,6 @@ class Mage_Adminhtml_CatalogController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('catalog');
+	    return AO::getSingleton('admin/session')->isAllowed('catalog');
     }
 }

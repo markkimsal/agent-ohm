@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Mysql4_Convert
 
 	public function getConnection()
 	{
-		return Mage::getSingleton('core/resource')->getConnection('catalog_write');
+		return AO::getSingleton('core/resource')->getConnection('catalog_write');
 	}
 
 	public function getSelect()
@@ -43,13 +43,13 @@ class Mage_Catalog_Model_Mysql4_Convert
 
 	public function getTable($table)
 	{
-		return Mage::getSingleton('core/resource')->getTableName($table);
+		return AO::getSingleton('core/resource')->getTableName($table);
 	}
 
 	public function getProductEntity($field=null)
 	{
 		if (!$this->_productEntity) {
-			$this->_productEntity = Mage::getResourceModel('catalog/product')
+			$this->_productEntity = AO::getResourceModel('catalog/product')
 			    ->loadAllAttributes();
 		}
 		return is_null($field) ? $this->_productEntity : $this->_productEntity->getData($field);
@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Mysql4_Convert
 			->where('et.entity_type_code in (?)', array('catalog_product', 'catalog_category'))
 			->order('a.attribute_code')->order('ao.sort_order');
 
-		$stores = Mage::getConfig()->getNode('stores')->children();
+		$stores = AO::getConfig()->getNode('stores')->children();
 		foreach ($stores as $storeName=>$storeConfig) {
 			$select->joinLeft(
 				array($storeName=>$this->getTable('eav/attribute_option_value')),
@@ -203,7 +203,7 @@ class Mage_Catalog_Model_Mysql4_Convert
 
 	public function exportCategories()
 	{
-		$collection = Mage::getResourceModel('catalog/category_collection')
+		$collection = AO::getResourceModel('catalog/category_collection')
 			->addAttributeToSelect('*')
 			->load();
 
@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Mysql4_Convert
 
 	public function exportProducts()
 	{
-		$attrSets = Mage::getResourceModel('eav/entity_attribute_set_collection')->load();
+		$attrSets = AO::getResourceModel('eav/entity_attribute_set_collection')->load();
 		$attrSetName = array();
 		foreach ($attrSets as $attrSet) {
 			$attrSetName[$attrSet->getId()] = $attrSet->getAttributeSetName();
@@ -232,7 +232,7 @@ class Mage_Catalog_Model_Mysql4_Convert
         echo $select->__toString();
         die();
 
-		$collection = Mage::getResourceModel('catalog/product_collection')
+		$collection = AO::getResourceModel('catalog/product_collection')
 			->addAttributeToSelect('*')
 			->load();
 
@@ -256,13 +256,13 @@ class Mage_Catalog_Model_Mysql4_Convert
 
 	public function getProductAttributeOption($attribute, $value)
 	{
-	    #$attribute = Mage::get
+	    #$attribute = AO::get
 	}
 
 	public function importProducts(array $data)
 	{
 	    /*
-	    $entity = Mage::getResourceModel('catalog/product')
+	    $entity = AO::getResourceModel('catalog/product')
 	       ->loadAllAttributes();
 
 	    $options =

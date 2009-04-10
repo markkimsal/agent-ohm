@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         parent::__construct();
 
         $this->setId('taxRuleForm');
-        $this->setTitle(Mage::helper('tax')->__('Tax Rule Information'));
+        $this->setTitle(AO::helper('tax')->__('Tax Rule Information'));
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareForm()
     {
-        $model  = Mage::registry('tax_rule');
+        $model  = AO::registry('tax_rule');
         $form   = new Varien_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
@@ -60,27 +60,27 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('tax')->__('Tax Rule Information')
+            'legend'    => AO::helper('tax')->__('Tax Rule Information')
         ));
 
-        $productClasses = Mage::getModel('tax/class')
+        $productClasses = AO::getModel('tax/class')
             ->getCollection()
             ->setClassTypeFilter('PRODUCT')
             ->toOptionArray();
 
-        $customerClasses = Mage::getModel('tax/class')
+        $customerClasses = AO::getModel('tax/class')
             ->getCollection()
             ->setClassTypeFilter('CUSTOMER')
             ->toOptionArray();
 
-        $rates = Mage::getModel('tax/calculation_rate')
+        $rates = AO::getModel('tax/calculation_rate')
             ->getCollection()
             ->toOptionArray();
 
         $fieldset->addField('code', 'text',
             array(
                 'name'      => 'code',
-                'label'     => Mage::helper('tax')->__('Name'),
+                'label'     => AO::helper('tax')->__('Name'),
                 'class'     => 'required-entry',
                 'required'  => true,
             )
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('tax_customer_class', 'multiselect',
             array(
                 'name'      => 'tax_customer_class',
-                'label'     => Mage::helper('tax')->__('Customer Tax Class'),
+                'label'     => AO::helper('tax')->__('Customer Tax Class'),
                 'class'     => 'required-entry',
                 'values'    => $customerClasses,
                 'value'     => $model->getCustomerTaxClasses(),
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('tax_product_class', 'multiselect',
             array(
                 'name'      => 'tax_product_class',
-                'label'     => Mage::helper('tax')->__('Product Tax Class'),
+                'label'     => AO::helper('tax')->__('Product Tax Class'),
                 'class'     => 'required-entry',
                 'values'    => $productClasses,
                 'value'     => $model->getProductTaxClasses(),
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('tax_rate', 'multiselect',
             array(
                 'name'      => 'tax_rate',
-                'label'     => Mage::helper('tax')->__('Tax Rate'),
+                'label'     => AO::helper('tax')->__('Tax Rate'),
                 'class'     => 'required-entry',
                 'values'    => $rates,
                 'value'     => $model->getRates(),
@@ -121,17 +121,17 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('priority', 'text',
             array(
                 'name'      => 'priority',
-                'label'     => Mage::helper('tax')->__('Priority'),
+                'label'     => AO::helper('tax')->__('Priority'),
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPriority(),
                 'required'  => true,
-                'note'      => Mage::helper('tax')->__('Tax rates at the same priority are added, others are compounded.'),
+                'note'      => AO::helper('tax')->__('Tax rates at the same priority are added, others are compounded.'),
             )
         );
         $fieldset->addField('position', 'text',
             array(
                 'name'      => 'position',
-                'label'     => Mage::helper('tax')->__('Sort Order'),
+                'label'     => AO::helper('tax')->__('Sort Order'),
                 'class'     => 'validate-not-negative-number',
                 'value'     => (int) $model->getPosition(),
                 'required'  => true,

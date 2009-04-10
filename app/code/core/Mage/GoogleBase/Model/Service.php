@@ -44,15 +44,15 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
         $pass = $this->getConfig()->getAccountPassword($storeId);
 
         // Create an authenticated HTTP client
-        $errorMsg = Mage::helper('googlebase')->__('Unable to connect to Google Base. Please, check Account settings in configuration.');
+        $errorMsg = AO::helper('googlebase')->__('Unable to connect to Google Base. Please, check Account settings in configuration.');
         try {
             $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, Zend_Gdata_Gbase::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
         } catch (Zend_Gdata_App_HttpException $e) {
-            Mage::throwException($errorMsg . Mage::helper('googlebase')->__('Error: %s', $e->getMessage()));
+            AO::throwException($errorMsg . AO::helper('googlebase')->__('Error: %s', $e->getMessage()));
         } catch (Zend_Gdata_App_AuthException $e) {
-            Mage::throwException($errorMsg . Mage::helper('googlebase')->__('Error: %s', $e->getMessage()));
+            AO::throwException($errorMsg . AO::helper('googlebase')->__('Error: %s', $e->getMessage()));
         }
 
         return $client;
@@ -89,7 +89,7 @@ class Mage_GoogleBase_Model_Service extends Varien_Object
      */
     public function getConfig()
     {
-        return Mage::getSingleton('googlebase/config');
+        return AO::getSingleton('googlebase/config');
     }
 
     /**

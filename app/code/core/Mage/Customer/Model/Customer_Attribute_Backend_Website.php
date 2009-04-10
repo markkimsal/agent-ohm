@@ -39,7 +39,7 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Website extends Mage_Eav_Mo
             return $this;
         }
         if (!$object->hasData('website_id')) {
-            $object->setData('website_id', Mage::app()->getStore()->getWebsiteId());
+            $object->setData('website_id', AO::app()->getStore()->getWebsiteId());
         }
         return $this;
     }

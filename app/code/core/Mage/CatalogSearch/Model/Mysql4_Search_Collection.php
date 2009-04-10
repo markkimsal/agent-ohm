@@ -52,7 +52,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
     protected function _getAttributesCollection()
     {
         if (!$this->_attributesCollection) {
-            $this->_attributesCollection = Mage::getResourceModel('eav/entity_attribute_collection')
+            $this->_attributesCollection = AO::getResourceModel('eav/entity_attribute_collection')
                 ->setEntityTypeFilter($this->getEntity()->getTypeId())
                 ->load();
 
@@ -154,7 +154,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
             return false;
         }
 
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $optionTable      = $resource->getTableName('eav/attribute_option');
         $optionValueTable = $resource->getTableName('eav/attribute_option_value');
         $attributesTable  = $resource->getTableName('eav/attribute');

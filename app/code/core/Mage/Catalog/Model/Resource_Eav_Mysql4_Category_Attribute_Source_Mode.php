@@ -39,15 +39,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Attribute_Source_Mode exte
             $this->_options = array(
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_PRODUCT,
-                    'label' => Mage::helper('catalog')->__('Products only'),
+                    'label' => AO::helper('catalog')->__('Products only'),
                 ),
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_PAGE,
-                    'label' => Mage::helper('catalog')->__('Static block only'),
+                    'label' => AO::helper('catalog')->__('Static block only'),
                 ),
                 array(
                     'value' => Mage_Catalog_Model_Category::DM_MIXED,
-                    'label' => Mage::helper('catalog')->__('Static block and products'),
+                    'label' => AO::helper('catalog')->__('Static block and products'),
                 )
             );
         }

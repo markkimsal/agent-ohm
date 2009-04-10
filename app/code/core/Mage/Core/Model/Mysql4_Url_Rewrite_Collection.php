@@ -59,7 +59,7 @@ class Mage_Core_Model_Mysql4_Url_Rewrite_Collection extends Mage_Core_Model_Mysq
 
     public function addStoreFilter($store)
     {
-        $storeId = Mage::helper('core')->getStoreId($store);
+        $storeId = AO::helper('core')->getStoreId($store);
         $this->getSelect()->where('store_id=0 or store_id=?', $storeId);
         return $this;
     }

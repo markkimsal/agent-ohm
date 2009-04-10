@@ -36,20 +36,20 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('catalog/session');
+        return AO::getSingleton('catalog/session');
     }
     /**
      * Display search result
      */
     public function indexAction()
     {
-        $query = Mage::helper('catalogSearch')->getQuery();
+        $query = AO::helper('catalogSearch')->getQuery();
         /* @var $query Mage_CatalogSearch_Model_Query */
 
-        $query->setStoreId(Mage::app()->getStore()->getId());
+        $query->setStoreId(AO::app()->getStore()->getId());
 
         if ($query->getQueryText()) {
-            if (Mage::helper('catalogSearch')->isMinQueryLength()) {
+            if (AO::helper('catalogSearch')->isMinQueryLength()) {
                 $query->setId(0)
                     ->setIsActive(1)
                     ->setIsProcessed(1);
@@ -72,13 +72,13 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
                 }
             }
 
-            Mage::helper('catalogSearch')->checkNotes();
+            AO::helper('catalogSearch')->checkNotes();
 
             $this->loadLayout();
             $this->_initLayoutMessages('catalog/session');
             $this->renderLayout();
 
-            if (!Mage::helper('catalogSearch')->isMinQueryLength()) {
+            if (!AO::helper('catalogSearch')->isMinQueryLength()) {
                 $query->save();
             }
         }

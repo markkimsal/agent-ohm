@@ -51,11 +51,11 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
-        $parent = Mage::app()->getStore()->getRootCategoryId();
+        $parent = AO::app()->getStore()->getRootCategoryId();
         /**
          * Check if parent node of the store still exists
          */
-        $category = Mage::getModel('catalog/category');
+        $category = AO::getModel('catalog/category');
         /* @var $category Mage_Catalog_Model_Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
@@ -64,7 +64,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
             return array();
         }
 
-        $recursionLevel = max(0, (int) Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
+        $recursionLevel = max(0, (int) AO::app()->getStore()->getConfig('catalog/navigation/max_depth'));
 
         return $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
     }
@@ -80,7 +80,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
         if ($category instanceof Mage_Catalog_Model_Category) {
             return $category->getUrl();
         }
-        return Mage::getModel('catalog/category')
+        return AO::getModel('catalog/category')
             ->setData($category->getData())
             ->getUrl();
     }
@@ -94,7 +94,7 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = Mage::getModel('catalog/category')->load($category);
+            $category = AO::getModel('catalog/category')->load($category);
         }
 
         if (!$category->getId()) {
@@ -120,11 +120,11 @@ class Mage_Catalog_Helper_Category extends Mage_Core_Helper_Abstract
     public function getCategoryUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
-            $this->_categoryUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId);
+            $this->_categoryUrlSuffix[$storeId] = AO::getStoreConfig(self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId);
         }
         return $this->_categoryUrlSuffix[$storeId];
     }

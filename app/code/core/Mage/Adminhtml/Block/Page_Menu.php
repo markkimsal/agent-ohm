@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     {
         parent::_construct();
         $this->setTemplate('page/menu.phtml');
-        $this->_url = Mage::getModel('adminhtml/url');
+        $this->_url = AO::getModel('adminhtml/url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
 
@@ -52,8 +52,8 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     public function getCacheKey()
     {
         // getting roles for current user, for now one role per user
-        $roles = implode('', Mage::getSingleton('admin/session')->getUser()->getRoles());
-        return 'admin_top_nav_'.$this->getActive().'_'.$roles.'_'.Mage::app()->getLocale()->getLocaleCode();
+        $roles = implode('', AO::getSingleton('admin/session')->getUser()->getRoles());
+        return 'admin_top_nav_'.$this->getActive().'_'.$roles.'_'.AO::app()->getLocale()->getLocaleCode();
     }
 
     public function getMenuArray()
@@ -73,14 +73,14 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
 //            $titleNodeName  = (string)$childAttributes['translate'];
 //        }
 
-        return Mage::helper($helperName)->__((string)$child->$titleNodeName);
+        return AO::helper($helperName)->__((string)$child->$titleNodeName);
     }
 
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getConfig()->getNode('adminhtml/menu');
-//        $parent = Mage::getSingleton('adminhtml/config')->getNode('admin/menu');
+            $parent = AO::getConfig()->getNode('adminhtml/menu');
+//        $parent = AO::getSingleton('adminhtml/config')->getNode('admin/menu');
 
         }
         $parentArr = array();
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     protected function _checkDepends(Varien_Simplexml_Element $depends)
     {
         if ($depends->module) {
-            $modulesConfig = Mage::getConfig()->getNode('modules');
+            $modulesConfig = AO::getConfig()->getNode('modules');
             foreach ($depends->module as $module) {
                 if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
                     return false;
@@ -158,13 +158,13 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         return true;
         $resource = (string)$acl->resource;
         $privilege = (string)$acl->privilege;
-        return Mage::getSingleton('admin/session')->isAllowed($resource, $privilege);
+        return AO::getSingleton('admin/session')->isAllowed($resource, $privilege);
     }*/
 
     protected function _checkAcl($resource)
     {
         try {
-            $res =  Mage::getSingleton('admin/session')->isAllowed($resource);
+            $res =  AO::getSingleton('admin/session')->isAllowed($resource);
         } catch (Exception $e) {
             return false;
         }

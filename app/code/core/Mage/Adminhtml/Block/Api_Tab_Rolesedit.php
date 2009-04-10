@@ -29,11 +29,11 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget
     public function __construct() {
         parent::__construct();
 
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
+        $rid = AO::app()->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel('api/roles')->getResourcesList();
+        $resources = AO::getModel('api/roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('api/rules_collection')->getByRoles($rid)->load();
+        $rules_set = AO::getResourceModel('api/rules_collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -58,8 +58,8 @@ class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget
 
     public function getResTreeJson()
     {
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
-        $resources = Mage::getModel('api/roles')->getResourcesTree();
+        $rid = AO::app()->getRequest()->getParam('rid', false);
+        $resources = AO::getModel('api/roles')->getResourcesTree();
 
         $rootArray = $this->_getNodeJson($resources,1);
 

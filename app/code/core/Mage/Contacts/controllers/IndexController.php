@@ -43,7 +43,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
-        if( !Mage::getStoreConfigFlag(self::XML_PATH_ENABLED) ) {
+        if( !AO::getStoreConfigFlag(self::XML_PATH_ENABLED) ) {
             $this->norouteAction();
         }
     }
@@ -52,7 +52,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         $this->getLayout()->getBlock('contactForm')
-            ->setFormAction( Mage::getUrl('*/*/post') );
+            ->setFormAction( AO::getUrl('*/*/post') );
 
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('catalog/session');
@@ -63,7 +63,7 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
     {
         $post = $this->getRequest()->getPost();
         if ( $post ) {
-            $translate = Mage::getSingleton('core/translate');
+            $translate = AO::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
             try {
@@ -86,14 +86,14 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                 if ($error) {
                     throw new Exception();
                 }
-                $mailTemplate = Mage::getModel('core/email_template');
+                $mailTemplate = AO::getModel('core/email_template');
                 /* @var $mailTemplate Mage_Core_Model_Email_Template */
                 $mailTemplate->setDesignConfig(array('area' => 'frontend'))
                     ->setReplyTo($post['email'])
                     ->sendTransactional(
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
+                        AO::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        AO::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                        AO::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
                         null,
                         array('data' => $postObject)
                     );
@@ -104,14 +104,14 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('customer/session')->addSuccess(Mage::helper('contacts')->__('Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'));
+                AO::getSingleton('customer/session')->addSuccess(AO::helper('contacts')->__('Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'));
                 $this->_redirect('*/*/');
 
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('customer/session')->addError(Mage::helper('contacts')->__('Unable to submit your request. Please, try again later'));
+                AO::getSingleton('customer/session')->addError(AO::helper('contacts')->__('Unable to submit your request. Please, try again later'));
                 $this->_redirect('*/*/');
                 return;
             }

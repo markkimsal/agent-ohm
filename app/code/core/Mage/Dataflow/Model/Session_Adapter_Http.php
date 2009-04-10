@@ -48,13 +48,13 @@ File to upload: <input type="file" name="io_file"/> <input type="submit" value="
             //$this->setData(file_get_contents($_FILES['io_file']['tmp_name']));
             $uploader = new Varien_File_Uploader('io_file');
             $uploader->setAllowedExtensions(array('csv','xml'));
-            $path = Mage::app()->getConfig()->getTempVarDir().'/import/';
+            $path = AO::app()->getConfig()->getTempVarDir().'/import/';
             $uploader->save($path);
             if ($uploadFile = $uploader->getUploadedFileName()) {
-                $session = Mage::getModel('dataflow/session');
+                $session = AO::getModel('dataflow/session');
                 $session->setCreatedDate(date('Y-m-d H:i:s'));
                 $session->setDirection('import');
-                $session->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+                $session->setUserId(AO::getSingleton('admin/session')->getUser()->getId());
                 $session->save();
                 $sessionId = $session->getId();
                 $newFilename = 'import_'.$sessionId.'_'.$uploadFile;
@@ -62,7 +62,7 @@ File to upload: <input type="file" name="io_file"/> <input type="submit" value="
                 $session->setFile($newFilename);
                 $session->save();
                 $this->setData(file_get_contents($path.$newFilename));
-                Mage::register('current_dataflow_session_id', $sessionId);
+                AO::register('current_dataflow_session_id', $sessionId);
                 /*
                 $read = @fopen($path.$newFilename, "r");
                 if ($read) {
@@ -70,7 +70,7 @@ File to upload: <input type="file" name="io_file"/> <input type="submit" value="
                     while (!feof($read)) {
 
                         $buffer = fgets($read, 4096);
-                        $import = Mage::getModel('dataflow/import');
+                        $import = AO::getModel('dataflow/import');
                         $import->setSerialNumber($i);
                         $import->setSessionId($sessionId);
                         $import->setSessionId($value);

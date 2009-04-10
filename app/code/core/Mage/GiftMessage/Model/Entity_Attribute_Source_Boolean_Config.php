@@ -45,15 +45,15 @@ class Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config extends Mage
         if (!$this->_options) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('giftmessage')->__('Yes'),
+                    'label' => AO::helper('giftmessage')->__('Yes'),
                     'value' =>  1
                 ),
                 array(
-                    'label' => Mage::helper('giftmessage')->__('No'),
+                    'label' => AO::helper('giftmessage')->__('No'),
                     'value' =>  0
                 ),
                 array(
-                    'label' => Mage::helper('giftmessage')->__('Use config'),
+                    'label' => AO::helper('giftmessage')->__('Use config'),
                     'value' =>  2
                 )
             );

@@ -47,7 +47,7 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adm
      */
     public function getCreateOrderModel()
     {
-        return Mage::getSingleton('adminhtml/sales_order_create');
+        return AO::getSingleton('adminhtml/sales_order_create');
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Abstract extends Mage_Adm
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return AO::getSingleton('adminhtml/session_quote');
     }
 
     /**

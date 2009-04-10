@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_P
      */
     public function getQuote()
     {
-        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+        return AO::getSingleton('adminhtml/session_quote')->getQuote();
     }
 
 }

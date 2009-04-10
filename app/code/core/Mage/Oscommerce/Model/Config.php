@@ -33,7 +33,7 @@ class Mage_Oscommerce_Model_Config extends Mage_Core_Model_Config_Base
 {
     public function __construct()
     {
-        parent::__construct(Mage::getConfig()->getNode('global'));
+        parent::__construct(AO::getConfig()->getNode('global'));
     }
 
     public function initForeignConnection($data)

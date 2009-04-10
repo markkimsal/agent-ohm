@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Form extends Mage_Adminht
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
-        $model = Mage::registry('current_convert_profile');
+        $model = AO::registry('current_convert_profile');
 
         if ($model->getId()) {
             $form->addField('profile_id', 'hidden', array(

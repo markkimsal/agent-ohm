@@ -35,7 +35,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isLoggedIn()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return AO::getSingleton('customer/session')->isLoggedIn();
     }
 
     /**
@@ -46,7 +46,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = AO::getSingleton('customer/session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -54,7 +54,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getGroups()
     {
         if (empty($this->_groups)) {
-            $this->_groups = Mage::getModel('customer/group')->getResourceCollection()
+            $this->_groups = AO::getModel('customer/group')->getResourceCollection()
                 ->setRealGroupsFilter()
                 ->load();
         }

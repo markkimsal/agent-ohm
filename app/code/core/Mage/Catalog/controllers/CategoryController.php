@@ -40,25 +40,25 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      */
     protected function _initCatagory()
     {
-        Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action'=>$this));
+        AO::dispatchEvent('catalog_controller_category_init_before', array('controller_action'=>$this));
         $categoryId = (int) $this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;
         }
 
-        $category = Mage::getModel('catalog/category')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $category = AO::getModel('catalog/category')
+            ->setStoreId(AO::app()->getStore()->getId())
             ->load($categoryId);
 
-        if (!Mage::helper('catalog/category')->canShow($category)) {
+        if (!AO::helper('catalog/category')->canShow($category)) {
             return false;
         }
-        Mage::getSingleton('catalog/session')->setLastVisitedCategoryId($category->getId());
-        Mage::register('current_category', $category);
+        AO::getSingleton('catalog/session')->setLastVisitedCategoryId($category->getId());
+        AO::register('current_category', $category);
         try {
-            Mage::dispatchEvent('catalog_controller_category_init_after', array('category'=>$category, 'controller_action'=>$this));
+            AO::dispatchEvent('catalog_controller_category_init_after', array('category'=>$category, 'controller_action'=>$this));
         } catch (Mage_Core_Exception $e) {
-            Mage::logException($e);
+            AO::logException($e);
             return false;
         }
         return $category;
@@ -72,8 +72,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 
         if ($category = $this->_initCatagory()) {
 
-            Mage::getModel('catalog/design')->applyDesign($category, Mage_Catalog_Model_Design::APPLY_FOR_CATEGORY);
-            Mage::getSingleton('catalog/session')->setLastViewedCategoryId($category->getId());
+            AO::getModel('catalog/design')->applyDesign($category, Mage_Catalog_Model_Design::APPLY_FOR_CATEGORY);
+            AO::getSingleton('catalog/session')->setLastViewedCategoryId($category->getId());
 
             $update = $this->getLayout()->getUpdate();
             $update->addHandle('default');

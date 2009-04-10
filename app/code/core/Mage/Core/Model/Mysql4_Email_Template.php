@@ -57,9 +57,9 @@ class Mage_Core_Model_Mysql4_Email_Template
      */
     public function __construct()
     {
-        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('core/email_template');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $this->_templateTable = AO::getSingleton('core/resource')->getTableName('core/email_template');
+        $this->_read = AO::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('core_write');
     }
 
     /**
@@ -176,15 +176,15 @@ class Mage_Core_Model_Mysql4_Email_Template
         $data['template_sender_email'] 	= $template->getTemplateSenderEmail();
 
         if(!$template->getAddedAt()) {
-        	$template->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
-        	$template->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
+        	$template->setAddedAt(AO::getSingleton('core/date')->gmtDate());
+        	$template->setModifiedAt(AO::getSingleton('core/date')->gmtDate());
         }
 
         $data['modified_at']	 = $template->getModifiedAt();
         $data['added_at']	 	 = $template->getAddedAt();
 
         if($this->checkCodeUsage($template)) {
-            Mage::throwException(Mage::helper('core')->__('Duplicate Of Template Code'));
+            AO::throwException(AO::helper('core')->__('Duplicate Of Template Code'));
         }
 
         $validators = array(
@@ -209,7 +209,7 @@ class Mage_Core_Model_Mysql4_Email_Template
 
             }
 
-            Mage::throwException($errorString);
+            AO::throwException($errorString);
         }
 
         return $data;
@@ -230,7 +230,7 @@ class Mage_Core_Model_Mysql4_Email_Template
         }
         catch(Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(Mage::helper('core')->__('Cannot Delete Email Template'));
+            AO::throwException(AO::helper('core')->__('Cannot Delete Email Template'));
         }
 
         return $this;

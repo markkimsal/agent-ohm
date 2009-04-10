@@ -52,23 +52,23 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('api/user');
+        $model = AO::getModel('api/user');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('This user no longer exists'));
+                AO::getSingleton('adminhtml/session')->addError($this->__('This user no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
         // Restore previously entered form data from session
-        $data = Mage::getSingleton('adminhtml/session')->getUserData(true);
+        $data = AO::getSingleton('adminhtml/session')->getUserData(true);
         if (!empty($data)) {
             $model->setData($data);
         }
 
-        Mage::register('api_user', $model);
+        AO::register('api_user', $model);
 
         $this->_initAction()
             ->_addBreadcrumb($id ? $this->__('Edit User') : $this->__('New User'), $id ? $this->__('Edit User') : $this->__('New User'))
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
-            $model = Mage::getModel('api/user');
+            $model = AO::getModel('api/user');
             $model->setData($data);
             try {
                 $model->save();
@@ -101,13 +101,13 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
                         $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
                     }
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('User was successfully saved'));
-                Mage::getSingleton('adminhtml/session')->setUserData(false);
+                AO::getSingleton('adminhtml/session')->addSuccess($this->__('User was successfully saved'));
+                AO::getSingleton('adminhtml/session')->setUserData(false);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setUserData($data);
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->setUserData($data);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
             }
@@ -120,33 +120,33 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
         if ($id = $this->getRequest()->getParam('user_id')) {
 
             try {
-                $model = Mage::getModel('api/user');
+                $model = AO::getModel('api/user');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('User was successfully deleted'));
+                AO::getSingleton('adminhtml/session')->addSuccess($this->__('User was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError($this->__('Unable to find a user to delete'));
+        AO::getSingleton('adminhtml/session')->addError($this->__('Unable to find a user to delete'));
         $this->_redirect('*/*/');
     }
 
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('api/user');
+        $model = AO::getModel('api/user');
 
         if ($id) {
             $model->load($id);
         }
 
-        Mage::register('api_user', $model);
+        AO::register('api_user', $model);
         $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/api_user_edit_tab_roles')->toHtml());
     }
 
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('api/users');
+        return AO::getSingleton('admin/session')->isAllowed('api/users');
     }
 
 }

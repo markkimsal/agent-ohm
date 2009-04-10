@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method extends Mage_Admin
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Shipping Method');
+        return AO::helper('sales')->__('Shipping Method');
     }
 
     public function getHeaderCssClass()

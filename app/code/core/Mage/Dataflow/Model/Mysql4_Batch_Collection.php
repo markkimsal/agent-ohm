@@ -49,7 +49,7 @@ class Mage_Dataflow_Model_Mysql4_Batch_Collection extends Mage_Core_Model_Mysql4
      */
     public function addExpireFilter()
     {
-        $date = Mage::getSingleton('core/date');
+        $date = AO::getSingleton('core/date');
         /* @var $date Mage_Core_Model_Date */
         $lifetime = Mage_Dataflow_Model_Batch::LIFETIME;
         $expire   = $date->gmtDate(null, $date->timestamp() - $lifetime);

@@ -43,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/type_collection')->addItemsCount();
+        $collection = AO::getResourceModel('googlebase/type_collection')->addItemsCount();
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -76,7 +76,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('items_total',
             array(
-                'header'    => Mage::helper('catalog')->__('Total Qty Base Items'),
+                'header'    => AO::helper('catalog')->__('Total Qty Base Items'),
                 'width'     => '150px',
                 'index'     => 'items_total',
                 'filter'    => false

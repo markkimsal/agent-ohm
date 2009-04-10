@@ -56,9 +56,9 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('install/session')->getConfigData(true);
+            $data = AO::getSingleton('install/session')->getConfigData(true);
             if (empty($data)) {
-                $data = Mage::getModel('install/installer_config')->getFormData();
+                $data = AO::getModel('install/installer_config')->getFormData();
             }
             else {
                 $data = new Varien_Object($data);
@@ -70,19 +70,19 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
 
     public function getSkipUrlValidation()
     {
-        return Mage::getSingleton('install/session')->getSkipUrlValidation();
+        return AO::getSingleton('install/session')->getSkipUrlValidation();
     }
 
     public function getSkipBaseUrlValidation()
     {
-        return Mage::getSingleton('install/session')->getSkipBaseUrlValidation();
+        return AO::getSingleton('install/session')->getSkipBaseUrlValidation();
     }
 
     public function getSessionSaveOptions()
     {
         return array(
-            'files' => Mage::helper('install')->__('File system'),
-            'db'    => Mage::helper('install')->__('Database'),
+            'files' => AO::helper('install')->__('File system'),
+            'db'    => AO::helper('install')->__('Database'),
         );
     }
 
@@ -91,7 +91,7 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
         $html = $this->getLayout()->createBlock('core/html_select')
             ->setName('config[session_save]')
             ->setId('session_save')
-            ->setTitle(Mage::helper('install')->__('Save session files in'))
+            ->setTitle(AO::helper('install')->__('Save session files in'))
             ->setClass('required-entry')
             ->setOptions($this->getSessionSaveOptions())
             ->getHtml();

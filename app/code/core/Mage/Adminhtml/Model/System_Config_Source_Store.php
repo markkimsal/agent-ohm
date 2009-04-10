@@ -32,7 +32,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Store
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('core/store_collection')
+            $this->_options = AO::getResourceModel('core/store_collection')
                 ->load()->toOptionArray();
         }
         return $this->_options;

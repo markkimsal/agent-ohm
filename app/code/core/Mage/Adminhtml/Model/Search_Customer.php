@@ -35,7 +35,7 @@ class Mage_Adminhtml_Model_Search_Customer extends Varien_Object
             $this->setResults($arr);
             return $this;
         }
-        $collection = Mage::getResourceModel('customer/customer_collection')
+        $collection = AO::getResourceModel('customer/customer_collection')
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
             ->addAttributeToFilter(array(
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Model_Search_Customer extends Varien_Object
                 'type'          => 'Customer',
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
-                'url'           => Mage::helper('adminhtml')->getUrl('*/customer/edit', array('id'=>$customer->getId())),
+                'url'           => AO::helper('adminhtml')->getUrl('*/customer/edit', array('id'=>$customer->getId())),
             );
         }
 

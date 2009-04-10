@@ -41,10 +41,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
              * Initialize product object as form property
              * for using it in elements generation
              */
-            $form->setDataObject(Mage::registry('product'));
+            $form->setDataObject(AO::registry('product'));
 
             $fieldset = $form->addFieldset('group_fields'.$group->getId(),
-                array('legend'=>Mage::helper('catalog')->__($group->getAttributeGroupName()))
+                array('legend'=>AO::helper('catalog')->__($group->getAttributeGroupName()))
             );
 
             $attributes = $this->getGroupAttributes();
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
              * Add new attribute button if not image tab
              */
             if (!$form->getElement('media_gallery')
-                 && Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/attributes')) {
+                 && AO::getSingleton('admin/session')->isAllowed('catalog/attributes/attributes')) {
                 $headerBar = $this->getLayout()->createBlock(
                     'adminhtml/catalog_product_edit_tab_attributes_create'
                 );
@@ -83,11 +83,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 $form->getElement('meta_description')->setOnkeyup('checkMaxLength(this, 255);');
             }
 
-            $values = Mage::registry('product')->getData();
+            $values = AO::registry('product')->getData();
             /**
              * Set attribute default values for new product
              */
-            if (!Mage::registry('product')->getId()) {
+            if (!AO::registry('product')->getId()) {
                 foreach ($attributes as $attribute) {
                     if (!isset($values[$attribute->getAttributeCode()])) {
                         $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 }
             }
 
-            Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
+            AO::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
 
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
@@ -106,15 +106,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'   => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
-            'gallery' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_gallery'),
-            'image'   => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image'),
-            'boolean' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_boolean')
+            'price'   => AO::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_price'),
+            'gallery' => AO::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_gallery'),
+            'image'   => AO::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_image'),
+            'boolean' => AO::getConfig()->getBlockClassName('adminhtml/catalog_product_helper_form_boolean')
         );
  
         $response = new Varien_Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
+        AO::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
 
         foreach ($response->getTypes() as $typeName=>$typeClass) {
             $result[$typeName] = $typeClass;

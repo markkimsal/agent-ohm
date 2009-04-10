@@ -37,18 +37,18 @@ class Mage_Reports_Model_Event_Observer
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {
         if (is_null($subjectId)) {
-            if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-                $customer = Mage::getSingleton('customer/session')->getCustomer();
+            if (AO::getSingleton('customer/session')->isLoggedIn()) {
+                $customer = AO::getSingleton('customer/session')->getCustomer();
                 $subjectId = $customer->getId();
             }
             else {
-                $subjectId = Mage::getSingleton('log/visitor')->getId();
+                $subjectId = AO::getSingleton('log/visitor')->getId();
                 $subtype = 1;
             }
         }
 
-        $eventModel = Mage::getModel('reports/event');
-        $storeId    = Mage::app()->getStore()->getId();
+        $eventModel = AO::getModel('reports/event');
+        $storeId    = AO::app()->getStore()->getId();
         $eventModel
             ->setEventTypeId($eventTypeId)
             ->setObjectId($objectId)
@@ -61,19 +61,19 @@ class Mage_Reports_Model_Event_Observer
     }
 
     public function customerLogin(Varien_Event_Observer $observer) {
-        if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!AO::getSingleton('customer/session')->isLoggedIn()) {
             return $this;
         }
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
-        $visitorId = Mage::getSingleton('log/visitor')->getId();
+        $customer = AO::getSingleton('customer/session')->getCustomer();
+        $visitorId = AO::getSingleton('log/visitor')->getId();
         $customerId = $customer->getId();
-        $eventModel = Mage::getModel('reports/event');
+        $eventModel = AO::getModel('reports/event');
         $eventModel->updateCustomerType($visitorId, $customerId);
     }
 
     public function catalogProductView(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('reports/session')->setData('viewed_products', true);
+        AO::getSingleton('reports/session')->setData('viewed_products', true);
         return $this->_event(
             Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW,
             $observer->getEvent()->getProduct()->getId()
@@ -90,12 +90,12 @@ class Mage_Reports_Model_Event_Observer
 
     public function catalogProductCompareRemoveProduct(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('reports/session')->setData('compared_products', null);
+        AO::getSingleton('reports/session')->setData('compared_products', null);
     }
 
     public function catalogProductCompareAddProduct(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('reports/session')->setData('compared_products', true);
+        AO::getSingleton('reports/session')->setData('compared_products', true);
         return $this->_event(
             Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
             $observer->getEvent()->getProduct()->getId()
@@ -136,7 +136,7 @@ class Mage_Reports_Model_Event_Observer
      */
     public function eventClean(Varien_Event_Observer $observer)
     {
-        $event = Mage::getModel('reports/event');
+        $event = AO::getModel('reports/event');
         /* @var $event Mage_Reports_Model_Event */
         $event->clean();
 

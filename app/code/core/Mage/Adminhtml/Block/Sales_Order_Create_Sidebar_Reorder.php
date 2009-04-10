@@ -46,12 +46,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Last ordered items');
+        return AO::helper('sales')->__('Last ordered items');
     }
 
     public function getLastOrder()
     {
-        $orders = Mage::getResourceModel('sales/order_collection')
+        $orders = AO::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('customer_id', $this->getCustomerId())
             ->addAttributeToSort('created_at', 'desc')
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Mage_Admin
         }
 
         foreach ($orders as $order) {
-            $order =  Mage::getModel('sales/order')->load($order->getId());
+            $order =  AO::getModel('sales/order')->load($order->getId());
             return $order;
         }
         return false;

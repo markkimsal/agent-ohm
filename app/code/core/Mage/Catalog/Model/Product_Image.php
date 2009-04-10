@@ -229,7 +229,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
-        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+        $baseDir = AO::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
         if ('/no_selection' == $file) {
             $file = null;
@@ -241,21 +241,21 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         }
         if (!$file) {
             // check if placeholder defined in config
-            $isConfigPlaceholder = Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
+            $isConfigPlaceholder = AO::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if ($isConfigPlaceholder && file_exists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
             }
             else {
                 // replace file with skin or default skin placeholder
-                $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
+                $skinBaseDir     = AO::getDesign()->getSkinBaseDir();
                 $skinPlaceholder = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 $file = $skinPlaceholder;
                 if (file_exists($skinBaseDir . $file)) {
                     $baseDir = $skinBaseDir;
                 }
                 else {
-                    $baseDir = Mage::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
+                    $baseDir = AO::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
                 }
             }
         }
@@ -263,15 +263,15 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $baseFile = $baseDir . $file;
 
         if ((!$file) || (!file_exists($baseFile))) {
-            throw new Exception(Mage::helper('catalog')->__('Image file not found'));
+            throw new Exception(AO::helper('catalog')->__('Image file not found'));
         }
         $this->_baseFile = $baseFile;
 
         // build new filename (most important params)
         $path = array(
-            Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath(),
+            AO::getSingleton('catalog/product_media_config')->getBaseMediaPath(),
             'cache',
-            Mage::app()->getStore()->getId(),
+            AO::app()->getStore()->getId(),
             $path[] = $this->getDestinationSubdir()
         );
         if((!empty($this->_width)) || (!empty($this->_height)))
@@ -380,18 +380,18 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $baseDir = Mage::getSingleton('catalog/product_media_config')->getBaseMediaPath();
+        $baseDir = AO::getSingleton('catalog/product_media_config')->getBaseMediaPath();
 
-        if( file_exists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
-            $filename = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
-        } elseif ( file_exists($baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file) ) {
-            $filename = $baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file;
+        if( file_exists($baseDir . '/watermark/stores/' . AO::app()->getStore()->getId() . $file) ) {
+            $filename = $baseDir . '/watermark/stores/' . AO::app()->getStore()->getId() . $file;
+        } elseif ( file_exists($baseDir . '/watermark/websites/' . AO::app()->getWebsite()->getId() . $file) ) {
+            $filename = $baseDir . '/watermark/websites/' . AO::app()->getWebsite()->getId() . $file;
         } elseif ( file_exists($baseDir . '/watermark/default/' . $file) ) {
             $filename = $baseDir . '/watermark/default/' . $file;
         } elseif ( file_exists($baseDir . '/watermark/' . $file) ) {
             $filename = $baseDir . '/watermark/' . $file;
         } else {
-            $baseDir = Mage::getDesign()->getSkinBaseDir();
+            $baseDir = AO::getDesign()->getSkinBaseDir();
             if( file_exists($baseDir . $file) ) {
                 $filename = $baseDir . $file;
             }
@@ -422,9 +422,9 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function getUrl()
     {
-        $baseDir = Mage::getBaseDir('media');
+        $baseDir = AO::getBaseDir('media');
         $path = str_replace($baseDir . DS, "", $this->_newFile);
-        return Mage::getBaseUrl('media') . str_replace(DS, '/', $path);
+        return AO::getBaseUrl('media') . str_replace(DS, '/', $path);
     }
 
     public function push()
@@ -510,7 +510,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 
     public function clearCache()
     {
-        $directory = Mage::getBaseDir('media') . DS.'catalog'.DS.'product'.DS.'cache'.DS;
+        $directory = AO::getBaseDir('media') . DS.'catalog'.DS.'product'.DS.'cache'.DS;
         $io = new Varien_Io_File();
         $io->rmdir($directory, true);
     }

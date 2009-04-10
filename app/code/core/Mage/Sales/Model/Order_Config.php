@@ -37,7 +37,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
 
     public function __construct()
     {
-        parent::__construct(Mage::getConfig()->getNode('global/sales/order'));
+        parent::__construct(AO::getConfig()->getNode('global/sales/order'));
     }
 
     protected function _getStatus($status)
@@ -85,7 +85,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
     {
         if ($statusNode = $this->_getStatus($status)) {
             $status = (string) $statusNode->label;
-            return Mage::helper('sales')->__($status);
+            return AO::helper('sales')->__($status);
         }
         return $status;
     }
@@ -100,7 +100,7 @@ class Mage_Sales_Model_Order_Config extends Mage_Core_Model_Config_Base
         $statuses = array();
         foreach ($this->getNode('statuses')->children() as $status) {
             $label = (string) $status->label;
-            $statuses[$status->getName()] = Mage::helper('sales')->__($label);
+            $statuses[$status->getName()] = AO::helper('sales')->__($label);
         }
         return $statuses;
     }

@@ -42,7 +42,7 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Reso
 
     public function useProductItem()
     {
-        $this->setObject(Mage::getModel('catalog/product'));
+        $this->setObject(AO::getModel('catalog/product'));
         return $this;
     }
 
@@ -75,7 +75,7 @@ class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Catalog_Model_Reso
         $this->joinField('store_name', 'core/store', 'name', 'store_id=store_id')
             ->joinField('days_in_wishlist',
                 'wishlist/item',
-                "(TO_DAYS('" . Mage::getSingleton('core/date')->date() . "') - TO_DAYS(DATE_ADD(".$dayTable.".added_at, INTERVAL " .(int) Mage::getSingleton('core/date')->getGmtOffset() . " SECOND)))",
+                "(TO_DAYS('" . AO::getSingleton('core/date')->date() . "') - TO_DAYS(DATE_ADD(".$dayTable.".added_at, INTERVAL " .(int) AO::getSingleton('core/date')->getGmtOffset() . " SECOND)))",
                 'wishlist_item_id=wishlist_item_id');
 
         return $this;

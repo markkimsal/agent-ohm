@@ -44,8 +44,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter( Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId() )
+        $collection = AO::getResourceModel('eav/entity_attribute_collection')
+            ->setEntityTypeFilter( AO::getModel('eav/entity')->setType('catalog_product')->getTypeId() )
             ->addVisibleFilter();
         $this->setCollection($collection);
 
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
     {
         /*
         $this->addColumn('attribute_id', array(
-            'header'=>Mage::helper('catalog')->__('ID'),
+            'header'=>AO::helper('catalog')->__('ID'),
             'align'=>'right',
             'sortable'=>true,
             'width' => '50px',
@@ -65,99 +65,99 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Adminhtml
         */
 
         $this->addColumn('attribute_code', array(
-            'header'=>Mage::helper('catalog')->__('Attribute Code'),
+            'header'=>AO::helper('catalog')->__('Attribute Code'),
             'sortable'=>true,
             'index'=>'attribute_code'
         ));
 
         $this->addColumn('frontend_label', array(
-            'header'=>Mage::helper('catalog')->__('Attribute Label'),
+            'header'=>AO::helper('catalog')->__('Attribute Label'),
             'sortable'=>true,
             'index'=>'frontend_label'
         ));
 
         $this->addColumn('is_visible', array(
-            'header'=>Mage::helper('catalog')->__('Visible'),
+            'header'=>AO::helper('catalog')->__('Visible'),
             'sortable'=>true,
             'index'=>'is_visible_on_front',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Yes'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => AO::helper('catalog')->__('Yes'),
+                '0' => AO::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_global', array(
-            'header'=>Mage::helper('catalog')->__('Scope'),
+            'header'=>AO::helper('catalog')->__('Scope'),
             'sortable'=>true,
             'index'=>'is_global',
             'type' => 'options',
             'options' => array(
-                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('catalog')->__('Store View'),
-                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('catalog')->__('Website'),
-                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('catalog')->__('Global'),
+                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>AO::helper('catalog')->__('Store View'),
+                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>AO::helper('catalog')->__('Website'),
+                Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>AO::helper('catalog')->__('Global'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_required', array(
-            'header'=>Mage::helper('catalog')->__('Required'),
+            'header'=>AO::helper('catalog')->__('Required'),
             'sortable'=>true,
             'index'=>'is_required',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Yes'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => AO::helper('catalog')->__('Yes'),
+                '0' => AO::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_user_defined', array(
-            'header'=>Mage::helper('catalog')->__('System'),
+            'header'=>AO::helper('catalog')->__('System'),
             'sortable'=>true,
             'index'=>'is_user_defined',
             'type' => 'options',
             'align' => 'center',
             'options' => array(
-                '0' => Mage::helper('catalog')->__('Yes'),   // intended reverted use
-                '1' => Mage::helper('catalog')->__('No'),    // intended reverted use
+                '0' => AO::helper('catalog')->__('Yes'),   // intended reverted use
+                '1' => AO::helper('catalog')->__('No'),    // intended reverted use
             ),
         ));
 
         $this->addColumn('is_searchable', array(
-            'header'=>Mage::helper('catalog')->__('Searchable'),
+            'header'=>AO::helper('catalog')->__('Searchable'),
             'sortable'=>true,
             'index'=>'is_searchable',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Yes'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => AO::helper('catalog')->__('Yes'),
+                '0' => AO::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_filterable', array(
-            'header'=>Mage::helper('catalog')->__('Use In Layered Navigation'),
+            'header'=>AO::helper('catalog')->__('Use In Layered Navigation'),
             'sortable'=>true,
             'index'=>'is_filterable',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Filterable (with results)'),
-                '2' => Mage::helper('catalog')->__('Filterable (no results)'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => AO::helper('catalog')->__('Filterable (with results)'),
+                '2' => AO::helper('catalog')->__('Filterable (no results)'),
+                '0' => AO::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));
 
         $this->addColumn('is_comparable', array(
-            'header'=>Mage::helper('catalog')->__('Comparable'),
+            'header'=>AO::helper('catalog')->__('Comparable'),
             'sortable'=>true,
             'index'=>'is_comparable',
             'type' => 'options',
             'options' => array(
-                '1' => Mage::helper('catalog')->__('Yes'),
-                '0' => Mage::helper('catalog')->__('No'),
+                '1' => AO::helper('catalog')->__('Yes'),
+                '0' => AO::helper('catalog')->__('No'),
             ),
             'align' => 'center',
         ));

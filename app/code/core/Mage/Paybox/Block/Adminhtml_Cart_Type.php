@@ -35,7 +35,7 @@ class Mage_Paybox_Block_Adminhtml_Cart_Type extends Mage_Adminhtml_Block_System_
 {
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $additional = Mage::getSingleton('core/layout')->createBlock('paybox/adminhtml_cart_type_select')
+        $additional = AO::getSingleton('core/layout')->createBlock('paybox/adminhtml_cart_type_select')
             ->setTemplate('paybox/adminhtml/cart/type/select.phtml')
             ->setDependHtmlId($element->getHtmlId())
             ->toHtml();

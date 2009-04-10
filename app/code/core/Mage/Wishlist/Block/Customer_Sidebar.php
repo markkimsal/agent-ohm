@@ -44,11 +44,11 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Catalog_Block_Product_Ab
     public function getWishlist()
     {
         if(is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('wishlist/wishlist')
-                ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+            $this->_wishlist = AO::getModel('wishlist/wishlist')
+                ->loadByCustomer(AO::getSingleton('customer/session')->getCustomer());
 
             $collection = $this->_wishlist->getProductCollection()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+                ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
                 //->addAttributeToFilter('store_id', array('in'=>$this->_wishlist->getSharedStoreIds()))
                 ->addStoreFilter()
                 ->addAttributeToSort('added_at', 'desc')
@@ -56,8 +56,8 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Catalog_Block_Product_Ab
                 ->setPageSize(3)
                 ->addUrlRewrite();
 
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+            AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+            AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         }
 
         return $this->_wishlist;
@@ -74,7 +74,7 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Catalog_Block_Product_Ab
 
     public function getCanDisplayWishlist()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
+        return AO::getSingleton('customer/session')->isLoggedIn();
     }
 
     public function getRemoveItemUrl($item)
@@ -84,6 +84,6 @@ class Mage_Wishlist_Block_Customer_Sidebar extends Mage_Catalog_Block_Product_Ab
 
     public function getAddToCartItemUrl($item)
     {
-        return Mage::helper('wishlist')->getAddToCartUrlBase64($item);
+        return AO::helper('wishlist')->getAddToCartUrlBase64($item);
     }
 }

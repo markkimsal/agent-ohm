@@ -122,11 +122,11 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
         $priceStr = $sign;
         $_priceInclTax = $this->getPrice($value['pricing_value'], true);
         $_priceExclTax = $this->getPrice($value['pricing_value']);
-        if (Mage::helper('tax')->displayPriceIncludingTax()) {
+        if (AO::helper('tax')->displayPriceIncludingTax()) {
             $priceStr .= $this->helper('core')->currency($_priceInclTax, true, $flag);
-        } elseif (Mage::helper('tax')->displayPriceExcludingTax()) {
+        } elseif (AO::helper('tax')->displayPriceExcludingTax()) {
             $priceStr .= $this->helper('core')->currency($_priceExclTax, true, $flag);
-        } elseif (Mage::helper('tax')->displayBothPrices()) {
+        } elseif (AO::helper('tax')->displayBothPrices()) {
             $priceStr .= $this->helper('core')->currency($_priceExclTax, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' ('.$sign.$this->helper('core')
@@ -151,9 +151,9 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
     public function getPrice($price, $includingTax = null)
     {
         if (!is_null($includingTax)) {
-            $price = Mage::helper('tax')->getPrice($this->getProduct(), $price, true);
+            $price = AO::helper('tax')->getPrice($this->getProduct(), $price, true);
         } else {
-            $price = Mage::helper('tax')->getPrice($this->getProduct(), $price);
+            $price = AO::helper('tax')->getPrice($this->getProduct(), $price);
         }
         return $price;
     }

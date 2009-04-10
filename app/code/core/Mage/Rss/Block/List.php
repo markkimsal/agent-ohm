@@ -64,7 +64,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
 
         $this->_rssFeeds[] = new Varien_Object(
             array(
-                'url'   => Mage::getUrl($url, $param),
+                'url'   => AO::getUrl($url, $param),
                 'label' => $label
             )
         );
@@ -78,12 +78,12 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
 
     public function getCurrentStoreId()
     {
-        return Mage::app()->getStore()->getId();
+        return AO::app()->getStore()->getId();
     }
 
     public function getCurrentCustomerGroupId()
     {
-        return Mage::getSingleton('customer/session')->getCustomerGroupId();
+        return AO::getSingleton('customer/session')->getCustomerGroupId();
     }
 
     /**
@@ -99,12 +99,12 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
         $this->CategoriesRssFeed();
         return $this->getRssFeeds();
 
-/*      $section = Mage::getSingleton('adminhtml/config')->getSections();
+/*      $section = AO::getSingleton('adminhtml/config')->getSections();
         $catalogFeeds = $section->rss->groups->catalog->fields[0];
         $res = array();
         foreach($catalogFeeds as $code => $feed){
             $prefix = self::XML_PATH_RSS_METHODS.'/catalog/'.$code;
-            if (!Mage::getStoreConfig($prefix) || $code=='tag') {
+            if (!AO::getStoreConfig($prefix) || $code=='tag') {
                 continue;
             }
             $res[$code] = $feed;
@@ -125,21 +125,21 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     /*
     public function getCatalogRssUrl($code)
     {
-        $store_id = Mage::app()->getStore()->getId();
+        $store_id = AO::app()->getStore()->getId();
         $param = array('sid' => $store_id);
-        $custGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $custGroup = AO::getSingleton('customer/session')->getCustomerGroupId();
         if ($custGroup) {
             $param = array_merge($param, array('cid' => $custGroup));
         }
 
-        return Mage::getUrl('rss/catalog/'.$code, $param);
+        return AO::getUrl('rss/catalog/'.$code, $param);
     }
     */
 
     public function NewProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/new';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)AO::getStoreConfig($path)){
             $this->addRssFeed($path, $this->__('New Products'));
         }
     }
@@ -147,7 +147,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     public function SpecialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/special';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)AO::getStoreConfig($path)){
             $this->addRssFeed($path, $this->__('Special/Discount Products'),array(),true);
         }
     }
@@ -155,7 +155,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     public function SalesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/salesrule';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)AO::getStoreConfig($path)){
             $this->addRssFeed($path, $this->__('Coupons/Discounts'),array(),true);
         }
     }
@@ -163,11 +163,11 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     public function CategoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
-        if((bool)Mage::getStoreConfig($path)){
-            $category = Mage::getModel('catalog/category');
+        if((bool)AO::getStoreConfig($path)){
+            $category = AO::getModel('catalog/category');
 
             /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
-            $treeModel = $category->getTreeModel()->loadNode(Mage::app()->getStore()->getRootCategoryId());
+            $treeModel = $category->getTreeModel()->loadNode(AO::app()->getStore()->getRootCategoryId());
             $nodes = $treeModel->loadChildren()->getChildren();
 
             $nodeIds = array();

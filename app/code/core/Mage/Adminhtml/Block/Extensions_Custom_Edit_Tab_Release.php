@@ -45,37 +45,37 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Release
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_release');
 
-        $fieldset = $form->addFieldset('release_fieldset', array('legend'=>Mage::helper('adminhtml')->__('Release')));
+        $fieldset = $form->addFieldset('release_fieldset', array('legend'=>AO::helper('adminhtml')->__('Release')));
 
-        $stabilityOptions = Mage::getModel('adminhtml/extension')->getStabilityOptions();
+        $stabilityOptions = AO::getModel('adminhtml/extension')->getStabilityOptions();
 
         $fieldset->addField('release_version', 'text', array(
             'name' => 'release_version',
-            'label' => Mage::helper('adminhtml')->__('Release Version'),
+            'label' => AO::helper('adminhtml')->__('Release Version'),
             'required' => true,
         ));
 
         $fieldset->addField('api_version', 'text', array(
             'name' => 'api_version',
-            'label' => Mage::helper('adminhtml')->__('API Version'),
+            'label' => AO::helper('adminhtml')->__('API Version'),
             'required' => true,
         ));
 
         $fieldset->addField('release_stability', 'select', array(
             'name' => 'release_stability',
-            'label' => Mage::helper('adminhtml')->__('Release Stability'),
+            'label' => AO::helper('adminhtml')->__('Release Stability'),
             'options' => $stabilityOptions,
         ));
 
         $fieldset->addField('api_stability', 'select', array(
             'name' => 'api_stability',
-            'label' => Mage::helper('adminhtml')->__('API Stability'),
+            'label' => AO::helper('adminhtml')->__('API Stability'),
             'options' => $stabilityOptions,
         ));
 
     	$fieldset->addField('notes', 'textarea', array(
             'name' => 'notes',
-            'label' => Mage::helper('adminhtml')->__('Notes'),
+            'label' => AO::helper('adminhtml')->__('Notes'),
             'style' => 'height:300px;',
             'required' => true,
         ));

@@ -36,11 +36,11 @@ class Mage_Ideal_Helper_Data extends Mage_Core_Helper_Abstract
 {
     public function encrypt($token)
     {
-        return bin2hex(base64_decode(Mage::helper('core')->encrypt($token)));
+        return bin2hex(base64_decode(AO::helper('core')->encrypt($token)));
     }
 
     public function decrypt($token)
     {
-        return Mage::helper('core')->decrypt(base64_encode(pack('H*', $token)));
+        return AO::helper('core')->decrypt(base64_encode(pack('H*', $token)));
     }
 }

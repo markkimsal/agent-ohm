@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/review_product_collection')
+        $collection = AO::getResourceModel('reports/review_product_collection')
             ->joinReview();
 
         $this->setCollection($collection);
@@ -56,46 +56,46 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('reports')->__('ID'),
+            'header'    =>AO::helper('reports')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('reports')->__('Product Name'),
+            'header'    => AO::helper('reports')->__('Product Name'),
             'index'     => 'name'
         ));
 
         $this->addColumn('review_cnt', array(
-            'header'    =>Mage::helper('reports')->__('Number of Reviews'),
+            'header'    =>AO::helper('reports')->__('Number of Reviews'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'review_cnt'
         ));
 
         $this->addColumn('avg_rating', array(
-            'header'    =>Mage::helper('reports')->__('Avg. rating'),
+            'header'    =>AO::helper('reports')->__('Avg. rating'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'avg_rating'
         ));
 
         $this->addColumn('avg_rating_approved', array(
-            'header'    =>Mage::helper('reports')->__('Avg. approved rating'),
+            'header'    =>AO::helper('reports')->__('Avg. approved rating'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'avg_rating_approved'
         ));
 
         $this->addColumn('last_created', array(
-            'header'    =>Mage::helper('reports')->__('Last Review'),
+            'header'    =>AO::helper('reports')->__('Last Review'),
             'width'     =>'150px',
             'index'     =>'last_created',
             'type'      =>'datetime'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('reports')->__('Action'),
+            'header'    => AO::helper('reports')->__('Action'),
             'width'     => '100px',
             'align'     => 'center',
             'filter'    => false,
@@ -105,8 +105,8 @@ class Mage_Adminhtml_Block_Report_Review_Product_Grid extends Mage_Adminhtml_Blo
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportProductExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportProductCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportProductExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

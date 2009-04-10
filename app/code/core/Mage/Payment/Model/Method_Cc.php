@@ -147,8 +147,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         }					
 
         if($errorMsg){
-            Mage::throwException($errorMsg);
-            //throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
+            AO::throwException($errorMsg);
+            //throw AO::exception('Mage_Payment', $errorMsg, $errorCode);
         }
 
         return $this;
@@ -178,7 +178,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
 
     protected function _validateExpDate($expYear, $expMonth)
     {
-        $date = Mage::app()->getLocale()->date();
+        $date = AO::app()->getLocale()->date();
         if (!$expYear || !$expMonth || ($date->compareYear($expYear)==1) || ($date->compareYear($expYear) == 0 && ($date->compareMonth($expMonth)==1 )  )) {
             return false;
         }

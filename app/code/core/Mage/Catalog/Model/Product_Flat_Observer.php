@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      */
     protected function _getHelper()
     {
-        return Mage::helper('catalog/product_flat');
+        return AO::helper('catalog/product_flat');
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
      * @return Mage_Catalog_Model_Product_Flat_Indexer
      */
     protected function _getIndexer() {
-        return Mage::getSingleton('catalog/product_flat_indexer');
+        return AO::getSingleton('catalog/product_flat_indexer');
     }
 
     /**
@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
         $productIds = $observer->getEvent()->getProductIds();
 
         foreach ($websiteIds as $websiteId) {
-            $website = Mage::app()->getWebsite($websiteId);
+            $website = AO::app()->getWebsite($websiteId);
             foreach ($website->getStores() as $store) {
                 if ($observer->getEvent()->getAction() == 'remove') {
                     $this->_getIndexer()->removeProduct($productIds, $store->getId());

@@ -38,39 +38,39 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tabs extends Mage_Adminhtml_Bl
         parent::__construct();
         $this->setId('extensions_custom_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Create Extension Package'));
+        $this->setTitle(AO::helper('adminhtml')->__('Create Extension Package'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('package', array(
-            'label'     => Mage::helper('adminhtml')->__('Package Info'),
+            'label'     => AO::helper('adminhtml')->__('Package Info'),
             'content'   => $this->_getTabHtml('package'),
             'active'    => true,
         ));
 
         $this->addTab('release', array(
-            'label'     => Mage::helper('adminhtml')->__('Release Info'),
+            'label'     => AO::helper('adminhtml')->__('Release Info'),
             'content'   => $this->_getTabHtml('release'),
         ));
 
         $this->addTab('maintainers', array(
-            'label'     => Mage::helper('adminhtml')->__('Maintainers'),
+            'label'     => AO::helper('adminhtml')->__('Maintainers'),
             'content'   => $this->_getTabHtml('maintainers'),
         ));
 
         $this->addTab('depends', array(
-            'label'     => Mage::helper('adminhtml')->__('Dependencies'),
+            'label'     => AO::helper('adminhtml')->__('Dependencies'),
             'content'   => $this->_getTabHtml('depends'),
         ));
 
         $this->addTab('contents', array(
-            'label'     => Mage::helper('adminhtml')->__('Contents'),
+            'label'     => AO::helper('adminhtml')->__('Contents'),
             'content'   => $this->_getTabHtml('contents'),
         ));
 
         $this->addTab('load', array(
-            'label'     => Mage::helper('adminhtml')->__('Load local Package'),
+            'label'     => AO::helper('adminhtml')->__('Load local Package'),
             'class'     => 'ajax',
             'url'       => $this->getUrl('*/*/loadtab', array('_current' => true)),
         ));

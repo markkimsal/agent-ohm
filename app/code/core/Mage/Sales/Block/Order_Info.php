@@ -65,7 +65,7 @@ class Mage_Sales_Block_Order_Info extends Mage_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function addLink($name, $path, $label)
@@ -73,7 +73,7 @@ class Mage_Sales_Block_Order_Info extends Mage_Core_Block_Template
         $this->_links[$name] = new Varien_Object(array(
             'name' => $name,
             'label' => $label,
-            'url' => empty($path) ? '' : Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))
+            'url' => empty($path) ? '' : AO::getUrl($path, array('order_id' => $this->getOrder()->getId()))
         ));
         return $this;
     }

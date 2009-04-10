@@ -37,19 +37,19 @@ class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abst
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
-            $this->getCheckout()->setStepData('login', array('label'=>Mage::helper('checkout')->__('Checkout method'), 'allow'=>true));
+            $this->getCheckout()->setStepData('login', array('label'=>AO::helper('checkout')->__('Checkout method'), 'allow'=>true));
         }
         parent::_construct();
     }
 
     public function getMessages()
     {
-        return Mage::getSingleton('customer/session')->getMessages(true);
+        return AO::getSingleton('customer/session')->getMessages(true);
     }
 
     public function getPostAction()
     {
-        return Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
+        return AO::getUrl('customer/account/loginPost', array('_secure'=>true));
     }
 
     public function getMethod()
@@ -79,6 +79,6 @@ class Mage_Checkout_Block_Onepage_Login extends Mage_Checkout_Block_Onepage_Abst
      */
     public function getUsername()
     {
-        return Mage::getSingleton('customer/session')->getUsername(true);
+        return AO::getSingleton('customer/session')->getUsername(true);
     }
 }

@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/customer_collection')
+        $collection = AO::getResourceModel('customer/customer_collection')
             ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
@@ -60,46 +60,46 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('customer')->__('ID'),
+            'header'    => AO::helper('customer')->__('ID'),
             'width'     =>5,
             'align'     =>'center',
             'sortable'  =>true,
             'index'     =>'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('customer')->__('Name'),
+            'header'    => AO::helper('customer')->__('Name'),
             'index'     =>'name'
         ));
         $this->addColumn('email', array(
-            'header'    => Mage::helper('customer')->__('Email'),
+            'header'    => AO::helper('customer')->__('Email'),
             'width'     =>40,
             'align'     =>'center',
             'index'     =>'email'
         ));
         $this->addColumn('telephone', array(
-            'header'    => Mage::helper('customer')->__('Telephone'),
+            'header'    => AO::helper('customer')->__('Telephone'),
             'align'     =>'center',
             'index'     =>'billing_telephone'
         ));
         $this->addColumn('billing_postcode', array(
-            'header'    => Mage::helper('customer')->__('ZIP/Post Code'),
+            'header'    => AO::helper('customer')->__('ZIP/Post Code'),
             'index'     =>'billing_postcode',
         ));
         $this->addColumn('billing_country_id', array(
-            'header'    => Mage::helper('customer')->__('Country'),
+            'header'    => AO::helper('customer')->__('Country'),
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
         $this->addColumn('customer_since', array(
-            'header'    => Mage::helper('customer')->__('Customer Since'),
+            'header'    => AO::helper('customer')->__('Customer Since'),
             'type'      => 'date',
             'format'    => 'Y.m.d',
             'index'     =>'created_at',
         ));
         $this->addColumn('action', array(
-            'header'    => Mage::helper('customer')->__('Action'),
+            'header'    => AO::helper('customer')->__('Action'),
             'align'     =>'center',
-            'format'    =>'<a href="'.$this->getUrl('*/sales/edit/id/$entity_id').'">'.Mage::helper('customer')->__('Edit').'</a>',
+            'format'    =>'<a href="'.$this->getUrl('*/sales/edit/id/$entity_id').'">'.AO::helper('customer')->__('Edit').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -109,8 +109,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tags extends Mage_Adminhtml_Block_W
             ->setColumnFilter('email')
             ->setColumnFilter('name');
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('customer')->__('XML'));
+        $this->addExportType('*/*/exportCsv', AO::helper('customer')->__('CSV'));
+        $this->addExportType('*/*/exportXml', AO::helper('customer')->__('XML'));
         return parent::_prepareColumns();
     }
 

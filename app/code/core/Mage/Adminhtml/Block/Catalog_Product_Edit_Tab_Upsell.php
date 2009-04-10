@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
      */
     protected function _getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalog/product_link')->useUpSellLinks()
+        $collection = AO::getModel('catalog/product_link')->useUpSellLinks()
             ->getProductCollection()
             ->setProduct($this->_getProduct())
             ->addAttributeToSelect('*');
@@ -100,33 +100,33 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         ));
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => AO::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => AO::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('catalog')->__('Type'),
+                'header'=> AO::helper('catalog')->__('Type'),
                 'width' => '100px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+                'options' => AO::getSingleton('catalog/product_type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
-            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+        $sets = AO::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter(AO::getModel('catalog/product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'=> AO::helper('catalog')->__('Attrib. Set Name'),
                 'width' => '130px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -135,36 +135,36 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('catalog')->__('Status'),
+                'header'=> AO::helper('catalog')->__('Status'),
                 'width' => '90px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
+                'options' => AO::getSingleton('catalog/product_status')->getOptionArray(),
         ));
 
         $this->addColumn('visibility',
             array(
-                'header'=> Mage::helper('catalog')->__('Visibility'),
+                'header'=> AO::helper('catalog')->__('Visibility'),
                 'width' => '90px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('catalog/product_visibility')->getOptionArray(),
+                'options' => AO::getSingleton('catalog/product_visibility')->getOptionArray(),
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => AO::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => AO::helper('catalog')->__('Price'),
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
 
         $this->addColumn('position', array(
-            'header'    => Mage::helper('catalog')->__('Position'),
+            'header'    => AO::helper('catalog')->__('Position'),
             'name'      => 'position',
             'type'      => 'number',
             'width'     => '60px',

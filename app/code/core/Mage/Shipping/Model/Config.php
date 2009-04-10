@@ -38,9 +38,9 @@ class Mage_Shipping_Model_Config extends Varien_Object
     public function getActiveCarriers($store=null)
     {
         $carriers = array();
-        $config = Mage::getStoreConfig('carriers', $store);
+        $config = AO::getStoreConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
-            if (Mage::getStoreConfigFlag('carriers/'.$code.'/active', $store)) {
+            if (AO::getStoreConfigFlag('carriers/'.$code.'/active', $store)) {
                 $carriers[$code] = $this->_getCarrier($code, $carrierConfig, $store);
             }
         }
@@ -56,7 +56,7 @@ class Mage_Shipping_Model_Config extends Varien_Object
     public function getAllCarriers($store=null)
     {
         $carriers = array();
-        $config = Mage::getStoreConfig('carriers', $store);
+        $config = AO::getStoreConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
             $carriers[$code] = $this->_getCarrier($code, $carrierConfig, $store);
         }
@@ -72,7 +72,7 @@ class Mage_Shipping_Model_Config extends Varien_Object
      */
     public function getCarrierInstance($carrierCode, $store=null)
     {
-        $carrierConfig =  Mage::getStoreConfig('carriers/'.$carrierCode, $store);
+        $carrierConfig =  AO::getStoreConfig('carriers/'.$carrierCode, $store);
         if (!empty($carrierConfig)) {
             return $this->_getCarrier($carrierCode, $carrierConfig, $store);
         }
@@ -87,10 +87,10 @@ class Mage_Shipping_Model_Config extends Varien_Object
         }
 */
         if (!isset($config['model'])) {
-            throw Mage::exception('Mage_Shipping', 'Invalid model for shipping method: '.$code);
+            throw AO::exception('Mage_Shipping', 'Invalid model for shipping method: '.$code);
         }
         $modelName = $config['model'];
-        $carrier = Mage::getModel($modelName);
+        $carrier = AO::getModel($modelName);
         $carrier->setId($code)->setStore($store);
         self::$_carriers[$code] = $carrier;
         return self::$_carriers[$code];

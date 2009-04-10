@@ -38,19 +38,19 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
 
-        $allowGuest = Mage::helper('review')->getIsGuestAllowToWrite();
+        $allowGuest = AO::helper('review')->getIsGuestAllowToWrite();
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
 
         $action = $this->getRequest()->getActionName();
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
-            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+            if (!AO::getSingleton('customer/session')->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
-                Mage::getSingleton('review/session')->setFormData($this->getRequest()->getPost())
+                AO::getSingleton('customer/session')->setBeforeAuthUrl(AO::getUrl('*/*/*', array('_current' => true)));
+                AO::getSingleton('review/session')->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
-                $this->_redirectUrl(Mage::helper('customer')->getLoginUrl());
+                $this->_redirectUrl(AO::helper('customer')->getLoginUrl());
             }
         }
 
@@ -63,7 +63,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
      */
 	protected function _initProduct()
     {
-        Mage::dispatchEvent('review_controller_product_init_before', array('controller_action'=>$this));
+        AO::dispatchEvent('review_controller_product_init_before', array('controller_action'=>$this));
         $categoryId = (int) $this->getRequest()->getParam('category', false);
         $productId  = (int) $this->getRequest()->getParam('id');
 
@@ -71,25 +71,25 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $product = AO::getModel('catalog/product')
+            ->setStoreId(AO::app()->getStore()->getId())
             ->load($productId);
         /* @var $product Mage_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
             return false;
         }
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
-            Mage::register('current_category', $category);
+            $category = AO::getModel('catalog/category')->load($categoryId);
+            AO::register('current_category', $category);
         }
-        Mage::register('current_product', $product);
-        Mage::register('product', $product);
+        AO::register('current_product', $product);
+        AO::register('product', $product);
 
         try {
-            Mage::dispatchEvent('review_controller_product_init', array('product'=>$product));
-            Mage::dispatchEvent('review_controller_product_init_after', array('product'=>$product, 'controller_action' => $this));
+            AO::dispatchEvent('review_controller_product_init', array('product'=>$product));
+            AO::dispatchEvent('review_controller_product_init_after', array('product'=>$product, 'controller_action' => $this));
         } catch (Mage_Core_Exception $e) {
-            Mage::logException($e);
+            AO::logException($e);
             return false;
         }
 
@@ -98,7 +98,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
     public function postAction()
     {
-        if ($data = Mage::getSingleton('review/session')->getFormData(true)) {
+        if ($data = AO::getSingleton('review/session')->getFormData(true)) {
             $rating = array();
             if (isset($data['ratings']) && is_array($data['ratings'])) {
                 $rating = $data['ratings'];
@@ -109,9 +109,9 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         if (($product = $this->_initProduct()) && !empty($data)) {
-            $session    = Mage::getSingleton('core/session');
+            $session    = AO::getSingleton('core/session');
             /* @var $session Mage_Core_Model_Session */
-            $review     = Mage::getModel('review/review')->setData($data);
+            $review     = AO::getModel('review/review')->setData($data);
             /* @var $review Mage_Review_Model_Review */
 
             $validate = $review->validate();
@@ -120,16 +120,16 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                     $review->setEntityId(Mage_Review_Model_Review::ENTITY_PRODUCT)
                         ->setEntityPkValue($product->getId())
                         ->setStatusId(Mage_Review_Model_Review::STATUS_PENDING)
-                        ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                        ->setStoreId(Mage::app()->getStore()->getId())
-                        ->setStores(array(Mage::app()->getStore()->getId()))
+                        ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId())
+                        ->setStoreId(AO::app()->getStore()->getId())
+                        ->setStores(array(AO::app()->getStore()->getId()))
                         ->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        Mage::getModel('rating/rating')
+                        AO::getModel('rating/rating')
                     	   ->setRatingId($ratingId)
                     	   ->setReviewId($review->getId())
-                    	   ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                    	   ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId())
                     	   ->addOptionVote($optionId, $product->getId());
                     }
 
@@ -154,7 +154,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
             }
         }
 
-        if ($redirectUrl = Mage::getSingleton('review/session')->getRedirectUrl(true)) {
+        if ($redirectUrl = AO::getSingleton('review/session')->getRedirectUrl(true)) {
             $this->_redirectUrl($redirectUrl);
             return;
         }
@@ -164,8 +164,8 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
     public function listAction()
     {
         if ($product = $this->_initProduct()) {
-            Mage::register('productId', $product->getId());
-            Mage::getModel('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
+            AO::register('productId', $product->getId());
+            AO::getModel('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
             $this->_initProductLayout($product);
 
             // update breadcrumbs
@@ -175,7 +175,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                     'link'     => $product->getProductUrl(),
                     'readonly' => true,
                 ));
-                $breadcrumbsBlock->addCrumb('reviews', array('label' => Mage::helper('review')->__('Product Reviews')));
+                $breadcrumbsBlock->addCrumb('reviews', array('label' => AO::helper('review')->__('Product Reviews')));
             }
 
             $this->renderLayout();

@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
 
     protected function _toHtml()
     {
-        $template = Mage::getModel('core/email_template');
+        $template = AO::getModel('core/email_template');
         if($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
         } else {

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
      */
     public function getBackordersOption()
     {
-        return Mage::getSingleton('cataloginventory/source_backorders')->toOptionArray();
+        return AO::getSingleton('cataloginventory/source_backorders')->toOptionArray();
     }
 
     /**
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
      */
     public function getDefaultConfigValue($field)
     {
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
+        return AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
     }
 
     /**
@@ -82,12 +82,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
      */
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Inventory');
+        return AO::helper('catalog')->__('Inventory');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Inventory');
+        return AO::helper('catalog')->__('Inventory');
     }
 
     public function canShowTab()

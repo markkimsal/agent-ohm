@@ -50,7 +50,7 @@ class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
      */
     public function items($customerId)
     {
-        $customer = Mage::getModel('customer/customer')
+        $customer = AO::getModel('customer/customer')
             ->load($customerId);
         /* @var $customer Mage_Customer_Model_Customer */
 
@@ -92,7 +92,7 @@ class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
      */
     public function create($customerId, $addressData)
     {
-        $customer = Mage::getModel('customer/customer')
+        $customer = AO::getModel('customer/customer')
             ->load($customerId);
         /* @var $customer Mage_Customer_Model_Customer */
 
@@ -100,7 +100,7 @@ class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
             $this->_fault('customer_not_exists');
         }
 
-        $address = Mage::getModel('customer/address');
+        $address = AO::getModel('customer/address');
 
         foreach ($this->getAllowedAttributes($address) as $attributeCode=>$attribute) {
             if (isset($addressData[$attributeCode])) {
@@ -141,7 +141,7 @@ class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
      */
     public function info($addressId)
     {
-        $address = Mage::getModel('customer/address')
+        $address = AO::getModel('customer/address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -176,7 +176,7 @@ class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
      */
     public function update($addressId, $addressData)
     {
-        $address = Mage::getModel('customer/address')
+        $address = AO::getModel('customer/address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -219,7 +219,7 @@ class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
      */
     public function delete($addressId)
     {
-        $address = Mage::getModel('customer/address')
+        $address = AO::getModel('customer/address')
             ->load($addressId);
 
         if (!$address->getId()) {

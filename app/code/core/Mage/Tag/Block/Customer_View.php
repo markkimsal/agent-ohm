@@ -41,13 +41,13 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->setTagId(Mage::registry('tagId'));
+        $this->setTagId(AO::registry('tagId'));
     }
 
     public function getTagInfo()
     {
         if( !$this->_tagInfo ) {
-            $this->_tagInfo = Mage::getModel('tag/tag')->load($this->getTagId());
+            $this->_tagInfo = AO::getModel('tag/tag')->load($this->getTagId());
         }
         return $this->_tagInfo;
     }
@@ -64,7 +64,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
 
     public function getReviewUrl($productId)
     {
-        return Mage::getUrl('review/product/list', array('id' => $productId));
+        return AO::getUrl('review/product/list', array('id' => $productId));
     }
 
     protected function _prepareLayout()
@@ -89,12 +89,12 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     protected function _getCollection()
     {
         if( !$this->_collection ) {
-            $this->_collection = Mage::getModel('tag/tag')->getEntityCollection();
+            $this->_collection = AO::getModel('tag/tag')->getEntityCollection();
 
             $this->_collection
                 ->addTagFilter($this->getTagId())
-                ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
-                ->addStoreFilter(Mage::app()->getStore()->getId())
+                ->addCustomerFilter(AO::getSingleton('customer/session')->getCustomerId())
+                ->addStoreFilter(AO::app()->getStore()->getId())
                 ->setActiveFilter()
                 ->addAttributeToSelect('description')
                 ->addAttributeToSelect('special_price')
@@ -108,7 +108,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     protected function _beforeToHtml()
     {
         $this->_getCollection()->load();
-        Mage::getModel('review/review')->appendSummary($this->_getCollection());
+        AO::getModel('review/review')->appendSummary($this->_getCollection());
         return parent::_beforeToHtml();
     }
 }

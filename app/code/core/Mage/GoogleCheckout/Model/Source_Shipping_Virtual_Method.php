@@ -29,7 +29,7 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Virtual_Method
 {
     public function toOptionArray()
     {
-        $hlp = Mage::helper('googlecheckout');
+        $hlp = AO::helper('googlecheckout');
         return array(
             array('value'=>'email', 'label'=>$hlp->__('Email delivery')),
             // array('value'=>'key_url', 'label'=>$hlp->__('Key/URL delivery')),

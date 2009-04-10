@@ -51,11 +51,11 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
             return $this;
         }
 
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
-        $storeCollection = Mage::getModel('core/store')
+        $websiteId = AO::app()->getStore()->getWebsiteId();
+        $storeCollection = AO::getModel('core/store')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
-        $groupCollection = Mage::getModel('core/store_group')
+        $groupCollection = AO::getModel('core/store_group')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
         foreach ($groupCollection as $group) {
@@ -65,7 +65,7 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
             if (!$store->getIsActive()) {
                 continue;
             }
-            $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
+            $store->setLocaleCode(AO::getStoreConfig('general/locale/code', $store->getId()));
             $this->_stores[$store->getGroupId()][$store->getId()] = $store;
         }
 
@@ -77,7 +77,7 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
     public function getStoreCount()
     {
         $stores = array();
-        $localeCode = Mage::getStoreConfig('general/locale/code');
+        $localeCode = AO::getStoreConfig('general/locale/code');
         foreach ($this->_groups as $group) {
             if (!isset($this->_stores[$group->getId()])) {
                 continue;
@@ -100,7 +100,7 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
 
     public function getLanguageCount()
     {
-        $groupId = Mage::app()->getStore()->getGroupId();
+        $groupId = AO::app()->getStore()->getGroupId();
         if (!isset($this->_stores[$groupId])) {
             $this->setLanguages(array());
             return 0;
@@ -111,11 +111,11 @@ class Mage_Core_Block_Store_Switcher extends Mage_Core_Block_Template
 
     public function getCurrentStoreId()
     {
-        return Mage::app()->getStore()->getId();
+        return AO::app()->getStore()->getId();
     }
 
     public function getCurrentStoreCode()
     {
-        return Mage::app()->getStore()->getCode();
+        return AO::app()->getStore()->getCode();
     }
 }

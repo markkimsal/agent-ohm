@@ -33,7 +33,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Website
     {
         if (!$this->_options) {
             $this->_options = array();
-            foreach (Mage::getConfig()->getNode('websites')->children() as $code=>$config) {
+            foreach (AO::getConfig()->getNode('websites')->children() as $code=>$config) {
                 $id = (string)$config->system->website->id;
                 $name = (string)$config->system->website->name;
                 if ($id!=0) {

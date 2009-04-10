@@ -62,7 +62,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
 
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('ideal/advanced/redirect', array('_secure' => true));
+          return AO::getUrl('ideal/advanced/redirect', array('_secure' => true));
     }
 
     /**
@@ -72,7 +72,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
      */
     public function getApi()
     {
-        return Mage::getSingleton('ideal/api_advanced');
+        return AO::getSingleton('ideal/api_advanced');
     }
 
     public function getIssuerList($saveAttrbute = false)
@@ -112,7 +112,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
         }
 
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('ideal')->__('Selected currency code (%s) is not compatible with iDEAL', $currency_code));
+            AO::throwException(AO::helper('ideal')->__('Selected currency code (%s) is not compatible with iDEAL', $currency_code));
         }
 
         return $this;
@@ -130,7 +130,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
         $request = new Mage_Ideal_Model_Api_Advanced_AcquirerTrxRequest();
         $request->setIssuerId($issuerId);
         $request->setPurchaseId($order->getIncrementId());
-        $request->setEntranceCode(Mage::helper('ideal')->encrypt($order->getIncrementId()));
+        $request->setEntranceCode(AO::helper('ideal')->encrypt($order->getIncrementId()));
         //we need to be sure that we sending number without decimal part
         $request->setAmount(floor($order->getBaseGrandTotal()*100));
         $response = $this->getApi()->processRequest($request, $this->getDebug());
@@ -172,20 +172,20 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
      */
     public function transactionStatusCheck($shedule = null)
     {
-        $gmtStamp = Mage::getModel('core/date')->gmtTimestamp();
+        $gmtStamp = AO::getModel('core/date')->gmtTimestamp();
         $to = $this->getConfigData('cron_start') > 0?$this->getConfigData('cron_start'):1;
         $to = date('Y-m-d H:i:s', $gmtStamp - $to * 3600);
 
         $from = $this->getConfigData('cron_end') > 0?$this->getConfigData('cron_end'):1;
         $from = date('Y-m-d H:i:s', $gmtStamp - $from * 86400);
 
-        $paymentCollection = Mage::getModel('sales/order_payment')->getCollection()
+        $paymentCollection = AO::getModel('sales/order_payment')->getCollection()
             ->addAttributeToFilter('last_trans_id', array('neq' => ''))
             ->addAttributeToFilter('method', $this->_code)
             ->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to, 'datetime' => true))
             ->addAttributeToFilter('ideal_transaction_checked', array('neq' => '1'));
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         foreach($paymentCollection->getItems() as $item) {
             $order->reset();
             $order->load($item->getParentId());
@@ -195,19 +195,19 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
                 if ($order->canInvoice()) {
                     $invoice = $order->prepareInvoice();
                     $invoice->register()->capture();
-                    Mage::getModel('core/resource_transaction')
+                    AO::getModel('core/resource_transaction')
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();
 
-                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: finished successfully'));
+                    $order->addStatusToHistory($order->getStatus(), AO::helper('ideal')->__('Transaction Status Update: finished successfully'));
                 }
             } else if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_CANCELLED) {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: cancelled by customer'));
+                $order->addStatusToHistory($order->getStatus(), AO::helper('ideal')->__('Transaction Status Update: cancelled by customer'));
             } else {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: rejected by iDEAL'));
+                $order->addStatusToHistory($order->getStatus(), AO::helper('ideal')->__('Transaction Status Update: rejected by iDEAL'));
             }
 
             $order->getPayment()->setIdealTransactionChecked(1);

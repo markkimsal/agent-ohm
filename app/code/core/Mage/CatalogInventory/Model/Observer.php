@@ -51,7 +51,7 @@ class Mage_CatalogInventory_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product instanceof Mage_Catalog_Model_Product) {
-            Mage::getModel('cataloginventory/stock_item')->assignProduct($product);
+            AO::getModel('cataloginventory/stock_item')->assignProduct($product);
         }
         return $this;
     }
@@ -67,9 +67,9 @@ class Mage_CatalogInventory_Model_Observer
     {
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection->hasFlag('require_stock_items')) {
-            Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
+            AO::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
         } else {
-            Mage::getModel('cataloginventory/stock_status')->addStockStatusToProducts($productCollection);
+            AO::getModel('cataloginventory/stock_status')->addStockStatusToProducts($productCollection);
         }
         return $this;
     }
@@ -83,7 +83,7 @@ class Mage_CatalogInventory_Model_Observer
     public function addInventoryDataToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getProductCollection();
-        Mage::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
+        AO::getModel('cataloginventory/stock')->addItemsToProducts($productCollection);
         return $this;
     }
 
@@ -99,7 +99,7 @@ class Mage_CatalogInventory_Model_Observer
 
         if (is_null($product->getStockData())) {
             if ($product->getIsChangedWebsites() || $product->dataHasChangedFor('status')) {
-                Mage::getSingleton('cataloginventory/stock_status')
+                AO::getSingleton('cataloginventory/stock_status')
                     ->updateStatus($product->getId());
             }
             return $this;
@@ -107,7 +107,7 @@ class Mage_CatalogInventory_Model_Observer
 
         $item = $product->getStockItem();
         if (!$item) {
-            $item = Mage::getModel('cataloginventory/stock_item');
+            $item = AO::getModel('cataloginventory/stock_item');
         }
         $this->_prepareItemForSave($item, $product);
         $item->save();
@@ -207,7 +207,7 @@ class Mage_CatalogInventory_Model_Observer
                 $stockItem = $option->getProduct()->getStockItem();
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
-                    Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product in option is not valid'));
+                    AO::throwException(AO::helper('cataloginventory')->__('Stock item for Product in option is not valid'));
                 }
 
                 $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $increaseOptionQty);
@@ -246,7 +246,7 @@ class Mage_CatalogInventory_Model_Observer
             $stockItem = $quoteItem->getProduct()->getStockItem();
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
-                Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product is not valid'));
+                AO::throwException(AO::helper('cataloginventory')->__('Stock item for Product is not valid'));
             }
 
 
@@ -355,7 +355,7 @@ class Mage_CatalogInventory_Model_Observer
         }
 
         if (!empty($productIds)) {
-            Mage::getSingleton('cataloginventory/stock')->lockProductItems($productIds);
+            AO::getSingleton('cataloginventory/stock')->lockProductItems($productIds);
         }
 
         return $this;
@@ -377,7 +377,7 @@ class Mage_CatalogInventory_Model_Observer
         $children = $item->getChildrenItems();
 
         if (!$item->getId() && empty($children)) {
-            Mage::getSingleton('cataloginventory/stock')->registerItemSale($item);
+            AO::getSingleton('cataloginventory/stock')->registerItemSale($item);
         }
 
         return $this;
@@ -397,7 +397,7 @@ class Mage_CatalogInventory_Model_Observer
         $qty = $item->getQtyOrdered() - max($item->getQtyShipped(), $item->getQtyInvoiced()) - $item->getQtyCanceled();
 
         if ($item->getId() && ($productId = $item->getProductId()) && empty($children) && $qty) {
-            Mage::getSingleton('cataloginventory/stock')->backItemQty($productId, $qty);
+            AO::getSingleton('cataloginventory/stock')->backItemQty($productId, $qty);
         }
 
         return $this;
@@ -413,7 +413,7 @@ class Mage_CatalogInventory_Model_Observer
     {
         $item = $observer->getEvent()->getCreditmemoItem();
         if ($item->getId() && $item->getBackToStock() && ($productId = $item->getProductId()) && ($qty = $item->getQty())) {
-            Mage::getSingleton('cataloginventory/stock')->backItemQty($productId, $qty);
+            AO::getSingleton('cataloginventory/stock')->backItemQty($productId, $qty);
         }
         return $this;
     }
@@ -426,9 +426,9 @@ class Mage_CatalogInventory_Model_Observer
      */
     public function updateItemsStockUponConfigChange($observer)
     {
-        Mage::getResourceSingleton('cataloginventory/stock')->updateSetOutOfStock();
-        Mage::getResourceSingleton('cataloginventory/stock')->updateSetInStock();
-        Mage::getResourceSingleton('cataloginventory/stock')->updateLowStockDate();
+        AO::getResourceSingleton('cataloginventory/stock')->updateSetOutOfStock();
+        AO::getResourceSingleton('cataloginventory/stock')->updateSetInStock();
+        AO::getResourceSingleton('cataloginventory/stock')->updateLowStockDate();
         return $this;
     }
 
@@ -441,7 +441,7 @@ class Mage_CatalogInventory_Model_Observer
     public function productStatusUpdate(Varien_Event_Observer $observer)
     {
         $productId = $observer->getEvent()->getProductId();
-        Mage::getSingleton('cataloginventory/stock_status')
+        AO::getSingleton('cataloginventory/stock_status')
             ->updateStatus($productId);
         return $this;
     }
@@ -459,7 +459,7 @@ class Mage_CatalogInventory_Model_Observer
 
         foreach ($websiteIds as $websiteId) {
             foreach ($productIds as $productId) {
-                Mage::getSingleton('cataloginventory/stock_status')
+                AO::getSingleton('cataloginventory/stock_status')
                     ->updateStatus($productId, null, $websiteId);
             }
         }

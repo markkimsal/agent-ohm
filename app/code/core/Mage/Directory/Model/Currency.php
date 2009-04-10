@@ -119,7 +119,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
         } elseif ($toCurrency instanceof Mage_Directory_Model_Currency) {
             $code = $toCurrency->getCurrencyCode();
         } else {
-            throw Mage::exception('Mage_Directory', Mage::helper('directory')->__('Invalid target currency'));
+            throw AO::exception('Mage_Directory', AO::helper('directory')->__('Invalid target currency'));
         }
         $rates = $this->getRates();
         if (!isset($rates[$code])) {
@@ -145,7 +145,7 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
             return $price*$rate;
         }
 
-        throw new Exception(Mage::helper('directory')->__('Undefined rate from "%s-%s"', $this->getCode(), $toCurrency->getCode()));
+        throw new Exception(AO::helper('directory')->__('Undefined rate from "%s-%s"', $this->getCode(), $toCurrency->getCode()));
     }
 
     /**
@@ -180,13 +180,13 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function formatTxt($price, $options=array())
     {
         if (!is_numeric($price)) {
-            $price = Mage::app()->getLocale()->getNumber($price);
+            $price = AO::app()->getLocale()->getNumber($price);
         }
         /**
          * Fix problem with 12 000 000, 1 200 000
          */
         $price = sprintf("%f", $price);
-        return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
+        return AO::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
     }
 
     public function getOutputFormat()
@@ -203,11 +203,11 @@ class Mage_Directory_Model_Currency extends Mage_Core_Model_Abstract
     public function getConfigAllowCurrencies()
     {
         $allowedCurrencies = $this->_getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_ALLOW);
-        $appBaseCurrencyCode = Mage::app()->getBaseCurrencyCode();
+        $appBaseCurrencyCode = AO::app()->getBaseCurrencyCode();
         if (!in_array($appBaseCurrencyCode, $allowedCurrencies)) {
             $allowedCurrencies[] = $appBaseCurrencyCode;
         }
-        foreach (Mage::app()->getStores() as $store) {
+        foreach (AO::app()->getStores() as $store) {
             $code = $store->getBaseCurrencyCode();
             if (!in_array($code, $allowedCurrencies)) {
                 $allowedCurrencies[] = $code;

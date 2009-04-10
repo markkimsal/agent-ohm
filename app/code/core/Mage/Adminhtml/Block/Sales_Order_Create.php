@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $storeId    = $this->_getSession()->getStoreId();
 
 
-        $this->_updateButton('save', 'label', Mage::helper('sales')->__('Submit Order'));
+        $this->_updateButton('save', 'label', AO::helper('sales')->__('Submit Order'));
         $this->_updateButton('save', 'onclick', "order.submit()");
         $this->_updateButton('save', 'id', 'submit_order_top_button');
         if (is_null($customerId) || !$storeId) {
@@ -67,8 +67,8 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         //$this->_removeButton('back');
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/sales_order/') . '\');');
 
-        $confirm = Mage::helper('sales')->__('Are you sure you want to cancel this order?');
-        $this->_updateButton('reset', 'label', Mage::helper('sales')->__('Cancel'));
+        $confirm = AO::helper('sales')->__('Are you sure you want to cancel this order?');
+        $this->_updateButton('reset', 'label', AO::helper('sales')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 
@@ -94,14 +94,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return AO::getSingleton('adminhtml/session_quote');
     }
 
     public function getCancelUrl()
     {
         if ($this->_getSession()->getOrder()->getId()) {
             $url = $this->getUrl('*/sales_order/view', array(
-                'order_id'=>Mage::getSingleton('adminhtml/session_quote')->getOrder()->getId()
+                'order_id'=>AO::getSingleton('adminhtml/session_quote')->getOrder()->getId()
             ));
         }
         else {

@@ -47,7 +47,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (!isset($this->_storeDisplayConfig[$key])) {
-            $value = Mage::getStoreConfig('tax/weee/display', $store);
+            $value = AO::getStoreConfig('tax/weee/display', $store);
             $this->_storeDisplayConfig[$key] = $value;
         }
 
@@ -67,7 +67,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (!isset($this->_storeDisplayConfig[$key])) {
-            $value = Mage::getStoreConfig('tax/weee/display_list', $store);
+            $value = AO::getStoreConfig('tax/weee/display_list', $store);
             $this->_storeDisplayConfig[$key] = $value;
         }
 
@@ -87,7 +87,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (!isset($this->_storeDisplayConfig[$key])) {
-            $value = Mage::getStoreConfig('tax/weee/display_sales', $store);
+            $value = AO::getStoreConfig('tax/weee/display_sales', $store);
             $this->_storeDisplayConfig[$key] = $value;
         }
 
@@ -107,7 +107,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if (!isset($this->_storeDisplayConfig[$key])) {
-            $value = Mage::getStoreConfig('tax/weee/display_email', $store);
+            $value = AO::getStoreConfig('tax/weee/display_email', $store);
             $this->_storeDisplayConfig[$key] = $value;
         }
 
@@ -117,7 +117,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
         if ($this->isEnabled()) {
-            return Mage::getSingleton('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
+            return AO::getSingleton('weee/tax')->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
         }
         return 0;
     }
@@ -143,7 +143,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
             break;
 
             default:
-            if (Mage::registry('current_product')) {
+            if (AO::registry('current_product')) {
                 $type = $this->getPriceDisplayType($store);
             } else {
                 $type = $this->getListPriceDisplayType($store);
@@ -164,7 +164,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getProductWeeeAttributes($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
-        return Mage::getSingleton('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
+        return AO::getSingleton('weee/tax')->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
     }
 
     public function getApplied($item)
@@ -201,17 +201,17 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isDiscounted($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/discount', $store);
+        return AO::getStoreConfigFlag('tax/weee/discount', $store);
     }
 
     public function isTaxable($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/apply_vat', $store);
+        return AO::getStoreConfigFlag('tax/weee/apply_vat', $store);
     }
 
     public function includeInSubtotal($store = null)
     {
-        return Mage::getStoreConfigFlag('tax/weee/include_in_subtotal', $store);
+        return AO::getStoreConfigFlag('tax/weee/include_in_subtotal', $store);
     }
 
     public function getProductWeeeAttributesForDisplay($product)
@@ -226,7 +226,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAmountForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+            return AO::getModel('weee/tax')->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
         }
         return 0;
     }
@@ -234,7 +234,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     public function getOriginalAmount($product)
     {
         if ($this->isEnabled()) {
-            return Mage::getModel('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
+            return AO::getModel('weee/tax')->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
     }
@@ -243,9 +243,9 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $weeeAmount = $this->getAmountForDisplay($product);
         foreach ($tierPrices as &$tier) {
-            $tier['formated_price_incl_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $tier['website_price'], true)+$weeeAmount));
-            $tier['formated_price_incl_weee_only'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $tier['website_price'])+$weeeAmount));
-            $tier['formated_weee'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice($weeeAmount));
+            $tier['formated_price_incl_weee'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice(AO::helper('tax')->getPrice($product, $tier['website_price'], true)+$weeeAmount));
+            $tier['formated_price_incl_weee_only'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice(AO::helper('tax')->getPrice($product, $tier['website_price'])+$weeeAmount));
+            $tier['formated_weee'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice($weeeAmount));
         }
         return $this;
     }
@@ -257,6 +257,6 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_FPT_ENABLED, $store);
+        return AO::getStoreConfig(self::XML_PATH_FPT_ENABLED, $store);
     }
 }

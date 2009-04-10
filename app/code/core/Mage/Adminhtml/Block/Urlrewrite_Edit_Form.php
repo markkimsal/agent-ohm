@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         parent::__construct();
         $this->setId('urlrewrite_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Block Information'));
+        $this->setTitle(AO::helper('adminhtml')->__('Block Information'));
     }
 
     /**
@@ -51,9 +51,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareForm()
     {
-        $model    = Mage::registry('current_urlrewrite');
-        $product  = Mage::registry('current_product');
-        $category = Mage::registry('current_category');
+        $model    = AO::registry('current_urlrewrite');
+        $product  = AO::registry('current_product');
+        $category = AO::registry('current_category');
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'options'      => $model->getOptions(),
             'description'  => $model->getDescription(),
         );
-        if ($sessionData = Mage::getSingleton('adminhtml/session')->getData('urlrewrite_data', true)) {
+        if ($sessionData = AO::getSingleton('adminhtml/session')->getData('urlrewrite_data', true)) {
             foreach ($formValues as $key => $value) {
                 if (isset($sessionData[$key])) {
                     $formValues[$key] = $sessionData[$key];
@@ -75,30 +75,30 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('adminhtml')->__('Urlrewrite Information')
+            'legend'    => AO::helper('adminhtml')->__('Urlrewrite Information')
         ));
 
         $fieldset->addField('is_system', 'select', array(
-            'label'     => Mage::helper('adminhtml')->__('Type'),
-            'title'     => Mage::helper('adminhtml')->__('Type'),
+            'label'     => AO::helper('adminhtml')->__('Type'),
+            'title'     => AO::helper('adminhtml')->__('Type'),
             'name'      => 'is_system',
             'required'  => true,
             'options'   => array(
-                1 => Mage::helper('adminhtml')->__('System'),
-                0 => Mage::helper('adminhtml')->__('Custom')
+                1 => AO::helper('adminhtml')->__('System'),
+                0 => AO::helper('adminhtml')->__('Custom')
             ),
             'disabled'  => true,
             'value'     => $model->getIsSystem()
         ));
 
         // get store switcher or a hidden field with its id
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $element = $fieldset->addField('store_id', 'select', array(
-                'label'     => Mage::helper('adminhtml')->__('Store'),
-                'title'     => Mage::helper('adminhtml')->__('Store'),
+                'label'     => AO::helper('adminhtml')->__('Store'),
+                'title'     => AO::helper('adminhtml')->__('Store'),
                 'name'      => 'store_id',
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
+                'values'    => AO::getSingleton('adminhtml/system_store')->getStoreValuesForForm(),
                 'disabled'  => true,
                 'value'     => $formValues['store_id'],
             ));
@@ -109,13 +109,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         else {
             $fieldset->addField('store_id', ($model->getId() ? 'hidden' : 'select'), array(
                 'name'      => 'store_id',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => AO::app()->getStore(true)->getId()
             ));
         }
 
         $idPath = $fieldset->addField('id_path', 'text', array(
-            'label'     => Mage::helper('adminhtml')->__('ID Path'),
-            'title'     => Mage::helper('adminhtml')->__('ID Path'),
+            'label'     => AO::helper('adminhtml')->__('ID Path'),
+            'title'     => AO::helper('adminhtml')->__('ID Path'),
             'name'      => 'id_path',
             'required'  => true,
             'disabled'  => true,
@@ -123,16 +123,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         ));
 
         $requestPath = $fieldset->addField('request_path', 'text', array(
-            'label'     => Mage::helper('adminhtml')->__('Request Path'),
-            'title'     => Mage::helper('adminhtml')->__('Request Path'),
+            'label'     => AO::helper('adminhtml')->__('Request Path'),
+            'title'     => AO::helper('adminhtml')->__('Request Path'),
             'name'      => 'request_path',
             'required'  => true,
             'value'     => $formValues['request_path']
         ));
 
         $targetPath = $fieldset->addField('target_path', 'text', array(
-            'label'     => Mage::helper('adminhtml')->__('Target Path'),
-            'title'     => Mage::helper('adminhtml')->__('Target Path'),
+            'label'     => AO::helper('adminhtml')->__('Target Path'),
+            'title'     => AO::helper('adminhtml')->__('Target Path'),
             'name'      => 'target_path',
             'required'  => true,
             'disabled'  => true,
@@ -150,7 +150,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                 $_product = $product;
             }
             if ($_category || $_product) {
-                $catalogUrlModel = Mage::getSingleton('catalog/url');
+                $catalogUrlModel = AO::getSingleton('catalog/url');
                 $idPath->setValue($catalogUrlModel->generatePath('id', $_product, $_category));
                 if (!isset($sessionData['request_path'])) {
                     $requestPath->setValue($catalogUrlModel->generatePath('request', $_product, $_category, ''));
@@ -170,20 +170,20 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
         $fieldset->addField('options', 'select', array(
-            'label'     => Mage::helper('adminhtml')->__('Redirect'),
-            'title'     => Mage::helper('adminhtml')->__('Redirect'),
+            'label'     => AO::helper('adminhtml')->__('Redirect'),
+            'title'     => AO::helper('adminhtml')->__('Redirect'),
             'name'      => 'options',
             'options'   => array(
-                ''   => Mage::helper('adminhtml')->__('No'),
-                'R'  => Mage::helper('adminhtml')->__('Temporary (302)'),
-                'RP' => Mage::helper('adminhtml')->__('Permanent (301)'),
+                ''   => AO::helper('adminhtml')->__('No'),
+                'R'  => AO::helper('adminhtml')->__('Temporary (302)'),
+                'RP' => AO::helper('adminhtml')->__('Permanent (301)'),
             ),
             'value'     => $formValues['options']
         ));
 
         $fieldset->addField('description', 'textarea', array(
-            'label'     => Mage::helper('adminhtml')->__('Description'),
-            'title'     => Mage::helper('adminhtml')->__('Description'),
+            'label'     => AO::helper('adminhtml')->__('Description'),
+            'title'     => AO::helper('adminhtml')->__('Description'),
             'name'      => 'description',
             'cols'      => 20,
             'rows'      => 5,
@@ -192,7 +192,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         ));
 
         $form->setUseContainer(true);
-        $form->setAction(Mage::helper('adminhtml')->getUrl('*/*/save', array(
+        $form->setAction(AO::helper('adminhtml')->getUrl('*/*/save', array(
             'id'       => $model->getId(),
             'product'  => $product->getId(),
             'category' => $category->getId(),

@@ -104,7 +104,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode'));
+            $r->setOrigPostal(AO::getStoreConfig('shipping/origin/postcode'));
         }
 
         if ($request->getDestCountryId()) {
@@ -121,7 +121,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         if ($destCountry=='GB') {
            $countryName = 'Great Britain and Northern Ireland';
         } else {
-             $countries = Mage::getResourceModel('directory/country_collection')
+             $countries = AO::getResourceModel('directory/country_collection')
                             ->addCountryIdFilter($destCountry)
                             ->load()
                             ->getItems();
@@ -297,7 +297,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                         if (false && $newMethod) {
                             sort($allMethods);
                             $insert['usps']['fields']['methods']['value'] = $allMethods;
-                            Mage::getResourceModel('adminhtml/config')->saveSectionPost('carriers','','',$insert);
+                            AO::getResourceModel('adminhtml/config')->saveSectionPost('carriers','','',$insert);
                         }
                     }
             } else {
@@ -305,10 +305,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = AO::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = AO::getModel('shipping/rate_result_error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             //$error->setErrorMessage($errorTitle);
@@ -316,7 +316,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = AO::getModel('shipping/rate_result_method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -334,14 +334,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $codes = array(
 
             'service'=>array(
-                'FIRST CLASS' => Mage::helper('usa')->__('First-Class'),
-                'PRIORITY'    => Mage::helper('usa')->__('Priority Mail'),
-                'EXPRESS'     => Mage::helper('usa')->__('Express Mail'),
-                'BPM'         => Mage::helper('usa')->__('Bound Printed Matter'),
-                'PARCEL'      => Mage::helper('usa')->__('Parcel Post'),
-                'MEDIA'       => Mage::helper('usa')->__('Media Mail'),
-                'LIBRARY'     => Mage::helper('usa')->__('Library'),
-//                'ALL'         => Mage::helper('usa')->__('All Services'),
+                'FIRST CLASS' => AO::helper('usa')->__('First-Class'),
+                'PRIORITY'    => AO::helper('usa')->__('Priority Mail'),
+                'EXPRESS'     => AO::helper('usa')->__('Express Mail'),
+                'BPM'         => AO::helper('usa')->__('Bound Printed Matter'),
+                'PARCEL'      => AO::helper('usa')->__('Parcel Post'),
+                'MEDIA'       => AO::helper('usa')->__('Media Mail'),
+                'LIBRARY'     => AO::helper('usa')->__('Library'),
+//                'ALL'         => AO::helper('usa')->__('All Services'),
             ),
 
 /*
@@ -390,28 +390,28 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
             ),
 
             'first_class_mail_type'=>array(
-                'LETTER'      => Mage::helper('usa')->__('Letter'),
-                'FLAT'        => Mage::helper('usa')->__('Flat'),
-                'PARCEL'      => Mage::helper('usa')->__('Parcel'),
+                'LETTER'      => AO::helper('usa')->__('Letter'),
+                'FLAT'        => AO::helper('usa')->__('Flat'),
+                'PARCEL'      => AO::helper('usa')->__('Parcel'),
             ),
 
             'container'=>array(
-                'VARIABLE'           => Mage::helper('usa')->__('Variable'),
-                'FLAT RATE BOX'      => Mage::helper('usa')->__('Flat-Rate Box'),
-                'FLAT RATE ENVELOPE' => Mage::helper('usa')->__('Flat-Rate Envelope'),
-                'RECTANGULAR'        => Mage::helper('usa')->__('Rectangular'),
-                'NONRECTANGULAR'     => Mage::helper('usa')->__('Non-rectangular'),
+                'VARIABLE'           => AO::helper('usa')->__('Variable'),
+                'FLAT RATE BOX'      => AO::helper('usa')->__('Flat-Rate Box'),
+                'FLAT RATE ENVELOPE' => AO::helper('usa')->__('Flat-Rate Envelope'),
+                'RECTANGULAR'        => AO::helper('usa')->__('Rectangular'),
+                'NONRECTANGULAR'     => AO::helper('usa')->__('Non-rectangular'),
             ),
 
             'size'=>array(
-                'REGULAR'     => Mage::helper('usa')->__('Regular'),
-                'LARGE'       => Mage::helper('usa')->__('Large'),
-                'OVERSIZE'    => Mage::helper('usa')->__('Oversize'),
+                'REGULAR'     => AO::helper('usa')->__('Regular'),
+                'LARGE'       => AO::helper('usa')->__('Large'),
+                'OVERSIZE'    => AO::helper('usa')->__('Oversize'),
             ),
 
             'machinable'=>array(
-                'true'        => Mage::helper('usa')->__('Yes'),
-                'false'       => Mage::helper('usa')->__('No'),
+                'true'        => AO::helper('usa')->__('Yes'),
+                'false'       => AO::helper('usa')->__('No'),
             ),
 
         );
@@ -424,14 +424,14 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid USPS XML code type: %s', $type));
+//            throw AO::exception('Mage_Shipping', AO::helper('usa')->__('Invalid USPS XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid USPS XML code for type %s: %s', $type, $code));
+//            throw AO::exception('Mage_Shipping', AO::helper('usa')->__('Invalid USPS XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];
@@ -522,19 +522,19 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         }
 
         if(!$this->_result){
-            $this->_result = Mage::getModel('shipping/tracking_result');
+            $this->_result = AO::getModel('shipping/tracking_result');
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking = AO::getModel('shipping/tracking_result_status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = Mage::getModel('shipping/tracking_result_error');
+            $error = AO::getModel('shipping/tracking_result_error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -551,16 +551,16 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
                 foreach ($trackings as $tracking){
                     if($data = $tracking->getAllData()){
                         if (!empty($data['track_summary'])) {
-                            $statuses .= Mage::helper('usa')->__($data['track_summary']);
+                            $statuses .= AO::helper('usa')->__($data['track_summary']);
                         } else {
-                            $statuses .= Mage::helper('usa')->__('Empty response');
+                            $statuses .= AO::helper('usa')->__('Empty response');
                         }
                     }
                 }
             }
         }
         if (empty($statuses)) {
-            $statuses = Mage::helper('usa')->__('Empty response');
+            $statuses = AO::helper('usa')->__('Empty response');
         }
         return $statuses;
     }

@@ -35,9 +35,9 @@ class Mage_CatalogIndex_Model_Price extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('catalogindex/price');
-        $this->_getResource()->setStoreId(Mage::app()->getStore()->getId());
-        $this->_getResource()->setRate(Mage::app()->getStore()->getCurrentCurrencyRate());
-        $this->_getResource()->setCustomerGroupId(Mage::getSingleton('customer/session')->getCustomerGroupId());
+        $this->_getResource()->setStoreId(AO::app()->getStore()->getId());
+        $this->_getResource()->setRate(AO::app()->getStore()->getCurrentCurrencyRate());
+        $this->_getResource()->setCustomerGroupId(AO::getSingleton('customer/session')->getCustomerGroupId());
     }
 
     public function getMaxValue($attribute, $entityIdsFilter)

@@ -46,7 +46,7 @@ class Mage_Tax_Model_Mysql4_Rate_Collection extends Mage_Core_Model_Mysql4_Colle
      */
     public function joinTypeData()
     {
-        $typeCollection = Mage::getModel('tax/rate_type')->getCollection();
+        $typeCollection = AO::getModel('tax/rate_type')->getCollection();
 
         foreach($typeCollection as $type) {
             $typeId = (int) $type->getId();

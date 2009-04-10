@@ -60,12 +60,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('directory/currency')
-            ->load(Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
+        $this->_currency = AO::getModel('directory/currency')
+            ->load(AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
         ;
 
-        $this->_collection = Mage::getResourceModel('sales/sale_collection')
-            ->setCustomerFilter(Mage::registry('current_customer'))
+        $this->_collection = AO::getResourceModel('sales/sale_collection')
+            ->setCustomerFilter(AO::registry('current_customer'))
             ->load()
         ;
 
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
-                $store      = Mage::app()->getStore($sale->getStoreId());
+                $store      = AO::app()->getStore($sale->getStoreId());
                 $websiteId  = $store->getWebsiteId();
                 $groupId    = $store->getGroupId();
                 $storeId    = $store->getId();
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
                 $groupId    = 0;
                 $storeId    = 0;
 
-                $sale->setStoreName(Mage::helper('customer')->__('Deleted Stores'));
+                $sale->setStoreName(AO::helper('customer')->__('Deleted Stores'));
             }
 
             $this->_groupedCollection[$websiteId][$groupId][$storeId] = $sale;

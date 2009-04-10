@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
+        if ($name = AO::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
             return $name;
         }
         return $carrierCode;
@@ -139,6 +139,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form extends Mage_
 
     public function getShippingPrice($price, $flag)
     {
-        return $this->getQuote()->getStore()->convertPrice(Mage::helper('tax')->getShippingPrice($price, $flag, $this->getAddress()), true);
+        return $this->getQuote()->getStore()->convertPrice(AO::helper('tax')->getShippingPrice($price, $flag, $this->getAddress()), true);
     }
 }

@@ -43,19 +43,19 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
            	if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
         		$actions[] = array(
 		    		'url' => $this->getUrl('*/*/start', array('id'=>$row->getId())),
-		    		'caption'	=> Mage::helper('newsletter')->__('Start')
+		    		'caption'	=> AO::helper('newsletter')->__('Start')
 		    	);
         	}
         } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_SENDING) {
         	$actions[] = array(
 		    		'url' => $this->getUrl('*/*/pause', array('id'=>$row->getId())),
-		    		'caption'	=>	Mage::helper('newsletter')->__('Pause')
+		    		'caption'	=>	AO::helper('newsletter')->__('Pause')
 		    );
 
 		    $actions[] = array(
     			'url'		=>	$this->getUrl('*/*/cancel', array('id'=>$row->getId())),
-    			'confirm'	=>	Mage::helper('newsletter')->__('Do you really want to cancel the queue?'),
-    			'caption'	=>	Mage::helper('newsletter')->__('Cancel')
+    			'confirm'	=>	AO::helper('newsletter')->__('Do you really want to cancel the queue?'),
+    			'caption'	=>	AO::helper('newsletter')->__('Cancel')
 		    );
 
 
@@ -63,14 +63,14 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage_Ad
 
 		    $actions[] = array(
     		    'url' => $this->getUrl('*/*/resume', array('id'=>$row->getId())),
-    		    'caption'	=>	Mage::helper('newsletter')->__('Resume')
+    		    'caption'	=>	AO::helper('newsletter')->__('Resume')
 		    );
 
         }
 
         $actions[] = array(
 			'url'		=>	$this->getUrl('*/newsletter_template/preview',array('id'=>$row->getTemplateId())),
-			'caption'   =>  Mage::helper('newsletter')->__('Preview'),
+			'caption'   =>  AO::helper('newsletter')->__('Preview'),
 			'popup'	    =>	true
     	);
 

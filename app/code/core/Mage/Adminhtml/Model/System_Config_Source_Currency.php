@@ -32,7 +32,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Currency
     public function toOptionArray($isMultiselect)
     {
         if (!$this->_options) {
-            $this->_options = Mage::app()->getLocale()->getOptionCurrencies();
+            $this->_options = AO::app()->getLocale()->getOptionCurrencies();
         }
         $options = $this->_options;
         return $options;

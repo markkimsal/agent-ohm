@@ -46,7 +46,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableLinks())) {
-            $_linkCollection = Mage::getModel('downloadable/link')->getCollection()
+            $_linkCollection = AO::getModel('downloadable/link')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId())
                 ->addPriceToResult($product->getStore()->getWebsiteId());
@@ -122,7 +122,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         $product = $this->getProduct($product);
         /* @var Mage_Catalog_Model_Product $product */
         if (is_null($product->getDownloadableSamples())) {
-            $_sampleCollection = Mage::getModel('downloadable/sample')->getCollection()
+            $_sampleCollection = AO::getModel('downloadable/sample')->getCollection()
                 ->addProductToFilter($product->getId())
                 ->addTitleToResult($product->getStoreId());
             $product->setDownloadableSamples($_sampleCollection);
@@ -168,7 +168,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         if (!$sampleItem['sample_id']) {
                             unset($sampleItem['sample_id']);
                         }
-                        $sampleModel = Mage::getModel('downloadable/sample');
+                        $sampleModel = AO::getModel('downloadable/sample');
                         $files = array();
                         if (isset($sampleItem['file'])) {
                             $files = Zend_Json::decode($sampleItem['file']);
@@ -181,7 +181,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             ->setStoreId($product->getStoreId());
 
                         if ($sampleModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                            $sampleFileName = Mage::helper('downloadable/file')->moveFileFromTmp(
+                            $sampleFileName = AO::helper('downloadable/file')->moveFileFromTmp(
                                 Mage_Downloadable_Model_Sample::getBaseTmpPath(),
                                 Mage_Downloadable_Model_Sample::getBasePath(),
                                 $files
@@ -192,7 +192,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                     }
                 }
                 if ($_deleteItems) {
-                    Mage::getResourceModel('downloadable/sample')->deleteItems($_deleteItems);
+                    AO::getResourceModel('downloadable/sample')->deleteItems($_deleteItems);
                 }
             }
             if (isset($data['link'])) {
@@ -217,7 +217,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             $sample = $linkItem['sample'];
                             unset($linkItem['sample']);
                         }
-                        $linkModel = Mage::getModel('downloadable/link')
+                        $linkModel = AO::getModel('downloadable/link')
                             ->setData($linkItem)
                             ->setLinkType($linkItem['type'])
                             ->setProductId($product->getId())
@@ -238,7 +238,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             $sampleFile = Zend_Json::decode($sample['file']);
                         }
                         if ($linkModel->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                            $linkFileName = Mage::helper('downloadable/file')->moveFileFromTmp(
+                            $linkFileName = AO::helper('downloadable/file')->moveFileFromTmp(
                                 Mage_Downloadable_Model_Link::getBaseTmpPath(),
                                 Mage_Downloadable_Model_Link::getBasePath(),
                                 $files
@@ -246,7 +246,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             $linkModel->setLinkFile($linkFileName);
                         }
                         if ($linkModel->getSampleType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
-                            $linkSampleFileName = Mage::helper('downloadable/file')->moveFileFromTmp(
+                            $linkSampleFileName = AO::helper('downloadable/file')->moveFileFromTmp(
                                 Mage_Downloadable_Model_Link::getBaseSampleTmpPath(),
                                 Mage_Downloadable_Model_Link::getBaseSamplePath(),
                                 $sampleFile
@@ -257,7 +257,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                     }
                 }
                 if ($_deleteItems) {
-                    Mage::getResourceModel('downloadable/link')->deleteItems($_deleteItems);
+                    AO::getResourceModel('downloadable/link')->deleteItems($_deleteItems);
                 }
             }
         }
@@ -302,7 +302,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             return $result;
         }
         if ($this->getLinkSelectionRequired($product)) {
-            return Mage::helper('downloadable')->__('Please specify product link(s).');
+            return AO::helper('downloadable')->__('Please specify product link(s).');
         }
         return $result;
     }

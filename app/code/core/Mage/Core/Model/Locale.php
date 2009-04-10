@@ -114,7 +114,7 @@ class Mage_Core_Model_Locale
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE);
+            $locale = AO::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
                 $locale = self::DEFAULT_LOCALE;
             }
@@ -131,8 +131,8 @@ class Mage_Core_Model_Locale
      */
     public function setLocale($locale = null)
     {
-        Mage::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
-        Zend_Locale_Data::setCache(Mage::app()->getCache());
+        AO::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
+        Zend_Locale_Data::setCache(AO::app()->getCache());
         if ($locale === null) {
         	$locale = $this->_localeCode;
         }
@@ -352,7 +352,7 @@ class Mage_Core_Model_Locale
      */
     public function getAllowLocales()
     {
-        $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CODES)->asArray();
+        $data = AO::getConfig()->getNode(self::XML_PATH_ALLOW_CODES)->asArray();
         if ($data) {
             return array_keys($data);
         }
@@ -367,12 +367,12 @@ class Mage_Core_Model_Locale
     public function getAllowCurrencies()
     {
         $data = array();
-        if (Mage::isInstalled()) {
-            $data = Mage::app()->getStore()->getConfig(self::XML_PATH_ALLOW_CURRENCIES_INSTALLED);
+        if (AO::isInstalled()) {
+            $data = AO::app()->getStore()->getConfig(self::XML_PATH_ALLOW_CURRENCIES_INSTALLED);
             return explode(',', $data);
         }
         else {
-            $data = Mage::getConfig()->getNode(self::XML_PATH_ALLOW_CURRENCIES)->asArray();
+            $data = AO::getConfig()->getNode(self::XML_PATH_ALLOW_CURRENCIES)->asArray();
             if ($data) {
                 return array_keys($data);
             }
@@ -452,7 +452,7 @@ class Mage_Core_Model_Locale
         // try-catch block was here
         $date = new Zend_Date($date, $part, $locale);
         if ($useTimezone) {
-            if ($timezone = Mage::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
+            if ($timezone = AO::app()->getStore()->getConfig(self::XML_PATH_DEFAULT_TIMEZONE)) {
                 $date->setTimezone($timezone);
             }
         }
@@ -471,7 +471,7 @@ class Mage_Core_Model_Locale
      */
     public function storeDate($store=null, $date=null, $includeTime=false)
     {
-        $timezone = Mage::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        $timezone = AO::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
         $date = new Zend_Date($date, null, $this->getLocale());
         $date->setTimezone($timezone);
         if (!$includeTime) {
@@ -491,7 +491,7 @@ class Mage_Core_Model_Locale
      */
     public function storeTimeStamp($store=null)
     {
-        $timezone = Mage::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        $timezone = AO::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
         $currentTimezone = @date_default_timezone_get();
         @date_default_timezone_set($timezone);
         $date = date('Y-m-d H:i:s');
@@ -616,7 +616,7 @@ class Mage_Core_Model_Locale
         $integerRequired = (strpos($format, '.') - strpos($format, '0'));
 
         $result = array(
-            'pattern' => Mage::app()->getStore()->getCurrentCurrency()->getOutputFormat(),
+            'pattern' => AO::app()->getStore()->getCurrentCurrency()->getOutputFormat(),
             'precision' => $totalPrecision,
             'requiredPrecision' => $requiredPrecision,
             'decimalSymbol' => $symbols['decimal'],
@@ -638,9 +638,9 @@ class Mage_Core_Model_Locale
     {
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new Zend_Locale(Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE, $storeId));
+            $this->_locale = new Zend_Locale(AO::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE, $storeId));
             $this->_localeCode = $this->_locale->toString();
-            Mage::getSingleton('core/translate')->setLocale($this->_locale)->init('frontend', true);
+            AO::getSingleton('core/translate')->setLocale($this->_locale)->init('frontend', true);
         }
         else {
             $this->_emulatedLocales[] = false;
@@ -656,7 +656,7 @@ class Mage_Core_Model_Locale
         if ($locale = array_pop($this->_emulatedLocales)) {
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
-            Mage::getSingleton('core/translate')->setLocale($this->_locale)->init('adminhtml', true);
+            AO::getSingleton('core/translate')->setLocale($this->_locale)->init('adminhtml', true);
         }
     }
 

@@ -42,7 +42,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search 
 
     public function getHeaderText()
     {
-        return Mage::helper('bundle')->__('Please select products to add');
+        return AO::helper('bundle')->__('Please select products to add');
     }
 
     protected function _prepareLayout()
@@ -66,7 +66,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search 
     {
         $addButtonData = array(
             'id'    => 'add_button_' . $this->getIndex(),
-            'label' => Mage::helper('sales')->__('Add Selected Product(s) to Option'),
+            'label' => AO::helper('sales')->__('Add Selected Product(s) to Option'),
             'onclick' => 'bSelection.productGridAddSelected(event)',
             'class' => 'add',
         );

@@ -42,11 +42,11 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     public function getMethodInstance($code)
     {
         $key = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/model';
-        $class = Mage::getStoreConfig($key);
+        $class = AO::getStoreConfig($key);
         if (!$class) {
-            Mage::throwException($this->__('Can not configuration for payment method with code: %s', $code));
+            AO::throwException($this->__('Can not configuration for payment method with code: %s', $code));
         }
-        return Mage::getModel($class);
+        return AO::getModel($class);
     }
 
     /**
@@ -60,21 +60,21 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getStoreMethods($store=null, $quote=null)
     {
-        $methods = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
+        $methods = AO::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
         $res = array();
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/';
 
-            if (!Mage::getStoreConfigFlag($prefix.'active', $store)) {
+            if (!AO::getStoreConfigFlag($prefix.'active', $store)) {
                 continue;
             }
-            if (!$model = Mage::getStoreConfig($prefix.'model', $store)) {
+            if (!$model = AO::getStoreConfig($prefix.'model', $store)) {
                 continue;
             }
 
-            $methodInstance = Mage::getModel($model);
+            $methodInstance = AO::getModel($model);
 
-            if ($methodInstance instanceof Mage_Payment_Model_Method_Cc && !Mage::getStoreConfig($prefix.'cctypes')) {
+            if ($methodInstance instanceof Mage_Payment_Model_Method_Cc && !AO::getStoreConfig($prefix.'cctypes')) {
                 /* if the payment method has credit card types configuration option
                    and no credit card type is enabled in configuration */
                 continue;
@@ -85,7 +85,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
                 continue;
             }
 
-            $sortOrder = (int)Mage::getStoreConfig($prefix.'sort_order', $store);
+            $sortOrder = (int)AO::getStoreConfig($prefix.'sort_order', $store);
             $methodInstance->setSortOrder($sortOrder);
             $methodInstance->setStore($store);
 //            while (isset($res[$sortOrder])) {
@@ -148,7 +148,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             $block = $this->getLayout()->createBlock($blockType);
         }
         else {
-            $className = Mage::getConfig()->getBlockClassName($blockType);
+            $className = AO::getConfig()->getBlockClassName($blockType);
             $block = new $className;
         }
         $block->setInfo($info);

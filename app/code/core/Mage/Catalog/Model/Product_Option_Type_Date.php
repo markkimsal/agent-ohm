@@ -81,11 +81,11 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
         } elseif (!$isValid && $option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
             if (!$dateValid) {
-                Mage::throwException(Mage::helper('catalog')->__('Please specify date required option(s)'));
+                AO::throwException(AO::helper('catalog')->__('Please specify date required option(s)'));
             } elseif (!$timeValid) {
-                Mage::throwException(Mage::helper('catalog')->__('Please specify time required option(s)'));
+                AO::throwException(AO::helper('catalog')->__('Please specify time required option(s)'));
             } else {
-                Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
+                AO::throwException(AO::helper('catalog')->__('Please specify the product required option(s)'));
             }
         } else {
             $this->setUserValue(null);
@@ -116,8 +116,8 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
 
             if ($this->_dateExists()) {
                 if ($this->useCalendar()) {
-                    $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-                    $timestamp += Mage::app()->getLocale()->date($value['date'], $format, null, false)->getTimestamp();
+                    $format = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                    $timestamp += AO::app()->getLocale()->date($value['date'], $format, null, false)->getTimestamp();
                 } else {
                     $timestamp += mktime(0, 0, 0, $value['month'], $value['day'], $value['year']);
                 }
@@ -153,11 +153,11 @@ class Mage_Catalog_Model_Product_Option_Type_Date extends Mage_Catalog_Model_Pro
         $option = $this->getOption();
 
         if ($this->getOption()->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE) {
-            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
-            $result = Mage::app()->getLocale()->date($optionValue, Zend_Date::ISO_8601, null, false)->toString($format);
+            $format = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+            $result = AO::app()->getLocale()->date($optionValue, Zend_Date::ISO_8601, null, false)->toString($format);
         } elseif ($this->getOption()->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-            $result = Mage::app()->getLocale()->date($optionValue, Varien_Date::DATETIME_INTERNAL_FORMAT, null, false)->toString($format);
+            $format = AO::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $result = AO::app()->getLocale()->date($optionValue, Varien_Date::DATETIME_INTERNAL_FORMAT, null, false)->toString($format);
         } elseif ($this->getOption()->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_TIME) {
             $date = new Zend_Date($optionValue);
             $result = date($this->is24hTimeFormat() ? 'H:i' : 'h:i a', $date->getTimestamp());

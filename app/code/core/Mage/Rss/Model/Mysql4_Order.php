@@ -53,7 +53,7 @@ class Mage_Rss_Model_Mysql4_Order
 
     public function getCoreResource()
     {
-        return Mage::getSingleton('core/resource');
+        return AO::getSingleton('core/resource');
     }
 
 	public function getAllOrderEntityTypeIds()
@@ -61,7 +61,7 @@ class Mage_Rss_Model_Mysql4_Order
 	    $orderEntityTypes = array();
 	    $etypeIds = array();
         $oattrIds = array();
-	    $eav = Mage::getSingleton('eav/config');
+	    $eav = AO::getSingleton('eav/config');
 	    $oTable = '';
         foreach (array(
                 'invoice'=>'sales/order_invoice',
@@ -69,7 +69,7 @@ class Mage_Rss_Model_Mysql4_Order
                 'creditmemo'=>'sales/order_creditmemo'
             ) as $entityTypeCode=>$entityModel) {
                 $entityType = $eav->getEntityType($entityTypeCode);
-                $entity = Mage::getResourceSingleton($entityModel);
+                $entity = AO::getResourceSingleton($entityModel);
                 $orderAttr = $eav->getAttribute($entityType, 'order_id');
                 if (!$oTable) {
                     $orderAttr->setEntity($entity);
@@ -129,7 +129,7 @@ class Mage_Rss_Model_Mysql4_Order
 	public function getAllEntityTypeCommentIds()
 	{
 	    $entityTypes = array();
-        $eav = Mage::getSingleton('eav/config');
+        $eav = AO::getSingleton('eav/config');
         $etypeIds = array();
         $cattrIds = array();
         $nattrIds = array();
@@ -143,7 +143,7 @@ class Mage_Rss_Model_Mysql4_Order
             ) as $entityTypeCode=>$entityArr) {
 
             $entityType = $eav->getEntityType($entityTypeCode);
-            $entity = Mage::getResourceSingleton($entityArr['model']);
+            $entity = AO::getResourceSingleton($entityArr['model']);
             $commentAttr = $eav->getAttribute($entityType, 'comment');
             $notifiedAttr = $eav->getAttribute($entityType, 'is_customer_notified');
             $statusAttr = $eav->getAttribute($entityType, 'status');

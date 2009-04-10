@@ -40,15 +40,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Filter_Inv
         return array(
             array(
                 'value' =>  '',
-                'label' =>  Mage::helper('catalog')->__('')
+                'label' =>  AO::helper('catalog')->__('')
             ),
             array(
                 'value' =>  1,
-                'label' =>  Mage::helper('catalog')->__('In stock')
+                'label' =>  AO::helper('catalog')->__('In stock')
             ),
             array(
                 'value' =>  0,
-                'label' =>  Mage::helper('catalog')->__('Out of stock')
+                'label' =>  AO::helper('catalog')->__('Out of stock')
             )
         );
     }

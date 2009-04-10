@@ -35,7 +35,7 @@ class Mage_Sales_Model_Mysql4_Order_Shipment_Track extends Mage_Eav_Model_Entity
 {
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('shipment_track')->setConnection(
             $resource->getConnection('sales_read'),
             $resource->getConnection('sales_write')

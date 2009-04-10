@@ -41,7 +41,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Encrypted extends Mage_Core_Mod
     protected function _afterLoad()
     {
         $value = (string)$this->getValue();
-        if (!empty($value) && ($decrypted = Mage::helper('core')->decrypt($value))) {
+        if (!empty($value) && ($decrypted = AO::helper('core')->decrypt($value))) {
             $this->setValue($decrypted);
         }
     }
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Encrypted extends Mage_Core_Mod
         if (preg_match('/^\*+$/', $this->getValue())) {
             $value = $this->getOldValue();
         }
-        if (!empty($value) && ($encrypted = Mage::helper('core')->encrypt($value))) {
+        if (!empty($value) && ($encrypted = AO::helper('core')->encrypt($value))) {
             $this->setValue($encrypted);
         }
     }
@@ -69,6 +69,6 @@ class Mage_Adminhtml_Model_System_Config_Backend_Encrypted extends Mage_Core_Mod
      */
     public function getOldValue()
     {
-        return Mage::helper('core')->decrypt(parent::getOldValue());
+        return AO::helper('core')->decrypt(parent::getOldValue());
     }
 }

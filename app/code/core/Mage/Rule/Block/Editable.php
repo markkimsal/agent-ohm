@@ -35,7 +35,7 @@ class Mage_Rule_Block_Editable extends Mage_Core_Block_Abstract
 	    if ($valueName=='') {
 	        $valueName = '...';
 	    } else {
-	        $valueName = Mage::helper('core/string')->truncate($valueName, 30);
+	        $valueName = AO::helper('core/string')->truncate($valueName, 30);
 	    }
 	    if ($element->getShowAsText()) {
 	        $html = ' <input type="hidden" class="hidden" id="'.$element->getHtmlId().'" name="'.$element->getName().'" value="'.$element->getValue().'"/> ';

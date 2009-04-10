@@ -100,18 +100,18 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     $payment->setStatus(self::STATUS_APPROVED);
                     break;
                 case self::RESPONSE_CODE_DECLINED:
-                    $error = Mage::helper('paygate')->__('Payment authorization transaction has been declined.');
+                    $error = AO::helper('paygate')->__('Payment authorization transaction has been declined.');
                     break;
                 default:
-                    $error = Mage::helper('paygate')->__('Payment authorization error.');
+                    $error = AO::helper('paygate')->__('Payment authorization error.');
                     break;
             }
         }else{
-            $error = Mage::helper('paygate')->__('Invalid amount for authorization.');
+            $error = AO::helper('paygate')->__('Invalid amount for authorization.');
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -142,12 +142,12 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $error = $result->getResponseReasonText();
             }
             else {
-                $error = Mage::helper('paygate')->__('Error in capturing the payment');
+                $error = AO::helper('paygate')->__('Error in capturing the payment');
             }
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
 
         return $this;
@@ -179,10 +179,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             }
         }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $error = Mage::helper('paygate')->__('Invalid transaction id');
+            $error = AO::helper('paygate')->__('Invalid transaction id');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -210,11 +210,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             }
 
         } else {
-            $error = Mage::helper('paygate')->__('Error in refunding the payment');
+            $error = AO::helper('paygate')->__('Error in refunding the payment');
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -236,7 +236,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $payment->setAnetTransMethod(self::REQUEST_METHOD_CC);
         }
 
-        $request = Mage::getModel('paygate/authorizenet_request')
+        $request = AO::getModel('paygate/authorizenet_request')
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXDelimChar(self::RESPONSE_DELIM_CHAR)
@@ -331,7 +331,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
     protected function _postRequest(Varien_Object $request)
     {
-        $result = Mage::getModel('paygate/authorizenet_result');
+        $result = AO::getModel('paygate/authorizenet_result');
 
         $client = new Varien_Http_Client();
 
@@ -352,7 +352,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
             $requestData = join('&', $requestData);
 
-            $debug = Mage::getModel('paygate/authorizenet_debug')
+            $debug = AO::getModel('paygate/authorizenet_debug')
                 ->setRequestBody($requestData)
                 ->setRequestSerialized(serialize($request->getData()))
                 ->setRequestDump(print_r($request->getData(),1))
@@ -372,8 +372,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                     ->setResultDump(print_r($result->getData(),1))
                     ->save();
             }
-            Mage::throwException(
-                Mage::helper('paygate')->__('Gateway request error: %s', $e->getMessage())
+            AO::throwException(
+                AO::helper('paygate')->__('Gateway request error: %s', $e->getMessage())
             );
         }
 
@@ -398,8 +398,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 ->setMd5Hash($r[37])
                 ->setCardCodeResponseCode($r[39]);
         } else {
-             Mage::throwException(
-                Mage::helper('paygate')->__('Error in payment gateway')
+             AO::throwException(
+                AO::helper('paygate')->__('Error in payment gateway')
             );
         }
 

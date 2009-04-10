@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Report_Review_Product extends Mage_Adminhtml_Block_Wi
     public function __construct()
     {
         $this->_controller = 'report_review_product';
-        $this->_headerText = Mage::helper('reports')->__('Products Reviews');
+        $this->_headerText = AO::helper('reports')->__('Products Reviews');
         parent::__construct();
         $this->_removeButton('add');
     }

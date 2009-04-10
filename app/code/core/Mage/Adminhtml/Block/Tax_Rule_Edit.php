@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('tax')->__('Save Rule'));
-        $this->_updateButton('delete', 'label', Mage::helper('tax')->__('Delete Rule'));
+        $this->_updateButton('save', 'label', AO::helper('tax')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', AO::helper('tax')->__('Delete Rule'));
     }
 
     /**
@@ -56,11 +56,11 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit extends Mage_Adminhtml_Block_Widget_For
      */
     public function getHeaderText()
     {
-        if (Mage::registry('tax_rule')->getId()) {
-            return Mage::helper('tax')->__("Edit Rule");
+        if (AO::registry('tax_rule')->getId()) {
+            return AO::helper('tax')->__("Edit Rule");
         }
         else {
-            return Mage::helper('tax')->__('New Rule');
+            return AO::helper('tax')->__('New Rule');
         }
     }
 }

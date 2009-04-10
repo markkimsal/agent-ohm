@@ -38,19 +38,19 @@ class Mage_Adminhtml_Block_System_Currency_Edit_Tabs extends Mage_Adminhtml_Bloc
         parent::__construct();
         $this->setId('currency_edit_tabs');
         $this->setDestElementId('currency_edit_form');
-        $this->setTitle(Mage::helper('adminhtml')->__('Currency'));
+        $this->setTitle(AO::helper('adminhtml')->__('Currency'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('general', array(
-            'label'     => Mage::helper('adminhtml')->__('General Information'),
+            'label'     => AO::helper('adminhtml')->__('General Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/system_currency_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('currency_rates', array(
-            'label'     => Mage::helper('adminhtml')->__('Rates'),
+            'label'     => AO::helper('adminhtml')->__('Rates'),
             'content'   => $this->getLayout()->createBlock('adminhtml/system_currency_edit_tab_rates')->toHtml(),
         ));
         

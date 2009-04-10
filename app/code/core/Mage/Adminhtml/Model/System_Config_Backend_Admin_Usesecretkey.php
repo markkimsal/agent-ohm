@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Usesecretkey extends Mage
 {
     protected function _afterSave()
     {
-        Mage::getSingleton('adminhtml/url')->renewSecretUrls();
+        AO::getSingleton('adminhtml/url')->renewSecretUrls();
         return $this;
     }
 }

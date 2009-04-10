@@ -161,7 +161,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     {
         $layer = $this->_getData('layer');
         if (is_null($layer)) {
-            $layer = Mage::getSingleton('catalog/layer');
+            $layer = AO::getSingleton('catalog/layer');
             $this->setData('layer', $layer);
         }
         return $layer;
@@ -177,7 +177,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
      */
     protected function _createItem($label, $value, $count=0)
     {
-        return Mage::getModel('catalog/layer_filter_item')
+        return AO::getModel('catalog/layer_filter_item')
             ->setFilter($this)
             ->setLabel($label)
             ->setValue($value)
@@ -226,7 +226,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     {
         $attribute = $this->getData('attribute_model');
         if (is_null($attribute)) {
-            Mage::throwException(Mage::helper('catalog')->__('Attribute model not defined'));
+            AO::throwException(AO::helper('catalog')->__('Attribute model not defined'));
         }
         return $attribute;
     }

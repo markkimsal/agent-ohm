@@ -44,7 +44,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     protected function _loadAttribute($id)
     {
         if (!isset($this->_attributeCache[$id])) {
-            $this->_attributeCache[$id] = Mage::getModel('eav/entity_attribute')->load($id);
+            $this->_attributeCache[$id] = AO::getModel('eav/entity_attribute')->load($id);
         }
 
         return $this->_attributeCache[$id];
@@ -73,7 +73,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             	$suffix = 'entity_id IN ('.$products->getIdsSelect($this->_getWriteAdapter())->__toString().')';
             }
             else if (!is_numeric($products) && !is_array($products)) {
-                Mage::throwException('Invalid products supplied for indexing');
+                AO::throwException('Invalid products supplied for indexing');
             }
             if (empty($suffix)) {
                 $suffix = $this->_getWriteAdapter()->quoteInto('entity_id in (?)', $products);
@@ -84,11 +84,11 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
             if ($store instanceof Mage_Core_Model_Store) {
                 $store = $store->getId();
-                $websiteIds[] = Mage::app()->getStore($store)->getWebsiteId();
+                $websiteIds[] = AO::app()->getStore($store)->getWebsiteId();
             } else if ($store instanceof Mage_Core_Model_Mysql4_Store_Collection) {
                 $store = $store->getAllIds();
                 foreach ($store as $one) {
-                    $websiteIds[] = Mage::app()->getStore($one)->getWebsiteId();
+                    $websiteIds[] = AO::app()->getStore($one)->getWebsiteId();
                 }
             } else if (is_array($store)) {
                 $resultStores = array();
@@ -97,7 +97,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                         $resultStores[] = $s->getId();
                         $websiteIds[] = $s->getWebsiteId();
                     } elseif (is_numeric($s)) {
-                        $websiteIds[] = Mage::app()->getStore($s)->getWebsiteId();
+                        $websiteIds[] = AO::app()->getStore($s)->getWebsiteId();
                         $resultStores[] = $s;
                     }
                 }
@@ -115,11 +115,11 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
 
         if ($tierPrice) {
             $tables['tierPrice'] = 'catalogindex/price';
-            $tierPrice = array(Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price'));
+            $tierPrice = array(AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price'));
         }
         if ($finalPrice) {
             $tables['finalPrice'] = 'catalogindex/price';
-            $tierPrice = array(Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price'));
+            $tierPrice = array(AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price'));
         }
         if ($minimal) {
             $tables['minimal'] = 'catalogindex/minimal_price';
@@ -174,7 +174,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     public function reindexTiers($products, $store, $forcedId = null)
     {
         $websiteId = $store->getWebsiteId();
-        $attribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price');
+        $attribute = AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'tier_price');
         $this->_beginInsert(
             'catalogindex/price',
             array('entity_id', 'attribute_id', 'value', 'website_id', 'customer_group_id', 'qty')
@@ -186,10 +186,10 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
          *      $productType => array()
          * )
          */
-        $products = Mage::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
+        $products = AO::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
         if (is_null($forcedId)) {
             foreach ($products as $type=>$typeIds) {
-                $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+                $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
                 if ($retreiver->areChildrenIndexable(Mage_CatalogIndex_Model_Retreiver::CHILDREN_FOR_TIERS)) {
                     foreach ($typeIds as $id) {
                         $children = $retreiver->getChildProductIds($store, $id);
@@ -207,7 +207,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             $id = (is_null($forcedId) ? $index['entity_id'] : $forcedId);
             if ($id && $index['value']) {
                 if ($index['all_groups'] == 1) {
-                    foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+                    foreach (AO::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
                         $this->_insert('catalogindex/price', array(
                             $id,
                             $attribute,
@@ -258,7 +258,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
      */
     public function reindexFinalPrices($products, $store, $forcedId = null)
     {
-        $priceAttribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price');
+        $priceAttribute = AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'price');
         $this->_beginInsert('catalogindex/price', array(
             'entity_id',
             'website_id',
@@ -268,9 +268,9 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             'tax_class_id'
         ));
 
-        $productTypes = Mage::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
+        $productTypes = AO::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
         foreach ($productTypes as $type=>$products) {
-            $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+            $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
             foreach ($products as $product) {
                 if (is_null($forcedId)) {
                     if ($retreiver->areChildrenIndexable(Mage_CatalogIndex_Model_Retreiver::CHILDREN_FOR_PRICES)) {
@@ -280,7 +280,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
                         }
                     }
                 }
-                foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+                foreach (AO::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
                     $finalPrice = $retreiver->getFinalPrice($product, $store, $group);
                     $taxClassId = $retreiver->getTaxClassId($product, $store);
                     $id = $product;
@@ -323,10 +323,10 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             'tax_class_id'
         ));
         $this->clear(false, false, true, false, false, $products, $store);
-        $products = Mage::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
+        $products = AO::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
 
         foreach ($products as $type=>$typeIds) {
-            $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+            $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
 
             foreach ($typeIds as $id) {
                 $minimal = array();
@@ -380,17 +380,17 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             if ($store instanceof Mage_Core_Model_Store) {
                 $websiteId = $store->getWebsiteId();
             } else {
-                $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+                $websiteId = AO::app()->getStore($store)->getWebsiteId();
             }
         }
 
         $this->_beginInsert($table, array('entity_id', 'attribute_id', 'value', $storeField));
 
-        $products = Mage::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
+        $products = AO::getSingleton('catalogindex/retreiver')->assignProductTypes($products);
 
         if (is_null($forcedId)) {
             foreach ($products as $type=>$typeIds) {
-                $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+                $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
                 if ($retreiver->areChildrenIndexable(Mage_CatalogIndex_Model_Retreiver::CHILDREN_FOR_ATTRIBUTES)) {
                     foreach ($typeIds as $id) {
                         $children = $retreiver->getChildProductIds($store, $id);
@@ -447,7 +447,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     public function getTierData($products, $store){
         $result = array();
         foreach ($products as $type=>$typeIds) {
-            $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+            $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
             $byType = $retreiver->getTierPrices($typeIds, $store);
             if ($byType) {
                 $result = array_merge($result, $byType);
@@ -467,7 +467,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     {
         $result = array();
         foreach ($products as $type=>$typeIds) {
-            $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+            $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
             $byType = $retreiver->getMinimalPrice($typeIds, $store);
             if ($byType) {
                 $result = array_merge($result, $byType);
@@ -487,7 +487,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     public function getProductData($products, $attributeIds, $store){
         $result = array();
         foreach ($products as $type=>$typeIds) {
-            $retreiver = Mage::getSingleton('catalogindex/retreiver')->getRetreiver($type);
+            $retreiver = AO::getSingleton('catalogindex/retreiver')->getRetreiver($type);
             $byType = $retreiver->getAttributeData($typeIds, $attributeIds, $store);
             if ($byType) {
                 $result = array_merge($result, $byType);
@@ -553,7 +553,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     {
         $columns = $object->getColumns();
 
-        foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+        foreach (AO::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
             $columnName = 'display_price_group_' . $group->getId();
             $columns[$columnName] = array(
                 'type'      => 'decimal(12,4)',
@@ -579,7 +579,7 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
     {
         $indexes = $object->getIndexes();
 
-        foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+        foreach (AO::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
             $columnName = 'display_price_group_' . $group->getId();
             $indexName  = 'IDX_DISPLAY_PRICE_GROUP_' . $group->getId();
             $indexes[$indexName] = array(
@@ -606,11 +606,11 @@ class Mage_CatalogIndex_Model_Mysql4_Indexer extends Mage_Core_Model_Mysql4_Abst
             $tableName = $this->getTable('catalog/product_flat') . '_' . $storeId;
         }
 
-        $priceAttribute = Mage::getSingleton('eav/entity_attribute')
+        $priceAttribute = AO::getSingleton('eav/entity_attribute')
             ->getIdByCode('catalog_product', 'price');
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = AO::app()->getStore($storeId)->getWebsiteId();
 
-        foreach (Mage::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
+        foreach (AO::getSingleton('catalogindex/retreiver')->getCustomerGroups() as $group) {
             $columnName = 'display_price_group_' . $group->getId();
 
             /**

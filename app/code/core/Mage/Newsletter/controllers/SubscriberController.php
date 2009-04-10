@@ -39,15 +39,15 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session   = Mage::getSingleton('core/session');
+            $session   = AO::getSingleton('core/session');
             $email     = (string) $this->getRequest()->getPost('email');
 
             try {
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    Mage::throwException($this->__('Please enter a valid email address'));
+                    AO::throwException($this->__('Please enter a valid email address'));
                 }
 
-                $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
+                $status = AO::getModel('newsletter/subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess($this->__('Confirmation request has been sent'));
                 }
@@ -74,8 +74,8 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $subscriber = Mage::getModel('newsletter/subscriber')->load($id);
-            $session = Mage::getSingleton('core/session');
+            $subscriber = AO::getModel('newsletter/subscriber')->load($id);
+            $session = AO::getSingleton('core/session');
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
@@ -88,7 +88,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
             }
         }
 
-        $this->_redirectUrl(Mage::getBaseUrl());
+        $this->_redirectUrl(AO::getBaseUrl());
     }
 
     /**
@@ -100,9 +100,9 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $session = Mage::getSingleton('core/session');
+            $session = AO::getSingleton('core/session');
             try {
-                Mage::getModel('newsletter/subscriber')->load($id)
+                AO::getModel('newsletter/subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
                 $session->addSuccess($this->__('You have been successfully unsubscribed.'));

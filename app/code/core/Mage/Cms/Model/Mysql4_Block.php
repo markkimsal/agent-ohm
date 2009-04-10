@@ -48,13 +48,13 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            Mage::throwException(Mage::helper('cms')->__('Such a block identifier in selected store already exist.'));
+            AO::throwException(AO::helper('cms')->__('Such a block identifier in selected store already exist.'));
         }
 
         if (! $object->getId()) {
-            $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreationTime(AO::getSingleton('core/date')->gmtDate());
         }
-        $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
+        $object->setUpdateTime(AO::getSingleton('core/date')->gmtDate());
         return $this;
     }
 

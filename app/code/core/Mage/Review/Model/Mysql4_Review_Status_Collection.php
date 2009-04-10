@@ -38,10 +38,10 @@ class Mage_Review_Model_Mysql4_Review_Status_Collection extends Varien_Data_Coll
 
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('review_read'));
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('review_read'));
         
         $this->_setIdFieldName('status_id');
-        $this->_reviewStatusTable = Mage::getSingleton('core/resource')->getTableName('review/review_status');
+        $this->_reviewStatusTable = AO::getSingleton('core/resource')->getTableName('review/review_status');
 
         $this->_select->from($this->_reviewStatusTable);
     }

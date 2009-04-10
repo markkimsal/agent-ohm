@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
 
     protected function _prepareCollection()
     {
-        $tagId = Mage::registry('tagId');
-        $collection = Mage::getModel('tag/tag')
+        $tagId = AO::registry('tagId');
+        $collection = AO::getModel('tag/tag')
             ->getCustomerCollection()
             ->addProductFilter($this->getProductId())
             ->addGroupByTag();
@@ -63,22 +63,22 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('catalog')->__('First Name'),
+            'header'    => AO::helper('catalog')->__('First Name'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'        => Mage::helper('catalog')->__('Last Name'),
+            'header'        => AO::helper('catalog')->__('Last Name'),
             'index'         => 'lastname',
         ));
 
         $this->addColumn('email', array(
-            'header'        => Mage::helper('catalog')->__('Email'),
+            'header'        => AO::helper('catalog')->__('Email'),
             'index'         => 'email',
         ));
 
         $this->addColumn('name', array(
-            'header'        => Mage::helper('catalog')->__('Tag Name'),
+            'header'        => AO::helper('catalog')->__('Tag Name'),
             'index'         => 'name',
         ));
 

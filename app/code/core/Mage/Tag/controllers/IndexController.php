@@ -36,21 +36,21 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function saveAction()
     {
-        if(!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if(!AO::getSingleton('customer/session')->authenticate($this)) {
             return;
         }
         $tagName    = (string) $this->getRequest()->getQuery('productTagName');
         $productId  = (int)$this->getRequest()->getParam('product');
 
         if(strlen($tagName) && $productId) {
-            $session = Mage::getSingleton('catalog/session');
-            $product = Mage::getModel('catalog/product')
+            $session = AO::getSingleton('catalog/session');
+            $product = AO::getModel('catalog/product')
                 ->load($productId);
             if(!$product->getId()){
-                $session->addError(Mage::helper('tag')->__('Unable to save tag(s)'));
+                $session->addError(AO::helper('tag')->__('Unable to save tag(s)'));
             } else {
                 try {
-                    $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+                    $customerId = AO::getSingleton('customer/session')->getCustomerId();
                     $tagName = urldecode($tagName);
                     $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
 
@@ -64,11 +64,11 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     $newCount = 0;
                     foreach( $tagNamesArr as $tagName ) {
                         if( $tagName ) {
-                            $tagModel = Mage::getModel('tag/tag');
+                            $tagModel = AO::getModel('tag/tag');
                             $tagModel->loadByName($tagName);
                             if ($tagModel->getId()) {
                                 $status = $tagModel->getStatus();
-                                $session->addNotice(Mage::helper('tag')->__('Tag "%s" has already been added to the product' ,$tagName));
+                                $session->addNotice(AO::helper('tag')->__('Tag "%s" has already been added to the product' ,$tagName));
                             }
                             else {
                                 $status = $tagModel->getPendingStatus();
@@ -76,15 +76,15 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             }
 
                             $tagModel->setName($tagName)
-                                    ->setStoreId(Mage::app()->getStore()->getId())
+                                    ->setStoreId(AO::app()->getStore()->getId())
                                     ->setStatus($status)
                                     ->save();
 
-                            $tagRelationModel = Mage::getModel('tag/tag_relation');
+                            $tagRelationModel = AO::getModel('tag/tag_relation');
                             $tagRelationModel->loadByTagCustomer($productId,
                                 $tagModel->getId(),
                                 $customerId,
-                                Mage::app()->getStore()->getId()
+                                AO::app()->getStore()->getId()
                             );
 
                             if( $tagRelationModel->getCustomerId() == $customerId && $tagRelationModel->getActive()) {
@@ -93,7 +93,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             $tagRelationModel->setTagId($tagModel->getId())
                                 ->setCustomerId($customerId)
                                 ->setProductId($productId)
-                                ->setStoreId(Mage::app()->getStore()->getId())
+                                ->setStoreId(AO::app()->getStore()->getId())
                                 ->setCreatedAt( now() )
                                 ->setActive(1)
                                 ->save();
@@ -103,10 +103,10 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         }
                     }
                     if ($newCount > 0) {
-                        $session->addSuccess(Mage::helper('tag')->__('%s tag(s) have been accepted for moderation', $newCount));
+                        $session->addSuccess(AO::helper('tag')->__('%s tag(s) have been accepted for moderation', $newCount));
                     }
                 } catch (Exception $e) {
-                    $session->addError(Mage::helper('tag')->__('Unable to save tag(s)'));
+                    $session->addError(AO::helper('tag')->__('Unable to save tag(s)'));
                 }
             }
         }

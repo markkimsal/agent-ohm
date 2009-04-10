@@ -42,7 +42,7 @@ class Mage_GoogleOptimizer_Block_Code_Category extends Mage_GoogleOptimizer_Bloc
 
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return AO::registry('current_category');
     }
 
     public function getGoogleOptimizer()

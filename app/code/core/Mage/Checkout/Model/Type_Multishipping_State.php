@@ -62,19 +62,19 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
         parent::__construct();
         $this->_steps = array(
             self::STEP_SELECT_ADDRESSES => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Select Addresses')
+                'label' => AO::helper('checkout')->__('Select Addresses')
             )),
             self::STEP_SHIPPING => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Shipping Information')
+                'label' => AO::helper('checkout')->__('Shipping Information')
             )),
             self::STEP_BILLING => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Billing Information')
+                'label' => AO::helper('checkout')->__('Billing Information')
             )),
             self::STEP_OVERVIEW => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Place Order')
+                'label' => AO::helper('checkout')->__('Place Order')
             )),
             self::STEP_SUCCESS => new Varien_Object(array(
-                'label' => Mage::helper('checkout')->__('Order Success')
+                'label' => AO::helper('checkout')->__('Order Success')
             )),
         );
 
@@ -82,7 +82,7 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
             $step->setIsComplete(false);
         }
 
-        $this->_checkout = Mage::getSingleton('checkout/type_multishipping');
+        $this->_checkout = AO::getSingleton('checkout/type_multishipping');
         $this->_steps[$this->getActiveStep()]->setIsActive(true);
     }
 
@@ -208,6 +208,6 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 }

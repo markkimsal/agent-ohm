@@ -43,7 +43,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function getStandard()
     {
-        return Mage::getSingleton('protx/standard');
+        return AO::getSingleton('protx/standard');
     }
 
     /**
@@ -72,14 +72,14 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setProtxStandardQuoteId($session->getQuoteId());
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('protx')->__('Customer was redirected to Protx')
+            AO::helper('protx')->__('Customer was redirected to Protx')
         );
         $order->save();
 
@@ -107,12 +107,12 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         $transactionId = $this->responseArr['VendorTxCode'];
 
         if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
+            AO::getModel('protx/api_debug')
                 ->setResponseBody(print_r($this->responseArr,1))
                 ->save();
         }
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($transactionId);
 
         if (!$order->getId()) {
@@ -124,7 +124,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('protx')->__('Customer successfully returned from Protx')
+            AO::helper('protx')->__('Customer successfully returned from Protx')
         );
 
         $order->sendNewOrderEmail();
@@ -136,7 +136,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             $order->cancel();
             $order->addStatusToHistory(
                 $order->getStatus(),
-                Mage::helper('protx')->__('Order total amount does not match protx gross total amount')
+                AO::helper('protx')->__('Order total amount does not match protx gross total amount')
             );
         } else {
             $order->getPayment()->setTransactionId($this->responseArr['VPSTxId']);
@@ -151,16 +151,16 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             } else {
                 $order->addStatusToHistory(
                     $order->getStatus(),
-                    Mage::helper('protx')->__($this->responseArr['StatusDetail'])
+                    AO::helper('protx')->__($this->responseArr['StatusDetail'])
                 );
             }
         }
 
         $order->save();
 
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setQuoteId($session->getProtxStandardQuoteId(true));
-        Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+        AO::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
         $this->_redirect('checkout/onepage/success');
     }
 
@@ -176,7 +176,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             $invoice = $order->prepareInvoice();
 
             $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
+            AO::getModel('core/resource_transaction')
                ->addObject($invoice)
                ->addObject($invoice->getOrder())
                ->save();
@@ -201,12 +201,12 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         $transactionId = $this->responseArr['VendorTxCode'];
 
         if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
+            AO::getModel('protx/api_debug')
                 ->setResponseBody(print_r($this->responseArr,1))
                 ->save();
         }
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($transactionId);
 
         if (!$order->getId()) {
@@ -219,20 +219,20 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
         // cancel order in anyway
         $order->cancel();
 
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setQuoteId($session->getProtxStandardQuoteId(true));
 
         // Customer clicked CANCEL Butoon
         if ($this->responseArr['Status'] == 'ABORT') {
-            $history = Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer');
+            $history = AO::helper('protx')->__('Order '.$order->getId().' was canceled by customer');
             $redirectTo = 'checkout/cart';
         } else {
-            $history = Mage::helper('protx')->__($this->responseArr['StatusDetail']);
+            $history = AO::helper('protx')->__($this->responseArr['StatusDetail']);
             $session->setErrorMessage($this->responseArr['StatusDetail']);
             $redirectTo = 'protx/standard/failure';
         }
 
-        $history = Mage::helper('protx')->__('Customer was returned from Protx.') . ' ' . $history;
+        $history = AO::helper('protx')->__('Customer was returned from Protx.') . ' ' . $history;
         $order->addStatusToHistory($order->getStatus(), $history);
         $order->save();
 
@@ -265,7 +265,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function failureAction ()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
 
         if (!$session->getErrorMessage()) {
             $this->_redirect('checkout/cart');

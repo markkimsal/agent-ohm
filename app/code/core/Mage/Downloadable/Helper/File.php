@@ -51,7 +51,7 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
                         $baseTmpPath, $basePath, $file[0]['file']
                     );
                 } catch (Exception $e) {
-                    Mage::throwException(Mage::helper('downloadable')->__('An error occurred while saving the file(s).'));
+                    AO::throwException(AO::helper('downloadable')->__('An error occurred while saving the file(s).'));
                 }
             }
             return $fileName;
@@ -143,7 +143,7 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
 
     protected function _getFileTypeByExt($ext)
     {
-        $type = Mage::getConfig()->getNode('global/mime/types/x' . $ext);
+        $type = AO::getConfig()->getNode('global/mime/types/x' . $ext);
         if ($type) {
             return $type;
         }

@@ -29,7 +29,7 @@ class Mage_GoogleCheckout_Model_Source_Shipping_Virtual_Schedule
 {
     public function toOptionArray()
     {
-        $hlp = Mage::helper('googlecheckout');
+        $hlp = AO::helper('googlecheckout');
         return array(
             array('value'=>'OPTIMISTIC', 'label'=>$hlp->__('Optimistic')),
             array('value'=>'PESSIMISTIC', 'label'=>$hlp->__('Pessimistic')),

@@ -147,7 +147,7 @@ class Mage_Core_Model_Resource_Transaction
         }
         else {
             $this->_rollbackTransaction();
-            Mage::throwException(join("\n", $errors));
+            AO::throwException(join("\n", $errors));
         }
 
 //        try {

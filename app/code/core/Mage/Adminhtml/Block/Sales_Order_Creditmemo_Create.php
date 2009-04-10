@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Mage_Adminhtml_
         $this->_removeButton('save');
 
         /*$this->_addButton('submit_creditmemo', array(
-            'label'     => Mage::helper('sales')->__('Submit Credit Memo'),
+            'label'     => AO::helper('sales')->__('Submit Credit Memo'),
             'class'     => 'save submit-button',
             'onclick'   => '$(\'edit_form\').submit()',
             )
@@ -61,22 +61,22 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create extends Mage_Adminhtml_
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return AO::registry('current_creditmemo');
     }
 
     public function getHeaderText()
     {
         if ($this->getCreditmemo()->getInvoice()) {
-            $header = Mage::helper('sales')->__('New Credit Memo for Invoice #%s',
+            $header = AO::helper('sales')->__('New Credit Memo for Invoice #%s',
                 $this->getCreditmemo()->getInvoice()->getIncrementId()
             );
         }
         else {
-            $header = Mage::helper('sales')->__('New Credit Memo for Order #%s',
+            $header = AO::helper('sales')->__('New Credit Memo for Order #%s',
                 $this->getCreditmemo()->getOrder()->getRealOrderId()
             );
         }
-        /*$header = Mage::helper('sales')->__('New Credit Memo for Order #%s | Order Date: %s | Customer Name: %s',
+        /*$header = AO::helper('sales')->__('New Credit Memo for Order #%s | Order Date: %s | Customer Name: %s',
             $this->getCreditmemo()->getOrder()->getRealOrderId(),
             $this->formatDate($this->getCreditmemo()->getOrder()->getCreatedAt(), 'medium', true),
             $this->getCreditmemo()->getOrder()->getCustomerName()

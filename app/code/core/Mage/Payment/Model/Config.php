@@ -46,9 +46,9 @@ class Mage_Payment_Model_Config
     public function getActiveMethods($store=null)
     {
         $methods = array();
-        $config = Mage::getStoreConfig('payment', $store);
+        $config = AO::getStoreConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
-            if (Mage::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
+            if (AO::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
                 $methods[$code] = $this->_getMethod($code, $methodConfig);
             }
         }
@@ -64,7 +64,7 @@ class Mage_Payment_Model_Config
     public function getAllMethods($store=null)
     {
         $methods = array();
-        $config = Mage::getStoreConfig('payment', $store);
+        $config = AO::getStoreConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
             $methods[$code] = $this->_getMethod($code, $methodConfig);
         }
@@ -77,7 +77,7 @@ class Mage_Payment_Model_Config
             return self::$_methods[$code];
         }
         $modelName = $config['model'];
-        $method = Mage::getModel($modelName);
+        $method = AO::getModel($modelName);
         $method->setId($code)->setStore($store);
         self::$_methods[$code] = $method;
         return self::$_methods[$code];
@@ -90,7 +90,7 @@ class Mage_Payment_Model_Config
      */
     public function getCcTypes()
     {
-        $_types = Mage::getConfig()->getNode('global/payment/cc/types')->asArray();
+        $_types = AO::getConfig()->getNode('global/payment/cc/types')->asArray();
 
         uasort($_types, array('Mage_Payment_Model_Config', 'compareCcTypes'));
 
@@ -108,7 +108,7 @@ class Mage_Payment_Model_Config
      */
     public function getMonths()
     {
-        $data = Mage::app()->getLocale()->getTranslationList('month');
+        $data = AO::app()->getLocale()->getTranslationList('month');
         foreach ($data as $key => $value) {
             $monthNum = ($key < 10) ? '0'.$key : $key;
             $data[$key] = $monthNum . ' - ' . $value;

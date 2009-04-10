@@ -34,7 +34,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
 {
     public function outputBody()
     {
-        Mage::getSingleton('core/translate_inline')->processResponseBody($this->_body);
+        AO::getSingleton('core/translate_inline')->processResponseBody($this->_body);
         parent::outputBody();
     }
 
@@ -47,7 +47,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
     public function sendHeaders()
     {
         if (!$this->canSendHeaders()) {
-            Mage::log('HEADERS ALREADY SENT: '.mageDebugBacktrace(true, true, true));
+            AO::log('HEADERS ALREADY SENT: '.mageDebugBacktrace(true, true, true));
             return $this;
         }
 

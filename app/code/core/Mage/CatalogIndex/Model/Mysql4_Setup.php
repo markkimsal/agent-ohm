@@ -35,7 +35,7 @@ class Mage_CatalogIndex_Model_Mysql4_Setup extends Mage_Core_Model_Resource_Setu
     {
         if (is_null($this->_storeToWebsite)) {
             $this->_storeToWebsite = array();
-            $websiteCollection = Mage::getModel('core/website')->getCollection();
+            $websiteCollection = AO::getModel('core/website')->getCollection();
             foreach ($websiteCollection as $website) {
                 $this->_storeToWebsite[$website->getId()] = $website->getStoreIds();
             }

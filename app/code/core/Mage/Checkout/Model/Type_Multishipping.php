@@ -185,9 +185,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
             }
 
-            $maxQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
+            $maxQty = (int)AO::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
             if ($allQty > $maxQty) {
-                Mage::throwException(Mage::helper('checkout')->__('Maximum qty allowed for Shipping to multiple addresses is %s', $maxQty));
+                AO::throwException(AO::helper('checkout')->__('Maximum qty allowed for Shipping to multiple addresses is %s', $maxQty));
             }
 
             $addresses  = $this->getQuote()->getAllShippingAddresses();
@@ -219,7 +219,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             }
 
             $this->save();
-            Mage::dispatchEvent('checkout_type_multishipping_set_shipping_items', array('quote'=>$this->getQuote()));
+            AO::dispatchEvent('checkout_type_multishipping_set_shipping_items', array('quote'=>$this->getQuote()));
         }
         return $this;
     }
@@ -238,7 +238,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             $address = $this->getCustomer()->getAddressById($addressId);
             if ($address) {
                 if (!$quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($addressId)) {
-                    $quoteAddress = Mage::getModel('sales/quote_address')
+                    $quoteAddress = AO::getModel('sales/quote_address')
                        ->importCustomerAddress($address);
                     $this->getQuote()->addShippingAddress($quoteAddress);
                 }
@@ -292,7 +292,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $address->setShippingMethod($methods[$address->getId()]);
             }
             elseif (!$address->getShippingMethod()) {
-                Mage::throwException(Mage::helper('checkout')->__('Please select shipping methods for all addresses'));
+                AO::throwException(AO::helper('checkout')->__('Please select shipping methods for all addresses'));
             }
         }
         $addresses = $this->getQuote()
@@ -304,7 +304,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     public function setPaymentMethod($payment)
     {
         if (!isset($payment['method'])) {
-            Mage::throwException(Mage::helper('checkout')->__('Payment method is not defined'));
+            AO::throwException(AO::helper('checkout')->__('Payment method is not defined'));
         }
         $this->getQuote()->getPayment()
             ->importData($payment)
@@ -322,7 +322,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     {
         $this->getQuote()->unsReservedOrderId();
         $this->getQuote()->reserveOrderId();
-        $convertQuote = Mage::getSingleton('sales/convert_quote');
+        $convertQuote = AO::getSingleton('sales/convert_quote');
         $order = $convertQuote->addressToOrder($address);
         $order->setBillingAddress(
             $convertQuote->addressToOrderAddress($this->getQuote()->getBillingAddress())
@@ -351,26 +351,26 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
     protected function _validate()
     {
-        $helper = Mage::helper('checkout');
+        $helper = AO::helper('checkout');
         if (!$this->getQuote()->getIsMultiShipping()) {
-            Mage::throwException($helper->__('Invalid checkout type.'));
+            AO::throwException($helper->__('Invalid checkout type.'));
         }
 
         $addresses = $this->getQuote()->getAllShippingAddresses();
         foreach ($addresses as $address) {
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                Mage::throwException($helper->__('Please check shipping addresses information.'));
+                AO::throwException($helper->__('Please check shipping addresses information.'));
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$method || !$rate) {
-                Mage::throwException($helper->__('Please specify shipping methods for all addresses.'));
+                AO::throwException($helper->__('Please specify shipping methods for all addresses.'));
             }
         }
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            Mage::throwException($helper->__('Please check billing address information.'));
+            AO::throwException($helper->__('Please check billing address information.'));
         }
         return $this;
     }
@@ -390,7 +390,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             $order = $this->_prepareOrder($address);
 
             $orders[] = $order;
-            Mage::dispatchEvent(
+            AO::dispatchEvent(
                 'checkout_type_multishipping_create_orders_single',
                 array('order'=>$order, 'address'=>$address)
             );
@@ -405,7 +405,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             $orderIds[$order->getId()] = $order->getIncrementId();
         }
 
-        Mage::getSingleton('core/session')->setOrderIds($orderIds);
+        AO::getSingleton('core/session')->setOrderIds($orderIds);
         $this->getQuote()
             ->setIsActive(false)
             ->save();
@@ -428,25 +428,25 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
     public function validateMinimumAmount()
     {
-        return !(Mage::getStoreConfigFlag('sales/minimum_order/active')
-            && Mage::getStoreConfigFlag('sales/minimum_order/multi_address')
+        return !(AO::getStoreConfigFlag('sales/minimum_order/active')
+            && AO::getStoreConfigFlag('sales/minimum_order/multi_address')
             && !$this->getQuote()->validateMinimumAmount());
     }
 
     public function getMinimumAmountDescription()
     {
-        $descr = Mage::getStoreConfig('sales/minimum_order/multi_address_description');
+        $descr = AO::getStoreConfig('sales/minimum_order/multi_address_description');
         if (empty($descr)) {
-            $descr = Mage::getStoreConfig('sales/minimum_order/description');
+            $descr = AO::getStoreConfig('sales/minimum_order/description');
         }
         return $descr;
     }
 
     public function getMinimumAmountError()
     {
-        $error = Mage::getStoreConfig('sales/minimum_order/multi_address_error_message');
+        $error = AO::getStoreConfig('sales/minimum_order/multi_address_error_message');
         if (empty($error)) {
-            $error = Mage::getStoreConfig('sales/minimum_order/error_message');
+            $error = AO::getStoreConfig('sales/minimum_order/error_message');
         }
         return $error;
     }
@@ -461,6 +461,6 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     public function isCheckoutAvailable()
     {
-        return Mage::helper('checkout')->isMultishippingCheckoutAvailable();
+        return AO::helper('checkout')->isMultishippingCheckoutAvailable();
     }
 }

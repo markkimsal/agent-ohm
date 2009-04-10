@@ -46,11 +46,11 @@ class Mage_Rss_Block_Catalog_New extends Mage_Rss_Block_Abstract
     {
         $storeId = $this->_getStoreId();
 
-        $newurl = Mage::getUrl('rss/catalog/new');
-        $title = Mage::helper('rss')->__('New Products from %s',Mage::app()->getStore()->getGroup()->getName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $newurl = AO::getUrl('rss/catalog/new');
+        $title = AO::helper('rss')->__('New Products from %s',AO::app()->getStore()->getGroup()->getName());
+        $lang = AO::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -64,7 +64,7 @@ special price - getSpecialPrice()
 getFinalPrice() - used in shopping cart calculations
 */
 
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
         $todayDate = $product->getResource()->formatDate(time());
 
         $products = $product->getCollection()
@@ -77,14 +77,14 @@ getFinalPrice() - used in shopping cart calculations
             ->addAttributeToSelect(array('special_price', 'special_from_date', 'special_to_date'), 'left')
         ;
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
+        AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($products);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
 //echo $products->getSelect();
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('core/resource_iterator')
+        AO::getSingleton('core/resource_iterator')
             ->walk($products->getSelect(), array(array($this, 'addNewItemXmlCallback')), array('rssObj'=> $rssObj, 'product'=>$product));
 
         return $rssObj->createRssXml();
@@ -99,8 +99,8 @@ getFinalPrice() - used in shopping cart calculations
         $description = '<table><tr>'.
             '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription().
-            '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-            ($product->getPrice() != $final_price  ? ' Special Price:'. Mage::helper('core')->currency($final_price) : '').
+            '<p> Price:'.AO::helper('core')->currency($product->getPrice()).
+            ($product->getPrice() != $final_price  ? ' Special Price:'. AO::helper('core')->currency($final_price) : '').
             '</p>'.
             '</td>'.
             '</tr></table>';

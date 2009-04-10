@@ -69,7 +69,7 @@ class Mage_Sitemap_Model_Mysql4_Catalog_Product extends Mage_Core_Model_Mysql4_A
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('catalog/product')->getResource()->getAttribute($attributeCode);
+            $attribute = AO::getSingleton('catalog/product')->getResource()->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),
@@ -134,7 +134,7 @@ class Mage_Sitemap_Model_Mysql4_Catalog_Product extends Mage_Core_Model_Mysql4_A
     {
         $products = array();
 
-        $store = Mage::app()->getStore($storeId);
+        $store = AO::app()->getStore($storeId);
         /* @var $store Mage_Core_Model_Store */
 
         if (!$store) {
@@ -162,8 +162,8 @@ class Mage_Sitemap_Model_Mysql4_Catalog_Product extends Mage_Core_Model_Mysql4_A
             )
             ;
 
-        $this->_addFilter($storeId, 'visibility', Mage::getSingleton('catalog/product_visibility')->getVisibleInSearchIds(), 'in');
-        $this->_addFilter($storeId, 'status', Mage::getSingleton('catalog/product_status')->getVisibleStatusIds(), 'in');
+        $this->_addFilter($storeId, 'visibility', AO::getSingleton('catalog/product_visibility')->getVisibleInSearchIds(), 'in');
+        $this->_addFilter($storeId, 'status', AO::getSingleton('catalog/product_status')->getVisibleStatusIds(), 'in');
 
         $query = $this->_getWriteAdapter()->query($this->_select);
         while ($row = $query->fetch()) {

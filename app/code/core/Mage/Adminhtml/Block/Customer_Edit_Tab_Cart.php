@@ -46,10 +46,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
 
     protected function _prepareCollection()
     {
-        $customer = Mage::registry('current_customer');
-        $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+        $customer = AO::registry('current_customer');
+        $storeIds = AO::app()->getWebsite($this->getWebsiteId())->getStoreIds();
 
-        $quote = Mage::getModel('sales/quote')
+        $quote = AO::getModel('sales/quote')
             ->setSharedStoreIds($storeIds)
             ->loadByCustomer($customer);
 
@@ -70,52 +70,52 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header' => Mage::helper('customer')->__('Product ID'),
+            'header' => AO::helper('customer')->__('Product ID'),
             'index' => 'product_id',
             'width' => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('customer')->__('Product Name'),
+            'header' => AO::helper('customer')->__('Product Name'),
             'index' => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('customer')->__('SKU'),
+            'header' => AO::helper('customer')->__('SKU'),
             'index' => 'sku',
             'width' => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('customer')->__('Qty'),
+            'header' => AO::helper('customer')->__('Qty'),
             'index' => 'qty',
             'type'  => 'number',
             'width' => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header' => Mage::helper('customer')->__('Price'),
+            'header' => AO::helper('customer')->__('Price'),
             'index' => 'price',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
-            'header' => Mage::helper('customer')->__('Total'),
+            'header' => AO::helper('customer')->__('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('customer')->__('Action'),
+            'header'    => AO::helper('customer')->__('Action'),
             'index'     => 'quote_item_id',
             'type'      => 'action',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption' =>  Mage::helper('customer')->__('Delete'),
+                    'caption' =>  AO::helper('customer')->__('Delete'),
                     'url'     =>  '#',
                     'onclick' =>  'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
                 )
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
 
     public function getGridParentHtml()
     {
-        $templateName = Mage::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
+        $templateName = AO::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
         return $this->fetchView($templateName);
     }
 

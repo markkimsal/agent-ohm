@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     /**
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
         $this->setChild(
             'submit_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('sales')->__('Submit Shipment'),
+                'label'     => AO::helper('sales')->__('Submit Shipment'),
                 'class'     => 'save submit-button',
                 'onclick'   => '$(\'edit_form\').submit()',
             ))
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
 
     public function canShipPartially()
     {
-        $value = Mage::registry('current_shipment')->getOrder()->getCanShipPartially();
+        $value = AO::registry('current_shipment')->getOrder()->getCanShipPartially();
         if (!is_null($value) && !$value) {
             return false;
         }
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
 
     public function canShipPartiallyItem()
     {
-        $value = Mage::registry('current_shipment')->getOrder()->getCanShipPartiallyItem();
+        $value = AO::registry('current_shipment')->getOrder()->getCanShipPartiallyItem();
         if (!is_null($value) && !$value) {
             return false;
         }
@@ -124,6 +124,6 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Mage_Adminh
 
     public function canSendShipmentEmail()
     {
-        return Mage::helper('sales')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
+        return AO::helper('sales')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
     }
 }

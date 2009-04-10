@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Mage_Adm
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return AO::registry('current_creditmemo');
     }
 
     /**

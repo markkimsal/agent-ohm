@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     public function getCategory()
     {
         if (!$this->_category) {
-            $this->_category = Mage::registry('category');
+            $this->_category = AO::registry('category');
         }
         return $this->_category;
     }
@@ -57,12 +57,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('catalog')->__('General Information')));
 
         if (!$this->getCategory()->getId()) {
 //            $fieldset->addField('path', 'select', array(
 //                'name'  => 'path',
-//                'label' => Mage::helper('catalog')->__('Parent Category'),
+//                'label' => AO::helper('catalog')->__('Parent Category'),
 //                'value' => base64_decode($this->getRequest()->getParam('parent')),
 //                'values'=> $this->_getParentCategoryOptions(),
 //                //'required' => true,
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_General extends Mage_Adminhtml_B
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_category_helper_image')
+            'image' => AO::getConfig()->getBlockClassName('adminhtml/catalog_category_helper_image')
         );
     }
 

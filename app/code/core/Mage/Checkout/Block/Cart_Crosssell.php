@@ -121,7 +121,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
      */
     protected function _getLastAddedProductId()
     {
-        return Mage::getSingleton('checkout/session')->getLastAddedProductId(true);
+        return AO::getSingleton('checkout/session')->getLastAddedProductId(true);
     }
 
     /**
@@ -131,7 +131,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
      */
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return AO::getSingleton('checkout/session')->getQuote();
     }
 
     /**
@@ -141,16 +141,16 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
      */
     protected function _getCollection()
     {
-        $collection = Mage::getModel('catalog/product_link')->useCrossSellLinks()
+        $collection = AO::getModel('catalog/product_link')->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setStoreId(AO::app()->getStore()->getId())
             ->addStoreFilter()
             ->setPageSize($this->_maxItemCount);
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
-        Mage::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($collection);
+        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        AO::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($collection);
 
         return $collection;
     }

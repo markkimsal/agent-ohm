@@ -37,10 +37,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('entity_attribute');
+        $model = AO::registry('entity_attribute');
 
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('catalog')->__('System Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('catalog')->__('System Properties')));
 
         if ($model->getAttributeId()) {
             $fieldset->addField('attribute_id', 'hidden', array(
@@ -51,68 +51,68 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Mag
         $yesno = array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('catalog')->__('No')
+                'label' => AO::helper('catalog')->__('No')
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('catalog')->__('Yes')
+                'label' => AO::helper('catalog')->__('Yes')
             ));
 
         /*$fieldset->addField('attribute_model', 'text', array(
             'name' => 'attribute_model',
-            'label' => Mage::helper('catalog')->__('Attribute Model'),
-            'title' => Mage::helper('catalog')->__('Attribute Model'),
+            'label' => AO::helper('catalog')->__('Attribute Model'),
+            'title' => AO::helper('catalog')->__('Attribute Model'),
         ));
 
         $fieldset->addField('backend_model', 'text', array(
             'name' => 'backend_model',
-            'label' => Mage::helper('catalog')->__('Backend Model'),
-            'title' => Mage::helper('catalog')->__('Backend Model'),
+            'label' => AO::helper('catalog')->__('Backend Model'),
+            'title' => AO::helper('catalog')->__('Backend Model'),
         ));*/
 
         $fieldset->addField('backend_type', 'select', array(
             'name' => 'backend_type',
-            'label' => Mage::helper('catalog')->__('Data Type for Saving in Database'),
-            'title' => Mage::helper('catalog')->__('Data Type for Saving in Database'),
+            'label' => AO::helper('catalog')->__('Data Type for Saving in Database'),
+            'title' => AO::helper('catalog')->__('Data Type for Saving in Database'),
             'options' => array(
-                'text'      => Mage::helper('catalog')->__('Text'),
-                'varchar'   => Mage::helper('catalog')->__('Varchar'),
-                'static'    => Mage::helper('catalog')->__('Static'),
-                'datetime'  => Mage::helper('catalog')->__('Datetime'),
-                'decimal'   => Mage::helper('catalog')->__('Decimal'),
-                'int'       => Mage::helper('catalog')->__('Integer'),
+                'text'      => AO::helper('catalog')->__('Text'),
+                'varchar'   => AO::helper('catalog')->__('Varchar'),
+                'static'    => AO::helper('catalog')->__('Static'),
+                'datetime'  => AO::helper('catalog')->__('Datetime'),
+                'decimal'   => AO::helper('catalog')->__('Decimal'),
+                'int'       => AO::helper('catalog')->__('Integer'),
             ),
         ));
 
         /*$fieldset->addField('backend_table', 'text', array(
             'name' => 'backend_table',
-            'label' => Mage::helper('catalog')->__('Backend Table'),
-            'title' => Mage::helper('catalog')->__('Backend Table Title'),
+            'label' => AO::helper('catalog')->__('Backend Table'),
+            'title' => AO::helper('catalog')->__('Backend Table Title'),
         ));
 
         $fieldset->addField('frontend_model', 'text', array(
             'name' => 'frontend_model',
-            'label' => Mage::helper('catalog')->__('Frontend Model'),
-            'title' => Mage::helper('catalog')->__('Frontend Model'),
+            'label' => AO::helper('catalog')->__('Frontend Model'),
+            'title' => AO::helper('catalog')->__('Frontend Model'),
         ));*/
 
         /*$fieldset->addField('is_visible', 'select', array(
             'name' => 'is_visible',
-            'label' => Mage::helper('catalog')->__('Visible'),
-            'title' => Mage::helper('catalog')->__('Visible'),
+            'label' => AO::helper('catalog')->__('Visible'),
+            'title' => AO::helper('catalog')->__('Visible'),
             'values' => $yesno,
         ));*/
 
         /*$fieldset->addField('source_model', 'text', array(
             'name' => 'source_model',
-            'label' => Mage::helper('catalog')->__('Source Model'),
-            'title' => Mage::helper('catalog')->__('Source Model'),
+            'label' => AO::helper('catalog')->__('Source Model'),
+            'title' => AO::helper('catalog')->__('Source Model'),
         ));*/
 
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => Mage::helper('catalog')->__('Globally Editable'),
-            'title' => Mage::helper('catalog')->__('Globally Editable'),
+            'label' => AO::helper('catalog')->__('Globally Editable'),
+            'title' => AO::helper('catalog')->__('Globally Editable'),
             'values'=> $yesno,
         ));
 

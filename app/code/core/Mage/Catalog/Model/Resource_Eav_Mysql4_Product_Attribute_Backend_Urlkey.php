@@ -51,7 +51,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Urlkey ex
     public function afterSave($object)
     {
         if ($object->dataHasChangedFor($this->getAttribute()->getName())) {
-            Mage::getSingleton('catalog/url')->refreshProductRewrites(null, $object, true);
+            AO::getSingleton('catalog/url')->refreshProductRewrites(null, $object, true);
         }
         return $this;
     }

@@ -31,9 +31,9 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_CatalogRule_Model
     protected function _addSpecialAttributes(array &$attributes)
     {
         parent::_addSpecialAttributes($attributes);
-        $attributes['quote_item_qty'] = Mage::helper('salesrule')->__('Quantity in cart');
-        $attributes['quote_item_price'] = Mage::helper('salesrule')->__('Price in cart');
-        $attributes['quote_item_row_total'] = Mage::helper('salesrule')->__('Row total in cart');
+        $attributes['quote_item_qty'] = AO::helper('salesrule')->__('Quantity in cart');
+        $attributes['quote_item_price'] = AO::helper('salesrule')->__('Price in cart');
+        $attributes['quote_item_row_total'] = AO::helper('salesrule')->__('Row total in cart');
     }
 
     /**
@@ -44,7 +44,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_CatalogRule_Model
      */
     public function validate(Varien_Object $object)
     {
-        $product = Mage::getModel('catalog/product')
+        $product = AO::getModel('catalog/product')
             ->load($object->getProductId())
             ->setQuoteItemQty($object->getQty())
             ->setQuoteItemPrice($object->getPrice())

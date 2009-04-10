@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->getInvoice()->canCancel()) {
             $this->_addButton('cancel', array(
-                'label'     => Mage::helper('sales')->__('Cancel'),
+                'label'     => AO::helper('sales')->__('Cancel'),
                 'class'     => 'delete',
                 'onclick'   => 'setLocation(\''.$this->getCancelUrl().'\')'
                 )
@@ -56,17 +56,17 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->getInvoice()->getOrder()->canCreditmemo() && !$this->getInvoice()->getIsUsedForRefund()) {
             $this->_addButton('capture', array(
-                'label'     => Mage::helper('sales')->__('Credit Memo'),
+                'label'     => AO::helper('sales')->__('Credit Memo'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getCreditMemoUrl().'\')'
                 )
             );
         }
 
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')
+        if (AO::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')
             && $this->getInvoice()->canCapture()) {
             $this->_addButton('capture', array(
-                'label'     => Mage::helper('sales')->__('Capture'),
+                'label'     => AO::helper('sales')->__('Capture'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getCaptureUrl().'\')'
                 )
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->getInvoice()->canVoid()) {
             $this->_addButton('void', array(
-                'label'     => Mage::helper('sales')->__('Void'),
+                'label'     => AO::helper('sales')->__('Void'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getVoidUrl().'\')'
                 )
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
 
         if ($this->getInvoice()->getId()) {
             $this->_addButton('print', array(
-                'label'     => Mage::helper('sales')->__('Print'),
+                'label'     => AO::helper('sales')->__('Print'),
                 'class'     => 'save',
                 'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
                 )
@@ -99,24 +99,24 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return AO::registry('current_invoice');
     }
 
     public function getHeaderText()
     {
         if ($this->getInvoice()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('Invoice email sent');
+            $emailSent = AO::helper('sales')->__('Invoice email sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('Invoice email not sent');
+            $emailSent = AO::helper('sales')->__('Invoice email not sent');
         }
 
-        $header = Mage::helper('sales')->__('Invoice #%s | %s (%s)',
+        $header = AO::helper('sales')->__('Invoice #%s | %s (%s)',
             $this->getInvoice()->getIncrementId(),
             $this->getInvoice()->getStateName(),
             $emailSent
         );
-        /*$header = Mage::helper('sales')->__('Invoice #%s | Order Date: %s | Customer Name: %s',
+        /*$header = AO::helper('sales')->__('Invoice #%s | Order Date: %s | Customer Name: %s',
             $this->getInvoice()->getIncrementId(),
             $this->formatDate($this->getInvoice()->getOrder()->getCreatedAt(), 'medium', true),
             $this->getInvoice()->getOrder()->getCustomerName()

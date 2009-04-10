@@ -57,7 +57,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $this->_purchasedSeparatelyAttribute = Mage::getModel('eav/entity_attribute')
+            $this->_purchasedSeparatelyAttribute = AO::getModel('eav/entity_attribute')
                 ->loadByCode('catalog_product', $_attributeCode);
         }
 
@@ -87,7 +87,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray())
+            ->setOptions(AO::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray())
             ->setValue($this->getProduct()->getLinksPurchasedSeparately());
 
         return $select->getHtml();
@@ -102,7 +102,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'label' => AO::helper('downloadable')->__('Add New Row'),
                 'id' => 'add_link_item',
                 'class' => 'add',
             ));
@@ -111,7 +111,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
 
     public function getLinksTitle()
     {
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     public function getUsedDefault()
@@ -126,7 +126,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getIsPriceWebsiteScope()
     {
-        $scope =  (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $scope =  (int) AO::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
         if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
             return true;
         }
@@ -157,12 +157,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder()
             );
-            $file = Mage::helper('downloadable/file')->getFilePath(
+            $file = AO::helper('downloadable/file')->getFilePath(
                 Mage_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
             );
             if ($item->getLinkFile() && is_file($file)) {
                 $name = '<a href="' . $this->getUrl('downloadable/product_edit/link', array('id' => $item->getId(), '_secure' => true)) . '">' .
-                    Mage::helper('downloadable/file')->getFileFromPathFile($item->getLinkFile()) .
+                    AO::helper('downloadable/file')->getFileFromPathFile($item->getLinkFile()) .
                     '</a>';
                 $tmpLinkItem['file_save'] = array(
                     array(
@@ -172,14 +172,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
                         'status' => 'old'
                     ));
             }
-            $sampleFile = Mage::helper('downloadable/file')->getFilePath(
+            $sampleFile = AO::helper('downloadable/file')->getFilePath(
                 Mage_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => AO::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($sampleFile),
                         'status' => 'old'
                     ));
@@ -211,7 +211,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
 
     public function getConfigMaxDownloads()
     {
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
     }
 
      protected function _prepareLayout()
@@ -221,7 +221,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => '',
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'label'   => AO::helper('adminhtml')->__('Upload Files'),
                     'type'    => 'button',
                     'onclick' => 'Downloadable.massUploadByType(\'links\');Downloadable.massUploadByType(\'linkssample\')'
                 ))
@@ -240,12 +240,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getConfigJson($type='links')
     {
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type' => $type, '_secure' => true)));
+        $this->getConfig()->setUrl(AO::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type' => $type, '_secure' => true)));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField($type);
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => AO::helper('adminhtml')->__('All Files'),
                 'files' => array('*.*')
             )
         ));

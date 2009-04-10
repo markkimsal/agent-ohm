@@ -41,7 +41,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Down
         $pdf    = $this->getPdf();
         $page   = $this->getPage();
 
-//        Mage::getModel('sales/order_pdf_items_creditmemo_default')
+//        AO::getModel('sales/order_pdf_items_creditmemo_default')
 //            ->setOrder($this->getOrder())
 //            ->setItem($this->getItem())
 //            ->setPdf($this->getPdf())
@@ -55,7 +55,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Down
         // draw name
         $this->_setFontRegular();
         $x = $leftBound;
-        foreach (Mage::helper('core/string')->str_split($item->getName(), $x, true, true) as $key => $part) {
+        foreach (AO::helper('core/string')->str_split($item->getName(), $x, true, true) as $key => $part) {
             $page->drawText($part, $x, $pdf->y - $shift[0], 'UTF-8');
             $shift[0] += 10;
         }
@@ -65,13 +65,13 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Down
             foreach ($options as $option) {
                 // draw options label
                 $this->_setFontItalic();
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), $x, false, true) as $_option) {
+                foreach (AO::helper('core/string')->str_split(strip_tags($option['label']), $x, false, true) as $_option) {
                     $page->drawText($_option, $x, $pdf->y - $shift[0], 'UTF-8');
                     $shift[0] += 10;
                 }
                 // draw options value
                 $this->_setFontRegular();
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['value']), $x, true, true) as $_value) {
+                foreach (AO::helper('core/string')->str_split(strip_tags($option['value']), $x, true, true) as $_value) {
                     $page->drawText($_value, $x + 5, $pdf->y - $shift[0], 'UTF-8');
                     $shift[0] += 10;
                 }
@@ -85,7 +85,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Down
         $x += 220;
 
         // draw SKU
-        foreach (Mage::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
+        foreach (AO::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
             $page->drawText($part, $x, $pdf->y - $shift[2], 'UTF-8');
                 $shift[2] += 10;
         }

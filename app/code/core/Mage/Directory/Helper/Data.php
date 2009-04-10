@@ -39,7 +39,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('directory/region')->getResourceCollection()
+            $this->_regionCollection = AO::getModel('directory/region')->getResourceCollection()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -49,7 +49,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getModel('directory/country')->getResourceCollection()
+            $this->_countryCollection = AO::getModel('directory/country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -65,16 +65,16 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
 
     	if (VPROF) Varien_Profiler::start('TEST: '.__METHOD__);
     	if (!$this->_regionJson) {
-    	    $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE'.Mage::app()->getStore()->getId();
-    	    if (Mage::app()->useCache('config')) {
-    	        $json = Mage::app()->loadCache($cacheKey);
+    	    $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE'.AO::app()->getStore()->getId();
+    	    if (AO::app()->useCache('config')) {
+    	        $json = AO::app()->loadCache($cacheKey);
     	    }
     	    if (empty($json)) {
     	    	$countryIds = array();
     	    	foreach ($this->getCountryCollection() as $country) {
     	    		$countryIds[] = $country->getCountryId();
     	    	}
-        		$collection = Mage::getModel('directory/region')->getResourceCollection()
+        		$collection = AO::getModel('directory/region')->getResourceCollection()
         			->addCountryFilter($countryIds)
         			->load();
     	    	$regions = array();
@@ -89,8 +89,8 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     	    	}
     	    	$json = Zend_Json::encode($regions);
 
-    	    	if (Mage::app()->useCache('config')) {
-    	    	    Mage::app()->saveCache($json, $cacheKey, array('config'));
+    	    	if (AO::app()->useCache('config')) {
+    	    	    AO::app()->saveCache($json, $cacheKey, array('config'));
                 }
     	    }
 	    	$this->_regionJson = $json;
@@ -103,10 +103,10 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     public function currencyConvert($amount, $from, $to=null)
     {
         if (empty($this->_currencyCache[$from])) {
-            $this->_currencyCache[$from] = Mage::getModel('directory/currency')->load($from);
+            $this->_currencyCache[$from] = AO::getModel('directory/currency')->load($from);
         }
         if (is_null($to)) {
-            $to = Mage::app()->getStore()->getCurrentCurrencyCode();
+            $to = AO::app()->getStore()->getCurrentCurrencyCode();
         }
         $converted = $this->_currencyCache[$from]->convert($amount, $to);
         return $converted;

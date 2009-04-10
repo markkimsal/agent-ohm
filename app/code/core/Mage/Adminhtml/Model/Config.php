@@ -82,9 +82,9 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
 
     protected function _initSectionsAndTabs()
     {
-        $mergeConfig = Mage::getModel('core/config_base');
+        $mergeConfig = AO::getModel('core/config_base');
 
-        $config = Mage::getConfig();
+        $config = AO::getConfig();
         $modules = $config->getNode('modules')->children();
 
         // check if local modules are disabled

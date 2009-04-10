@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
 {
     public function getWebsiteCollection()
     {
-        return Mage::app()->getWebsites();
+        return AO::app()->getWebsites();
     }
 
     public function getGroupCollection(Mage_Core_Model_Website $website)
@@ -55,12 +55,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
      */
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Websites');
+        return AO::helper('catalog')->__('Websites');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Websites');
+        return AO::helper('catalog')->__('Websites');
     }
 
     public function canShowTab()

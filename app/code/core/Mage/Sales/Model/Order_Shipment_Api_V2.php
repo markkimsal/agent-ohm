@@ -42,7 +42,7 @@ class Mage_Sales_Model_Order_Shipment_Api_V2 extends Mage_Sales_Model_Order_Ship
     public function items($filters = null)
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_shipment_collection')
+        $collection = AO::getResourceModel('sales/order_shipment_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
@@ -112,7 +112,7 @@ class Mage_Sales_Model_Order_Shipment_Api_V2 extends Mage_Sales_Model_Order_Ship
      */
     public function create($orderIncrementId, $itemsQty = array(), $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = AO::getModel('sales/order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /**
           * Check order existing
@@ -125,10 +125,10 @@ class Mage_Sales_Model_Order_Shipment_Api_V2 extends Mage_Sales_Model_Order_Ship
          * Check shipment create availability
          */
         if (!$order->canShip()) {
-             $this->_fault('data_invalid', Mage::helper('sales')->__('Can not do shipment for order.'));
+             $this->_fault('data_invalid', AO::helper('sales')->__('Can not do shipment for order.'));
         }
 
-        $convertor   = Mage::getModel('sales/convert_order');
+        $convertor   = AO::getModel('sales/convert_order');
         $shipment    = $convertor->toShipment($order);
          /* @var $shipment Mage_Sales_Model_Order_Shipment */
 
@@ -159,7 +159,7 @@ class Mage_Sales_Model_Order_Shipment_Api_V2 extends Mage_Sales_Model_Order_Ship
         $shipment->getOrder()->setIsInProcess(true);
 
         try {
-            $transactionSave = Mage::getModel('core/resource_transaction')
+            $transactionSave = AO::getModel('core/resource_transaction')
                 ->addObject($shipment)
                 ->addObject($shipment->getOrder())
                 ->save();
@@ -180,7 +180,7 @@ class Mage_Sales_Model_Order_Shipment_Api_V2 extends Mage_Sales_Model_Order_Ship
      */
     public function getCarriers($orderIncrementId)
     {
-        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+        $order = AO::getModel('sales/order')->loadByIncrementId($orderIncrementId);
 
         /**
           * Check order existing

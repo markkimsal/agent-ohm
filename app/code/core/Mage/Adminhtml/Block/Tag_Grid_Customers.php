@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('tag_customer/collection')
+        $collection = AO::getResourceModel('tag_customer/collection')
             ->addAttributeToSelect('firstname')
             ->addAttributeToSelect('lastname')
 //            ->addAttributeToSelect('email')
@@ -63,58 +63,58 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('tag')->__('ID'),
+            'header'    =>AO::helper('tag')->__('ID'),
             'width'     => '40px',
             'align'     =>'center',
             'sortable'  =>true,
             'index'     =>'entity_id'
         ));
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('tag')->__('First Name'),
+            'header'    =>AO::helper('tag')->__('First Name'),
             'index'     =>'firstname'
         ));
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('tag')->__('Last Name'),
+            'header'    =>AO::helper('tag')->__('Last Name'),
             'index'     =>'lastname'
         ));
 //        $this->addColumn('email', array(
-//            'header'    =>Mage::helper('tag')->__('Email'),
+//            'header'    =>AO::helper('tag')->__('Email'),
 //            'align'     =>'center',
 //            'index'     =>'email'
 //        ));
 //        $this->addColumn('Telephone', array(
-//            'header'    =>Mage::helper('tag')->__('Telephone'),
+//            'header'    =>AO::helper('tag')->__('Telephone'),
 //            'align'     =>'center',
 //            'index'     =>'billing_telephone'
 //        ));
 //        $this->addColumn('billing_postcode', array(
-//            'header'    =>Mage::helper('tag')->__('ZIP/Post Code'),
+//            'header'    =>AO::helper('tag')->__('ZIP/Post Code'),
 //            'index'     =>'billing_postcode',
 //        ));
 //        $this->addColumn('billing_country_name', array(
-//            'header'    =>Mage::helper('tag')->__('Country'),
+//            'header'    =>AO::helper('tag')->__('Country'),
 //            #'filter'    => 'adminhtml/customer_grid_filter_country',
 //            'index'     =>'billing_country_name',
 //        ));
 //        $this->addColumn('customer_since', array(
-//            'header'    =>Mage::helper('tag')->__('Customer Since'),
+//            'header'    =>AO::helper('tag')->__('Customer Since'),
 //            'type'      => 'date',
 //            'align'     => 'center',
 //            #'format'    => 'Y.m.d',
 //            'index'     =>'created_at',
 //        ));
         $this->addColumn('tags', array(
-            'header'    => Mage::helper('tag')->__('Tags'),
+            'header'    => AO::helper('tag')->__('Tags'),
             'index'     => 'tags',
             'sortable'  => false,
             'filter'    => false,
             'renderer'  => 'adminhtml/tag_grid_column_renderer_tags'
         ));
         $this->addColumn('action', array(
-            'header'    =>Mage::helper('tag')->__('Action'),
+            'header'    =>AO::helper('tag')->__('Action'),
             'align'     =>'center',
             'width'     => '120px',
-            'format'    =>'<a href="'.$this->getUrl('*/*/products/customer_id/$entity_id').'">'.Mage::helper('tag')->__('View Products').'</a>',
+            'format'    =>'<a href="'.$this->getUrl('*/*/products/customer_id/$entity_id').'">'.AO::helper('tag')->__('View Products').'</a>',
             'filter'    =>false,
             'sortable'  =>false,
             'is_system' =>true
@@ -125,8 +125,8 @@ class Mage_Adminhtml_Block_Tag_Grid_Customers extends Mage_Adminhtml_Block_Widge
             ->setColumnFilter('firstname')
             ->setColumnFilter('lastname');
 
-//        $this->addExportType('*/*/exportCsv', Mage::helper('tag')->__('CSV'));
-//        $this->addExportType('*/*/exportXml', Mage::helper('tag')->__('XML'));
+//        $this->addExportType('*/*/exportCsv', AO::helper('tag')->__('CSV'));
+//        $this->addExportType('*/*/exportXml', AO::helper('tag')->__('XML'));
         return parent::_prepareColumns();
     }
 

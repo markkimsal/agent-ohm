@@ -74,18 +74,18 @@ class Mage_Adminhtml_Extensions_ConsoleController extends Mage_Adminhtml_Control
 
         $run = new Varien_Object();
         if ($command) {
-            $run->setComment(Mage::helper('adminhtml')->__('Running:').' "'.$input.'"'."\r\n\r\n");
+            $run->setComment(AO::helper('adminhtml')->__('Running:').' "'.$input.'"'."\r\n\r\n");
             $run->setCommand($command);
             $run->setOptions($options);
             $run->setParams($params);
         } else {
-            $run->setComment(Mage::helper('adminhtml')->__('Invalid input:').' "'.$input.'"'."\r\n\r\n");
+            $run->setComment(AO::helper('adminhtml')->__('Invalid input:').' "'.$input.'"'."\r\n\r\n");
         }
         $pear->runHtmlConsole($run);
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/extensions');
+        return AO::getSingleton('admin/session')->isAllowed('system/extensions');
     }
 }

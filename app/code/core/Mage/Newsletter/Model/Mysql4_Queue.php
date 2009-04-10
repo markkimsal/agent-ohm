@@ -48,11 +48,11 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
     public function addSubscribersToQueue(Mage_Newsletter_Model_Queue $queue, array $subscriberIds) 
     {
         if (count($subscriberIds)==0) {
-            Mage::throwException(Mage::helper('newsletter')->__('No subscribers selected'));
+            AO::throwException(AO::helper('newsletter')->__('No subscribers selected'));
         }
         
         if (!$queue->getId() && $queue->getQueueStatus()!=Mage_Newsletter_Model_Queue::STATUS_NEVER) {
-            Mage::throwException(Mage::helper('newsletter')->__('Invalid queue selected'));
+            AO::throwException(AO::helper('newsletter')->__('Invalid queue selected'));
         }
         
         $select = $this->_getWriteAdapter()->select();
@@ -125,7 +125,7 @@ class Mage_Newsletter_Model_Mysql4_Queue extends Mage_Core_Model_Mysql4_Abstract
         if(count($stores)==0) {
             return $this;
         }
-        $subscribers = Mage::getResourceSingleton('newsletter/subscriber_collection')
+        $subscribers = AO::getResourceSingleton('newsletter/subscriber_collection')
             ->addFieldToFilter('store_id', array('in'=>$stores))
             ->useOnlySubscribed()
             ->load();

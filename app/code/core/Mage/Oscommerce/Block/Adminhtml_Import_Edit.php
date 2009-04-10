@@ -38,18 +38,18 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_W
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_import';
-        $this->_updateButton('save', 'label', Mage::helper('oscommerce')->__('Save Profile'));
-        $this->_updateButton('delete', 'label', Mage::helper('oscommerce')->__('Delete Profile'));
+        $this->_updateButton('save', 'label', AO::helper('oscommerce')->__('Save Profile'));
+        $this->_updateButton('delete', 'label', AO::helper('oscommerce')->__('Delete Profile'));
         parent::__construct();
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('oscommerce_adminhtml_import')->getId()) { // TOCHECK
-            return Mage::helper('oscommerce')->__('Edit osCommerce Profile :: %s', Mage::registry('oscommerce_adminhtml_import')->getName());
+        if (AO::registry('oscommerce_adminhtml_import')->getId()) { // TOCHECK
+            return AO::helper('oscommerce')->__('Edit osCommerce Profile :: %s', AO::registry('oscommerce_adminhtml_import')->getName());
         }
         else {
-            return Mage::helper('oscommerce')->__('New osCommerce Profile');
+            return AO::helper('oscommerce')->__('New osCommerce Profile');
         }
     }
 }

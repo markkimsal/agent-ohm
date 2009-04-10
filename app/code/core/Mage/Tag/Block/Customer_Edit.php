@@ -39,7 +39,7 @@ class Mage_Tag_Block_Customer_Edit extends Mage_Core_Block_Template
     public function getTag()
     {
         if( !$this->_tag ) {
-            $this->_tag = Mage::registry('tagModel');
+            $this->_tag = AO::registry('tagModel');
         }
 
         return $this->_tag;

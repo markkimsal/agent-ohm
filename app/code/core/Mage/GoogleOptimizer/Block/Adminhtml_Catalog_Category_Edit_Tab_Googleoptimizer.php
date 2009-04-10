@@ -42,7 +42,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     public function getCategory()
     {
         if (!$this->_category) {
-            $this->_category = Mage::registry('current_category');
+            $this->_category = AO::registry('current_category');
         }
         return $this->_category;
     }
@@ -57,13 +57,13 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('googleoptimizer')->__('Google Optimizer Scripts'))
+            array('legend'=>AO::helper('googleoptimizer')->__('Google Optimizer Scripts'))
         );
 
         if ($this->getCategory()->getStoreId() == '0') {
-            Mage::helper('googleoptimizer')->setStoreId(Mage::app()->getDefaultStoreView());
+            AO::helper('googleoptimizer')->setStoreId(AO::app()->getDefaultStoreView());
         } else {
-            Mage::helper('googleoptimizer')->setStoreId($this->getCategory()->getStoreId());
+            AO::helper('googleoptimizer')->setStoreId($this->getCategory()->getStoreId());
         }
 
         $disabledScriptsFields = false;
@@ -83,7 +83,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
                     array(
                         'name'  => 'store_flag',
                         'value' => '1',
-                        'label' => Mage::helper('googleoptimizer')->__('Use Default'),
+                        'label' => AO::helper('googleoptimizer')->__('Use Default'),
                         'class' => 'checkbox',
                         'required' => false,
                         'onchange' => 'googleOptimizerScopeAction()',
@@ -95,31 +95,31 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         $fieldset->addField('conversion_page', 'select',
             array(
                 'name'  => 'conversion_page',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Page'),
-                'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
+                'label' => AO::helper('googleoptimizer')->__('Conversion Page'),
+                'values'=> AO::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
                 'onchange' => 'googleOptimizerConversionPageAction(this)'
             )
         );
-        //Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
-        if ($this->getCategory()->getStoreId() == '0' && !Mage::app()->isSingleStoreMode()) {
+        //AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+        if ($this->getCategory()->getStoreId() == '0' && !AO::app()->isSingleStoreMode()) {
             $fieldset->addField('conversion_page_url', 'note',
                 array(
                     'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
-                    'text' => Mage::helper('googleoptimizer')->__('Please select store view to see the URL')
+                    'label' => AO::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'text' => AO::helper('googleoptimizer')->__('Please select store view to see the URL')
                 )
             );
         } else {
             $fieldset->addField('conversion_page_url', 'text',
                 array(
                     'name'  => 'conversion_page_url',
-                    'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'label' => AO::helper('googleoptimizer')->__('Conversion Page URL'),
                     'class' => 'input-text',
                     'readonly' => 'readonly',
                     'required' => false,
-                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+                    'note' => AO::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
                 )
             );
         }
@@ -129,7 +129,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         $fieldset->addField('control_script', 'textarea',
             array(
                 'name'  => 'control_script',
-                'label' => Mage::helper('googleoptimizer')->__('Control Script'),
+                'label' => AO::helper('googleoptimizer')->__('Control Script'),
                 'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
@@ -138,7 +138,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         $fieldset->addField('tracking_script', 'textarea',
             array(
                 'name'  => 'tracking_script',
-                'label' => Mage::helper('googleoptimizer')->__('Tracking Script'),
+                'label' => AO::helper('googleoptimizer')->__('Tracking Script'),
                 'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
@@ -147,18 +147,18 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         $fieldset->addField('conversion_script', 'textarea',
             array(
                 'name'  => 'conversion_script',
-                'label' => Mage::helper('googleoptimizer')->__('Conversion Script'),
+                'label' => AO::helper('googleoptimizer')->__('Conversion Script'),
                 'class' => 'textarea googleoptimizer validate-googleoptimizer',
                 'required' => false,
             )
         );
 
-        if (Mage::helper('googleoptimizer')->getConversionPagesUrl()
+        if (AO::helper('googleoptimizer')->getConversionPagesUrl()
             && $this->getGoogleOptimizer()
             && $this->getGoogleOptimizer()->getConversionPage())
         {
             $form->getElement('conversion_page_url')
-                ->setValue(Mage::helper('googleoptimizer')
+                ->setValue(AO::helper('googleoptimizer')
                     ->getConversionPagesUrl()->getData($this->getGoogleOptimizer()->getConversionPage())
                 );
         }
@@ -171,7 +171,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             }
         }
 
-        $fakeEntityAttribute = Mage::getModel('catalog/resource_eav_attribute');
+        $fakeEntityAttribute = AO::getModel('catalog/resource_eav_attribute');
 
         foreach ($fieldset->getElements() as $element) {
             if ($element->getId() != 'store_flag') {

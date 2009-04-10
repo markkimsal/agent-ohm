@@ -39,7 +39,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
 
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('api/roles_user_collection');
+        return AO::getResourceModel('api/roles_user_collection');
     }
 
     public function getResourcesTree()
@@ -67,7 +67,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
         static $result;
 
         if (is_null($resource)) {
-            $resource = Mage::getSingleton('api/config')->getNode('acl/resources');
+            $resource = AO::getSingleton('api/config')->getNode('acl/resources');
             $resourceName = null;
             $level = -1;
         } else {
@@ -84,7 +84,7 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
                     $resource->addAttribute("aclpath", $resourceName);
                 }
 
-                $resource->title = Mage::helper($module)->__((string)$resource->title);
+                $resource->title = AO::helper($module)->__((string)$resource->title);
 
                 if ( is_null($represent2Darray) ) {
                     $result[$resourceName]['name']  = (string)$resource->title;

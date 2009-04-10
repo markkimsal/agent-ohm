@@ -41,14 +41,14 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('customer/session');
+        return AO::getSingleton('customer/session');
     }
 
     public function preDispatch()
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+        if (!AO::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -69,7 +69,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $this->renderLayout();
         }
         else {
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
+            $this->getResponse()->setRedirect(AO::getUrl('*/*/new'));
         }
     }
 
@@ -103,9 +103,9 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
         // Save data
         if ($this->getRequest()->isPost()) {
-            $address = Mage::getModel('customer/address')
+            $address = AO::getModel('customer/address')
                 ->setData($this->getRequest()->getPost())
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                ->setCustomerId(AO::getSingleton('customer/session')->getCustomerId())
                 ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
                 ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
             $addressId = $this->getRequest()->getParam('id');
@@ -126,7 +126,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 if (true === $accressValidation) {
                     $address->save();
                     $this->_getSession()->addSuccess($this->__('The address was successfully saved'));
-                    $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+                    $this->_redirectSuccess(AO::getUrl('*/*/index', array('_secure'=>true)));
                     return;
                 } else {
                     $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
@@ -148,7 +148,7 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     ->addException($e, $this->__('Can\'t save address'));
             }
         }
-        $this->_redirectError(Mage::getUrl('*/*/edit', array('id'=>$address->getId())));
+        $this->_redirectError(AO::getUrl('*/*/edit', array('id'=>$address->getId())));
     }
 
     public function deleteAction()
@@ -156,12 +156,12 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = Mage::getModel('customer/address')->load($addressId);
+            $address = AO::getModel('customer/address')->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
                 $this->_getSession()->addError($this->__('The address does not belong to this customer'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+                $this->getResponse()->setRedirect(AO::getUrl('*/*/index'));
                 return;
             }
 
@@ -173,6 +173,6 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                 $this->_getSession()->addError($this->__('There was an error while deleting the address'));
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+        $this->getResponse()->setRedirect(AO::getUrl('*/*/index'));
     }
 }

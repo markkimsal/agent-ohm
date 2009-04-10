@@ -36,7 +36,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 {
     public function getApi($service, $options = array())
     {
-        return Mage::getSingleton('strikeiron/service_'.$service, array_merge($this->getConfiguration(),$options));
+        return AO::getSingleton('strikeiron/service_'.$service, array_merge($this->getConfiguration(),$options));
     }
 
     protected function getConfiguration()
@@ -47,7 +47,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function getConfigData($code, $field)
     {
         $path = 'strikeiron/'.$code.'/'.$field;
-        return Mage::getStoreConfig($path);
+        return AO::getStoreConfig($path);
     }
 
 /*********************** EMAIL VERIFICATION***************************/
@@ -58,7 +58,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function emailVerify($email)
     {
         if ($email && $this->getConfigData('email_verification', 'active')) {
-            $_session = Mage::getSingleton('strikeiron/session');
+            $_session = AO::getSingleton('strikeiron/session');
             /*
             * following flag will set if the email is undetermined for the first time
             * for second time, we just need to return true
@@ -84,22 +84,22 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                     if ($result) {
                         switch ($result->IsValid) {
                            case 'INVALID':
-                               Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address'));
+                               AO::throwException(AO::helper('strikeiron')->__('Invalid email address'));
                            break;
                            case 'UNDETERMINED':
                                switch($this->getConfigData('email_verification', 'undetermined_action')) {
                                    case Mage_Strikeiron_Model_Service_EmailVerification::EMAIL_UNDETERMINED_REJECT:
-                                       Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address'));
+                                       AO::throwException(AO::helper('strikeiron')->__('Invalid email address'));
                                    break;
                                    case  Mage_Strikeiron_Model_Service_EmailVerification::EMAIL_UNDETERMINED_CONFIRM:
                                           $_session->setStrikeironUndertermined($email);
-                                          Mage::throwException(Mage::helper('strikeiron')->__('Email address cannot be verified. Please check again and make sure your email address entered correctly.'));
+                                          AO::throwException(AO::helper('strikeiron')->__('Email address cannot be verified. Please check again and make sure your email address entered correctly.'));
                                    break;
                                }
                            break;
                        }
                     } else {
-                       Mage::throwException(Mage::helper('strikeiron')->__('There is an error in verifying an email. Please contact us.'));
+                       AO::throwException(AO::helper('strikeiron')->__('There is an error in verifying an email. Please contact us.'));
                     }
 
                 } else {
@@ -110,11 +110,11 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                     /* @var $mailTemplate Mage_Core_Model_Email_Template */
                     $receipient = $this->getConfigData('email_verification', 'error_email');
                     if ($receipient) {
-                        $translate = Mage::getSingleton('core/translate');
+                        $translate = AO::getSingleton('core/translate');
                         /* @var $translate Mage_Core_Model_Translate */
                         $translate->setTranslateInline(false);
 
-                        $mailTemplate = Mage::getModel('core/email_template');
+                        $mailTemplate = AO::getModel('core/email_template');
                         $mailTemplate->setDesignConfig(
                                 array(
                                     'area'  => 'frontend',
@@ -136,7 +136,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 
                 }
             } catch (Zend_Service_StrikeIron_Exception $e) {
-               Mage::throwException(Mage::helper('strikeiron')->__('There is an error in verifying an email. Please contact us.'));
+               AO::throwException(AO::helper('strikeiron')->__('There is an error in verifying an email. Please contact us.'));
             }
         }
         return true;
@@ -166,7 +166,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function fetchExchangeRate ($defaultCurrency, $currencies=array())
     {
         if(!$this->getConfigData('currency', 'foreigh_xrate')){
-            Mage::throwException(Mage::helper('strikeiron')->__('Strikeiron foreign exchange rate is disabled'));
+            AO::throwException(AO::helper('strikeiron')->__('Strikeiron foreign exchange rate is disabled'));
         }
 
         $data = array();
@@ -197,18 +197,18 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                                   }
                               }
                             } else {
-                              Mage::throwException($result->ServiceStatus->StatusDescription);
+                              AO::throwException($result->ServiceStatus->StatusDescription);
                             }
                         } else {
-                           Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
+                           AO::throwException(AO::helper('strikeiron')->__('There is no response back from Strikeiron server'));
                         }
                     }
                 }
             } else {
-                Mage::throwException(Mage::helper('strikeiron')->__('There is no more hits remaining for the foreign Exchange Rate Service.'));
+                AO::throwException(AO::helper('strikeiron')->__('There is no more hits remaining for the foreign Exchange Rate Service.'));
             }
         } catch (Zend_Service_StrikeIron_Exception $e) {
-               Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
+               AO::throwException(AO::helper('strikeiron')->__('There is no response back from Strikeiron server'));
         }
         return $data;
     }
@@ -216,9 +216,9 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function customerSaveBeforeObserver($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
-        $isAdmin = Mage::getDesign()->getArea()==='adminhtml';
+        $isAdmin = AO::getDesign()->getArea()==='adminhtml';
         $email = $customer->getEmail();
-        $host =  Mage::app()->getStore()->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+        $host =  AO::app()->getStore()->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
         $fakeEmail = $customer->getIncrementId().'@'. $host;
         if ($email && $email != $fakeEmail && $customer->dataHasChangedFor('email') &&
             (!$isAdmin || ($isAdmin && $this->getConfigData('email_verification', 'check_admin')))
@@ -257,7 +257,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
 //echo "<pre>";
 //print_r($address);
 return;
-$_session = Mage::getSingleton('strikeiron/session');
+$_session = AO::getSingleton('strikeiron/session');
         $usAddressApi = $this->getApi('usAddressVerification');
         $cityStateZip = $address->getCity()." ".$address->getRegionCode()." ".$address->getPostcode();
         $reqArr = array(
@@ -280,7 +280,7 @@ $_session = Mage::getSingleton('strikeiron/session');
             }
 
         } catch (Zend_Service_StrikeIron_Exception $e) {
-               Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
+               AO::throwException(AO::helper('strikeiron')->__('There is no response back from Strikeiron server'));
         }
         return true;
     }
@@ -339,7 +339,7 @@ $_session = Mage::getSingleton('strikeiron/session');
                             }
                         }
                     } else {
-                        $region_code = Mage::getSingleton('directory/region')->load($data->getRegionId())->getCode();
+                        $region_code = AO::getSingleton('directory/region')->load($data->getRegionId())->getCode();
                         $requestArr = array('province' => $region_code);
                         if ($isBasic) {
                             $result = $saleTaxApi->GetTaxRateCanada($requestArr);
@@ -357,20 +357,20 @@ $_session = Mage::getSingleton('strikeiron/session');
             } catch (Zend_Service_StrikeIron_Exception $e) {
                 //we won't throw exception
                 //since the method is calling via event handler
-               //Mage::throwException(Mage::helper('strikeiron')->__('There is an error in retrieving tax rate. Please contact us'));
+               //AO::throwException(AO::helper('strikeiron')->__('There is an error in retrieving tax rate. Please contact us'));
             }
         }
 
         if ($tax_rate>0) {
             $tax_rate = $tax_rate * 100;
-            $dbObj = Mage::getSingleton('strikeiron/taxrate')
+            $dbObj = AO::getSingleton('strikeiron/taxrate')
                 ->setTaxCountryId($data->getCountryId())
                 ->setTaxRegionId($data->getRegionId())
                 ->setTaxPostcode($data->getPostcode())
                 ->setRateValue($tax_rate)
                 ->save();
             $data->setRateValue($tax_rate);
-            $data->setRateTitle(Mage::helper('strikeiron')->__('Tax'));
+            $data->setRateTitle(AO::helper('strikeiron')->__('Tax'));
             $data->setRateId('strikeiron_tax');
         }
         return $this;

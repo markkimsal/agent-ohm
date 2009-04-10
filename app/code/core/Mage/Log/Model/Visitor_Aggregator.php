@@ -34,7 +34,7 @@ class Mage_Log_Model_Visitor_Aggregator extends Varien_Object
 {
     public function getResource()
     {
-        return Mage::getResourceModel('log/visitor_aggregator');
+        return AO::getResourceModel('log/visitor_aggregator');
     }
 
     public function update()

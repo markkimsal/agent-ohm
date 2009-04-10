@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
 
-        $collection = Mage::getResourceModel('core/design_collection');
+        $collection = AO::getResourceModel('core/design_collection');
 
         $this->setCollection($collection);
         parent::_prepareCollection();
@@ -68,9 +68,9 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareColumns()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('catalog')->__('Store'),
+                'header'        => AO::helper('catalog')->__('Store'),
                 'width'         => '100px',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -80,12 +80,12 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
         }
 
         $this->addColumn('package', array(
-                'header'    => Mage::helper('catalog')->__('Design'),
+                'header'    => AO::helper('catalog')->__('Design'),
                 'width'     => '150px',
                 'index'     => 'design',
         ));
         $this->addColumn('date_from', array(
-            'header'    => Mage::helper('catalogrule')->__('Date From'),
+            'header'    => AO::helper('catalogrule')->__('Date From'),
             'align'     => 'left',
             'width'     => '100px',
             'type'      => 'date',
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_System_Design_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('date_to', array(
-            'header'    => Mage::helper('catalogrule')->__('Date To'),
+            'header'    => AO::helper('catalogrule')->__('Date To'),
             'align'     => 'left',
             'width'     => '100px',
             'type'      => 'date',

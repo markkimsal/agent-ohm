@@ -46,7 +46,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         }
 
         if (VPROF) Varien_Profiler::start(__METHOD__.'/setOptions');
-        if (is_writable(Mage::getBaseDir('session'))) {
+        if (is_writable(AO::getBaseDir('session'))) {
             session_save_path($this->getSessionSavePath());
         }
         if (VPROF) Varien_Profiler::stop(__METHOD__.'/setOptions');
@@ -54,7 +54,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
-                $sessionResource = Mage::getResourceSingleton('core/session');
+                $sessionResource = AO::getResourceSingleton('core/session');
                 /* @var $sessionResource Mage_Core_Model_Mysql4_Session */
                 $sessionResource->setSaveHandler();
                 break;
@@ -67,7 +67,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 break;
         }
 
-        Mage::dispatchEvent('core_session_before_set_cookie_params');
+        AO::dispatchEvent('core_session_before_set_cookie_params');
 
         // set session cookie params
         session_set_cookie_params(
@@ -87,7 +87,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
 
         if (VPROF) Varien_Profiler::start(__METHOD__.'/start');
 
-        if ($sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter')) {
+        if ($sessionCacheLimiter = AO::getConfig()->getNode('global/session_cache_limiter')) {
             session_cache_limiter((string)$sessionCacheLimiter);
         }
 
@@ -105,7 +105,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
      */
     public function getCookie()
     {
-        return Mage::getSingleton('core/cookie');
+        return AO::getSingleton('core/cookie');
     }
 
     /**
@@ -239,7 +239,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
      */
     public function getSessionSavePath()
     {
-        return Mage::getBaseDir('session');
+        return AO::getBaseDir('session');
     }
 
     /**

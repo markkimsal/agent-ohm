@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
             'close_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('catalog')->__('Close Window'),
+                    'label'   => AO::helper('catalog')->__('Close Window'),
                     'onclick' => 'addProduct(true)'
                 ))
         );
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
     public function getConfigurableProduct()
     {
         if (is_null($this->_configurableProduct)) {
-            $this->_configurableProduct = Mage::getModel('catalog/product')
+            $this->_configurableProduct = AO::getModel('catalog/product')
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('product'));
         }
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Created extends Mage_Adminhtml_Block_
     public function getProduct()
     {
         if (is_null($this->_product)) {
-            $this->_product = Mage::getModel('catalog/product')
+            $this->_product = AO::getModel('catalog/product')
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('id'));
         }

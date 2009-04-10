@@ -37,7 +37,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
     {
         $this->loadLayout();
         $this->_setActiveMenu('dashboard');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Dashboard'), Mage::helper('adminhtml')->__('Dashboard'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Dashboard'), AO::helper('adminhtml')->__('Dashboard'));
         $this->renderLayout();
     }
 
@@ -89,6 +89,6 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('dashboard');
+        return AO::getSingleton('admin/session')->isAllowed('dashboard');
     }
 }

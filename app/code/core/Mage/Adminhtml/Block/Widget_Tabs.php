@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             }
 
             if (!($this->_tabs[$tabId] instanceof Mage_Adminhtml_Block_Widget_Tab_Interface)) {
-                throw new Exception(Mage::helper('adminhtml')->__('Wrong tab configuration'));
+                throw new Exception(AO::helper('adminhtml')->__('Wrong tab configuration'));
             }
             $this->_tabs[$tabId]->setTabId($tabId);
 
@@ -113,7 +113,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
             return $this;
         }
         else {
-            throw new Exception(Mage::helper('adminhtml')->__('Wrong tab configuration'));
+            throw new Exception(AO::helper('adminhtml')->__('Wrong tab configuration'));
         }
 
         if (is_null($this->_tabs[$tabId]->getUrl())) {
@@ -178,7 +178,7 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
     {
         if ($activeTab = $this->getRequest()->getParam('active_tab')) {
             $this->setActiveTab($activeTab);
-        } elseif ($activeTabId = Mage::getSingleton('admin/session')->getActiveTabId()) {
+        } elseif ($activeTabId = AO::getSingleton('admin/session')->getActiveTabId()) {
             $this->_setActiveTab($activeTabId);
         }
 

@@ -39,16 +39,16 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
      */
     protected function _getApi ()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
 
-        $api = Mage::getModel('googlecheckout/api');
+        $api = AO::getModel('googlecheckout/api');
 
         if (!$session->getQuote()->hasItems()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+            $this->getResponse()->setRedirect(AO::getUrl('checkout/cart'));
             $api->setError(true);
         }
 
-        $storeQuote = Mage::getModel('sales/quote')->setStoreId(Mage::app()->getStore()->getId());
+        $storeQuote = AO::getModel('sales/quote')->setStoreId(AO::app()->getStore()->getId());
         $storeQuote->merge($session->getQuote());
         $storeQuote
             ->setItemsCount($session->getQuote()->getItemsCount())
@@ -57,7 +57,7 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
         $storeQuote->save();
 
         $baseCurrency = $session->getQuote()->getBaseCurrencyCode();
-        $currency = Mage::app()->getStore($session->getQuote()->getStoreId())->getBaseCurrency();
+        $currency = AO::app()->getStore($session->getQuote()->getStoreId())->getBaseCurrency();
         $session->getQuote()
             ->setForcedCurrency($currency)
             ->collectTotals()
@@ -69,11 +69,11 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
 
             $response = $api->getResponse();
             if ($api->getError()) {
-                Mage::getSingleton('checkout/session')->addError($api->getError());
+                AO::getSingleton('checkout/session')->addError($api->getError());
             } else {
                 $session->replaceQuote($storeQuote);
-                Mage::getModel('checkout/cart')->init()->save();
-                if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+                AO::getModel('checkout/cart')->init()->save();
+                if (AO::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
                     $session->setGoogleCheckoutQuoteId($session->getQuoteId());
                     $session->setQuoteId(null);
                 }
@@ -87,7 +87,7 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $url = Mage::getUrl('checkout/cart');
+            $url = AO::getUrl('checkout/cart');
         } else {
             $url = $api->getRedirectUrl();
         }
@@ -103,7 +103,7 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $this->getResponse()->setRedirect(Mage::getUrl('checkout/cart'));
+            $this->getResponse()->setRedirect(AO::getUrl('checkout/cart'));
             return;
         } else {
             $url = $api->getRedirectUrl();
@@ -115,8 +115,8 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
 
     public function cartAction()
     {
-        if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
-            $session = Mage::getSingleton('checkout/session');
+        if (AO::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+            $session = AO::getSingleton('checkout/session');
             if ($session->getQuoteId()) {
                 $session->getQuote()->delete();
             }
@@ -129,19 +129,19 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
 
     public function continueAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {
-            $quote = Mage::getModel('sales/quote')->load($quoteId)
+            $quote = AO::getModel('sales/quote')->load($quoteId)
                 ->setIsActive(false)->save();
             $session->unsQuoteId();
         }
 
-//        if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
+//        if (AO::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
 //            $session->unsGoogleCheckoutQuoteId();
 //        }
 
-        $url = Mage::getStoreConfig('google/checkout/continue_shopping_url');
+        $url = AO::getStoreConfig('google/checkout/continue_shopping_url');
         if (empty($url)) {
             $this->_redirect('');
         } elseif (substr($url, 0, 4)==='http') {

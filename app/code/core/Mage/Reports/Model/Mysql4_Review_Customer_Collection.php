@@ -36,7 +36,7 @@ class Mage_Reports_Model_Mysql4_Review_Customer_Collection extends Mage_Review_M
 {
     public function joinCustomers()
     {
-        $customer = Mage::getResourceSingleton('customer/customer');
+        $customer = AO::getResourceSingleton('customer/customer');
         //TODO: add full name logic
         $firstnameAttr = $customer->getAttribute('firstname');
         $firstnameAttrId = $firstnameAttr->getAttributeId();

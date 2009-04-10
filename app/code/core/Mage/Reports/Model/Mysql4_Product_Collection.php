@@ -88,7 +88,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
 
     public function __construct()
     {
-        $product = Mage::getResourceSingleton('catalog/product');
+        $product = AO::getResourceSingleton('catalog/product');
         /* @var $product Mage_Catalog_Model_Entity_Product */
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
@@ -187,7 +187,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         $productIdTableName = $this->getTable('sales/order_item');
         $productIdFieldName = 'product_id';
 
-        $compositeTypeIds = Mage::getSingleton('catalog/product_type')->getCompositeTypes();
+        $compositeTypeIds = AO::getSingleton('catalog/product_type')->getCompositeTypes();
         $productTypes = $this->getConnection()->quoteInto(' AND (e.type_id NOT IN (?))', $compositeTypeIds);
 
         if ($from != '' && $to != '') {
@@ -201,7 +201,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
             array('ordered_qty' => "SUM(order_items.{$qtyOrderedFieldName})")
         );
 
-        $order = Mage::getResourceSingleton('sales/order');
+        $order = AO::getResourceSingleton('sales/order');
         /* @var $order Mage_Sales_Model_Entity_Order */
         $stateAttr = $order->getAttribute('state');
         if ($stateAttr->getBackend()->isStatic()) {
@@ -263,7 +263,7 @@ class Mage_Reports_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Re
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (Mage::getModel('reports/event_type')->getCollection() as $eventType) {
+        foreach (AO::getModel('reports/event_type')->getCollection() as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = $eventType->getId();
                 break;

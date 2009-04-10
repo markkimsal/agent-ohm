@@ -35,9 +35,9 @@ class Mage_Admin_Model_Observer
 {
     public function actionPreDispatchAdmin($event)
     {
-        $session  = Mage::getSingleton('admin/session');
+        $session  = AO::getSingleton('admin/session');
         /* @var $session Mage_Admin_Model_Session */
-        $request = Mage::app()->getRequest();
+        $request = AO::app()->getRequest();
         $user = $session->getUser();
 
         if ($request->getActionName() == 'forgotpassword' || $request->getActionName() == 'logout') {

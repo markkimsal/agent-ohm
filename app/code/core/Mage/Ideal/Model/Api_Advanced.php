@@ -72,7 +72,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         }
 
         if (!($description = $this->getConfigData('description'))) {
-            $description = Mage::app()->getStore()->getName() . ' payment';
+            $description = AO::app()->getStore()->getName() . ' payment';
         }
 
         $this->_conf = array(
@@ -85,7 +85,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
             'ACQUIRERTIMEOUT' => '10',
             'MERCHANTID' => $this->getConfigData('merchant_id'),
             'SUBID' => '0',
-            'MERCHANTRETURNURL' => Mage::getUrl('ideal/advanced/result', array('_secure' => true)),
+            'MERCHANTRETURNURL' => AO::getUrl('ideal/advanced/result', array('_secure' => true)),
             'CURRENCY' => 'EUR',
             'EXPIRATIONPERIOD' => 'PT10M',
             'LANGUAGE' => 'nl',
@@ -110,7 +110,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('payment/ideal_advanced/'.$key);
+             $value = AO::getStoreConfig('payment/ideal_advanced/'.$key);
              if (is_null($value) || false===$value) {
                  $value = $default;
              }
@@ -141,7 +141,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
                 $responseData = $response->getData();
             }
 
-            Mage::getModel('ideal/api_debug')
+            AO::getModel('ideal/api_debug')
                 ->setResponseBody(get_class($requestType) . "\n" . print_r($responseData, true))
                 ->setRequestBody(get_class($requestType) . "\n" . print_r($requestType->getData(), true))
                 ->save();
@@ -175,7 +175,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $res = new Mage_Ideal_Model_Api_Advanced_DirectoryResponse();
 
         if (!$request->checkMandatory()) {
-            $res->setError(Mage::helper('ideal')->__('Required fields missing'));
+            $res->setError(AO::helper('ideal')->__('Required fields missing'));
             return $res;
         }
 
@@ -265,7 +265,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $res = new Mage_Ideal_Model_Api_Advanced_AcquirerTrxResponse();
 
         if (!$request->checkMandatory()) {
-            $res->setError(Mage::helper('ideal')->__('Required fields missing'));
+            $res->setError(AO::helper('ideal')->__('Required fields missing'));
             return $res;
         }
 
@@ -358,7 +358,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $res = new Mage_Ideal_Model_Api_Advanced_AcquirerStatusResponse();
 
         if (!$request->checkMandatory()) {
-            $$request->setErrorMessage(Mage::helper('ideal')->__('Required fields missing'));
+            $$request->setErrorMessage(AO::helper('ideal')->__('Required fields missing'));
             return $res;
         }
 

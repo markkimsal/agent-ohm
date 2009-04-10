@@ -72,7 +72,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                 $feed = $x;
                 $name = $_item->getName();
             }
-            foreach (Mage::helper('core/string')->str_split($name, 60, true, true) as $key => $part) {
+            foreach (AO::helper('core/string')->str_split($name, 60, true, true) as $key => $part) {
                 $page->drawText($part, $feed, $pdf->y - $shift[0], 'UTF-8');
                 if ($key > 0) {
                     $shift[0] += 10;
@@ -83,7 +83,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
             // draw SKUs
             $shift[2] = 0;
             if (!$_item->getOrderItem()->getParentItem()) {
-                foreach (Mage::helper('core/string')->str_split($item->getSku(), 30) as $key => $part) {
+                foreach (AO::helper('core/string')->str_split($item->getSku(), 30) as $key => $part) {
                     if ($key > 0) {
                         $shift[2] += 10;
                     }
@@ -128,7 +128,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
                     $this->_setFontItalic();
-                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true) as $_option) {
+                    foreach (AO::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true) as $_option) {
                         $page->drawText($_option, $leftBound, $pdf->y-$shift[1], 'UTF-8');
                         $shift[1] += 10;
                     }
@@ -136,7 +136,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                     if ($option['value']) {
                         $values = explode(', ', strip_tags($option['value']));
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 50,true,true) as $_value) {
+                            foreach (AO::helper('core/string')->str_split($value, 50,true,true) as $_value) {
                                 $page->drawText($_value, $leftBound + 5, $pdf->y-$shift[1], 'UTF-8');
                                 $shift[1] += 10;
                             }

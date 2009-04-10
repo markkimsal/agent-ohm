@@ -158,7 +158,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract implements Mage
      */
     public function getInputRendererClass() {
         if ($className = $this->getAttribute()->getData('frontend_input_renderer')) {
-            return Mage::getConfig()->getBlockClassName($className);
+            return AO::getConfig()->getBlockClassName($className);
         }
         return null;
     }

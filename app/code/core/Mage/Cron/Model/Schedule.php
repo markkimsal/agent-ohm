@@ -48,7 +48,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
     {
         $e = preg_split('#\s+#', $expr, null, PREG_SPLIT_NO_EMPTY);
         if (sizeof($e)<5 || sizeof($e)>6) {
-            throw Mage::exception('Mage_Cron', 'Invalid cron expression: '.$expr);
+            throw AO::exception('Mage_Cron', 'Invalid cron expression: '.$expr);
         }
 
         $this->setCronExprArr($e);
@@ -73,7 +73,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
             $time = strtotime($time);
         }
 
-        $d = getdate(Mage::getSingleton('core/date')->timestamp($time));
+        $d = getdate(AO::getSingleton('core/date')->timestamp($time));
 
         $match = $this->matchCronExpression($e[0], $d['minutes'])
             && $this->matchCronExpression($e[1], $d['hours'])
@@ -109,10 +109,10 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
         if (strpos($expr,'/')!==false) {
             $e = explode('/', $expr);
             if (sizeof($e)!==2) {
-                throw Mage::exception('Mage_Cron', "Invalid cron expression, expecting 'match/modulus': ".$expr);
+                throw AO::exception('Mage_Cron', "Invalid cron expression, expecting 'match/modulus': ".$expr);
             }
             if (!is_numeric($e[1])) {
-                throw Mage::exception('Mage_Cron', "Invalid cron expression, expecting numeric modulus: ".$expr);
+                throw AO::exception('Mage_Cron', "Invalid cron expression, expecting numeric modulus: ".$expr);
             }
             $expr = $e[0];
             $mod = $e[1];
@@ -129,7 +129,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
         elseif (strpos($expr,'-')!==false) {
             $e = explode('-', $expr);
             if (sizeof($e)!==2) {
-                throw Mage::exception('Mage_Cron', "Invalid cron expression, expecting 'from-to' structure: ".$expr);
+                throw AO::exception('Mage_Cron', "Invalid cron expression, expecting 'from-to' structure: ".$expr);
             }
 
             $from = $this->getNumeric($e[0]);
@@ -142,7 +142,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
         }
 
         if ($from===false || $to===false) {
-            throw Mage::exception('Mage_Cron', "Invalid cron expression: ".$expr);
+            throw AO::exception('Mage_Cron', "Invalid cron expression: ".$expr);
         }
 
         return ($num>=$from) && ($num<=$to) && ($num%$mod===0);

@@ -48,15 +48,15 @@ class Mage_Rating_Model_Mysql4_Rating_Option
 
     public function __construct()
     {
-        $this->_reviewTable     = Mage::getSingleton('core/resource')->getTableName('review/review');
-        $this->_ratingOptionTable  = Mage::getSingleton('core/resource')->getTableName('rating/rating_option');
-        $this->_ratingVoteTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
-        $this->_aggregateTable    = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote_aggregated');
-        $this->_reviewStoreTable  = Mage::getSingleton('core/resource')->getTableName('review/review_store');
-        $this->_ratingStoreTable  = Mage::getSingleton('core/resource')->getTableName('rating/rating_store');
+        $this->_reviewTable     = AO::getSingleton('core/resource')->getTableName('review/review');
+        $this->_ratingOptionTable  = AO::getSingleton('core/resource')->getTableName('rating/rating_option');
+        $this->_ratingVoteTable    = AO::getSingleton('core/resource')->getTableName('rating/rating_vote');
+        $this->_aggregateTable    = AO::getSingleton('core/resource')->getTableName('rating/rating_vote_aggregated');
+        $this->_reviewStoreTable  = AO::getSingleton('core/resource')->getTableName('review/review_store');
+        $this->_ratingStoreTable  = AO::getSingleton('core/resource')->getTableName('rating/rating_store');
 
-        $this->_read  = Mage::getSingleton('core/resource')->getConnection('rating_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('rating_write');
+        $this->_read  = AO::getSingleton('core/resource')->getConnection('rating_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('rating_write');
     }
 
     public function save($object)
@@ -79,7 +79,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
 
     public function addVote($option)
     {
-        $action = Mage::app()->getFrontController()->getAction();
+        $action = AO::app()->getFrontController()->getAction();
 
         if ($action instanceof Mage_Core_Controller_Front_Action || $action instanceof Mage_Adminhtml_Controller_Action) {
             $optionData = $this->load($option->getId());
@@ -93,7 +93,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
             if( !$option->getDoUpdate() ) {
                 $data['remote_ip'] = $action->getRequest()->getServer('REMOTE_ADDR');
                 $data['remote_ip_long'] = ip2long($action->getRequest()->getServer('REMOTE_ADDR'));
-                $data['customer_id'] = Mage::getSingleton('customer/session')->getCustomerId();
+                $data['customer_id'] = AO::getSingleton('customer/session')->getCustomerId();
                 $data['entity_pk_value'] = $option->getEntityPkValue();
                 $data['rating_id'] = $option->getRatingId();
             }
@@ -122,7 +122,7 @@ class Mage_Rating_Model_Mysql4_Rating_Option
     public function aggregate($option)
     {
         $optionData = $this->load($option->getId());
-        $vote = Mage::getModel('rating/rating_option_vote')->load($option->getVoteId());
+        $vote = AO::getModel('rating/rating_option_vote')->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
 

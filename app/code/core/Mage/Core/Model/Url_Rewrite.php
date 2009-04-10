@@ -161,17 +161,17 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
      */
     public function rewrite(Zend_Controller_Request_Http $request=null, Zend_Controller_Response_Http $response=null)
     {
-        if (!Mage::isInstalled()) {
+        if (!AO::isInstalled()) {
             return false;
         }
         if (is_null($request)) {
-            $request = Mage::app()->getFrontController()->getRequest();
+            $request = AO::app()->getFrontController()->getRequest();
         }
         if (is_null($response)) {
-            $response = Mage::app()->getFrontController()->getResponse();
+            $response = AO::app()->getFrontController()->getResponse();
         }
         if (is_null($this->getStoreId()) || false===$this->getStoreId()) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId(AO::app()->getStore()->getId());
         }
 
         $requestCases = array();
@@ -196,7 +196,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
          */
         if (!$this->getId() && isset($_GET['___from_store'])) {
             try {
-                $fromStoreId = Mage::app()->getStore($_GET['___from_store']);
+                $fromStoreId = AO::app()->getStore($_GET['___from_store']);
             }
             catch (Exception $e) {
                 return false;
@@ -206,7 +206,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             if (!$this->getId()) {
                 return false;
             }
-            $this->setStoreId(Mage::app()->getStore()->getId())->loadByIdPath($this->getIdPath());
+            $this->setStoreId(AO::app()->getStore()->getId())->loadByIdPath($this->getIdPath());
         }
 
         if (!$this->getId()) {
@@ -228,7 +228,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
+            if (AO::getStoreConfig('web/url/use_store') && $storeCode = AO::app()->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
             if ($isPermanentRedirectOption) {
@@ -238,7 +238,7 @@ class Mage_Core_Model_Url_Rewrite extends Mage_Core_Model_Abstract
             exit;
         }
 
-        if (Mage::getStoreConfig('web/url/use_store') && $storeCode = Mage::app()->getStore()->getCode()) {
+        if (AO::getStoreConfig('web/url/use_store') && $storeCode = AO::app()->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 

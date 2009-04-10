@@ -74,6 +74,6 @@ class Mage_Sales_Model_Order_Invoice_Comment extends Mage_Sales_Model_Abstract
         if ($this->getInvoice()) {
             return $this->getInvoice()->getStore();
         }
-        return Mage::app()->getStore();
+        return AO::app()->getStore();
     }
 }

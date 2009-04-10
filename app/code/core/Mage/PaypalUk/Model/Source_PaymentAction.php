@@ -35,8 +35,8 @@ class Mage_PaypalUk_Model_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_PaypalUk_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => Mage::helper('paypalUk')->__('Authorization')),
-            array('value' => Mage_PaypalUk_Model_Api_Abstract::PAYMENT_TYPE_SALE, 'label' => Mage::helper('paypalUk')->__('Sale')),
+            array('value' => Mage_PaypalUk_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => AO::helper('paypalUk')->__('Authorization')),
+            array('value' => Mage_PaypalUk_Model_Api_Abstract::PAYMENT_TYPE_SALE, 'label' => AO::helper('paypalUk')->__('Sale')),
         );
     }
 }

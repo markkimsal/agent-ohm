@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
                     $available = split(',', $available);
                 }
                 if (!in_array($object->getData($attributeCode), $available)) {
-                    Mage::throwException(Mage::helper('eav')->__('Default Product Listing Sort by not exists on Available Product Listing Sort by'));
+                    AO::throwException(AO::helper('eav')->__('Default Product Listing Sort by not exists on Available Product Listing Sort by'));
                 }
             }
         }

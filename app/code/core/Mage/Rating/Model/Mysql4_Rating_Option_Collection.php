@@ -38,13 +38,13 @@ class Mage_Rating_Model_Mysql4_Rating_Option_Collection extends Varien_Data_Coll
 
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('rating_read'));
-        $this->_ratingOptionTable   = Mage::getSingleton('core/resource')->getTableName('rating/rating_option');
-        $this->_ratingVoteTable     = Mage::getSingleton('core/resource')->getTableName('rating/rating_vote');
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('rating_read'));
+        $this->_ratingOptionTable   = AO::getSingleton('core/resource')->getTableName('rating/rating_option');
+        $this->_ratingVoteTable     = AO::getSingleton('core/resource')->getTableName('rating/rating_vote');
 
         $this->_select->from($this->_ratingOptionTable);
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('rating/rating_option'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('rating/rating_option'));
     }
 
     /**

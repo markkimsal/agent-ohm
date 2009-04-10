@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Gallery extends Mage_Adminhtml_Bl
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Delete'),
+                    'label'     => AO::helper('adminhtml')->__('Delete'),
                     'onclick'   => "deleteImage(#image#)",
                     'class' => 'delete'
                 )));
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Widget_Form_Element_Gallery extends Mage_Adminhtml_Bl
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Add New Image'),
+                    'label'     => AO::helper('adminhtml')->__('Add New Image'),
                     'onclick'   => 'addNewImage()',
                     'class' => 'add'
                 )));

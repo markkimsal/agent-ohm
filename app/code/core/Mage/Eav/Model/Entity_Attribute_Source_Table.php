@@ -51,7 +51,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
             $this->_optionsDefault = array();
         }
         if (!isset($this->_options[$storeId])) {
-            $collection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $collection = AO::getResourceModel('eav/entity_attribute_option_collection')
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
@@ -129,7 +129,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
             );
         $valueExpr = new Zend_Db_Expr("IFNULL(`{$valueTable2}`.`value`, `{$valueTable1}`.`value`)");
 
-        Mage::getResourceModel('eav/entity_attribute_option')
+        AO::getResourceModel('eav/entity_attribute_option')
             ->addOptionValueToCollection($collection, $this->getAttribute(), $valueExpr);
 
         $collection->getSelect()
@@ -208,7 +208,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Table extends Mage_Eav_Model_Entity
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('eav/entity_attribute_option')
+        return AO::getResourceModel('eav/entity_attribute_option')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

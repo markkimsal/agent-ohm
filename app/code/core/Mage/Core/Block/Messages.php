@@ -42,7 +42,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
 
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('core/session')->getMessages(true));
+        $this->addMessages(AO::getSingleton('core/session')->getMessages(true));
 
         parent::_prepareLayout();
     }
@@ -75,7 +75,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
     public function getMessageCollection()
     {
         if (!($this->_messages instanceof Mage_Core_Model_Message_Collection)) {
-            $this->_messages = Mage::getModel('core/message_collection');
+            $this->_messages = AO::getModel('core/message_collection');
         }
         return $this->_messages;
     }
@@ -100,7 +100,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addError($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->error($message));
+        $this->addMessage(AO::getSingleton('core/message')->error($message));
         return $this;
     }
 
@@ -112,7 +112,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addWarning($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->warning($message));
+        $this->addMessage(AO::getSingleton('core/message')->warning($message));
         return $this;
     }
 
@@ -124,7 +124,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addNotice($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->notice($message));
+        $this->addMessage(AO::getSingleton('core/message')->notice($message));
         return $this;
     }
 
@@ -136,7 +136,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage(Mage::getSingleton('core/message')->success($message));
+        $this->addMessage(AO::getSingleton('core/message')->success($message));
         return $this;
     }
 

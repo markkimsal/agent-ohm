@@ -38,7 +38,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
     public function _construct()
     {
         $this->_init('eav/entity_attribute_option');
-        $this->_optionValueTable = Mage::getSingleton('core/resource')->getTableName('eav/attribute_option_value');
+        $this->_optionValueTable = AO::getSingleton('core/resource')->getTableName('eav/attribute_option_value');
     }
 
     public function setAttributeFilter($setId)
@@ -50,7 +50,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Option_Collection extends Mage_Core
     public function setStoreFilter($storeId=null, $useDefaultValue=true)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
         $sortBy = 'store_default_value';
         if ($useDefaultValue) {

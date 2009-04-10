@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
         if ($this->getCustomerId()) {
             $this->_addButton('order', array(
-                'label' => Mage::helper('customer')->__('Create Order'),
+                'label' => AO::helper('customer')->__('Create Order'),
                 'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
             ), 0);
@@ -48,8 +48,8 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('customer')->__('Save Customer'));
-        $this->_updateButton('delete', 'label', Mage::helper('customer')->__('Delete Customer'));
+        $this->_updateButton('save', 'label', AO::helper('customer')->__('Save Customer'));
+        $this->_updateButton('delete', 'label', AO::helper('customer')->__('Delete Customer'));
 
     }
 
@@ -60,16 +60,16 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
 
     public function getCustomerId()
     {
-        return Mage::registry('current_customer')->getId();
+        return AO::registry('current_customer')->getId();
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('current_customer')->getId()) {
-            return $this->htmlEscape(Mage::registry('current_customer')->getName());
+        if (AO::registry('current_customer')->getId()) {
+            return $this->htmlEscape(AO::registry('current_customer')->getName());
         }
         else {
-            return Mage::helper('customer')->__('New Customer');
+            return AO::helper('customer')->__('New Customer');
         }
     }
 
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
     protected function _prepareLayout()
     {
     	$this->_addButton('save_and_continue', array(
-            'label'     => Mage::helper('customer')->__('Save And Continue Edit'),
+            'label'     => AO::helper('customer')->__('Save And Continue Edit'),
             'onclick'   => 'saveAndContinueEdit(\''.$this->_getSaveAndContinueUrl().'\')',
             'class' => 'save'
         ), 10);

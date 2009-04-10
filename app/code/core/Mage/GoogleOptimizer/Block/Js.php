@@ -35,7 +35,7 @@ class Mage_GoogleOptimizer_Block_Js extends Mage_Adminhtml_Block_Template
 {
     public function getJsonConversionPagesUrl()
     {
-        return Mage::helper('googleoptimizer')->getConversionPagesUrl()->toJson();
+        return AO::helper('googleoptimizer')->getConversionPagesUrl()->toJson();
     }
 
     public function getMaxCountOfAttributes()

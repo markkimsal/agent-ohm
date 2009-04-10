@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             $item->setMessage($check->getMessage());
             $item->setHasError($check->getHasError());
             if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
-                $item->setMessage(Mage::helper('adminhtml')->__('This product is currently disabled'));
+                $item->setMessage(AO::helper('adminhtml')->__('This product is currently disabled'));
                 $item->setHasError(true);
             }
         }
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             return $item->getOriginalCustomPrice()*1;
         } else {
             $result = $item->getCalculationPrice()*1;
-            if (Mage::helper('tax')->priceIncludesTax($this->getStore()) && $item->getTaxPercent()) {
+            if (AO::helper('tax')->priceIncludesTax($this->getStore()) && $item->getTaxPercent()) {
                 $result = $result + ($result*($item->getTaxPercent()/100));
             }
             return $result;
@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function isAllowedForGiftMessage($item)
     {
-        return Mage::getSingleton('adminhtml/giftmessage_save')->getIsAllowedQuoteItem($item);
+        return AO::getSingleton('adminhtml/giftmessage_save')->getIsAllowedQuoteItem($item);
     }
 
     public function getSubtotal()
@@ -235,10 +235,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
 
     public function getInclExclTaxMessage()
     {
-        if (Mage::helper('tax')->priceIncludesTax($this->getStore())) {
-            return Mage::helper('sales')->__('* - Enter custom price including tax');
+        if (AO::helper('tax')->priceIncludesTax($this->getStore())) {
+            return AO::helper('sales')->__('* - Enter custom price including tax');
         } else {
-            return Mage::helper('sales')->__('* - Enter custom price excluding tax');
+            return AO::helper('sales')->__('* - Enter custom price excluding tax');
         }
     }
 

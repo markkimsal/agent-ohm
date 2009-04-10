@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Comment extends Mage_Adminhtml_Blo
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Order Comment');
+        return AO::helper('sales')->__('Order Comment');
     }
 
     public function getCommentNote()

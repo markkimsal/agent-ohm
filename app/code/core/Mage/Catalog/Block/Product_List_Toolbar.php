@@ -110,7 +110,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('catalog/config');
+        return AO::getSingleton('catalog/config');
     }
 
     /**
@@ -120,13 +120,13 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = Mage::getStoreConfig(
+        $this->_orderField  = AO::getStoreConfig(
             Mage_Catalog_Model_Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
 
-        switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
+        switch (AO::getStoreConfig('catalog/frontend/list_mode')) {
             case 'grid':
                 $this->_availableMode = array('grid' => $this->__('Grid'));
                 break;
@@ -341,10 +341,10 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
     {
         $mode = $this->getRequest()->getParam($this->getModeVarName());
         if ($mode) {
-            Mage::getSingleton('catalog/session')->setDisplayMode($mode);
+            AO::getSingleton('catalog/session')->setDisplayMode($mode);
         }
         else {
-            $mode = Mage::getSingleton('catalog/session')->getDisplayMode();
+            $mode = AO::getSingleton('catalog/session')->getDisplayMode();
         }
 
         if ($mode && isset($this->_availableMode[$mode])) {
@@ -474,13 +474,13 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
             if ($default = $this->getDefaultListPerPage()) {
                 return $default;
             }
-            return Mage::getStoreConfig('catalog/frontend/list_per_page');
+            return AO::getStoreConfig('catalog/frontend/list_per_page');
         }
         elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
-            return Mage::getStoreConfig('catalog/frontend/grid_per_page');
+            return AO::getStoreConfig('catalog/frontend/grid_per_page');
         }
         return 0;
     }
@@ -513,7 +513,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
             if (isset($this->_availableLimit['list'])) {
                 return $this->_availableLimit['list'];
             }
-            $perPageValues = (string)Mage::getStoreConfig('catalog/frontend/list_per_page_values');
+            $perPageValues = (string)AO::getStoreConfig('catalog/frontend/list_per_page_values');
             $perPageValues = explode(',', $perPageValues);
             $perPageValues = array_combine($perPageValues, $perPageValues);
             return ($perPageValues + array('all'=>$this->__('All')));
@@ -522,7 +522,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
             if (isset($this->_availableLimit['grid'])) {
                 return $this->_availableLimit['grid'];
             }
-            $perPageValues = (string)Mage::getStoreConfig('catalog/frontend/grid_per_page_values');
+            $perPageValues = (string)AO::getStoreConfig('catalog/frontend/grid_per_page_values');
             $perPageValues = explode(',', $perPageValues);
             $perPageValues = array_combine($perPageValues, $perPageValues);
             return ($perPageValues + array('all'=>$this->__('All')));
@@ -541,9 +541,9 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         $limit = $this->getRequest()->getParam($this->getLimitVarName());
 
         if ($limit && isset($limits[$limit])) {
-            Mage::getSingleton('catalog/session')->setLimitPage($limit);
+            AO::getSingleton('catalog/session')->setLimitPage($limit);
         } else {
-            $limit = Mage::getSingleton('catalog/session')->getLimitPage();
+            $limit = AO::getSingleton('catalog/session')->getLimitPage();
         }
         if (isset($limits[$limit])) {
             return $limit;

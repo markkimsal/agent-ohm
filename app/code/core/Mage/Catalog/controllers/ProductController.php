@@ -39,7 +39,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      */
     protected function _initProduct()
     {
-        Mage::dispatchEvent('catalog_controller_product_init_before', array('controller_action'=>$this));
+        AO::dispatchEvent('catalog_controller_product_init_before', array('controller_action'=>$this));
         $categoryId = (int) $this->getRequest()->getParam('category', false);
         $productId  = (int) $this->getRequest()->getParam('id');
 
@@ -47,40 +47,40 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $product = AO::getModel('catalog/product')
+            ->setStoreId(AO::app()->getStore()->getId())
             ->load($productId);
 
-        if (!Mage::helper('catalog/product')->canShow($product)) {
+        if (!AO::helper('catalog/product')->canShow($product)) {
             return false;
         }
-        if (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+        if (!in_array(AO::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
             return false;
         }
 
         $category = null;
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = AO::getModel('catalog/category')->load($categoryId);
             $product->setCategory($category);
-            Mage::register('current_category', $category);
+            AO::register('current_category', $category);
         }
-        elseif ($categoryId = Mage::getSingleton('catalog/session')->getLastVisitedCategoryId()) {
+        elseif ($categoryId = AO::getSingleton('catalog/session')->getLastVisitedCategoryId()) {
             if ($product->canBeShowInCategory($categoryId)) {
-                $category = Mage::getModel('catalog/category')->load($categoryId);
+                $category = AO::getModel('catalog/category')->load($categoryId);
                 $product->setCategory($category);
-                Mage::register('current_category', $category);
+                AO::register('current_category', $category);
             }
         }
 
 
-        Mage::register('current_product', $product);
-        Mage::register('product', $product);
+        AO::register('current_product', $product);
+        AO::register('product', $product);
 
         try {
-            Mage::dispatchEvent('catalog_controller_product_init', array('product'=>$product));
-            Mage::dispatchEvent('catalog_controller_product_init_after', array('product'=>$product, 'controller_action' => $this));
+            AO::dispatchEvent('catalog_controller_product_init', array('product'=>$product));
+            AO::dispatchEvent('catalog_controller_product_init_after', array('product'=>$product, 'controller_action' => $this));
         } catch (Mage_Core_Exception $e) {
-            Mage::logException($e);
+            AO::logException($e);
             return false;
         }
 
@@ -108,7 +108,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 
         $this->generateLayoutXml()->generateLayoutBlocks();
 
-        $currentCategory = Mage::registry('current_category');
+        $currentCategory = AO::registry('current_category');
         if ($root = $this->getLayout()->getBlock('root')) {
             $root->addBodyClass('product-'.$product->getUrlKey());
             if ($currentCategory instanceof Mage_Catalog_Model_Category) {
@@ -125,15 +125,15 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         if ($product = $this->_initProduct()) {
-            Mage::dispatchEvent('catalog_controller_product_view', array('product'=>$product));
+            AO::dispatchEvent('catalog_controller_product_view', array('product'=>$product));
 
             if ($this->getRequest()->getParam('options')) {
                 $notice = $product->getTypeInstance(true)->getSpecifyOptionMessage();
-                Mage::getSingleton('catalog/session')->addNotice($notice);
+                AO::getSingleton('catalog/session')->addNotice($notice);
             }
 
-            Mage::getSingleton('catalog/session')->setLastViewedProductId($product->getId());
-            Mage::getModel('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
+            AO::getSingleton('catalog/session')->setLastViewedProductId($product->getId());
+            AO::getModel('catalog/design')->applyDesign($product, Mage_Catalog_Model_Design::APPLY_FOR_PRODUCT);
 
             $this->_initProductLayout($product);
             $this->_initLayoutMessages('catalog/session');
@@ -185,11 +185,11 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         }
 
         try {
-            $imageModel = Mage::getModel('catalog/product_image');
+            $imageModel = AO::getModel('catalog/product_image');
             $imageModel->setSize($size)
                 ->setBaseFile($imageFile)
                 ->resize()
-                ->setWatermark( Mage::getStoreConfig('catalog/watermark/image') )
+                ->setWatermark( AO::getStoreConfig('catalog/watermark/image') )
                 ->saveFile()
                 ->push();
         } catch( Exception $e ) {

@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter ext
     {
         $form = new Varien_Data_Form();
 
-        $collection = Mage::getModel('eav/entity_attribute_set')
+        $collection = AO::getModel('eav/entity_attribute_set')
             ->getResourceCollection()
             ->load()
             ->toOptionArray();

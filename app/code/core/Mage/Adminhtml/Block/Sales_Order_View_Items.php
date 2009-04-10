@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items extends Mage_Adminhtml_Block_S
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
+            AO::throwException(AO::helper('adminhtml')->__('Invalid parrent block for this block'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         parent::_beforeToHtml();

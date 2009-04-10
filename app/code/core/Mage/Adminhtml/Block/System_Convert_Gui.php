@@ -37,8 +37,8 @@ class Mage_Adminhtml_Block_System_Convert_Gui extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller = 'system_convert_gui';
-        $this->_headerText = Mage::helper('adminhtml')->__('Profiles');
-        $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add New Profile');
+        $this->_headerText = AO::helper('adminhtml')->__('Profiles');
+        $this->_addButtonLabel = AO::helper('adminhtml')->__('Add New Profile');
 
         parent::__construct();
     }

@@ -61,7 +61,7 @@ class Mage_Eav_Model_Entity_Increment_Alphanum
         for ($i = $lid; $i >= 0; $i--) {
             $p = strpos($chars, $lastId{$i});
             if (false===$p) {
-                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid character encountered in increment ID: %s', $lastId));
+                throw AO::exception('Mage_Eav', AO::helper('eav')->__('Invalid character encountered in increment ID: %s', $lastId));
             }
             if ($bumpNextChar) {
                 $p++;

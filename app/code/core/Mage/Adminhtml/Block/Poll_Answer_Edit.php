@@ -43,19 +43,19 @@ class Mage_Adminhtml_Block_Poll_Answer_Edit extends Mage_Adminhtml_Block_Widget_
         $this->_controller = 'poll_answer';
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $answerData = Mage::getModel('poll/poll_answer')
+            $answerData = AO::getModel('poll/poll_answer')
                 ->load($this->getRequest()->getParam($this->_objectId));
-            Mage::register('answer_data', $answerData);
+            AO::register('answer_data', $answerData);
         }
 
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/poll/edit', array('id' => $answerData->getPollId(), 'tab' => 'answers_section')) . '\');');
-        $this->_updateButton('save', 'label', Mage::helper('poll')->__('Save Answer'));
-        $this->_updateButton('delete', 'label', Mage::helper('poll')->__('Delete Answer'));
+        $this->_updateButton('save', 'label', AO::helper('poll')->__('Save Answer'));
+        $this->_updateButton('delete', 'label', AO::helper('poll')->__('Delete Answer'));
     }
 
     public function getHeaderText()
     {
-        return Mage::helper('poll')->__("Edit Answer '%s'", $this->htmlEscape(Mage::registry('answer_data')->getAnswerTitle()));
+        return AO::helper('poll')->__("Edit Answer '%s'", $this->htmlEscape(AO::registry('answer_data')->getAnswerTitle()));
     }
 
 }

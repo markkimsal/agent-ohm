@@ -90,7 +90,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
      */
     public function getItemCollection()
     {
-        return Mage::getResourceModel('cataloginventory/stock_item_collection')
+        return AO::getResourceModel('cataloginventory/stock_item_collection')
             ->addStockFilter($this->getId());
     }
 
@@ -103,19 +103,19 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     public function registerItemSale(Varien_Object $item)
     {
         if ($productId = $item->getProductId()) {
-            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
-            if (Mage::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
+            $stockItem = AO::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            if (AO::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
                 if ($item->getStoreId()) {
                     $stockItem->setStoreId($item->getStoreId());
                 }
-                if ($stockItem->checkQty($item->getQtyOrdered()) || Mage::app()->getStore()->isAdmin()) {
+                if ($stockItem->checkQty($item->getQtyOrdered()) || AO::app()->getStore()->isAdmin()) {
                     $stockItem->subtractQty($item->getQtyOrdered());
                     $stockItem->save();
                 }
             }
         }
         else {
-            Mage::throwException(Mage::helper('cataloginventory')->__('Can not specify product identifier for order item'));
+            AO::throwException(AO::helper('cataloginventory')->__('Can not specify product identifier for order item'));
         }
         return $this;
     }
@@ -129,8 +129,8 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
      */
     public function backItemQty($productId, $qty)
     {
-        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
-        if ($stockItem->getId() && Mage::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
+        $stockItem = AO::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+        if ($stockItem->getId() && AO::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
             $stockItem->addQty($qty);
             if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {
                 $stockItem->setIsInStock(true)

@@ -92,7 +92,7 @@ class Mage_Dataflow_Model_Batch_Io
     public function getPath()
     {
         if (is_null($this->_path)) {
-            $this->_path = $this->getIoAdapter()->getCleanPath(Mage::getBaseDir('tmp'));
+            $this->_path = $this->getIoAdapter()->getCleanPath(AO::getBaseDir('tmp'));
             $this->getIoAdapter()->checkAndCreateFolder($this->_path);
         }
         return $this->_path;

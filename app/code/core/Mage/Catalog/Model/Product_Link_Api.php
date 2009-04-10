@@ -120,7 +120,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
         } catch (Exception $e) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Link product not exists.'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Link product not exists.'));
         }
 
         return true;
@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
         } catch (Exception $e) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Link product not exists.'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Link product not exists.'));
         }
 
         return true;
@@ -217,7 +217,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
     {
         $typeId = $this->_getTypeId($type);
 
-        $attributes = Mage::getModel('catalog/product_link')
+        $attributes = AO::getModel('catalog/product_link')
             ->getAttributes($typeId);
 
         $result = array();
@@ -267,7 +267,7 @@ class Mage_Catalog_Model_Product_Link_Api extends Mage_Catalog_Model_Api_Resourc
     {
 
 
-        $product = Mage::getModel('catalog/product')
+        $product = AO::getModel('catalog/product')
             ->setStoreId($this->_getStoreId());
 
         $idBySku = $product->getIdBySku($productId);

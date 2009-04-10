@@ -62,7 +62,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
     public function getProduct()
     {
         if (!$this->getData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', AO::registry('product'));
         }
         return $this->getData('product');
     }
@@ -86,7 +86,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !AO::app()->isSingleStoreMode();
     }
 
     protected function _prepareLayout()
@@ -95,7 +95,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'id'    => $this->getFieldId().'_{{index}}_add_button',
-                    'label'     => Mage::helper('bundle')->__('Add Selection'),
+                    'label'     => AO::helper('bundle')->__('Add Selection'),
                     'on_click'   => 'bSelection.showSearch(event)',
                     'class' => 'add'
                 )));
@@ -104,7 +104,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'id'    => $this->getFieldId().'_{{index}}_close_button',
-                    'label'     => Mage::helper('bundle')->__('Close'),
+                    'label'     => AO::helper('bundle')->__('Close'),
                     'on_click'   => 'bSelection.closeSearch(event)',
                     'class' => 'back no-display'
                 )));
@@ -112,7 +112,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
         $this->setChild('option_delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete Option'),
+                    'label' => AO::helper('catalog')->__('Delete Option'),
                     'class' => 'delete delete-product-option',
                     'on_click' => 'bOption.remove(event)'
                 ))
@@ -184,7 +184,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
                 'extra_params' => 'onchange="bOption.changeType(event)"'
             ))
             ->setName($this->getFieldName().'[{{index}}][type]')
-            ->setOptions(Mage::getSingleton('bundle/source_option_type')->toOptionArray());
+            ->setOptions(AO::getSingleton('bundle/source_option_type')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -197,7 +197,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{index}}][required]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(AO::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
 
         return $select->getHtml();
     }

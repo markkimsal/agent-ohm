@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('category_info_tabs');
         $this->setDestElementId('category_tab_content');
-        $this->setTitle(Mage::helper('catalog')->__('Category Data'));
+        $this->setTitle(AO::helper('catalog')->__('Category Data'));
         $this->setTemplate('widget/tabshoriz.phtml');
     }
 
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return AO::registry('current_category');
     }
 
     /**
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
      */
     public function getCatalogHelper()
     {
-        return Mage::helper('adminhtml/catalog');
+        return AO::helper('adminhtml/catalog');
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
     {
         $categoryAttributes = $this->getCategory()->getAttributes();
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
-        $groupCollection    = Mage::getResourceModel('eav/entity_attribute_group_collection')
+        $groupCollection    = AO::getResourceModel('eav/entity_attribute_group_collection')
             ->setAttributeSetFilter($attributeSetId)
             ->load();
         $defaultGroupId = 0;
@@ -128,41 +128,41 @@ class Mage_Adminhtml_Block_Catalog_Category_Tabs extends Mage_Adminhtml_Block_Wi
                 ->setAddHiddenFields($active)
                 ->toHtml();
             $this->addTab('group_' . $group->getId(), array(
-                'label'     => Mage::helper('catalog')->__($group->getAttributeGroupName()),
+                'label'     => AO::helper('catalog')->__($group->getAttributeGroupName()),
                 'content'   => $block,
                 'active'    => $active
             ));
         }
 
 //        $this->addTab('general', array(
-//            'label'     => Mage::helper('catalog')->__('General Information'),
+//            'label'     => AO::helper('catalog')->__('General Information'),
 //            'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_general')->toHtml(),
 //            'active'    => true
 //        ));
 
         $this->addTab('products', array(
-            'label'     => Mage::helper('catalog')->__('Category Products'),
+            'label'     => AO::helper('catalog')->__('Category Products'),
             'content'   => $this->getLayout()->createBlock('adminhtml/catalog_category_tab_product', 'category.product.grid')->toHtml(),
         ));
 
         // dispatch event add custom tabs
-        Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
+        AO::dispatchEvent('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 
         /**
          * @todo Adding tab in observer
          */
-        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
-            && Mage::helper('googleoptimizer')->isOptimizerActive($this->getCategory()->getStoreId())) {
+        if (AO::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
+            && AO::helper('googleoptimizer')->isOptimizerActive($this->getCategory()->getStoreId())) {
             $this->addTab('googleoptimizer', array(
-                'label'     => Mage::helper('googleoptimizer')->__('Category View Optimization'),
+                'label'     => AO::helper('googleoptimizer')->__('Category View Optimization'),
                 'content'   => $this->getLayout()->createBlock('googleoptimizer/adminhtml_catalog_category_edit_tab_googleoptimizer')->toHtml(),
             ));
         }
 
         /*$this->addTab('features', array(
-            'label'     => Mage::helper('catalog')->__('Feature Products'),
+            'label'     => AO::helper('catalog')->__('Feature Products'),
             'content'   => 'Feature Products'
         ));        */
         return parent::_prepareLayout();

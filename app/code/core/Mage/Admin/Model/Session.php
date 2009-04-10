@@ -67,28 +67,28 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
 
         try {
             /* @var $user Mage_Admin_Model_User */
-            $user = Mage::getModel('admin/user');
+            $user = AO::getModel('admin/user');
             $user->login($username, $password);
             if ($user->getId()) {
-                if (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
-                    Mage::getSingleton('adminhtml/url')->renewSecretUrls();
+                if (AO::getSingleton('adminhtml/url')->useSecretKey()) {
+                    AO::getSingleton('adminhtml/url')->renewSecretUrls();
                 }
-                $session = Mage::getSingleton('admin/session');
+                $session = AO::getSingleton('admin/session');
                 $session->setIsFirstVisit(true);
                 $session->setUser($user);
-                $session->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
+                $session->setAcl(AO::getResourceModel('admin/acl')->loadAcl());
                 if ($requestUri = $this->_getRequestUri($request)) {
                     header('Location: ' . $requestUri);
                     exit;
                 }
             }
             else {
-                Mage::throwException(Mage::helper('adminhtml')->__('Invalid Username or Password.'));
+                AO::throwException(AO::helper('adminhtml')->__('Invalid Username or Password.'));
             }
         }
         catch (Mage_Core_Exception $e) {
             if ($request && !$request->getParam('messageSent')) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $request->setParam('messageSent', true);
             }
         }
@@ -111,7 +111,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('admin/acl')->loadAcl());
+            $this->setAcl(AO::getResourceModel('admin/acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('password');
@@ -123,8 +123,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
     /**
      * Check current user permission on resource and privilege
      *
-     * Mage::getSingleton('admin/session')->isAllowed('admin/catalog')
-     * Mage::getSingleton('admin/session')->isAllowed('catalog')
+     * AO::getSingleton('admin/session')->isAllowed('admin/catalog')
+     * AO::getSingleton('admin/session')->isAllowed('catalog')
      *
      * @param   string $resource
      * @param   string $privilege
@@ -186,8 +186,8 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _getRequestUri($request = null)
     {
-        if (Mage::getSingleton('adminhtml/url')->useSecretKey()) {
-            return Mage::getSingleton('adminhtml/url')->getUrl('*/*/*', array('_current' => true));
+        if (AO::getSingleton('adminhtml/url')->useSecretKey()) {
+            return AO::getSingleton('adminhtml/url')->getUrl('*/*/*', array('_current' => true));
         } elseif ($request) {
             return $request->getRequestUri();
         } else {

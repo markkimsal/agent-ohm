@@ -47,21 +47,21 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Catalog_Block_Product_A
     public function getWishlist()
     {
         if(!$this->_wishlistLoaded) {
-            Mage::registry('wishlist')
-                ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
+            AO::registry('wishlist')
+                ->loadByCustomer(AO::getSingleton('customer/session')->getCustomer());
 
-            $collection = Mage::registry('wishlist')->getProductCollection()
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-                //->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
+            $collection = AO::registry('wishlist')->getProductCollection()
+                ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
+                //->addAttributeToFilter('store_id', array('in'=>AO::registry('wishlist')->getSharedStoreIds()))
                 ->addStoreFilter();
 
-            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+            AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+            AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
 
             $this->_wishlistLoaded = true;
         }
 
-        return Mage::registry('wishlist')->getProductCollection();
+        return AO::registry('wishlist')->getProductCollection();
     }
 
     public function getEscapedDescription(Varien_Object $item)

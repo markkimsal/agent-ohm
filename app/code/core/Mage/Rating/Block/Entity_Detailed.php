@@ -41,29 +41,29 @@ class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
 
     protected function _toHtml()
     {
-        $entityId = Mage::app()->getRequest()->getParam('id');
+        $entityId = AO::app()->getRequest()->getParam('id');
         if( intval($entityId) <= 0 ) {
             return '';
         }
 
-        $reviewsCount = Mage::getModel('review/review')
+        $reviewsCount = AO::getModel('review/review')
             ->getTotalReviews($entityId, true);
         if( $reviewsCount == 0 ) {
-            #return Mage::helper('rating')->__('Be the first to review this product');
+            #return AO::helper('rating')->__('Be the first to review this product');
             $this->setTemplate('rating/empty.phtml');
             return parent::_toHtml();
         }
 
-        $ratingCollection = Mage::getModel('rating/rating')
+        $ratingCollection = AO::getModel('rating/rating')
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()
-            ->setStoreFilter(Mage::app()->getStore()->getId())
-            ->addRatingPerStoreName(Mage::app()->getStore()->getId())
+            ->setStoreFilter(AO::app()->getStore()->getId())
+            ->addRatingPerStoreName(AO::app()->getStore()->getId())
             ->load();
 
         if ($entityId) {
-            $ratingCollection->addEntitySummaryToItem($entityId, Mage::app()->getStore()->getId());
+            $ratingCollection->addEntitySummaryToItem($entityId, AO::app()->getStore()->getId());
         }
 
         $this->assign('collection', $ratingCollection);

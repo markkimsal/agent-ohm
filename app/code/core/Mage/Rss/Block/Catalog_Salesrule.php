@@ -47,15 +47,15 @@ class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
     {
         //store id is store view id
         $storeId = $this->_getStoreId();
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = AO::app()->getStore($storeId)->getWebsiteId();
         //customer group id
         $custGroup =   $this->_getCustomerGroupId();
 
-        $newurl = Mage::getUrl('rss/catalog/salesrule');
-        $title = Mage::helper('rss')->__('%s - Discounts and Coupons',Mage::app()->getStore($storeId)->getName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $newurl = AO::getUrl('rss/catalog/salesrule');
+        $title = AO::helper('rss')->__('%s - Discounts and Coupons',AO::app()->getStore($storeId)->getName());
+        $lang = AO::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -65,7 +65,7 @@ class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
         $rssObj->_addHeader($data);
 
         $now = date('Y-m-d');
-        $_saleRule = Mage::getModel('salesrule/rule');
+        $_saleRule = AO::getModel('salesrule/rule');
         $collection = $_saleRule->getResourceCollection()
                     ->addFieldToFilter('from_date', array('date'=>true, 'to' => $now))
                     ->addFieldToFilter('website_ids',array('finset' => $websiteId))
@@ -76,7 +76,7 @@ class Mage_Rss_Block_Catalog_Salesrule extends Mage_Rss_Block_Abstract
         $collection->getSelect()->where('to_date is null or to_date>=?', $now);
         $collection->load();
 
-        $url = Mage::getUrl('');
+        $url = AO::getUrl('');
 
         foreach ($collection as $sr) {
             $description = '<table><tr>'.

@@ -53,7 +53,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
         $this->setChild('selection_delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete'),
+                    'label' => AO::helper('catalog')->__('Delete'),
                     'class' => 'delete icon-btn',
                     'on_click' => 'bSelection.remove(event)'
                 ))
@@ -75,7 +75,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_price_type]')
-            ->setOptions(Mage::getSingleton('bundle/source_option_selection_price_type')->toOptionArray());
+            ->setOptions(AO::getSingleton('bundle/source_option_selection_price_type')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -88,7 +88,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_can_change_qty]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(AO::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
 
         return $select->getHtml();
     }

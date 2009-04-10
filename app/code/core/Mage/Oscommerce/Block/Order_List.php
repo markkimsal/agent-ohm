@@ -35,9 +35,9 @@ class Mage_Oscommerce_Block_Order_List extends Mage_Core_Block_Template
     {
         parent::_construct();
         $this->setTemplate('oscommerce/order/list.phtml');
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        $websiteId  = $websiteId = Mage::app()->getStore()->getWebsiteId();
-        $osCommerce = Mage::getModel('oscommerce/oscommerce');
+        $customerId = AO::getSingleton('customer/session')->getCustomerId();
+        $websiteId  = $websiteId = AO::app()->getStore()->getWebsiteId();
+        $osCommerce = AO::getModel('oscommerce/oscommerce');
         $oscOrders = $osCommerce->loadOrders($customerId, $websiteId);
         $this->setOsCommerceOrders($oscOrders);
     }
@@ -63,11 +63,11 @@ class Mage_Oscommerce_Block_Order_List extends Mage_Core_Block_Template
      */
     public function getOrder()
     {
-        return Mage::registry('current_oscommerce_order');
+        return AO::registry('current_oscommerce_order');
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return AO::getUrl('*/*/history');
     }
 }

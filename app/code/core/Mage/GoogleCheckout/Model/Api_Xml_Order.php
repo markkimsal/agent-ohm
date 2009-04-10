@@ -29,7 +29,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Order extends Mage_GoogleCheckout_Model_
     protected function _getApiUrl()
     {
         $url = $this->_getBaseApiUrl();
-        $url .= 'request/Merchant/'.Mage::getStoreConfig('google/checkout/merchant_id', $this->getStoreId());
+        $url .= 'request/Merchant/'.AO::getStoreConfig('google/checkout/merchant_id', $this->getStoreId());
         return $url;
     }
 
@@ -42,7 +42,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Order extends Mage_GoogleCheckout_Model_
             if (!$xml || !$xml->{'error-message'}) {
                 return false;
             }
-            Mage::throwException($this->__('Google Checkout: %s', (string)$xml->{'error-message'}));
+            AO::throwException($this->__('Google Checkout: %s', (string)$xml->{'error-message'}));
         }
     }
 

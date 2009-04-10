@@ -64,7 +64,7 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
             $this->setGuiData(unserialize($this->getGuiData()));
         }
 
-        Mage::getModel('core/convert_history')
+        AO::getModel('core/convert_history')
             ->setProfileId($this->getId())
             ->setActionCode($this->getOrigData('profile_id') ? 'update' : 'create')
             ->save();
@@ -74,13 +74,13 @@ class Mage_Core_Model_Convert_Profile extends Mage_Core_Model_Abstract
 
     public function run()
     {
-        Mage::getModel('core/convert_history')
+        AO::getModel('core/convert_history')
             ->setProfileId($this->getId())
             ->setActionCode('run')
             ->save();
 
         $xml = '<convert version="1.0"><profile name="default">'.$this->getActionsXml().'</profile></convert>';
-        $profile = Mage::getModel('core/convert')->importXml($xml)->getProfile('default');
+        $profile = AO::getModel('core/convert')->importXml($xml)->getProfile('default');
         try {
             $profile->run();
         } catch (Exception $e) {

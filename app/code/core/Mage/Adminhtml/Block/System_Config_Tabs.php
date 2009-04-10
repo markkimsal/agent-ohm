@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     protected function _construct()
     {
         $this->setId('system_config_tabs');
-        $this->setTitle(Mage::helper('adminhtml')->__('Configuration'));
+        $this->setTitle(AO::helper('adminhtml')->__('Configuration'));
         $this->setTemplate('system/config/tabs.phtml');
     }
 
@@ -75,9 +75,9 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $websiteCode = $this->getRequest()->getParam('website');
         $storeCode = $this->getRequest()->getParam('store');
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = AO::getModel('adminhtml/url');
 
-        $configFields = Mage::getSingleton('adminhtml/config');
+        $configFields = AO::getSingleton('adminhtml/config');
         $sections = $configFields->getSections($current);
         $tabs     = (array)$configFields->getTabs()->children();
        
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         foreach ($tabs as $tab) {
             $helperName = $configFields->getAttributeModule($tab);
-            $label = Mage::helper($helperName)->__((string)$tab->label);
+            $label = AO::helper($helperName)->__((string)$tab->label);
 
             $this->addTab($tab->getName(), array(
                 'label' => $label,
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
             $helperName = $configFields->getAttributeModule($section);
 
-            $label = Mage::helper($helperName)->__((string)$section->label);
+            $label = AO::helper($helperName)->__((string)$section->label);
 
             if ($code == $current) {
                 if (!$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store')) {
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             }
         }
 
-        Mage::helper('adminhtml')->addPageHelpUrl($current.'/');
+        AO::helper('adminhtml')->addPageHelpUrl($current.'/');
 
         return $this;
     }
@@ -205,14 +205,14 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = Mage::getSingleton('adminhtml/system_store');
+        $storeModel = AO::getSingleton('adminhtml/system_store');
         /* @var $storeModel Mage_Adminhtml_Model_System_Store */
 
-        $url = Mage::getModel('adminhtml/url');
+        $url = AO::getModel('adminhtml/url');
 
         $options = array();
         $options['default'] = array(
-            'label'    => Mage::helper('adminhtml')->__('Default Config'),
+            'label'    => AO::helper('adminhtml')->__('Default Config'),
             'url'      => $url->getUrl('*/*/*', array('section'=>$section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',
@@ -280,32 +280,32 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
 
         if (!$curWebsite && !$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('New Website'),
+                'label'     => AO::helper('adminhtml')->__('New Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/new')."'",
                 'class'     => 'add',
             ))->toHtml();
         } elseif (!$curStore) {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Edit Website'),
+                'label'     => AO::helper('adminhtml')->__('Edit Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/edit', array('website'=>$curWebsite))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('New Store View'),
+                'label'     => AO::helper('adminhtml')->__('New Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/new', array('website'=>$curWebsite))."'",
                 'class'     => 'add',
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Website'),
+                'label'     => AO::helper('adminhtml')->__('Delete Website'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_website/delete', array('website'=>$curWebsite))."'",
                 'class'     => 'delete',
             ))->toHtml();
         } else {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Edit Store View'),
+                'label'     => AO::helper('adminhtml')->__('Edit Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/edit', array('store'=>$curStore))."'",
             ))->toHtml();
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('adminhtml')->__('Delete Store View'),
+                'label'     => AO::helper('adminhtml')->__('Delete Store View'),
                 'onclick'   => "location.href='".$this->getUrl('*/system_store/delete', array('store'=>$curStore))."'",
                 'class'     => 'delete',
             ))->toHtml();
@@ -329,7 +329,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         }
 
         if (!$permissions) {
-            $permissions = Mage::getSingleton('admin/session');
+            $permissions = AO::getSingleton('admin/session');
         }
 
         $showTab = false;

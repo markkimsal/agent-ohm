@@ -41,20 +41,20 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
         parent::__construct();
         $this->setId($this->getId() . '_Uploader');
         $this->setTemplate('media/uploader.phtml');
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'));
+        $this->getConfig()->setUrl(AO::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(
             'images' => array(
-                'label' => Mage::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
+                'label' => AO::helper('adminhtml')->__('Images (.gif, .jpg, .png)'),
                 'files' => array('*.gif', '*.jpg', '*.png')
             ),
             'media' => array(
-                'label' => Mage::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
+                'label' => AO::helper('adminhtml')->__('Media (.avi, .flv, .swf)'),
                 'files' => array('*.avi', '*.flv', '*.swf')
             ),
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => AO::helper('adminhtml')->__('All Files'),
                 'files' => array('*.*')
             )
         ));
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('browse'),
-                    'label'   => Mage::helper('adminhtml')->__('Browse Files...'),
+                    'label'   => AO::helper('adminhtml')->__('Browse Files...'),
                     'type'    => 'button',
                     'onclick' => $this->getJsObjectName() . '.browse()'
                 ))
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => $this->_getButtonId('upload'),
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'label'   => AO::helper('adminhtml')->__('Upload Files'),
                     'type'    => 'button',
                     'onclick' => $this->getJsObjectName() . '.upload()'
                 ))
@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
                     'id'      => '{{id}}-delete',
                     'class'   => 'delete',
                     'type'    => 'button',
-                    'label'   => Mage::helper('adminhtml')->__('Remove'),
+                    'label'   => AO::helper('adminhtml')->__('Remove'),
                     'onclick' => $this->getJsObjectName() . '.removeFile(\'{{fileId}}\')'
                 ))
         );

@@ -47,17 +47,17 @@ class Mage_Adminhtml_Helper_Data extends Mage_Core_Helper_Abstract
     public function setPageHelpUrl($url=null)
     {
         if (is_null($url)) {
-            $request = Mage::app()->getRequest();
+            $request = AO::app()->getRequest();
 
             $frontName = $request->getModuleName();
-            $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
+            $router = AO::app()->getFrontController()->getRouterByFrontName($frontName);
 
             $frontModule = $router->getModuleByFrontName($frontName);
             if (is_array($frontModule)) {
                 $frontModule = $frontModule[0];
             }
             $url = 'http://www.magentocommerce.com/gethelp/';
-            $url.= Mage::app()->getLocale()->getLocaleCode().'/';
+            $url.= AO::app()->getLocale()->getLocaleCode().'/';
             $url.= $frontModule.'/';
             $url.= $request->getControllerName().'/';
             $url.= $request->getActionName().'/';
@@ -77,17 +77,17 @@ class Mage_Adminhtml_Helper_Data extends Mage_Core_Helper_Abstract
 
     public static function getUrl($route='', $params=array())
     {
-        return Mage::getModel('adminhtml/url')->getUrl($route, $params);
+        return AO::getModel('adminhtml/url')->getUrl($route, $params);
     }
 
 //    public function getCurrentUserId()
 //    {
-//        return Mage::getSingleton('admin/session')->getUser()->getId();
+//        return AO::getSingleton('admin/session')->getUser()->getId();
 //    }
     public function getCurrentUserId()
     {
-        if (Mage::getSingleton('admin/session')->getUser()) {
-            return Mage::getSingleton('admin/session')->getUser()->getId();
+        if (AO::getSingleton('admin/session')->getUser()) {
+            return AO::getSingleton('admin/session')->getUser()->getId();
         }
         return false;
     }

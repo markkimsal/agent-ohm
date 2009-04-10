@@ -44,10 +44,10 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
     public function saveAction()
     {
-        $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+        $userId = AO::getSingleton('admin/session')->getUser()->getId();
         $pwd    = null;
 
-        $user = Mage::getModel("admin/user")
+        $user = AO::getModel("admin/user")
                 ->setId($userId)
                 ->setUsername($this->getRequest()->getParam('username', false))
                 ->setFirstname($this->getRequest()->getParam('firstname', false))
@@ -60,26 +60,26 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         try {
             try {
                 if ($user->userExists()) {
-                    Mage::throwException(Mage::helper('adminhtml')->__('User with the same User Name or Email aleady exists'));
+                    AO::throwException(AO::helper('adminhtml')->__('User with the same User Name or Email aleady exists'));
                 }
                 $user->save();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Account successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('adminhtml')->__('Account successfully saved'));
             }
             catch (Mage_Core_Exception $e) {
                 throw $e;
             }
             catch (Exception $e) {
-                throw new Exception(Mage::helper('adminhtml')->__('Error while saving account. Please try again later'));
+                throw new Exception(AO::helper('adminhtml')->__('Error while saving account. Please try again later'));
             }
         }
         catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            AO::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
         $this->getResponse()->setRedirect($this->getUrl("*/*/"));
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/myaccount');
+        return AO::getSingleton('admin/session')->isAllowed('system/myaccount');
     }
 }

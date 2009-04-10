@@ -44,7 +44,7 @@ abstract class Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract exte
     protected function _getAllowedCurrencies()
     {
         if ($this->getData('groups/options/fields/allow/inherit')) {
-            return split(',', Mage::getConfig()->getNode('currency/options/allow', $this->getScope(), $this->getScopeId()));
+            return split(',', AO::getConfig()->getNode('currency/options/allow', $this->getScope(), $this->getScopeId()));
         }
         return $this->getData('groups/options/fields/allow/value');
     }
@@ -56,7 +56,7 @@ abstract class Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract exte
      */
     protected function _getInstalledCurrencies()
     {
-        return split(',', Mage::getStoreConfig('system/currency/installed'));
+        return split(',', AO::getStoreConfig('system/currency/installed'));
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract exte
     protected function _getCurrencyBase()
     {
         if (!$value = $this->getData('groups/options/fields/base/value')) {
-            $value = Mage::getConfig()->getNode(
+            $value = AO::getConfig()->getNode(
                 Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
                 $this->getScope(),
                 $this->getScopeId()
@@ -84,7 +84,7 @@ abstract class Mage_Adminhtml_Model_System_Config_Backend_Currency_Abstract exte
     protected function _getCurrencyDefault()
     {
         if (!$value = $this->getData('groups/options/fields/default/value')) {
-            $value = Mage::getConfig()->getNode(
+            $value = AO::getConfig()->getNode(
                 Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
                 $this->getScope(),
                 $this->getScopeId()

@@ -58,10 +58,10 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     {
         $invoice = false;
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            $invoice = Mage::getModel('sales/order_invoice')->load($invoiceId);
+            $invoice = AO::getModel('sales/order_invoice')->load($invoiceId);
         }
         elseif ($orderId = $this->getRequest()->getParam('order_id')) {
-            $order      = Mage::getModel('sales/order')->load($orderId);
+            $order      = AO::getModel('sales/order')->load($orderId);
             /**
              * Check order existing
              */
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                 return false;
             }
 
-            $convertor  = Mage::getModel('sales/convert_order');
+            $convertor  = AO::getModel('sales/convert_order');
             $invoice    = $convertor->toInvoice($order);
 
             $savedQtys = $this->_getItemQtys();
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $invoice->collectTotals();
         }
 
-        Mage::register('current_invoice', $invoice);
+        AO::register('current_invoice', $invoice);
         return $invoice;
     }
 
@@ -121,7 +121,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = AO::getModel('core/resource_transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder())
             ->save();
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
      */
     protected function _prepareShipment($invoice)
     {
-        $convertor  = Mage::getModel('sales/convert_order');
+        $convertor  = AO::getModel('sales/convert_order');
         /* @var $convertor Mage_Sales_Model_Convert_Order */
         $shipment    = $convertor->toShipment($invoice->getOrder());
 
@@ -198,7 +198,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
         if ($tracks = $this->getRequest()->getPost('tracking')) {
             foreach ($tracks as $data) {
-                $track = Mage::getModel('sales/order_shipment_track')
+                $track = AO::getModel('sales/order_shipment_track')
                 ->addData($data);
                 $shipment->addTrack($track);
             }
@@ -304,7 +304,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
 
                 $invoice->getOrder()->setIsInProcess(true);
 
-                $transactionSave = Mage::getModel('core/resource_transaction')
+                $transactionSave = AO::getModel('core/resource_transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder());
                 $shipment = false;
@@ -433,7 +433,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $this->getRequest()->setParam('invoice_id', $this->getRequest()->getParam('id'));
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException($this->__('Comment text field can not be empty.'));
+                AO::throwException($this->__('Comment text field can not be empty.'));
             }
             $invoice = $this->_initInvoice();
             $invoice->addComment($data['comment'], isset($data['is_customer_notified']));

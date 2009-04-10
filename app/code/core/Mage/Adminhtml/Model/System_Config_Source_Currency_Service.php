@@ -32,7 +32,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Currency_Service
     public function toOptionArray($isMultiselect)
     {
         if (!$this->_options) {
-            $services = Mage::getConfig()->getNode('global/currency/import/services')->asArray();
+            $services = AO::getConfig()->getNode('global/currency/import/services')->asArray();
             $this->_options = array();
             foreach( $services as $_code => $_options ) {
                 $this->_options[] = array(

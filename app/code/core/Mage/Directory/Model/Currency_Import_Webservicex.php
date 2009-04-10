@@ -62,7 +62,7 @@ class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Mo
 
             $xml = simplexml_load_string($response, null, LIBXML_NOERROR);
             if( !$xml ) {
-                $this->_messages[] = Mage::helper('directory')->__('Cannot retrieve rate from %s', $url);
+                $this->_messages[] = AO::helper('directory')->__('Cannot retrieve rate from %s', $url);
                 return null;
             }
             return (float) $xml;
@@ -71,7 +71,7 @@ class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Mo
             if( $retry == 0 ) {
                 $this->_convert($currencyFrom, $currencyTo, 1);
             } else {
-                $this->_messages[] = Mage::helper('directory')->__('Cannot retrieve rate from %s', $url);
+                $this->_messages[] = AO::helper('directory')->__('Cannot retrieve rate from %s', $url);
             }
         }
     }

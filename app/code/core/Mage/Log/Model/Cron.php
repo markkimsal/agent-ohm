@@ -55,21 +55,21 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
         if (!$this->_errors) {
             return $this;
         }
-        if (!Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
+        if (!AO::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $emailTemplate = Mage::getModel('core/email_template');
+        $emailTemplate = AO::getModel('core/email_template');
         /* @var $emailTemplate Mage_Core_Model_Email_Template */
         $emailTemplate->setDesignConfig(array('area' => 'backend'))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
+                AO::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
+                AO::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
+                AO::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
                 null,
                 array('warnings' => join("\n", $this->_errors))
             );
@@ -89,7 +89,7 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
         $this->_errors = array();
 
         try {
-            Mage::getModel('log/log')->clean();
+            AO::getModel('log/log')->clean();
         }
         catch (Exception $e) {
             $this->_errors[] = $e->getMessage();

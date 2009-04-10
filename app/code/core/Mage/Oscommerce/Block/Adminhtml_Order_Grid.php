@@ -42,7 +42,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('oscommerce/oscommerce_order')->getCollection();
+        $collection = AO::getModel('oscommerce/oscommerce_order')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -50,30 +50,30 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('order_id', array(
-            'header'    =>Mage::helper('oscommerce')->__('Order #'),
+            'header'    =>AO::helper('oscommerce')->__('Order #'),
             'width'     =>'50px',
             'index'     =>'osc_magento_id',
             'type'      => 'number',
             ));
 
         $this->addColumn('billing_name', array(
-            'header'    =>Mage::helper('oscommerce')->__('Billing to Name'),
+            'header'    =>AO::helper('oscommerce')->__('Billing to Name'),
             'index'     =>'billing_name',
         ));
 
         $this->addColumn('delivery_name', array(
-            'header'    =>Mage::helper('oscommerce')->__('Ship to Name'),
+            'header'    =>AO::helper('oscommerce')->__('Ship to Name'),
             'index'     =>'delivery_name',
         ));
 
         $this->addColumn('currency', array(
-            'header' =>Mage::helper('oscommerce')->__('Currency'),
+            'header' =>AO::helper('oscommerce')->__('Currency'),
             'width' =>'50px',
             'index' =>'currency',
         ));
 
         $this->addColumn('orders_total', array(
-            'header' =>Mage::helper('oscommerce')->__('Order Total'),
+            'header' =>AO::helper('oscommerce')->__('Order Total'),
             'width' =>'50px',
             'index' =>'orders_total',
             'type' => 'currency',
@@ -81,20 +81,20 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('orders_status', array(
-            'header' =>Mage::helper('oscommerce')->__('Order Status'),
+            'header' =>AO::helper('oscommerce')->__('Order Status'),
             'width' =>'50px',
             'index' =>'orders_status',
         ));
 
         $this->addColumn('date_purchased', array(
-            'header'    => Mage::helper('oscommerce')->__('Purchased Year'),
+            'header'    => AO::helper('oscommerce')->__('Purchased Year'),
             'width' 	=> '150px',
             'index'     => 'date_purchased',
             'type'		=> 'datetime',
         ));
 
 //        $this->addColumn('purchased_year', array(
-//            'header'    =>Mage::helper('oscommerce')->__('Purchased Year'),
+//            'header'    =>AO::helper('oscommerce')->__('Purchased Year'),
 //            'width' =>'50px',
 //            'index'     =>'purchased_year',
 //            'type'	=> 'currency',
@@ -102,7 +102,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
 //        ));
 //
 //        $this->addColumn('purchased_month', array(
-//            'header'    =>Mage::helper('oscommerce')->__('Purchased Month'),
+//            'header'    =>AO::helper('oscommerce')->__('Purchased Month'),
 //            'width' =>'50px',
 //            'index'     =>'purchased_month',
 //            'type'	=> 'currency',
@@ -110,7 +110,7 @@ class Mage_Oscommerce_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Wi
 //        ));
 //
 //        $this->addColumn('purchased_day', array(
-//            'header'    =>Mage::helper('oscommerce')->__('Purchased Date'),
+//            'header'    =>AO::helper('oscommerce')->__('Purchased Date'),
 //            'width' =>'50px',
 //            'index'     =>'purchased_day',
 //            'type'	=> 'currency',

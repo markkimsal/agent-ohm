@@ -100,7 +100,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
             $this->unsRateValue();
             $this->unsCalculationProcess();
             $this->unsEventModuleId();
-            Mage::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
+            AO::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
             if (!$this->hasRateValue()) {
                 $this->setCalculationProcess($this->_getResource()->getCalculationProcess($request));
                 $this->setRateValue($this->_getResource()->getRate($request));
@@ -116,8 +116,8 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     public function getRateRequest($shippingAddress = null, $billingAddress = null, $customerTaxClass = null, $store = null)
     {
         $address = new Varien_Object();
-        $session = Mage::getSingleton('customer/session');
-        $basedOn = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
+        $session = AO::getSingleton('customer/session');
+        $basedOn = AO::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
         if (($shippingAddress === false && $basedOn == 'shipping') || ($billingAddress === false && $basedOn == 'billing')) {
             $basedOn = 'default';
         } else {
@@ -150,24 +150,24 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
 
             case 'origin':
                 $address
-                    ->setCountryId(Mage::getStoreConfig('shipping/origin/country_id', $store))
-                    ->setRegionId(Mage::getStoreConfig('shipping/origin/region_id', $store))
-                    ->setPostcode(Mage::getStoreConfig('shipping/origin/postcode', $store));
+                    ->setCountryId(AO::getStoreConfig('shipping/origin/country_id', $store))
+                    ->setRegionId(AO::getStoreConfig('shipping/origin/region_id', $store))
+                    ->setPostcode(AO::getStoreConfig('shipping/origin/postcode', $store));
                 break;
 
             case 'default':
                 $address
-                    ->setCountryId(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, $store))
-                    ->setRegionId(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
-                    ->setPostcode(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, $store));
+                    ->setCountryId(AO::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, $store))
+                    ->setRegionId(AO::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
+                    ->setPostcode(AO::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, $store));
                 break;
         }
 
         if (is_null($customerTaxClass) && $session->isLoggedIn()) {
             $customerTaxClass = $session->getCustomer()->getTaxClassId();
         } elseif (($customerTaxClass === false) || !$session->isLoggedIn()) {
-            $defaultCustomerGroup = Mage::getStoreConfig('customer/create_account/default_group', $store);
-            $customerTaxClass = Mage::getModel('customer/group')->getTaxClassId($defaultCustomerGroup);
+            $defaultCustomerGroup = AO::getStoreConfig('customer/create_account/default_group', $store);
+            $customerTaxClass = AO::getModel('customer/group')->getTaxClassId($defaultCustomerGroup);
         }
 
         $request = new Varien_Object();
@@ -183,7 +183,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     protected function _getRates($request, $fieldName, $type)
     {
         $result = array();
-        $classes = Mage::getModel('tax/class')->getCollection()
+        $classes = AO::getModel('tax/class')->getCollection()
             ->addFieldToFilter('class_type', $type)
             ->load();
         foreach ($classes as $class) {

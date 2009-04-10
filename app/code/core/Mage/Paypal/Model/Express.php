@@ -59,7 +59,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function getApi()
     {
-        return Mage::getSingleton('paypal/api_nvp');
+        return AO::getSingleton('paypal/api_nvp');
     }
 
     /**
@@ -69,7 +69,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return AO::getSingleton('paypal/session');
     }
 
     /**
@@ -79,7 +79,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -140,11 +140,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             $e = $this->getApi()->getError();
             switch ($e['type']) {
                 case 'CURL':
-                    $s->addError(Mage::helper('paypal')->__('There was an error connecting to the Paypal server: %s', $e['message']));
+                    $s->addError(AO::helper('paypal')->__('There was an error connecting to the Paypal server: %s', $e['message']));
                     break;
 
                 case 'API':
-                    $s->addError(Mage::helper('paypal')->__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
+                    $s->addError(AO::helper('paypal')->__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
                     break;
             }
         }
@@ -163,11 +163,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             $e = $this->getApi()->getError();
             switch ($e['type']) {
                 case 'CURL':
-                    Mage::throwException(Mage::helper('paypal')->__('There was an error connecting to the Paypal server: %s', $e['message']));
+                    AO::throwException(AO::helper('paypal')->__('There was an error connecting to the Paypal server: %s', $e['message']));
                     break;
 
                 case 'API':
-                    Mage::throwException(Mage::helper('paypal')->__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
+                    AO::throwException(AO::helper('paypal')->__('There was an error during communication with Paypal: %s - %s', $e['short_message'], $e['long_message']));
                     break;
             }
         }
@@ -216,7 +216,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function getPaymentAction()
     {
-        $paymentAction = Mage::getStoreConfig('payment/paypal_express/payment_action');
+        $paymentAction = AO::getStoreConfig('payment/paypal_express/payment_action');
         if (!$paymentAction) {
             $paymentAction = Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH;
         }
@@ -263,14 +263,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         }
         switch ($this->getApi()->getUserAction()) {
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
-                $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/review'));
+                $this->getApi()->setRedirectUrl(AO::getUrl('paypal/express/review'));
                 break;
 
             case Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT:
                 if ($this->getSession()->getExpressCheckoutMethod() == 'shortcut') {
-                    $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/saveOrder'));
+                    $this->getApi()->setRedirectUrl(AO::getUrl('paypal/express/saveOrder'));
                 } else {
-                    $this->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/updateOrder'));
+                    $this->getApi()->setRedirectUrl(AO::getUrl('paypal/express/updateOrder'));
                 }
                 break;
         }
@@ -285,16 +285,16 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     {
         $api = $this->getApi();
         if (!$api->callGetExpressCheckoutDetails()) {
-            Mage::throwException(Mage::helper('paypal')->__('Problem during communication with PayPal'));
+            AO::throwException(AO::helper('paypal')->__('Problem during communication with PayPal'));
         }
         $q = $this->getQuote();
         $a = $api->getShippingAddress();
 
         $a->setCountryId(
-            Mage::getModel('directory/country')->loadByCode($a->getCountry())->getId()
+            AO::getModel('directory/country')->loadByCode($a->getCountry())->getId()
         );
         $a->setRegionId(
-            Mage::getModel('directory/region')->loadByCode($a->getRegion(), $a->getCountryId())->getId()
+            AO::getModel('directory/region')->loadByCode($a->getRegion(), $a->getCountryId())->getId()
         );
 
         /*
@@ -372,12 +372,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 if (isset($e['short_message'])) {
                     $message = $e['short_message'];
                 } else {
-                    $message = Mage::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
+                    $message = AO::helper('paypal')->__("Unknown PayPal API error: %s", $e['code']);
                 }
                 if (isset($e['long_message'])) {
                     $message .= ': '.$e['long_message'];
                 }
-                Mage::throwException($message);
+                AO::throwException($message);
             }
         } else {
             $this->placeOrder($payment);
@@ -436,10 +436,10 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                $error = $e['short_message'].': '.$e['long_message'];
              }
         }else{
-            $error = Mage::helper('paypal')->__('Invalid transaction id');
+            $error = AO::helper('paypal')->__('Invalid transaction id');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -469,11 +469,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 $error = $e['short_message'].': '.$e['long_message'];
             }
         }else{
-            $error = Mage::helper('paypal')->__('Error in refunding the payment');
+            $error = AO::helper('paypal')->__('Error in refunding the payment');
         }
 
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -504,7 +504,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         $stateObject->setStatus('pending_paypal');
         $stateObject->setIsNotified(false);
 
-        Mage::getSingleton('paypal/session')->unsExpressCheckoutMethod();
+        AO::getSingleton('paypal/session')->unsExpressCheckoutMethod();
 
         return $this;
     }
@@ -516,6 +516,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function isInitializeNeeded()
     {
-        return is_object(Mage::registry('_singleton/checkout/type_onepage'));
+        return is_object(AO::registry('_singleton/checkout/type_onepage'));
     }
 }

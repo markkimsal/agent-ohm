@@ -33,7 +33,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function getLayer()
     {
-        return Mage::getSingleton('catalogsearch/layer');
+        return AO::getSingleton('catalogsearch/layer');
     }
 
     /**
@@ -43,7 +43,7 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $availableResCount = (int) Mage::app()->getStore()
+        $availableResCount = (int) AO::app()->getStore()
             ->getConfig(Mage_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT );
 
         if (!$availableResCount

@@ -44,16 +44,16 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
     protected function _prepareCollection()
     {
         if ($this->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
             $storeId = (int)$this->getParam('store');
         }
 
-        $collection = Mage::getResourceModel('reports/product_collection')
+        $collection = AO::getResourceModel('reports/product_collection')
             ->addOrderedQty()
             ->addAttributeToSelect(array('name', 'price'))
             ->setStoreId($storeId)
@@ -69,22 +69,22 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Mage_Adminhtml
     {
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>AO::helper('reports')->__('Product Name'),
             'sortable'  => false,
             'index'     =>'name'
         ));
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('reports')->__('Price'),
+            'header'    =>AO::helper('reports')->__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
-            'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code' => (string) AO::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'sortable'  => false,
             'index'     =>'price'
         ));
 
         $this->addColumn('ordered_qty', array(
-            'header'    =>Mage::helper('reports')->__('Quantity Ordered'),
+            'header'    =>AO::helper('reports')->__('Quantity Ordered'),
             'width'     =>'120px',
             'align'     =>'right',
             'sortable'  => false,

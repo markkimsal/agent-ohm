@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
 
     public function getCategory()
     {
-        return Mage::registry('category');
+        return AO::registry('category');
     }
 
     public function getCategoryId()
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
     public function getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store');
-        return Mage::app()->getStore($storeId);
+        return AO::app()->getStore($storeId);
     }
 
     public function getRoot($parentNodeCategory=null, $recursionLevel=3)
@@ -85,19 +85,19 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
         if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
             return $this->getNode($parentNodeCategory, $recursionLevel);
         }
-        $root = Mage::registry('root');
+        $root = AO::registry('root');
         if (is_null($root)) {
             $storeId = (int) $this->getRequest()->getParam('store');
 
             if ($storeId) {
-                $store = Mage::app()->getStore($storeId);
+                $store = AO::app()->getStore($storeId);
                 $rootId = $store->getRootCategoryId();
             }
             else {
                 $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
             }
 
-            $tree = Mage::getResourceSingleton('catalog/category_tree')
+            $tree = AO::getResourceSingleton('catalog/category_tree')
                 ->load($rootId, $recursionLevel);
 
             if ($this->getCategory()) {
@@ -112,10 +112,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
                 $root->setIsVisible(true);
             }
             elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('catalog')->__('Root'));
+                $root->setName(AO::helper('catalog')->__('Root'));
             }
 
-            Mage::register('root', $root);
+            AO::register('root', $root);
         }
 
         return $root;
@@ -132,9 +132,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
      */
     public function getRootByIds($ids)
     {
-        $root = Mage::registry('root');
+        $root = AO::registry('root');
         if (null === $root) {
-            $tree = Mage::getResourceSingleton('catalog/category_tree')
+            $tree = AO::getResourceSingleton('catalog/category_tree')
                 ->loadByIds($ids);
             $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
             $root   = $tree->getNodeById($rootId);
@@ -142,16 +142,16 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
                 $root->setIsVisible(true);
             }
             elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('catalog')->__('Root'));
+                $root->setName(AO::helper('catalog')->__('Root'));
             }
-            Mage::register('root', $root);
+            AO::register('root', $root);
         }
         return $root;
     }
 
     public function getNode($parentNodeCategory, $recursionLevel=2)
     {
-        $tree = Mage::getResourceModel('catalog/category_tree');
+        $tree = AO::getResourceModel('catalog/category_tree');
 
         $nodeId     = $parentNodeCategory->getId();
         $parentId   = $parentNodeCategory->getParentId();
@@ -162,7 +162,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Abstract extends Mage_Adminhtml_Bloc
         if ($node && $nodeId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
             $node->setIsVisible(true);
         } elseif($node && $node->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-            $node->setName(Mage::helper('catalog')->__('Root'));
+            $node->setName(AO::helper('catalog')->__('Root'));
         }
 
         $tree->addCollectionData($this->getCategoryCollection());

@@ -116,37 +116,37 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
 
     public function getEntityCollection()
     {
-        return Mage::getResourceModel('tag/product_collection');
+        return AO::getResourceModel('tag/product_collection');
     }
 
     public function getCustomerCollection()
     {
-        return Mage::getResourceModel('tag/customer_collection');
+        return AO::getResourceModel('tag/customer_collection');
     }
 
     public function getTaggedProductsUrl()
     {
-        return Mage::getUrl('tag/product/list', array('tagId' => $this->getTagId()));
+        return AO::getUrl('tag/product/list', array('tagId' => $this->getTagId()));
     }
 
     public function getViewTagUrl()
     {
-        return Mage::getUrl('tag/customer/view', array('tagId' => $this->getTagId()));
+        return AO::getUrl('tag/customer/view', array('tagId' => $this->getTagId()));
     }
 
     public function getEditTagUrl()
     {
-        return Mage::getUrl('tag/customer/edit', array('tagId' => $this->getTagId()));
+        return AO::getUrl('tag/customer/edit', array('tagId' => $this->getTagId()));
     }
 
     public function getRemoveTagUrl()
     {
-        return Mage::getUrl('tag/customer/remove', array('tagId' => $this->getTagId()));
+        return AO::getUrl('tag/customer/remove', array('tagId' => $this->getTagId()));
     }
 
     public function getPopularCollection()
     {
-        return Mage::getResourceModel('tag/popular_collection');
+        return AO::getResourceModel('tag/popular_collection');
     }
 
     protected function _beforeDelete()

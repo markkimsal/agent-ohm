@@ -50,7 +50,7 @@ class Mage_Adminhtml_Sales_Order_EditController extends Mage_Adminhtml_Sales_Ord
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('sales/order')->load($orderId);
+        $order = AO::getModel('sales/order')->load($orderId);
 
         if ($order->getId()) {
             $this->_getSession()->setUseOldShippingMethod(true);

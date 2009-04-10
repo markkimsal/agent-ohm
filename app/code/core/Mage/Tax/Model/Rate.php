@@ -36,7 +36,7 @@ class Mage_Tax_Model_Rate extends Mage_Core_Model_Abstract
     public function addRateData($rateData)
     {
         if (is_array($rateData) && isset($rateData['rate_type_id']) && isset($rateData['rate_value'])) {
-            $rateDataModel = Mage::getModel('tax/rate_data')
+            $rateDataModel = AO::getModel('tax/rate_data')
                 ->setRateTypeId($rateData['rate_type_id'])
                 ->setRateValue($rateData['rate_value']);
         }
@@ -45,7 +45,7 @@ class Mage_Tax_Model_Rate extends Mage_Core_Model_Abstract
         }
 
         if (!$rateDataModel) {
-            Mage::throwException(Mage::helper('tax')->__('Incorrect rate Data'));
+            AO::throwException(AO::helper('tax')->__('Incorrect rate Data'));
         }
 
         $dataItem = $this->getRateDataCollection()->getItemByRateAndType(
@@ -65,7 +65,7 @@ class Mage_Tax_Model_Rate extends Mage_Core_Model_Abstract
     public function getRateDataCollection()
     {
         if (is_null($this->_dataCollection)) {
-            $this->_dataCollection = Mage::getModel('tax/rate_data')->getCollection();
+            $this->_dataCollection = AO::getModel('tax/rate_data')->getCollection();
             $this->_dataCollection->setRateFilter($this);
         }
         return $this->_dataCollection;

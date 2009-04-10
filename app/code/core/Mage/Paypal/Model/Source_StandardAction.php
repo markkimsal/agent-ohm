@@ -35,8 +35,8 @@ class Mage_Paypal_Model_Source_StandardAction
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Paypal_Model_Standard::PAYMENT_TYPE_AUTH, 'label' => Mage::helper('paypal')->__('Authorization')),
-            array('value' => Mage_Paypal_Model_Standard::PAYMENT_TYPE_SALE, 'label' => Mage::helper('paypal')->__('Sale')),
+            array('value' => Mage_Paypal_Model_Standard::PAYMENT_TYPE_AUTH, 'label' => AO::helper('paypal')->__('Authorization')),
+            array('value' => Mage_Paypal_Model_Standard::PAYMENT_TYPE_SALE, 'label' => AO::helper('paypal')->__('Sale')),
         );
     }
 }

@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address extends Mage_Admin
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Billing Address');
+        return AO::helper('sales')->__('Billing Address');
     }
 
     public function getHeaderCssClass()

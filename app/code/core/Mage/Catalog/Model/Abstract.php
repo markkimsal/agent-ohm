@@ -81,7 +81,7 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function getStore()
     {
-        return Mage::app()->getStore($this->getStoreId());
+        return AO::app()->getStore($this->getStoreId());
     }
 
     /**

@@ -65,7 +65,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     public function getSubscribersCollection()
     {
         if (is_null($this->_subscribersCollection)) {
-            $this->_subscribersCollection = Mage::getResourceModel('newsletter/subscriber_collection')
+            $this->_subscribersCollection = AO::getResourceModel('newsletter/subscriber_collection')
                 ->useQueue($this);
         }
 
@@ -81,7 +81,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     public function addTemplateData( $data )
     {
         if ($data->getTemplateId()) {
-            $this->setTemplate(Mage::getModel('newsletter/template')
+            $this->setTemplate(AO::getModel('newsletter/template')
                                     ->load($data->getTemplateId()));
         }
 

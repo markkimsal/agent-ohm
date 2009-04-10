@@ -34,7 +34,7 @@ class Mage_Log_Model_Aggregation extends Mage_Core_Model_Abstract
     public function run()
     {
         $this->_lastRecord = $this->_timestamp($this->_round($this->getLastRecordDate()));
-        $stores = Mage::getResourceModel('core/store_collection');
+        $stores = AO::getResourceModel('core/store_collection');
 
         foreach ($stores as $store) {
             $this->_process($store->getId());

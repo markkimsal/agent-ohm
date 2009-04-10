@@ -38,10 +38,10 @@
 	public function getGlobalConfig( )
 	{
 		$dom = new DOMDocument();
-		$dom -> load( Mage::getModuleDir('etc','Mage_Reports').DS.'flexConfig.xml' );
+		$dom -> load( AO::getModuleDir('etc','Mage_Reports').DS.'flexConfig.xml' );
 		
 		$baseUrl = $dom -> createElement('baseUrl');
-		$baseUrl -> nodeValue = Mage::getBaseUrl();
+		$baseUrl -> nodeValue = AO::getBaseUrl();
 		
 		$dom -> documentElement -> appendChild( $baseUrl );
 		
@@ -50,12 +50,12 @@
 	
 	public function getLanguage( )
 	{
-		return file_get_contents( Mage::getModuleDir('etc','Mage_Reports').DS.'flexLanguage.xml' );
+		return file_get_contents( AO::getModuleDir('etc','Mage_Reports').DS.'flexLanguage.xml' );
 	}
 	
 	public function getDashboard( )
 	{
-		return file_get_contents( Mage::getModuleDir('etc','Mage_Reports').DS.'flexDashboard.xml' );
+		return file_get_contents( AO::getModuleDir('etc','Mage_Reports').DS.'flexDashboard.xml' );
 	} 
  }
  

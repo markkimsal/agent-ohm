@@ -114,7 +114,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      */
     protected function getSuccessURL()
     {
-        return Mage::getUrl('cybermut/payment/success', array('_secure' => true));
+        return AO::getUrl('cybermut/payment/success', array('_secure' => true));
     }
 
     /**
@@ -124,7 +124,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      */
     protected function getErrorURL()
     {
-        return Mage::getUrl('cybermut/payment/error', array('_secure' => true));
+        return AO::getUrl('cybermut/payment/error', array('_secure' => true));
     }
 
     /**
@@ -162,7 +162,7 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-        return Mage::getUrl('cybermut/payment/redirect');
+        return AO::getUrl('cybermut/payment/redirect');
     }
 
     /**
@@ -174,12 +174,12 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            AO::throwException($this->_getHelper()->__('Cannot retrieve order object'));
         }
 
         $description = $this->getConfigData('description')
             ? $this->getConfigData('description')
-            : Mage::helper('cybermut')->__('Order #%s', $order->getRealOrderId());
+            : AO::helper('cybermut')->__('Order #%s', $order->getRealOrderId());
 
         $fields = array(
                         'version'        => $this->getVersion(),

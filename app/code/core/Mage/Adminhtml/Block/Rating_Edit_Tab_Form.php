@@ -38,22 +38,22 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
     {
         $form = new Varien_Data_Form();
         $this->setForm($form);
-        $defaultStore = Mage::app()->getStore(0);
+        $defaultStore = AO::app()->getStore(0);
 
         $fieldset = $form->addFieldset('rating_form', array(
-            'legend'=>Mage::helper('rating')->__('Rating Title')
+            'legend'=>AO::helper('rating')->__('Rating Title')
         ));
 
         $fieldset->addField('rating_code', 'text', array(
             'name'      => 'rating_code',
-            'label'     => Mage::helper('rating')->__('Default Value'),
+            'label'     => AO::helper('rating')->__('Default Value'),
             'class'     => 'required-entry',
             'required'  => true,
 
         ));
 
-//        if (!Mage::app()->isSingleStoreMode()) {
-            foreach(Mage::getSingleton('adminhtml/system_store')->getStoreCollection() as $store) {
+//        if (!AO::app()->isSingleStoreMode()) {
+            foreach(AO::getSingleton('adminhtml/system_store')->getStoreCollection() as $store) {
                 $fieldset->addField('rating_code_' . $store->getId(), 'text', array(
                     'label'     => $store->getName(),
                     'name'      => 'rating_codes['. $store->getId() .']',
@@ -61,25 +61,25 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
             }
 //        }
 
-        if (Mage::getSingleton('adminhtml/session')->getRatingData()) {
-            $form->setValues(Mage::getSingleton('adminhtml/session')->getRatingData());
-            $data = Mage::getSingleton('adminhtml/session')->getRatingData();
+        if (AO::getSingleton('adminhtml/session')->getRatingData()) {
+            $form->setValues(AO::getSingleton('adminhtml/session')->getRatingData());
+            $data = AO::getSingleton('adminhtml/session')->getRatingData();
             if (isset($data['rating_codes'])) {
                $this->_setRatingCodes($data['rating_codes']);
             }
-            Mage::getSingleton('adminhtml/session')->setRatingData(null);
+            AO::getSingleton('adminhtml/session')->setRatingData(null);
         }
-        elseif (Mage::registry('rating_data')) {
-            $form->setValues(Mage::registry('rating_data')->getData());
-            if (Mage::registry('rating_data')->getRatingCodes()) {
-               $this->_setRatingCodes(Mage::registry('rating_data')->getRatingCodes());
+        elseif (AO::registry('rating_data')) {
+            $form->setValues(AO::registry('rating_data')->getData());
+            if (AO::registry('rating_data')->getRatingCodes()) {
+               $this->_setRatingCodes(AO::registry('rating_data')->getRatingCodes());
             }
         }
 
-        if (Mage::registry('rating_data')) {
-            $collection = Mage::getModel('rating/rating_option')
+        if (AO::registry('rating_data')) {
+            $collection = AO::getModel('rating/rating_option')
                 ->getResourceCollection()
-                ->addRatingFilter(Mage::registry('rating_data')->getId())
+                ->addRatingFilter(AO::registry('rating_data')->getId())
                 ->load();
 
             $i = 1;
@@ -103,25 +103,25 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
             }
         }
 
-//        if (!Mage::app()->isSingleStoreMode()) {
+//        if (!AO::app()->isSingleStoreMode()) {
             $fieldset = $form->addFieldset('visibility_form', array(
-                'legend'    => Mage::helper('rating')->__('Rating Visibility'))
+                'legend'    => AO::helper('rating')->__('Rating Visibility'))
             );
             $fieldset->addField('stores', 'multiselect', array(
-                'label'     => Mage::helper('rating')->__('Visible In'),
+                'label'     => AO::helper('rating')->__('Visible In'),
 //                'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
+                'values'    => AO::getSingleton('adminhtml/system_store')->getStoreValuesForForm()
             ));
 
-            if (Mage::registry('rating_data')) {
-                $form->getElement('stores')->setValue(Mage::registry('rating_data')->getStores());
+            if (AO::registry('rating_data')) {
+                $form->getElement('stores')->setValue(AO::registry('rating_data')->getStores());
             }
 //        }
 //        else {
 //            $fieldset->addField('stores', 'hidden', array(
 //                'name'      => 'stores[]',
-//                'value'     => Mage::app()->getStore(true)->getId()
+//                'value'     => AO::app()->getStore(true)->getId()
 //            ));
 //        }
 
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Adminhtml_Block_Wid
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.Mage::helper('rating')->__('If you do not specify a rating title for a store, the default value will be used.').'</li>
+            <li>'.AO::helper('rating')->__('If you do not specify a rating title for a store, the default value will be used.').'</li>
         </ul>
     </li>
 </ul>

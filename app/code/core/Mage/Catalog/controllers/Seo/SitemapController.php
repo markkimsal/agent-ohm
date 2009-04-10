@@ -41,7 +41,7 @@ class Mage_Catalog_Seo_SitemapController extends Mage_Core_Controller_Front_Acti
      */
     public function preDispatch(){
         parent::preDispatch();
-        if(!Mage::getStoreConfig('catalog/seo/site_map')){
+        if(!AO::getStoreConfig('catalog/seo/site_map')){
               $this->_redirect('noroute');
               $this->setFlag('',self::FLAG_NO_DISPATCH,true);
         }
@@ -57,7 +57,7 @@ class Mage_Catalog_Seo_SitemapController extends Mage_Core_Controller_Front_Acti
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addActionLayoutHandles();
-        if (Mage::helper('catalog/map')->getIsUseCategoryTreeMode()) {
+        if (AO::helper('catalog/map')->getIsUseCategoryTreeMode()) {
             $update->addHandle(strtolower($this->getFullActionName()).'_tree');
         }
         $this->loadLayoutUpdates();

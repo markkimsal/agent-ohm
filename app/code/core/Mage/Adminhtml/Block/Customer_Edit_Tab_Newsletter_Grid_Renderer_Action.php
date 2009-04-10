@@ -43,12 +43,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action ext
                 'href'  => $this->getUrl('*/newsletter_template/preview',
                     array(
                         'id'        => $row->getTemplateId(),
-                        'subscriber'=> Mage::registry('subscriber')->getId()
+                        'subscriber'=> AO::registry('subscriber')->getId()
                     )
                                 ),
                 'target'=>	'_blank'
             ),
-            '#'	=> Mage::helper('customer')->__('View')
+            '#'	=> AO::helper('customer')->__('View')
         );
 
         return $this->_actionsToHtml($actions);

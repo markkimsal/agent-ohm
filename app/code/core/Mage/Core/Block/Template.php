@@ -117,10 +117,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function getShowTemplateHints()
     {
         if (is_null(self::$_showTemplateHints)) {
-            self::$_showTemplateHints = Mage::getStoreConfig('dev/debug/template_hints')
-                && Mage::helper('core')->isDevAllowed();
-            self::$_showTemplateHintsBlocks = Mage::getStoreConfig('dev/debug/template_hints_blocks')
-                && Mage::helper('core')->isDevAllowed();
+            self::$_showTemplateHints = AO::getStoreConfig('dev/debug/template_hints')
+                && AO::helper('core')->isDevAllowed();
+            self::$_showTemplateHintsBlocks = AO::getStoreConfig('dev/debug/template_hints_blocks')
+                && AO::helper('core')->isDevAllowed();
         }
         return self::$_showTemplateHints;
     }
@@ -173,7 +173,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     {
         if (VPROF) Varien_Profiler::start(__METHOD__);
 
-        $this->setScriptPath(Mage::getBaseDir('design'));
+        $this->setScriptPath(AO::getBaseDir('design'));
         $params = array('_relative'=>true);
         if ($area = $this->getArea()) {
             $params['_area'] = $area;
@@ -234,7 +234,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function getBaseUrl()
     {
         if (!$this->_baseUrl) {
-            $this->_baseUrl = Mage::getBaseUrl();
+            $this->_baseUrl = AO::getBaseUrl();
         }
         return $this->_baseUrl;
     }
@@ -250,7 +250,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     public function getJsUrl($fileName='')
     {
         if (!$this->_jsUrl) {
-            $this->_jsUrl = Mage::getBaseUrl('js');
+            $this->_jsUrl = AO::getBaseUrl('js');
         }
         return $this->_jsUrl.$fileName;
     }

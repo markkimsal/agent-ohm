@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
     {
         parent::__construct();
         $this->setTemplate('page.phtml');
-        $action = Mage::app()->getFrontController()->getAction();
+        $action = AO::app()->getFrontController()->getAction();
         if ($action) {
             $this->addBodyClass($action->getFullActionName('-'));
         }
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr(AO::app()->getLocale()->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }

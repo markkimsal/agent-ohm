@@ -77,8 +77,8 @@ class Mage_GoogleBase_Block_Adminhtml_Items extends Mage_Adminhtml_Block_Widget_
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
         if ($storeId == 0) {
-            return Mage::app()->getDefaultStoreView();
+            return AO::app()->getDefaultStoreView();
         }
-        return Mage::app()->getStore($storeId);
+        return AO::app()->getStore($storeId);
     }
 }

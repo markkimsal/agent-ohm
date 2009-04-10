@@ -39,7 +39,7 @@ class Mage_Core_Model_Convert extends Mage_Dataflow_Model_Convert_Profile_Collec
     {
         $classArr = explode('_', get_class($this));
         $moduleName = $classArr[0].'_'.$classArr[1];
-        $etcDir = Mage::getConfig()->getModuleDir('etc', $moduleName);
+        $etcDir = AO::getConfig()->getModuleDir('etc', $moduleName);
 
         $fileName = $etcDir.DS.'convert.xml';
         if (is_readable($fileName)) {
@@ -51,7 +51,7 @@ class Mage_Core_Model_Convert extends Mage_Dataflow_Model_Convert_Profile_Collec
     public function getClassNameByType($type)
     {
         if (strpos($type, '/')!==false) {
-            return Mage::getConfig()->getModelClassName($type);
+            return AO::getConfig()->getModelClassName($type);
         }
         return parent::getClassNameByType($type);
     }

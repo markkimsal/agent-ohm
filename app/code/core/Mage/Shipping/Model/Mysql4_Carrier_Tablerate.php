@@ -54,7 +54,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
             // also probably it will be required to move this part to
             // Sales/Model/Quote/Address.php !
 
-            $selectCountry = $read->select()->from(Mage::getSingleton('core/resource')->getTableName('usa/postcode'), array('country_id', 'region_id'));
+            $selectCountry = $read->select()->from(AO::getSingleton('core/resource')->getTableName('usa/postcode'), array('country_id', 'region_id'));
             $selectCountry->where('postcode=?', $request->getDestPostcode());
             $selectCountry->limit(1);
             $countryRegion = $read->fetchRow($selectCountry);
@@ -129,34 +129,34 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
 
             $csv = trim(file_get_contents($csvFile));
 
-            $table = Mage::getSingleton('core/resource')->getTableName('shipping/tablerate');
+            $table = AO::getSingleton('core/resource')->getTableName('shipping/tablerate');
 
             $websiteId = $object->getScopeId();
-            $websiteModel = Mage::app()->getWebsite($websiteId);
+            $websiteModel = AO::app()->getWebsite($websiteId);
             /*
             getting condition name from post instead of the following commented logic
             */
 
             if (isset($_POST['groups']['tablerate']['fields']['condition_name']['inherit'])) {
-                $conditionName = (string)Mage::getConfig()->getNode('default/carriers/tablerate/condition_name');
+                $conditionName = (string)AO::getConfig()->getNode('default/carriers/tablerate/condition_name');
             } else {
                 $conditionName = $_POST['groups']['tablerate']['fields']['condition_name']['value'];
             }
 
 //            $conditionName = $object->getValue();
 //            if ($conditionName{0} == '_') {
-//                $conditionName = Mage::helper('core/string')->substr($conditionName, 1, strpos($conditionName, '/')-1);
+//                $conditionName = AO::helper('core/string')->substr($conditionName, 1, strpos($conditionName, '/')-1);
 //            } else {
 //                $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
 //            }
-            $conditionFullName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
+            $conditionFullName = AO::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
             if (!empty($csv)) {
                 $exceptions = array();
                 $csvLines = explode("\n", $csv);
                 $csvLine = array_shift($csvLines);
                 $csvLine = $this->_getCsvValues($csvLine);
                 if (count($csvLine) < 5) {
-                    $exceptions[0] = Mage::helper('shipping')->__('Invalid Table Rates File Format');
+                    $exceptions[0] = AO::helper('shipping')->__('Invalid Table Rates File Format');
                 }
 
                 $countryCodes = array();
@@ -164,7 +164,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                 foreach ($csvLines as $k=>$csvLine) {
                     $csvLine = $this->_getCsvValues($csvLine);
                     if (count($csvLine) > 0 && count($csvLine) < 5) {
-                        $exceptions[0] = Mage::helper('shipping')->__('Invalid Table Rates File Format');
+                        $exceptions[0] = AO::helper('shipping')->__('Invalid Table Rates File Format');
                     } else {
                         $countryCodes[] = $csvLine[0];
                         $regionCodes[] = $csvLine[1];
@@ -177,14 +177,14 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                     $regionCodesToIds = array();
                     $countryCodesIso2 = array();
 
-                    $countryCollection = Mage::getResourceModel('directory/country_collection')->addCountryCodeFilter($countryCodes)->load();
+                    $countryCollection = AO::getResourceModel('directory/country_collection')->addCountryCodeFilter($countryCodes)->load();
                     foreach ($countryCollection->getItems() as $country) {
                         $countryCodesToIds[$country->getData('iso3_code')] = $country->getData('country_id');
                         $countryCodesToIds[$country->getData('iso2_code')] = $country->getData('country_id');
                         $countryCodesIso2[] = $country->getData('iso2_code');
                     }
 
-                    $regionCollection = Mage::getResourceModel('directory/region_collection')
+                    $regionCollection = AO::getResourceModel('directory/region_collection')
                         ->addRegionCodeFilter($regionCodes)
                         ->addCountryFilter($countryCodesIso2)
                         ->load();
@@ -199,7 +199,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         if (empty($countryCodesToIds) || !array_key_exists($csvLine[0], $countryCodesToIds)) {
                             $countryId = '0';
                             if ($csvLine[0] != '*' && $csvLine[0] != '') {
-                                $exceptions[] = Mage::helper('shipping')->__('Invalid Country "%s" in the Row #%s', $csvLine[0], ($k+1));
+                                $exceptions[] = AO::helper('shipping')->__('Invalid Country "%s" in the Row #%s', $csvLine[0], ($k+1));
                             }
                         } else {
                             $countryId = $countryCodesToIds[$csvLine[0]];
@@ -210,7 +210,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                             || !array_key_exists($csvLine[1], $regionCodesToIds[$countryCodesToIds[$csvLine[0]]])) {
                             $regionId = '0';
                             if ($csvLine[1] != '*' && $csvLine[1] != '') {
-                                $exceptions[] = Mage::helper('shipping')->__('Invalid Region/State "%s" in the Row #%s', $csvLine[1], ($k+1));
+                                $exceptions[] = AO::helper('shipping')->__('Invalid Region/State "%s" in the Row #%s', $csvLine[1], ($k+1));
                             }
                         } else {
                             $regionId = $regionCodesToIds[$countryCodesToIds[$csvLine[0]]][$csvLine[1]];
@@ -223,13 +223,13 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         }
 
                         if (!$this->_isPositiveDecimalNumber($csvLine[3]) || $csvLine[3] == '*' || $csvLine[3] == '') {
-                            $exceptions[] = Mage::helper('shipping')->__('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
+                            $exceptions[] = AO::helper('shipping')->__('Invalid %s "%s" in the Row #%s', $conditionFullName, $csvLine[3], ($k+1));
                         } else {
                             $csvLine[3] = (float)$csvLine[3];
                         }
 
                         if (!$this->_isPositiveDecimalNumber($csvLine[4])) {
-                            $exceptions[] = Mage::helper('shipping')->__('Invalid Shipping Price "%s" in the Row #%s', $csvLine[4], ($k+1));
+                            $exceptions[] = AO::helper('shipping')->__('Invalid Shipping Price "%s" in the Row #%s', $csvLine[4], ($k+1));
                         } else {
                             $csvLine[4] = (float)$csvLine[4];
                         }
@@ -251,7 +251,7 @@ class Mage_Shipping_Model_Mysql4_Carrier_Tablerate extends Mage_Core_Model_Mysql
                         try {
                             $connection->insert($table, $dataLine);
                         } catch (Exception $e) {
-                            $exceptions[] = Mage::helper('shipping')->__('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
+                            $exceptions[] = AO::helper('shipping')->__('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', ($k+1), $dataDetails[$k]['country'], $dataDetails[$k]['region'], $dataLine['dest_zip'], $dataLine['condition_value']);
                         }
                     }
                 }

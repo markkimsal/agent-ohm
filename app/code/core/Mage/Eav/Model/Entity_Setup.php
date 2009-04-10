@@ -46,7 +46,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function cleanCache()
     {
-        Mage::app()->cleanCache(array('eav'));
+        AO::app()->cleanCache(array('eav'));
         return $this;
     }
 
@@ -156,7 +156,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $entityTypeId = $this->getEntityType($entityTypeId, 'entity_type_id');
         }
         if (!is_numeric($entityTypeId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong entity ID'));
+            throw AO::exception('Mage_Eav', AO::helper('eav')->__('Wrong entity ID'));
         }
         return $entityTypeId;
     }
@@ -280,7 +280,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $setId = $this->getAttributeSet($entityTypeId, $setId, 'attribute_set_id');
         }
         if (!is_numeric($setId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong attribute set ID'));
+            throw AO::exception('Mage_Eav', AO::helper('eav')->__('Wrong attribute set ID'));
         }
         return $setId;
     }
@@ -463,7 +463,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $groupId = $this->getAttributeGroup($entityTypeId, $setId, $groupId, 'attribute_group_id');
         }
         if (!is_numeric($groupId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong attribute group ID'));
+            throw AO::exception('Mage_Eav', AO::helper('eav')->__('Wrong attribute group ID'));
         }
         return $groupId;
     }
@@ -636,7 +636,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 
                 // Default value
                 if (!isset($values[0])) {
-                    Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
+                    AO::throwException(AO::helper('eav')->__('Default option value is not defined'));
                 }
 
                 $this->_conn->delete($optionValueTable, $this->_conn->quoteInto('option_id=?', $intOptionId));
@@ -728,7 +728,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $id = $this->getAttribute($entityTypeId, $id, 'attribute_id');
         }
         if (!is_numeric($id)) {
-            //throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong attribute ID'));
+            //throw AO::exception('Mage_Eav', AO::helper('eav')->__('Wrong attribute ID'));
             return false;
         }
         return $id;

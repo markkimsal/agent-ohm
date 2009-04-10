@@ -92,13 +92,13 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
      */
     protected function _getFooterHtml($element)
     {
-        $html = '</tbody></table></fieldset>' . Mage::helper('adminhtml/js')->getScript("Fieldset.applyCollapse('{$element->getHtmlId()}')");
+        $html = '</tbody></table></fieldset>' . AO::helper('adminhtml/js')->getScript("Fieldset.applyCollapse('{$element->getHtmlId()}')");
         return $html;
     }
 
     protected function _getCollapseState($element)
     {
-        $extra = Mage::getSingleton('admin/session')->getUser()->getExtra();
+        $extra = AO::getSingleton('admin/session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

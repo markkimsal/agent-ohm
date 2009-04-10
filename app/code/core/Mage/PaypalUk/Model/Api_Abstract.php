@@ -49,7 +49,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('paypal/wpuk/'.$key);
+             $value = AO::getStoreConfig('paypal/wpuk/'.$key);
              if (is_null($value) || false===$value) {
                  $value = $default;
              }
@@ -60,7 +60,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
 
     public function getSession()
     {
-        return Mage::getSingleton('paypaluk/session');
+        return AO::getSingleton('paypaluk/session');
     }
 
     public function getUseSession()
@@ -141,7 +141,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
      */
     public function getReturnUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_return_url', 'paypaluk/express/return'));
+        return AO::getUrl($this->getConfigData('api_return_url', 'paypaluk/express/return'));
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
      */
     public function getCancelUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_cancel_url', 'paypaluk/express/cancel'));
+        return AO::getUrl($this->getConfigData('api_cancel_url', 'paypaluk/express/cancel'));
     }
 
     /**
@@ -265,7 +265,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
     public function getCurrencyCode()
     {
         //return $this->getSessionData('currency_code', 'USD');
-        return $this->getSessionData('currency_code', Mage::app()->getStore()->getBaseCurrencyCode());
+        return $this->getSessionData('currency_code', AO::app()->getStore()->getBaseCurrencyCode());
     }
 
     public function setCurrencyCode($data)
@@ -291,7 +291,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
      */
     public function getApiErrorUrl()
     {
-        return Mage::getUrl($this->getConfigData('api_error_url', 'paypaluk/express/error'));
+        return AO::getUrl($this->getConfigData('api_error_url', 'paypaluk/express/error'));
     }
 
     /**
@@ -299,7 +299,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
      */
     public function getCcTypes()
     {
-        foreach (Mage::getSingleton('payment/config')->getCcTypes() as $code => $name) {
+        foreach (AO::getSingleton('payment/config')->getCcTypes() as $code => $name) {
             $ccTypes[$code] = $name;
         }
         return $ccTypes;

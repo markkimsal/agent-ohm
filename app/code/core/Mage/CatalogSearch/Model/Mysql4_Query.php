@@ -93,7 +93,7 @@ class Mage_CatalogSearch_Model_Mysql4_Query extends Mage_Core_Model_Mysql4_Abstr
 
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getModel('core/date')->gmtTimestamp()));
+        $object->setUpdatedAt($this->formatDate(AO::getModel('core/date')->gmtTimestamp()));
         return $this;
     }
 }

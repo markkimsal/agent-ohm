@@ -74,11 +74,11 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         $creditmemo = false;
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
+            $creditmemo = AO::getModel('sales/order_creditmemo')->load($creditmemoId);
         }
         elseif ($orderId = $this->getRequest()->getParam('order_id')) {
             $data   = $this->getRequest()->getParam('creditmemo');
-            $order  = Mage::getModel('sales/order')->load($orderId);
+            $order  = AO::getModel('sales/order')->load($orderId);
             $invoiceId = $this->getRequest()->getParam('invoice_id');
             $invoice= null;
 
@@ -87,12 +87,12 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
 
             if ($invoiceId) {
-                $invoice = Mage::getModel('sales/order_invoice')
+                $invoice = AO::getModel('sales/order_invoice')
                     ->load($invoiceId)
                     ->setOrder($order);
             }
 
-            $convertor  = Mage::getModel('sales/convert_order');
+            $convertor  = AO::getModel('sales/convert_order');
             $creditmemo = $convertor->toCreditmemo($order)
                 ->setInvoice($invoice);
 
@@ -210,13 +210,13 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $creditmemo->collectTotals();
         }
 
-        Mage::register('current_creditmemo', $creditmemo);
+        AO::register('current_creditmemo', $creditmemo);
         return $creditmemo;
     }
 
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = AO::getModel('core/resource_transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {
@@ -261,7 +261,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     public function newAction()
     {
         if ($creditmemo = $this->_initCreditmemo()) {
-            $commentText = Mage::getSingleton('adminhtml/session')->getCommentText(true);
+            $commentText = AO::getSingleton('adminhtml/session')->getCommentText(true);
 
             $creditmemo->addData(array('commentText'=>$commentText));
 
@@ -311,12 +311,12 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         try {
             if ($creditmemo = $this->_initCreditmemo()) {
                 if ($creditmemo->getGrandTotal() <=0) {
-                    Mage::throwException(
+                    AO::throwException(
                         $this->__('Credit Memo total must be positive.')
                     );
                 }
 
-                Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+                AO::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
 
                 $comment = '';
                 if (!empty($data['comment_text'])) {
@@ -339,7 +339,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 $this->_saveCreditmemo($creditmemo);
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('Credit Memo was successfully created'));
-                Mage::getSingleton('adminhtml/session')->getCommentText(true);
+                AO::getSingleton('adminhtml/session')->getCommentText(true);
                 $this->_redirect('*/sales_order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
             }
@@ -414,7 +414,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException($this->__('Comment text field can not be empty.'));
+                AO::throwException($this->__('Comment text field can not be empty.'));
             }
             $creditmemo = $this->_initCreditmemo();
             $creditmemo->addComment($data['comment'], isset($data['is_customer_notified']));

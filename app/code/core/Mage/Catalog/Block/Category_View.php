@@ -58,7 +58,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             }
         }
         if ($layout = $this->getCurrentCategory()->getPageLayout()) {
-            if ($template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$layout.'/template')) {
+            if ($template = (string)AO::getConfig()->getNode('global/cms/layouts/'.$layout.'/template')) {
                 $this->getLayout()->getBlock('root')->setTemplate($template);
             }
         }
@@ -68,7 +68,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 
     public function IsRssCatalogEnable()
     {
-        return Mage::getStoreConfig('rss/catalog/category');
+        return AO::getStoreConfig('rss/catalog/category');
     }
 
     public function IsTopCategory()
@@ -78,7 +78,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
 
     public function getRssLink()
     {
-        return Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'sid' => Mage::app()->getStore()->getId()));
+        return AO::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'sid' => AO::app()->getStore()->getId()));
     }
 
     public function getProductListHtml()
@@ -94,7 +94,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
     public function getCurrentCategory()
     {
         if (!$this->hasData('current_category')) {
-            $this->setData('current_category', Mage::registry('current_category'));
+            $this->setData('current_category', AO::registry('current_category'));
         }
         return $this->getData('current_category');
     }

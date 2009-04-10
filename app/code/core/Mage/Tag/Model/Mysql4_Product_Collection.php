@@ -165,7 +165,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     }
 
     public function addPopularityFilter($condition) {
-        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+        $tagRelationTable = AO::getSingleton('core/resource')->getTableName('tag/relation');
 
         $select = $this->getConnection()->select()
             ->from($tagRelationTable, array('product_id', 'COUNT(DISTINCT tag_relation_id) as popularity'))
@@ -199,7 +199,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     public function addProductTags($storeId=null)
     {
         foreach( $this->getItems() as $item ) {
-            $tagsCollection = Mage::getModel('tag/tag')->getResourceCollection();
+            $tagsCollection = AO::getModel('tag/tag')->getResourceCollection();
 
             if (!is_null($storeId)) {
                 $tagsCollection->addStoreFilter($storeId);

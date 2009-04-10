@@ -42,7 +42,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('googlebase/item_collection');
+        $collection = AO::getResourceModel('googlebase/item_collection');
         $store = $this->_getStore();
         $collection->addStoreFilterId($store->getId());
         $this->setCollection($collection);
@@ -121,7 +121,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Block_Wi
                 'width'     => '150px',
                 'type'      => 'options',
                 'width'     => '70px',
-                'options'   => Mage::getSingleton('googlebase/source_statuses')->getStatuses(),
+                'options'   => AO::getSingleton('googlebase/source_statuses')->getStatuses(),
                 'index'     => 'is_hidden',
         ));
 

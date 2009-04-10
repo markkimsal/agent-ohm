@@ -40,6 +40,6 @@ class Mage_Checkout_Block_Multishipping_Abstract extends Mage_Core_Block_Templat
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/type_multishipping');
+        return AO::getSingleton('checkout/type_multishipping');
     }
 }

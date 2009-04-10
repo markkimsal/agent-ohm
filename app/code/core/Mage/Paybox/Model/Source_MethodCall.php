@@ -37,9 +37,9 @@ class Mage_Paybox_Model_Source_MethodCall
     public function toOptionArray()
     {
         return array(
-//            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => Mage::helper('paypal')->__('Authorization')),
-            array('value' => 'GET', 'label' => Mage::helper('paybox')->__('GET')),
-            array('value' => 'POST', 'label' => Mage::helper('paybox')->__('POST')),
+//            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => AO::helper('paypal')->__('Authorization')),
+            array('value' => 'GET', 'label' => AO::helper('paybox')->__('GET')),
+            array('value' => 'POST', 'label' => AO::helper('paybox')->__('POST')),
         );
     }
 }

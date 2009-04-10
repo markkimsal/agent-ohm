@@ -52,35 +52,35 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         $io = new Varien_Io_File();
-        $realPath = $io->getCleanPath(Mage::getBaseDir() . '/' . $this->getSitemapPath());
+        $realPath = $io->getCleanPath(AO::getBaseDir() . '/' . $this->getSitemapPath());
 
         /**
          * Check path is allow
          */
-        if (!$io->allowedPath($realPath, Mage::getBaseDir())) {
-            Mage::throwException(Mage::helper('sitemap')->__('Please define correct path'));
+        if (!$io->allowedPath($realPath, AO::getBaseDir())) {
+            AO::throwException(AO::helper('sitemap')->__('Please define correct path'));
         }
         /**
          * Check exists and writeable path
          */
         if (!$io->fileExists($realPath, false)) {
-            Mage::throwException(Mage::helper('sitemap')->__('Please create the specified folder "%s" before saving the sitemap.', $this->getSitemapPath()));
+            AO::throwException(AO::helper('sitemap')->__('Please create the specified folder "%s" before saving the sitemap.', $this->getSitemapPath()));
         }
 
         if (!$io->isWriteable($realPath)) {
-            Mage::throwException(Mage::helper('sitemap')->__('Please make sure that "%s" is writable by web-server.', $this->getSitemapPath()));
+            AO::throwException(AO::helper('sitemap')->__('Please make sure that "%s" is writable by web-server.', $this->getSitemapPath()));
         }
         /**
          * Check allow filename
          */
         if (!preg_match('#^[a-zA-Z0-9_\.]+$#', $this->getSitemapFilename())) {
-            Mage::throwException(Mage::helper('sitemap')->__('Please use only letters (a-z or A-Z), numbers (0-9) or underscore (_) in the filename. No spaces or other characters are allowed.'));
+            AO::throwException(AO::helper('sitemap')->__('Please use only letters (a-z or A-Z), numbers (0-9) or underscore (_) in the filename. No spaces or other characters are allowed.'));
         }
         if (!preg_match('#\.xml$#', $this->getSitemapFilename())) {
             $this->setSitemapFilename($this->getSitemapFilename() . '.xml');
         }
 
-        $this->setSitemapPath(rtrim(str_replace(str_replace('\\', '/', Mage::getBaseDir()), '', $realPath), '/') . '/');
+        $this->setSitemapPath(rtrim(str_replace(str_replace('\\', '/', AO::getBaseDir()), '', $realPath), '/') . '/');
 
         return parent::_beforeSave();
     }
@@ -93,7 +93,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected function getPath()
     {
         if (is_null($this->_filePath)) {
-            $this->_filePath = str_replace('//', '/', Mage::getBaseDir() .
+            $this->_filePath = str_replace('//', '/', AO::getBaseDir() .
                 $this->getSitemapPath());
         }
         return $this->_filePath;
@@ -111,7 +111,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->open(array('path' => $this->getPath()));
 
         if ($io->fileExists($this->getSitemapFilename()) && !$io->isWriteable($this->getSitemapFilename())) {
-            Mage::throwException(Mage::helper('sitemap')->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writeable by web server.', $this->getSitemapFilename(), $this->getPath()));
+            AO::throwException(AO::helper('sitemap')->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writeable by web server.', $this->getSitemapFilename(), $this->getPath()));
         }
 
         $io->streamOpen($this->getSitemapFilename());
@@ -120,15 +120,15 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
         $storeId = $this->getStoreId();
-        $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
-        $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+        $date    = AO::getSingleton('core/date')->gmtDate('Y-m-d');
+        $baseUrl = AO::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
 
         /**
          * Generate categories sitemap
          */
-        $changefreq = (string)Mage::getStoreConfig('sitemap/category/changefreq');
-        $priority   = (string)Mage::getStoreConfig('sitemap/category/priority');
-        $collection = Mage::getResourceModel('sitemap/catalog_category')->getCollection($storeId);
+        $changefreq = (string)AO::getStoreConfig('sitemap/category/changefreq');
+        $priority   = (string)AO::getStoreConfig('sitemap/category/priority');
+        $collection = AO::getResourceModel('sitemap/catalog_category')->getCollection($storeId);
         foreach ($collection as $item) {
             $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
@@ -143,9 +143,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         /**
          * Generate products sitemap
          */
-        $changefreq = (string)Mage::getStoreConfig('sitemap/product/changefreq');
-        $priority   = (string)Mage::getStoreConfig('sitemap/product/priority');
-        $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
+        $changefreq = (string)AO::getStoreConfig('sitemap/product/changefreq');
+        $priority   = (string)AO::getStoreConfig('sitemap/product/priority');
+        $collection = AO::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
         foreach ($collection as $item) {
             $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
@@ -160,9 +160,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         /**
          * Generate cms pages sitemap
          */
-        $changefreq = (string)Mage::getStoreConfig('sitemap/page/changefreq');
-        $priority   = (string)Mage::getStoreConfig('sitemap/page/priority');
-        $collection = Mage::getResourceModel('sitemap/cms_page')->getCollection($storeId);
+        $changefreq = (string)AO::getStoreConfig('sitemap/page/changefreq');
+        $priority   = (string)AO::getStoreConfig('sitemap/page/priority');
+        $collection = AO::getResourceModel('sitemap/cms_page')->getCollection($storeId);
         foreach ($collection as $item) {
             $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
@@ -177,7 +177,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->streamWrite('</urlset>');
         $io->streamClose();
 
-        $this->setSitemapTime(Mage::getSingleton('core/date')->gmtDate('Y-m-d H:i:s'));
+        $this->setSitemapTime(AO::getSingleton('core/date')->gmtDate('Y-m-d H:i:s'));
         $this->save();
 
         return $this;

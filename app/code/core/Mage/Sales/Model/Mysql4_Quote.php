@@ -91,7 +91,7 @@ class Mage_Sales_Model_Mysql4_Quote extends Mage_Sales_Model_Mysql4_Abstract
 
     public function getReservedOrderId($quote)
     {
-        return Mage::getSingleton('eav/config')->getEntityType('order')->fetchNewIncrementId($quote->getStoreId());
+        return AO::getSingleton('eav/config')->getEntityType('order')->fetchNewIncrementId($quote->getStoreId());
     }
 
     public function isOrderIncrementIdUsed($orderIncrementId) {

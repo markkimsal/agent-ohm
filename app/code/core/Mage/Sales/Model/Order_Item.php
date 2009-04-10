@@ -221,7 +221,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function getOrder()
     {
         if (is_null($this->_order) && ($orderId = $this->getOrderId())) {
-            $order = Mage::getModel('sales/order');
+            $order = AO::getModel('sales/order');
             $order->load($orderId);
             $this->setOrder($order);
         }
@@ -297,7 +297,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if (isset(self::$_statuses[$statusId])) {
             return self::$_statuses[$statusId];
         }
-        return Mage::helper('sales')->__('Unknown Status');
+        return AO::helper('sales')->__('Unknown Status');
     }
 
     /**
@@ -308,7 +308,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     public function cancel()
     {
         if ($this->getStatusId() !== self::STATUS_CANCELED) {
-            Mage::dispatchEvent('sales_order_item_cancel', array('item'=>$this));
+            AO::dispatchEvent('sales_order_item_cancel', array('item'=>$this));
             $this->setQtyCanceled($this->getQtyToCancel());
         }
         return $this;
@@ -323,16 +323,16 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
     {
         if (is_null(self::$_statuses)) {
             self::$_statuses = array(
-                //self::STATUS_PENDING        => Mage::helper('sales')->__('Pending'),
-                self::STATUS_PENDING        => Mage::helper('sales')->__('Ordered'),
-                self::STATUS_SHIPPED        => Mage::helper('sales')->__('Shipped'),
-                self::STATUS_INVOICED       => Mage::helper('sales')->__('Invoiced'),
-                self::STATUS_BACKORDERED    => Mage::helper('sales')->__('Backordered'),
-                self::STATUS_RETURNED       => Mage::helper('sales')->__('Returned'),
-                self::STATUS_REFUNDED       => Mage::helper('sales')->__('Refunded'),
-                self::STATUS_CANCELED       => Mage::helper('sales')->__('Canceled'),
-                self::STATUS_PARTIAL        => Mage::helper('sales')->__('Partial'),
-                self::STATUS_MIXED          => Mage::helper('sales')->__('Mixed'),
+                //self::STATUS_PENDING        => AO::helper('sales')->__('Pending'),
+                self::STATUS_PENDING        => AO::helper('sales')->__('Ordered'),
+                self::STATUS_SHIPPED        => AO::helper('sales')->__('Shipped'),
+                self::STATUS_INVOICED       => AO::helper('sales')->__('Invoiced'),
+                self::STATUS_BACKORDERED    => AO::helper('sales')->__('Backordered'),
+                self::STATUS_RETURNED       => AO::helper('sales')->__('Returned'),
+                self::STATUS_REFUNDED       => AO::helper('sales')->__('Refunded'),
+                self::STATUS_CANCELED       => AO::helper('sales')->__('Canceled'),
+                self::STATUS_PARTIAL        => AO::helper('sales')->__('Partial'),
+                self::STATUS_MIXED          => AO::helper('sales')->__('Mixed'),
             );
         }
         return self::$_statuses;

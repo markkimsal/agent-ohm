@@ -83,7 +83,7 @@ class Mage_Log_Model_Mysql4_Visitor_Aggregator
 
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
 
         $this->_visitorTable    = $resource->getTableName('log/visitor');
         $this->_urlTable        = $resource->getTableName('log/url_table');

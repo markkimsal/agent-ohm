@@ -37,17 +37,17 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
 
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('directory_read'));
 
-        $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory/country');
+        $this->_countryTable = AO::getSingleton('core/resource')->getTableName('directory/country');
 
         $this->_select->from(array('country'=>$this->_countryTable));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/country'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('directory/country'));
     }
 
     public function loadByStore()
     {
-        $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow'));
+        $allowCountries = explode(',', (string)AO::getStoreConfig('general/country/allow'));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country.country_id", array('in'=>$allowCountries));
         }
@@ -64,7 +64,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
                 return $country;
             }
         }
-        return Mage::getResourceModel('directory/country');
+        return AO::getResourceModel('directory/country');
     }
 
     public function addCountryCodeFilter($countryCode, $iso=array(0 => 'iso3', 'iso2'))
@@ -115,7 +115,7 @@ class Mage_Directory_Model_Mysql4_Country_Collection extends Varien_Data_Collect
 
         $sort = array();
         foreach ($options as $index=>$data) {
-            $name = Mage::app()->getLocale()->getCountryTranslation($data['value']);
+            $name = AO::app()->getLocale()->getCountryTranslation($data['value']);
             if (!empty($name)) {
                 $sort[$name] = $data['value'];
             }

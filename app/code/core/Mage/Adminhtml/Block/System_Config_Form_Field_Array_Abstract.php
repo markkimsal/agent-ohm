@@ -66,7 +66,7 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
             throw new Exception('At least one column must be defined.');
         }
         if (!$this->_addButtonLabel) {
-            $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add');
+            $this->_addButtonLabel = AO::helper('adminhtml')->__('Add');
         }
         parent::__construct();
         if (!$this->getTemplate()) {

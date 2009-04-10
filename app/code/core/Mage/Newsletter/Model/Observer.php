@@ -35,7 +35,7 @@ class Mage_Newsletter_Model_Observer
     {
         $customer = $observer->getEvent()->getCustomer();
         if (($customer instanceof Mage_Customer_Model_Customer)) {
-            Mage::getModel('newsletter/subscriber')->subscribeCustomer($customer);
+            AO::getModel('newsletter/subscriber')->subscribeCustomer($customer);
         }
         return $this;
     }
@@ -48,7 +48,7 @@ class Mage_Newsletter_Model_Observer
      */
     public function customerDeleted($observer)
     {
-        $subscriber = Mage::getModel('newsletter/subscriber')
+        $subscriber = AO::getModel('newsletter/subscriber')
             ->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
         if($subscriber->getId()) {
             $subscriber->delete();
@@ -61,7 +61,7 @@ class Mage_Newsletter_Model_Observer
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = Mage::getModel('newsletter/queue')->getCollection()
+        $collection = AO::getModel('newsletter/queue')->getCollection()
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()

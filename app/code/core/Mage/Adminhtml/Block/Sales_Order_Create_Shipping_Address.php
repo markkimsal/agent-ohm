@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Shipping_Address extends Mage_Admi
 
     public function getHeaderText()
     {
-        return Mage::helper('sales')->__('Shipping Address');
+        return AO::helper('sales')->__('Shipping Address');
     }
 
     public function getHeaderCssClass()

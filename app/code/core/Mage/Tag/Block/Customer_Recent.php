@@ -40,9 +40,9 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
     {
         parent::_construct();
 
-        $this->_collection = Mage::getModel('tag/tag')->getEntityCollection()
-            ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
+        $this->_collection = AO::getModel('tag/tag')->getEntityCollection()
+            ->addStoreFilter(AO::app()->getStore()->getId())
+            ->addCustomerFilter(AO::getSingleton('customer/session')->getCustomerId())
             ->setDescOrder()
             ->setPageSize(5)
             ->setActiveFilter()
@@ -72,7 +72,7 @@ class Mage_Tag_Block_Customer_Recent extends Mage_Core_Block_Template
 
     public function getAllTagsUrl()
     {
-        return Mage::getUrl('tag/customer');
+        return AO::getUrl('tag/customer');
     }
 
     protected function _toHtml()

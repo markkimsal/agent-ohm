@@ -43,9 +43,9 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('dataflow/profile_history_collection')
+        $collection = AO::getResourceModel('dataflow/profile_history_collection')
             ->joinAdminUser()
-            ->addFieldToFilter('profile_id', Mage::registry('current_convert_profile')->getId());
+            ->addFieldToFilter('profile_id', AO::registry('current_convert_profile')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -53,26 +53,26 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_History extends Mage_
     protected function _prepareColumns()
     {
         $this->addColumn('action_code', array(
-            'header'    => Mage::helper('adminhtml')->__('Profile Action'),
+            'header'    => AO::helper('adminhtml')->__('Profile Action'),
             'index'     => 'action_code',
             'filter'    => 'adminhtml/system_convert_profile_edit_filter_action',
             'renderer'  => 'adminhtml/system_convert_profile_edit_renderer_action',
         ));
 
         $this->addColumn('performed_at', array(
-            'header'    => Mage::helper('adminhtml')->__('Performed At'),
+            'header'    => AO::helper('adminhtml')->__('Performed At'),
             'type'      => 'datetime',
             'index'     => 'performed_at',
             'width'     => '150px',
         ));
 
         $this->addColumn('firstname', array(
-            'header'    => Mage::helper('adminhtml')->__('Firstname'),
+            'header'    => AO::helper('adminhtml')->__('Firstname'),
             'index'     => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header'    => Mage::helper('adminhtml')->__('Lastname'),
+            'header'    => AO::helper('adminhtml')->__('Lastname'),
             'index'     => 'lastname',
         ));
 

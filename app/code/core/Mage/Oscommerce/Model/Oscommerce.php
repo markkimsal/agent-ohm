@@ -43,9 +43,9 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        Mage::getSingleton('oscommerce/config')->initForeignConnection($this->getData());
+        AO::getSingleton('oscommerce/config')->initForeignConnection($this->getData());
 
-//		if (Mage::app()->getRequest()->getActionName() == 'run') {
+//		if (AO::app()->getRequest()->getActionName() == 'run') {
 //			$this->importStores();
 //		}
 
@@ -57,7 +57,7 @@ class Mage_Oscommerce_Model_Oscommerce extends Mage_Core_Model_Abstract
      */
     public function getSession()
     {
-        return Mage::getSingleton('oscommerce/session');
+        return AO::getSingleton('oscommerce/session');
     }
     
     public function importStores() {

@@ -37,12 +37,12 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         if (!$productId) {
             return false;
         }
-        $product = Mage::getModel('catalog/product')
+        $product = AO::getModel('catalog/product')
             ->load($productId);
         if (!$product->getId()) {
             return false;
         }
-        Mage::register('product', $product);
+        AO::register('product', $product);
         return $product;
     }
 
@@ -52,8 +52,8 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
      * @return Mage_Sendfriend_Model_Sendfriend
      */
     protected function _initSendToFriendModel(){
-        $sendToFriendModel = Mage::getModel('sendfriend/sendfriend');
-        Mage::register('send_to_friend_model', $sendToFriendModel);
+        $sendToFriendModel = AO::getModel('sendfriend/sendfriend');
+        AO::register('send_to_friend_model', $sendToFriendModel);
         return $sendToFriendModel;
     }
 
@@ -66,14 +66,14 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
             return;
         }
 
-        $productHelper = Mage::helper('catalog/product');
-        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        $productHelper = AO::helper('catalog/product');
+        $sendToFriendModel = AO::registry('send_to_friend_model');
 
         /**
          * check if user is allowed to send product to a friend
          */
         if (!$sendToFriendModel->canEmailToFriend()) {
-            Mage::getSingleton('catalog/session')->addError(
+            AO::getSingleton('catalog/session')->addError(
                 $this->__('You cannot email this product to a friend')
             );
             $this->_redirectReferer($product->getProductUrl());
@@ -82,7 +82,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
 
         $maxSendsToFriend = $sendToFriendModel->getMaxSendsToFriend();
         if ($maxSendsToFriend){
-            Mage::getSingleton('catalog/session')->addNotice(
+            AO::getSingleton('catalog/session')->addNotice(
                 $this->__('You cannot send more than %d times in an hour', $maxSendsToFriend)
             );
         }
@@ -90,7 +90,7 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         $this->loadLayout();
         $this->_initLayoutMessages('catalog/session');
         $this->renderLayout();
-        Mage::dispatchEvent('sendfriend_product', array('product'=>$product));
+        AO::dispatchEvent('sendfriend_product', array('product'=>$product));
     }
 
     public function sendmailAction()
@@ -105,40 +105,40 @@ class Mage_Sendfriend_ProductController extends Mage_Core_Controller_Front_Actio
         }
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
-        if ($categoryId && $category = Mage::getModel('catalog/category')->load($categoryId)) {
-            Mage::register('current_category', $category);
+        if ($categoryId && $category = AO::getModel('catalog/category')->load($categoryId)) {
+            AO::register('current_category', $category);
         }
 
         $sendToFriendModel->setSender($this->getRequest()->getPost('sender'));
         $sendToFriendModel->setRecipients($this->getRequest()->getPost('recipients'));
-        $sendToFriendModel->setIp(Mage::getSingleton('log/visitor')->getRemoteAddr());
+        $sendToFriendModel->setIp(AO::getSingleton('log/visitor')->getRemoteAddr());
         $sendToFriendModel->setProduct($product);
 
         try {
             $validateRes = $sendToFriendModel->validate();
             if (true === $validateRes) {
                 $sendToFriendModel->send();
-                Mage::getSingleton('catalog/session')->addSuccess($this->__('Link to a friend was sent.'));
+                AO::getSingleton('catalog/session')->addSuccess($this->__('Link to a friend was sent.'));
                 $this->_redirectSuccess($product->getProductUrl());
                 return;
             }
             else {
-                Mage::getSingleton('catalog/session')->setFormData($data);
+                AO::getSingleton('catalog/session')->setFormData($data);
                 if (is_array($validateRes)) {
                     foreach ($validateRes as $errorMessage) {
-                    	Mage::getSingleton('catalog/session')->addError($errorMessage);
+                    	AO::getSingleton('catalog/session')->addError($errorMessage);
                     }
                 } else {
-                    Mage::getSingleton('catalog/session')->addError($this->__('Some problems with data.'));
+                    AO::getSingleton('catalog/session')->addError($this->__('Some problems with data.'));
                 }
             }
         } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('catalog/session')->addError($e->getMessage());
+            AO::getSingleton('catalog/session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('catalog/session')
+            AO::getSingleton('catalog/session')
                 ->addException($e, $this->__('Some emails was not sent'));
         }
 
-        $this->_redirectError(Mage::getURL('*/*/send',array('id'=>$product->getId())));
+        $this->_redirectError(AO::getURL('*/*/send',array('id'=>$product->getId())));
     }
 }

@@ -40,24 +40,24 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tabs extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('promo_catalog_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('salesrule')->__('Shopping Cart Price Rule'));
+        $this->setTitle(AO::helper('salesrule')->__('Shopping Cart Price Rule'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(
-            'label'     => Mage::helper('salesrule')->__('Rule Information'),
+            'label'     => AO::helper('salesrule')->__('Rule Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('conditions_section', array(
-            'label'     => Mage::helper('salesrule')->__('Conditions'),
+            'label'     => AO::helper('salesrule')->__('Conditions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_conditions')->toHtml(),
         ));
 
         $this->addTab('actions_section', array(
-            'label'     => Mage::helper('salesrule')->__('Actions'),
+            'label'     => AO::helper('salesrule')->__('Actions'),
             'content'   => $this->getLayout()->createBlock('adminhtml/promo_quote_edit_tab_actions')->toHtml(),
         ));
 

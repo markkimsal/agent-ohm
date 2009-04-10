@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Adminhtml_Bloc
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parrent block for this block'));
+            AO::throwException(AO::helper('adminhtml')->__('Invalid parrent block for this block'));
         }
         $this->setEntity($this->getParentBlock()->getSource());
         parent::_beforeToHtml();
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Adminhtml_Bloc
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
                 'id'      => 'submit_comment_button',
-                'label'   => Mage::helper('sales')->__('Submit Comment'),
+                'label'   => AO::helper('sales')->__('Submit Comment'),
                 'class'   => 'save'
             ));
         $this->setChild('submit_button', $button);
@@ -72,11 +72,11 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Adminhtml_Bloc
     {
         switch ($this->getParentType()) {
             case 'invoice':
-                return Mage::helper('sales')->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return AO::helper('sales')->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
             case 'shipment':
-                return Mage::helper('sales')->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return AO::helper('sales')->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
             case 'creditmemo':
-                return Mage::helper('sales')->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return AO::helper('sales')->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
         }
 
         return true;

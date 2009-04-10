@@ -71,7 +71,7 @@ class Mage_Core_Model_Resource
         if (isset($this->_connections[$name])) {
             return $this->_connections[$name];
         }
-        $connConfig = Mage::getConfig()->getResourceConnectionConfig($name);
+        $connConfig = AO::getConfig()->getResourceConnectionConfig($name);
         if (!$connConfig || !$connConfig->is('active', 1)) {
             return false;
         }
@@ -102,7 +102,7 @@ class Mage_Core_Model_Resource
     public function getConnectionTypeInstance($type)
     {
         if (!isset($this->_connectionTypes[$type])) {
-            $config = Mage::getConfig()->getResourceTypeConfig($type);
+            $config = AO::getConfig()->getResourceTypeConfig($type);
             $typeClass = $config->getClassName();
             $this->_connectionTypes[$type] = new $typeClass();
         }
@@ -118,8 +118,8 @@ class Mage_Core_Model_Resource
      */
     public function getEntity($model, $entity)
     {
-        //return Mage::getConfig()->getNode("global/models/$model/entities/$entity");
-        return Mage::getConfig()->getNode()->global->models->{$model}->entities->{$entity};
+        //return AO::getConfig()->getNode("global/models/$model/entities/$entity");
+        return AO::getConfig()->getNode()->global->models->{$model}->entities->{$entity};
     }
 
     /**
@@ -133,24 +133,24 @@ class Mage_Core_Model_Resource
         $arr = explode('/', $modelEntity);
         if (isset($arr[1])) {
             list($model, $entity) = $arr;
-            //$resourceModel = (string)Mage::getConfig()->getNode('global/models/'.$model.'/resourceModel');
-            $resourceModel = (string) Mage::getConfig()->getNode()->global->models->{$model}->resourceModel;
+            //$resourceModel = (string)AO::getConfig()->getNode('global/models/'.$model.'/resourceModel');
+            $resourceModel = (string) AO::getConfig()->getNode()->global->models->{$model}->resourceModel;
             $entityConfig = $this->getEntity($resourceModel, $entity);
             if ($entityConfig) {
                 $tableName = (string)$entityConfig->table;
             } else {
-                Mage::throwException(Mage::helper('core')->__('Can\'t retrieve entity config: %s', $modelEntity));
+                AO::throwException(AO::helper('core')->__('Can\'t retrieve entity config: %s', $modelEntity));
             }
         } else {
             $tableName = $modelEntity;
         }
         
-        Mage::dispatchEvent('resource_get_tablename', array('resource' => $this, 'model_entity' => $modelEntity, 'table_name' => $tableName));
+        AO::dispatchEvent('resource_get_tablename', array('resource' => $this, 'model_entity' => $modelEntity, 'table_name' => $tableName));
         $mappedTableName = $this->getMappedTableName($tableName);
         if ($mappedTableName) {
         	$tableName = $mappedTableName;
         } else {
-        	$tablePrefix = (string)Mage::getConfig()->getTablePrefix();
+        	$tablePrefix = (string)AO::getConfig()->getTablePrefix();
         	$tableName = $tablePrefix . $tableName;
         }
 
@@ -196,19 +196,19 @@ class Mage_Core_Model_Resource
     public function checkDbConnection()
     {
     	if (!$this->getConnection('core_read')) {
-    		//Mage::app()->getResponse()->setRedirect(Mage::getUrl('install'));
+    		//AO::app()->getResponse()->setRedirect(AO::getUrl('install'));
     	}
     }
 
     public function getAutoUpdate()
     {
         return self::AUTO_UPDATE_ALWAYS;
-        #return Mage::app()->loadCache(self::AUTO_UPDATE_CACHE_KEY);
+        #return AO::app()->loadCache(self::AUTO_UPDATE_CACHE_KEY);
     }
 
     public function setAutoUpdate($value)
     {
-        #Mage::app()->saveCache($value, self::AUTO_UPDATE_CACHE_KEY);
+        #AO::app()->saveCache($value, self::AUTO_UPDATE_CACHE_KEY);
         return $this;
     }
 

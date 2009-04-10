@@ -41,7 +41,7 @@ class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Mo
         $currencies = $this->_getCurrencyCodes();
         $defaultCurrencies = $this->_getDefaultCurrencyCodes();
         try {
-          $strikeironModel = Mage::getModel('strikeiron/strikeiron');
+          $strikeironModel = AO::getModel('strikeiron/strikeiron');
           foreach ($defaultCurrencies as $currencyFrom) {
             $currenciesToArr = array();
             if (!isset($data[$currencyFrom])) {
@@ -66,12 +66,12 @@ class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Mo
                     $currenciesNotConverted = array_diff($currenciesToArr, $convertedCurrencies);
                     if ($currenciesNotConverted) {
                         foreach ($currenciesNotConverted as $_currencyNconvert) {
-                             $this->_messages[] = Mage::helper('strikeiron')->__('%s is not supported currency.', $_currencyNconvert);
+                             $this->_messages[] = AO::helper('strikeiron')->__('%s is not supported currency.', $_currencyNconvert);
                              $data[$currencyFrom][$_currencyNconvert] = $this->_numberFormat(null);
                         }
                     }
                 } else {
-                    $this->_messages[] = Mage::helper('strikeiron')->__('Cannot retreive rate from strikeirion.');
+                    $this->_messages[] = AO::helper('strikeiron')->__('Cannot retreive rate from strikeirion.');
                 }
         	}
             ksort($data[$currencyFrom]);
@@ -86,7 +86,7 @@ class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Mo
     {
 
         try {
-            $strikeironModel = Mage::getModel('strikeiron/strikeiron');
+            $strikeironModel = AO::getModel('strikeiron/strikeiron');
             $result = $strikeironModel->fetchExchangeRate($currencyFrom , array($currencyTo));
             return $result;
         }
@@ -94,7 +94,7 @@ class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Mo
             if( $retry == 0 ) {
                 $this->_convert($currencyFrom, $currencyTo, 1);
             } else {
-                $this->_messages[] = Mage::helper('strikeiron')->__('Cannot retrieve rate from %s to %s', $currencyFrom, $currencyTo);
+                $this->_messages[] = AO::helper('strikeiron')->__('Cannot retrieve rate from %s to %s', $currencyFrom, $currencyTo);
             }
         }
 

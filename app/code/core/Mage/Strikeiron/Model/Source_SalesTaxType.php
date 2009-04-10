@@ -34,8 +34,8 @@ class Mage_Strikeiron_Model_Source_SalesTaxType
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_TYPE_BASIC, 'label' => Mage::helper('strikeiron')->__('Basic')),
-            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_TYPE_COMPLETE, 'label' => Mage::helper('strikeiron')->__('Complete')),
+            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_TYPE_BASIC, 'label' => AO::helper('strikeiron')->__('Basic')),
+            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_TYPE_COMPLETE, 'label' => AO::helper('strikeiron')->__('Complete')),
 
         );
     }

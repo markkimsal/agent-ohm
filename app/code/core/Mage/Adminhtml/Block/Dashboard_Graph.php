@@ -102,9 +102,9 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $gmtOffset = Mage::getSingleton('core/date')->getGmtOffset();
+        $gmtOffset = AO::getSingleton('core/date')->getGmtOffset();
 
-        list ($dateStart, $dateEnd) = Mage::getResourceModel('reports/order_collection')
+        list ($dateStart, $dateEnd) = AO::getResourceModel('reports/order_collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
 
         $dates = array();
@@ -282,7 +282,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
                                     break;
                                 case '1y':
                                 case '2y':
-                                    $formats = Mage::app()->getLocale()->getTranslationList('datetime');
+                                    $formats = AO::app()->getLocale()->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
                                     $format = str_replace(array("yyyy", "yy", "MM"), array("Y", "y", "m"), $format);
                                     $this->_axisLabels[$idx][$_index] = date($format, strtotime($_label));

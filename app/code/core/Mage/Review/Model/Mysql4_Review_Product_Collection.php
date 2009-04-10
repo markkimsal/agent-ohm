@@ -42,7 +42,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     {
         $this->_init('catalog/product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = Mage::getSingleton('core/resource')->getTableName('review/review_store');
+        $this->_reviewStoreTable = AO::getSingleton('core/resource')->getTableName('review/review_store');
     }
 
     protected function _initSelect()
@@ -123,7 +123,7 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     public function addReviewSummary()
     {
         foreach( $this->getItems() as $item ) {
-            $model = Mage::getModel('rating/rating');
+            $model = AO::getModel('rating/rating');
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -133,10 +133,10 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
     public function addRateVotes()
     {
         foreach( $this->getItems() as $item ) {
-            $votesCollection = Mage::getModel('rating/rating_option_vote')
+            $votesCollection = AO::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->setStoreFilter(AO::app()->getStore()->getId())
                 ->load();
             $item->setRatingVotes( $votesCollection );
         }
@@ -145,8 +145,8 @@ class Mage_Review_Model_Mysql4_Review_Product_Collection extends Mage_Catalog_Mo
 
     protected function _joinFields()
     {
-        $reviewTable = Mage::getSingleton('core/resource')->getTableName('review/review');
-        $reviewDetailTable = Mage::getSingleton('core/resource')->getTableName('review/review_detail');
+        $reviewTable = AO::getSingleton('core/resource')->getTableName('review/review');
+        $reviewDetailTable = AO::getSingleton('core/resource')->getTableName('review/review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');

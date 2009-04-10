@@ -42,18 +42,18 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
     {
         parent::__construct();
         $this->setId('block_form');
-        $this->setTitle(Mage::helper('cms')->__('Block Information'));
+        $this->setTitle(AO::helper('cms')->__('Block Information'));
     }
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('cms_block');
+        $model = AO::registry('cms_block');
 
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
         $form->setHtmlIdPrefix('block_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('General Information'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>AO::helper('cms')->__('General Information'), 'class' => 'fieldset-wide'));
 
         if ($model->getBlockId()) {
         	$fieldset->addField('block_id', 'hidden', array(
@@ -63,15 +63,15 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
 
     	$fieldset->addField('title', 'text', array(
             'name'      => 'title',
-            'label'     => Mage::helper('cms')->__('Block Title'),
-            'title'     => Mage::helper('cms')->__('Block Title'),
+            'label'     => AO::helper('cms')->__('Block Title'),
+            'title'     => AO::helper('cms')->__('Block Title'),
             'required'  => true,
         ));
 
     	$fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('cms')->__('Identifier'),
-            'title'     => Mage::helper('cms')->__('Identifier'),
+            'label'     => AO::helper('cms')->__('Identifier'),
+            'title'     => AO::helper('cms')->__('Identifier'),
             'required'  => true,
             'class'     => 'validate-xml-identifier',
         ));
@@ -79,38 +79,38 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
         	$fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('cms')->__('Store View'),
-                'title'     => Mage::helper('cms')->__('Store View'),
+                'label'     => AO::helper('cms')->__('Store View'),
+                'title'     => AO::helper('cms')->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'values'    => AO::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
             ));
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => AO::app()->getStore(true)->getId()
             ));
-            $model->setStoreId(Mage::app()->getStore(true)->getId());
+            $model->setStoreId(AO::app()->getStore(true)->getId());
         }
 
     	$fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('cms')->__('Status'),
-            'title'     => Mage::helper('cms')->__('Status'),
+            'label'     => AO::helper('cms')->__('Status'),
+            'title'     => AO::helper('cms')->__('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('cms')->__('Enabled'),
-                '0' => Mage::helper('cms')->__('Disabled'),
+                '1' => AO::helper('cms')->__('Enabled'),
+                '0' => AO::helper('cms')->__('Disabled'),
             ),
         ));
 
     	$fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('cms')->__('Content'),
-            'title'     => Mage::helper('cms')->__('Content'),
+            'label'     => AO::helper('cms')->__('Content'),
+            'title'     => AO::helper('cms')->__('Content'),
             'style'     => 'height:36em',
             'wysiwyg'   => false,
             'required'  => true,

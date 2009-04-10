@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
      */
     protected function _getStoreModel()
     {
-        return Mage::getSingleton('adminhtml/system_store');
+        return AO::getSingleton('adminhtml/system_store');
     }
 
     protected function _getShowAllStoresLabelFlag()
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
             foreach ($origStores as $origStore) {
                 if (is_numeric($origStore) && $origStore == 0) {
                     if (!$skipAllStoresLabel) {
-                        $stores[] = Mage::helper('adminhtml')->__('All Store Views');
+                        $stores[] = AO::helper('adminhtml')->__('All Store Views');
                     }
                 }
                 elseif (is_numeric($origStore) && $storeName = $this->_getStoreModel()->getStoreName($origStore)) {
@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
             }
             elseif (is_numeric($origStores) && $origStores == 0) {
                 if (!$skipAllStoresLabel) {
-                    $stores[] = Mage::helper('adminhtml')->__('All Store Views');
+                    $stores[] = AO::helper('adminhtml')->__('All Store Views');
                 }
             }
             elseif (is_null($origStores) && $row->getStoreName()) {

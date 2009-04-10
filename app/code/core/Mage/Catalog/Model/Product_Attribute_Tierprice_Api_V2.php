@@ -42,10 +42,10 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Mage_Catalog
      */
     public function update($productId, $tierPrices)
     {
-        Mage::log($tierPrices);
+        AO::log($tierPrices);
         $product = $this->_initProduct($productId);
         if (!is_array($tierPrices)) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Invalid Tier Prices'));
         }
 
         $updateValue = array();
@@ -54,14 +54,14 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Mage_Catalog
             if (!is_object($tierPrice)
                 || !isset($tierPrice->qty)
                 || !isset($tierPrice->price)) {
-                $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
+                $this->_fault('data_invalid', AO::helper('catalog')->__('Invalid Tier Prices'));
             }
 
             if (!isset($tierPrice->website) || $tierPrice->website == 'all') {
                 $tierPrice->website = 0;
             } else {
                 try {
-                    $tierPrice->website = Mage::app()->getWebsite($tierPrice->website)->getId();
+                    $tierPrice->website = AO::app()->getWebsite($tierPrice->website)->getId();
                 } catch (Mage_Core_Exception $e) {
                     $tierPrice->website = 0;
                 }

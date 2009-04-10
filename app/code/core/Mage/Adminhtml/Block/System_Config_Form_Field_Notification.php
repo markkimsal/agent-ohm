@@ -36,8 +36,8 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Notification extends Mage_Ad
 {
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-    	$element->setValue(Mage::app()->loadCache('admin_notifications_lastcheck'));
-        $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
-        return Mage::app()->getLocale()->date(intval($element->getValue()))->toString($format);
+    	$element->setValue(AO::app()->loadCache('admin_notifications_lastcheck'));
+        $format = AO::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+        return AO::app()->getLocale()->date(intval($element->getValue()))->toString($format);
     }
 }

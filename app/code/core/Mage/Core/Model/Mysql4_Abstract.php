@@ -131,7 +131,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
      */
     protected function _setResource($connections, $tables=null)
     {
-        $this->_resources = Mage::getSingleton('core/resource');
+        $this->_resources = AO::getSingleton('core/resource');
 
         if (is_array($connections)) {
             foreach ($connections as $k=>$v) {
@@ -193,7 +193,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     public function getIdFieldName()
     {
         if (empty($this->_idFieldName)) {
-            Mage::throwException(Mage::helper('core')->__('Empty identifier field name'));
+            AO::throwException(AO::helper('core')->__('Empty identifier field name'));
         }
         return $this->_idFieldName;
     }
@@ -206,7 +206,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     public function getMainTable()
     {
         if (empty($this->_mainTable)) {
-            Mage::throwException(Mage::helper('core')->__('Empty main table name'));
+            AO::throwException(AO::helper('core')->__('Empty main table name'));
         }
         return $this->getTable($this->_mainTable);
     }
@@ -461,7 +461,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     protected function _prepareValueForSave($value, $type)
     {
         if ($type == 'decimal') {
-            $value = Mage::app()->getLocale()->getNumber($value);
+            $value = AO::app()->getLocale()->getNumber($value);
         }
         return $value;
     }
@@ -514,12 +514,12 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
 
         if (!empty($existent)) {
             if (count($existent) == 1 ) {
-                $error = Mage::helper('core')->__('%s already exist', $existent[0]);
+                $error = AO::helper('core')->__('%s already exist', $existent[0]);
             }
             else {
-                $error = Mage::helper('core')->__('%s already exists', implode(', ', $existent));
+                $error = AO::helper('core')->__('%s already exists', implode(', ', $existent));
             }
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }

@@ -40,7 +40,7 @@ class Mage_PaypalUk_Block_Link_Shortcut extends Mage_Core_Block_Template
 
     public function getImageUrl()
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale = AO::app()->getLocale()->getLocaleCode();
         if (strpos('en_GB', $locale)===false) {
             $locale = 'en_US';
         }
@@ -50,8 +50,8 @@ class Mage_PaypalUk_Block_Link_Shortcut extends Mage_Core_Block_Template
 
     public function _toHtml()
     {
-        if (Mage::getStoreConfigFlag('payment/paypaluk_express/active')
-            && Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount()) {
+        if (AO::getStoreConfigFlag('payment/paypaluk_express/active')
+            && AO::getSingleton('checkout/session')->getQuote()->validateMinimumAmount()) {
             return parent::_toHtml();
         }
 

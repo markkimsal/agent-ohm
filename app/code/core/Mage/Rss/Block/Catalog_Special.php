@@ -46,12 +46,12 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
     {
          //store id is store view id
         $storeId = $this->_getStoreId();
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = AO::app()->getStore($storeId)->getWebsiteId();
 
         //customer group id
         $custGroup =   $this->_getCustomerGroupId();
 
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
         $todayDate = $product->getResource()->formatDate(time());
 
         $rulePriceWhere = "({{table}}.rule_date is null) or ({{table}}.rule_date='$todayDate' and {{table}}.website_id='$websiteId' and {{table}}.customer_group_id='$custGroup')";
@@ -69,7 +69,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
         ;
 
 //public function join($table, $cond, $cols='*')
-        $rulePriceCollection = Mage::getResourceModel('catalogrule/rule_product_price_collection')
+        $rulePriceCollection = AO::getResourceModel('catalogrule/rule_product_price_collection')
             ->addFieldToFilter('website_id', $websiteId)
             ->addFieldToFilter('customer_group_id', $custGroup)
             ->addFieldToFilter('rule_date', $todayDate)
@@ -84,17 +84,17 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
         /*
         *need to put status and visibility after orWhere clause for catalog price rule products
         */
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($specials);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($specials);
+        AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($specials);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($specials);
 
 
 //echo $specials->getSelect();
 
-        $newurl = Mage::getUrl('rss/catalog/new');
-        $title = Mage::helper('rss')->__('%s - Special Discounts', Mage::app()->getStore()->getName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $newurl = AO::getUrl('rss/catalog/new');
+        $title = AO::helper('rss')->__('%s - Special Discounts', AO::app()->getStore()->getName());
+        $lang = AO::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -108,7 +108,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('core/resource_iterator')
+        AO::getSingleton('core/resource_iterator')
             ->walk($specials->getSelect(), array(array($this, 'addSpecialXmlCallback')), array('rssObj'=> $rssObj, 'results'=> &$results));
 
         if(sizeof($results)>0){
@@ -121,8 +121,8 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
                $description = '<table><tr>'.
                 '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
                 '<td  style="text-decoration:none;">'.$product->getDescription().
-                '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-                ' Special Price:'. Mage::helper('core')->currency($special_price).
+                '<p> Price:'.AO::helper('core')->currency($product->getPrice()).
+                ' Special Price:'. AO::helper('core')->currency($special_price).
                 ($result['use_special'] && $result['special_to_date'] ? '<br/> Special Expires on: '.$this->formatDate($result['special_to_date'], Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM) : '').
                 '</p>'.
                 '</td>'.

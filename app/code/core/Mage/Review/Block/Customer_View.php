@@ -45,8 +45,8 @@ class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstrac
     public function getProductData()
     {
         if( $this->getReviewId() && !$this->getProductCacheData() ) {
-            $product = Mage::getModel('catalog/product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = AO::getModel('catalog/product')
+                ->setStoreId(AO::app()->getStore()->getId())
                 ->load($this->getReviewData()->getEntityPkValue());
             $this->setProductCacheData($product);
         }
@@ -56,24 +56,24 @@ class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstrac
     public function getReviewData()
     {
         if( $this->getReviewId() && !$this->getReviewCachedData() ) {
-            $this->setReviewCachedData(Mage::getModel('review/review')->load($this->getReviewId()));
+            $this->setReviewCachedData(AO::getModel('review/review')->load($this->getReviewId()));
         }
         return $this->getReviewCachedData();
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('review/customer');
+        return AO::getUrl('review/customer');
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('rating/rating_option_vote')
+            $ratingCollection = AO::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->addRatingInfo(Mage::app()->getStore()->getId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->addRatingInfo(AO::app()->getStore()->getId())
+                ->setStoreFilter(AO::app()->getStore()->getId())
                 ->load();
 
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
@@ -85,7 +85,7 @@ class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstrac
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('rating/rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(AO::getModel('rating/rating')->getEntitySummary($this->getProductData()->getId()));
         }
         return $this->getRatingSummaryCache();
     }
@@ -93,7 +93,7 @@ class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstrac
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(Mage::getModel('review/review')->getTotalReviews($this->getProductData()->getId()), false, Mage::app()->getStore()->getId());
+            $this->setTotalReviewsCache(AO::getModel('review/review')->getTotalReviews($this->getProductData()->getId()), false, AO::app()->getStore()->getId());
         }
         return $this->getTotalReviewsCache();
     }

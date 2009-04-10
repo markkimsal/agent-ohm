@@ -46,25 +46,25 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Core_Block_Template
     public function getWishlist()
     {
         if(!$this->_wishlistLoaded) {
-            Mage::registry('wishlist')
-                ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomer());
-            Mage::registry('wishlist')->getProductCollection()
+            AO::registry('wishlist')
+                ->loadByCustomer(AO::getSingleton('customer/session')->getCustomer());
+            AO::registry('wishlist')->getProductCollection()
                 ->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('image')
                 ->addAttributeToSelect('small_image')
-                //->addAttributeToFilter('store_id', array('in'=>Mage::registry('wishlist')->getSharedStoreIds()))
+                //->addAttributeToFilter('store_id', array('in'=>AO::registry('wishlist')->getSharedStoreIds()))
                 ->addStoreFilter();
-            Mage::getSingleton('catalog/product_visibility')
-                ->addVisibleInSiteFilterToCollection(Mage::registry('wishlist')->getProductCollection());
-            Mage::registry('wishlist')->getProductCollection()
+            AO::getSingleton('catalog/product_visibility')
+                ->addVisibleInSiteFilterToCollection(AO::registry('wishlist')->getProductCollection());
+            AO::registry('wishlist')->getProductCollection()
                 ->load();
 
             $this->_wishlistLoaded = true;
         }
 
-        return Mage::registry('wishlist')->getProductCollection();
+        return AO::registry('wishlist')->getProductCollection();
     }
 
     public function getEscapedDescription(Varien_Object $item)

@@ -31,7 +31,7 @@ class Mage_Core_Model_Mysql4_Design_Package_Collection extends Varien_Object
     {
         $packages = $this->getData('packages');
         if (is_null($packages)) {
-            $packages = Mage::getModel('core/design_package')->getPackageList();
+            $packages = AO::getModel('core/design_package')->getPackageList();
             $this->setData('packages', $packages);
         }
 

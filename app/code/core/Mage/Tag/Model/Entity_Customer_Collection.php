@@ -39,7 +39,7 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Enti
 
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         parent::__construct();
         $this->_tagTable = $resource->getTableName('tag/tag');
         $this->_tagRelTable = $resource->getTableName('tag/tag_relation');

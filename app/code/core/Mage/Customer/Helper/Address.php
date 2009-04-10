@@ -60,7 +60,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 
     public function getRenderer($renderer)
     {
-        if(is_string($renderer) && $className = Mage::getConfig()->getBlockClassName($renderer)) {
+        if(is_string($renderer) && $className = AO::getConfig()->getBlockClassName($renderer)) {
             return new $className();
         } else {
             return $renderer;
@@ -70,7 +70,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     public function getConfig($key, $store=null)
     {
         if (is_null($this->_config)) {
-            $this->_config = Mage::getStoreConfig('customer/address');
+            $this->_config = AO::getStoreConfig('customer/address');
         }
         return isset($this->_config[$key]) ? $this->_config[$key] : null;
     }
@@ -86,7 +86,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 
     public function getFormat($code)
     {
-        $format = Mage::getSingleton('customer/address_config')->getFormatByCode($code);
+        $format = AO::getSingleton('customer/address_config')->getFormatByCode($code);
         return $format->getRenderer() ? $format->getRenderer()->getFormat() : '';
     }
 }

@@ -41,7 +41,7 @@ class Mage_Install_Block_End extends Mage_Install_Block_Abstract
     {
         $key = $this->getData('encryption_key');
         if (is_null($key)) {
-            $key = (string) Mage::getConfig()->getNode('global/crypt/key');
+            $key = (string) AO::getConfig()->getNode('global/crypt/key');
             $this->setData('encryption_key', $key);
         }
         return $key;

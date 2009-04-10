@@ -38,14 +38,14 @@ class Mage_Reports_Model_Test extends Varien_Object
 
 	public function getUsersCountries( )
 	{
-		return file_get_contents( Mage::getModuleDir('etc','Mage_Reports').DS.'flexTestDataCountries.xml' );
+		return file_get_contents( AO::getModuleDir('etc','Mage_Reports').DS.'flexTestDataCountries.xml' );
 	}
 
 	public function getUsersCities( $countryId )
 	{
 		$dom = new DOMDocument();
 		$dom -> preserveWhiteSpace = false;
-		$dom -> load( Mage::getModuleDir('etc','Mage_Reports').DS.'flexTestDataCities.xml' );
+		$dom -> load( AO::getModuleDir('etc','Mage_Reports').DS.'flexTestDataCities.xml' );
 
 		$root = $dom -> documentElement;
 		$rows = $root -> getElementsByTagName( 'row' );
@@ -72,12 +72,12 @@ class Mage_Reports_Model_Test extends Varien_Object
 
 	public function getTimelineData( )
 	{
-		return file_get_contents( Mage::getModuleDir('etc','Mage_Reports').DS.'flexTestDataTimeline.xml' );
+		return file_get_contents( AO::getModuleDir('etc','Mage_Reports').DS.'flexTestDataTimeline.xml' );
 	}
 
 	public function getAllLinearExample( )
 	{
-		$session = Mage::getModel('session_data/');
+		$session = AO::getModel('session_data/');
 
 		$startPoint = time() - 24*60*60;
 
@@ -98,7 +98,7 @@ class Mage_Reports_Model_Test extends Varien_Object
 
 	public function getNewLinearData()
 	{
-		$session = Mage::getModel('session_data/');
+		$session = AO::getModel('session_data/');
 
 
 		$startPoint = $session -> getData('startPoint');

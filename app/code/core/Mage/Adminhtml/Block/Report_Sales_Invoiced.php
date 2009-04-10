@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced extends Mage_Adminhtml_Block_Wi
     public function __construct()
     {
         $this->_controller = 'report_sales_invoiced';
-        $this->_headerText = Mage::helper('reports')->__('Total invoiced');
+        $this->_headerText = AO::helper('reports')->__('Total invoiced');
         parent::__construct();
         $this->_removeButton('add');
     }

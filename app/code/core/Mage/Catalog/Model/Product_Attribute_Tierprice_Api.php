@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
         foreach ($tierPrices as $tierPrice) {
             $row = array();
             $row['customer_group_id'] = (empty($tierPrice['all_groups']) ? $tierPrice['cust_group'] : 'all' );
-            $row['website']           = ($tierPrice['website_id'] ? Mage::app()->getWebsite($tierPrice['website_id'])->getCode() : 'all');
+            $row['website']           = ($tierPrice['website_id'] ? AO::app()->getWebsite($tierPrice['website_id'])->getCode() : 'all');
             $row['qty']               = $tierPrice['price_qty'];
             $row['price']             = $tierPrice['price'];
 
@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
     {
         $product = $this->_initProduct($productId);
         if (!is_array($tierPrices)) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Invalid Tier Prices'));
         }
 
         $updateValue = array();
@@ -77,14 +77,14 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             if (!is_array($tierPrice)
                 || !isset($tierPrice['qty'])
                 || !isset($tierPrice['price'])) {
-                $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
+                $this->_fault('data_invalid', AO::helper('catalog')->__('Invalid Tier Prices'));
             }
 
             if (!isset($tierPrice['website']) || $tierPrice['website'] == 'all') {
                 $tierPrice['website'] = 0;
             } else {
                 try {
-                    $tierPrice['website'] = Mage::app()->getWebsite($tierPrice['website'])->getId();
+                    $tierPrice['website'] = AO::app()->getWebsite($tierPrice['website'])->getId();
                 } catch (Mage_Core_Exception $e) {
                     $tierPrice['website'] = 0;
                 }
@@ -136,7 +136,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
      */
     protected function _initProduct($productId)
     {
-        $product = Mage::getModel('catalog/product')
+        $product = AO::getModel('catalog/product')
                        ->setStoreId($this->_getStoreId());
 
         $idBySku = $product->getIdBySku($productId);

@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
      */
     protected function _getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
     protected function _prepareCollection()
     {
         $allowProductTypes = array();
-        foreach (Mage::getConfig()->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
+        foreach (AO::getConfig()->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
             $allowProductTypes[] = $type->getName();
         }
 
@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
             ->addFieldToFilter('type_id', $allowProductTypes)
             ->addFilterByRequiredOptions();
 
-        Mage::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
+        AO::getModel('cataloginventory/stock_item')->addCatalogInventoryToProductCollection($collection);
 
         foreach ($product->getTypeInstance(true)->getUsedProductAttributes($product) as $attribute) {
             $collection->addAttributeToSelect($attribute->getAttributeCode());
@@ -158,25 +158,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('catalog')->__('ID'),
+            'header'    => AO::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalog')->__('Name'),
+            'header'    => AO::helper('catalog')->__('Name'),
             'index'     => 'name'
         ));
 
 
-        $sets = Mage::getModel('eav/entity_attribute_set')->getCollection()
+        $sets = AO::getModel('eav/entity_attribute_set')->getCollection()
             ->setEntityTypeFilter($this->_getProduct()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'header'=> AO::helper('catalog')->__('Attrib. Set Name'),
                 'width' => '130px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -184,20 +184,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('catalog')->__('SKU'),
+            'header'    => AO::helper('catalog')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('catalog')->__('Price'),
+            'header'    => AO::helper('catalog')->__('Price'),
             'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) AO::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
 
         $this->addColumn('is_saleable', array(
-            'header'    => Mage::helper('catalog')->__('Inventory'),
+            'header'    => AO::helper('catalog')->__('Inventory'),
             'renderer'  => 'adminhtml/catalog_product_edit_tab_super_config_grid_renderer_inventory',
             'filter'    => 'adminhtml/catalog_product_edit_tab_super_config_grid_filter_inventory',
             'index'     => 'is_saleable'
@@ -216,12 +216,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid extends Ma
 
          $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => AO::helper('catalog')->__('Action'),
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Edit'),
+                        'caption' => AO::helper('catalog')->__('Edit'),
                         'url'     => $this->getEditParamsForAssociated(),
                         'field'   => 'id',
                         'onclick'  => 'superProduct.createPopup(this.href);return false;'

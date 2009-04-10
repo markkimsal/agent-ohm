@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
         $this->setChild('create_empty',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Create Empty'),
+                    'label' => AO::helper('catalog')->__('Create Empty'),
                     'class' => 'add',
                     'onclick' => 'superProduct.createEmptyProduct()'
                 ))
@@ -72,7 +72,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             $this->setChild('create_from_configurable',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label' => Mage::helper('catalog')->__('Copy From Configurable'),
+                        'label' => AO::helper('catalog')->__('Copy From Configurable'),
                         'class' => 'add',
                         'onclick' => 'superProduct.createNewProduct()'
                     ))
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
      */
     protected function _getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     public function getAttributesJson()
@@ -194,11 +194,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
 
     public function getTabLabel()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return AO::helper('catalog')->__('Associated Products');
     }
     public function getTabTitle()
     {
-        return Mage::helper('catalog')->__('Associated Products');
+        return AO::helper('catalog')->__('Associated Products');
     }
     public function canShowTab()
     {

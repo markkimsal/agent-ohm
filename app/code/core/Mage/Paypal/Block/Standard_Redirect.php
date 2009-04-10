@@ -4,7 +4,7 @@ class Mage_Paypal_Block_Standard_Redirect extends Mage_Core_Block_Abstract
 {
     protected function _toHtml()
     {
-        $standard = Mage::getModel('paypal/standard');
+        $standard = AO::getModel('paypal/standard');
 
         $form = new Varien_Data_Form();
         $form->setAction($standard->getPaypalUrl())

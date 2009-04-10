@@ -43,7 +43,7 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
      */
     public function getCcTypeName()
     {
-        $types = Mage::getSingleton('payment/config')->getCcTypes();
+        $types = AO::getSingleton('payment/config')->getCcTypes();
         if (isset($types[$this->getInfo()->getCcType()])) {
             return $types[$this->getInfo()->getCcType()];
         }
@@ -71,7 +71,7 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
      */
     public function getCcExpDate()
     {
-        $date = Mage::app()->getLocale()->date(0);
+        $date = AO::app()->getLocale()->date(0);
         $date->setYear($this->getInfo()->getCcExpYear());
         $date->setMonth($this->getInfo()->getCcExpMonth());
         return $date;

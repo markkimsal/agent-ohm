@@ -48,14 +48,14 @@ class Mage_Tax_Model_Mysql4_Rate extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_uniqueFields = array(array(
             'field' => array('tax_country_id', 'tax_region_id', 'tax_postcode'),
-            'title' => Mage::helper('tax')->__('Country/Region/Postal code combination'),
+            'title' => AO::helper('tax')->__('Country/Region/Postal code combination'),
         ));
         return $this;
     }
 
 //    public function loadWithAttributes($rateId = 0)
 //    {
-//        $select = Mage::getModel('tax/rate')->getCollection()
+//        $select = AO::getModel('tax/rate')->getCollection()
 //            ->joinTypeData()
 //            ->joinRegionTable();
 //        if (is_int($rateId) && $rateId > 0) {
@@ -124,11 +124,11 @@ class Mage_Tax_Model_Mysql4_Rate extends Mage_Core_Model_Mysql4_Abstract
 //
 //    public function __construct()
 //    {
-//        $this->_rateTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate');
-//        $this->_rateDataTable = Mage::getSingleton('core/resource')->getTableName('tax/tax_rate_data');
+//        $this->_rateTable = AO::getSingleton('core/resource')->getTableName('tax/tax_rate');
+//        $this->_rateDataTable = AO::getSingleton('core/resource')->getTableName('tax/tax_rate_data');
 //
-//        $this->_read = Mage::getSingleton('core/resource')->getConnection('tax_read');
-//        $this->_write = Mage::getSingleton('core/resource')->getConnection('tax_write');
+//        $this->_read = AO::getSingleton('core/resource')->getConnection('tax_read');
+//        $this->_write = AO::getSingleton('core/resource')->getConnection('tax_write');
 //    }
 //
 //    public function getIdFieldName()

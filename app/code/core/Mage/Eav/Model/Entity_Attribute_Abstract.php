@@ -107,13 +107,13 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = Mage::getModel('eav/entity_type')->loadByCode($entityType);
+            $entityType = AO::getModel('eav/entity_type')->loadByCode($entityType);
         }
         if ($entityType instanceof Mage_Eav_Model_Entity_Type) {
             $entityTypeId = $entityType->getId();
         }
         if (empty($entityTypeId)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid entity supplied'));
+            throw AO::exception('Mage_Eav', AO::helper('eav')->__('Invalid entity supplied'));
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
@@ -283,7 +283,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
         /*if ($this->hasData('entity_type')) {
             return $this->_getData('entity_type');
         }*/
-        return Mage::getSingleton('eav/config')->getEntityType($this->getEntityTypeId());
+        return AO::getSingleton('eav/config')->getEntityType($this->getEntityTypeId());
     }
 
     /**
@@ -327,9 +327,9 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             if (!$this->getBackendModel()) {
                 $this->setBackendModel($this->_getDefaultBackendModel());
             }
-            $backend = Mage::getModel($this->getBackendModel());
+            $backend = AO::getModel($this->getBackendModel());
             if (!$backend) {
-                throw Mage::exception('Mage_Eav', 'Invalid backend model specified: '.$this->getBackendModel());
+                throw AO::exception('Mage_Eav', 'Invalid backend model specified: '.$this->getBackendModel());
             }
             $this->_backend = $backend->setAttribute($this);
         }
@@ -347,7 +347,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             if (!$this->getFrontendModel()) {
                 $this->setFrontendModel($this->_getDefaultFrontendModel());
             }
-            $this->_frontend = Mage::getModel($this->getFrontendModel())
+            $this->_frontend = AO::getModel($this->getFrontendModel())
                 ->setAttribute($this);
         }
         return $this->_frontend;
@@ -364,7 +364,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
-            $this->_source = Mage::getModel($this->getSourceModel())
+            $this->_source = AO::getModel($this->getSourceModel())
                 ->setAttribute($this);
         }
         return $this->_source;
@@ -639,7 +639,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
      */
     public function getFlatUpdateSelect($store = null) {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (AO::app()->getStores() as $store) {
                 $this->getFlatUpdateSelect($store->getId());
             }
             return $this;

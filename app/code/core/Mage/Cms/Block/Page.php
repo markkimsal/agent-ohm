@@ -37,11 +37,11 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = Mage::getModel('cms/page')
-                    ->setStoreId(Mage::app()->getStore()->getId())
+                $page = AO::getModel('cms/page')
+                    ->setStoreId(AO::app()->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
-                $page = Mage::getSingleton('cms/page');
+                $page = AO::getSingleton('cms/page');
             }
             $this->setData('page', $page);
         }
@@ -53,16 +53,16 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
         $page = $this->getPage();
 
         // show breadcrumbs
-        if (Mage::getStoreConfig('web/default/show_cms_breadcrumbs')
+        if (AO::getStoreConfig('web/default/show_cms_breadcrumbs')
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
-            && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_home_page'))
-            && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>Mage::helper('cms')->__('Home'), 'title'=>Mage::helper('cms')->__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+            && ($page->getIdentifier()!==AO::getStoreConfig('web/default/cms_home_page'))
+            && ($page->getIdentifier()!==AO::getStoreConfig('web/default/cms_no_route'))) {
+                $breadcrumbs->addCrumb('home', array('label'=>AO::helper('cms')->__('Home'), 'title'=>AO::helper('cms')->__('Go to Home Page'), 'link'=>AO::getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }
 
         if ($root = $this->getLayout()->getBlock('root')) {
-            $template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');
+            $template = (string)AO::getConfig()->getNode('global/cms/layouts/'.$page->getRootTemplate().'/template');
             $root->setTemplate($template);
             $root->addBodyClass('cms-'.$page->getIdentifier());
         }
@@ -76,7 +76,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
 
     protected function _toHtml()
     {
-        $processor = Mage::getModel('core/email_template_filter');
+        $processor = AO::getModel('core/email_template_filter');
         $html = $processor->filter($this->getPage()->getContent());
         $html = $this->getMessagesBlock()->getGroupedHtml() . $html;
         return $html;

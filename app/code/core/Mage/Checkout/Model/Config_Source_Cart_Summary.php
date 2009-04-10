@@ -28,8 +28,8 @@ class Mage_Checkout_Model_Config_Source_Cart_Summary
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('checkout')->__('Display number of items in cart')),
-            array('value'=>1, 'label'=>Mage::helper('checkout')->__('Display item quantities')),
+            array('value'=>0, 'label'=>AO::helper('checkout')->__('Display number of items in cart')),
+            array('value'=>1, 'label'=>AO::helper('checkout')->__('Display item quantities')),
         );
     }
 }

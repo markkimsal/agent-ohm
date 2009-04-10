@@ -53,12 +53,12 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
     /*
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('sales_read'));
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('sales_read'));
 
-        $ruleTable = Mage::getSingleton('core/resource')->getTableName('sales/quote_rule');
+        $ruleTable = AO::getSingleton('core/resource')->getTableName('sales/quote_rule');
         $this->_select->from($ruleTable)->order('sort_order');
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('sales/quote_rule'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('sales/quote_rule'));
     }
     */
 
@@ -82,7 +82,7 @@ class Mage_Rule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Coll
     public function getEnv()
     {
         if (!$this->_env) {
-            $this->_env = Mage::getModel('core/rule_environment');
+            $this->_env = AO::getModel('core/rule_environment');
             $this->_env->collect();
         }
         return $this->_env;

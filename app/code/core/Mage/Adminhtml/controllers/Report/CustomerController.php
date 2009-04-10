@@ -41,8 +41,8 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
             $act = 'default';
 
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Customers'), Mage::helper('reports')->__('Customers'));
+            ->_addBreadcrumb(AO::helper('reports')->__('Reports'), AO::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Customers'), AO::helper('reports')->__('Customers'));
         return $this;
     }
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/customer/accounts')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('New Accounts'), Mage::helper('adminhtml')->__('New Accounts'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('New Accounts'), AO::helper('adminhtml')->__('New Accounts'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_accounts'))
             ->renderLayout();
     }
@@ -83,8 +83,8 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/customer/orders')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Customers by number of orders'),
-                Mage::helper('reports')->__('Customers by number of orders'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Customers by number of orders'),
+                AO::helper('reports')->__('Customers by number of orders'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_orders'))
             ->renderLayout();
     }
@@ -117,8 +117,8 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         $this->_initAction()
             ->_setActiveMenu('report/customer/totals')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Customers by orders total'),
-                Mage::helper('reports')->__('Customers by orders total'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Customers by orders total'),
+                AO::helper('reports')->__('Customers by orders total'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_customer_totals'))
             ->renderLayout();
     }
@@ -151,16 +151,16 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'accounts':
-                return Mage::getSingleton('admin/session')->isAllowed('report/customers/accounts');
+                return AO::getSingleton('admin/session')->isAllowed('report/customers/accounts');
                 break;
             case 'orders':
-                return Mage::getSingleton('admin/session')->isAllowed('report/customers/orders');
+                return AO::getSingleton('admin/session')->isAllowed('report/customers/orders');
                 break;
             case 'totals':
-                return Mage::getSingleton('admin/session')->isAllowed('report/customers/totals');
+                return AO::getSingleton('admin/session')->isAllowed('report/customers/totals');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/customers');
+                return AO::getSingleton('admin/session')->isAllowed('report/customers');
                 break;
         }
     }

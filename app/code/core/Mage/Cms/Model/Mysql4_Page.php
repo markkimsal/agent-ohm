@@ -49,10 +49,10 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $format = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
             if ($date = $object->getData($dataKey)) {
-                $object->setData($dataKey, Mage::app()->getLocale()->date($date, $format, null, false)
+                $object->setData($dataKey, AO::app()->getLocale()->date($date, $format, null, false)
                     ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
                 );
             }
@@ -62,18 +62,18 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            Mage::throwException(Mage::helper('cms')->__('Page Identifier for specified store already exist.'));
+            AO::throwException(AO::helper('cms')->__('Page Identifier for specified store already exist.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            Mage::throwException(Mage::helper('cms')->__('Page Identifier cannot consist only of numbers.'));
+            AO::throwException(AO::helper('cms')->__('Page Identifier cannot consist only of numbers.'));
         }
 
         if (! $object->getId()) {
-            $object->setCreationTime(Mage::getSingleton('core/date')->gmtDate());
+            $object->setCreationTime(AO::getSingleton('core/date')->gmtDate());
         }
 
-        $object->setUpdateTime(Mage::getSingleton('core/date')->gmtDate());
+        $object->setUpdateTime(AO::getSingleton('core/date')->gmtDate());
         return $this;
     }
 

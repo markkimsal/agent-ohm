@@ -43,12 +43,12 @@ class Mage_Adminhtml_Block_Tax_Class extends Mage_Adminhtml_Block_Widget_Grid_Co
     public function setClassType($classType)
     {
         if ($classType == 'PRODUCT') {
-            $this->_headerText      = Mage::helper('tax')->__('Product Tax Classes');
-            $this->_addButtonLabel  = Mage::helper('tax')->__('Add New Class');
+            $this->_headerText      = AO::helper('tax')->__('Product Tax Classes');
+            $this->_addButtonLabel  = AO::helper('tax')->__('Add New Class');
         }
         elseif ($classType == 'CUSTOMER') {
-            $this->_headerText      = Mage::helper('tax')->__('Customer Tax Classes');
-            $this->_addButtonLabel  = Mage::helper('tax')->__('Add New Class');
+            $this->_headerText      = AO::helper('tax')->__('Customer Tax Classes');
+            $this->_addButtonLabel  = AO::helper('tax')->__('Add New Class');
         }
 
         $this->getChild('grid')->setClassType($classType);

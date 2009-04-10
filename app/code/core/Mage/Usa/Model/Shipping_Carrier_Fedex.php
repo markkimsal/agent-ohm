@@ -93,14 +93,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig('shipping/origin/country_id', $this->getStore());
+            $origCountry = AO::getStoreConfig('shipping/origin/country_id', $this->getStore());
         }
-        $r->setOrigCountry(Mage::getModel('directory/country')->load($origCountry)->getIso2Code());
+        $r->setOrigCountry(AO::getModel('directory/country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig('shipping/origin/postcode', $this->getStore()));
+            $r->setOrigPostal(AO::getStoreConfig('shipping/origin/postcode', $this->getStore()));
         }
 
         if ($request->getDestCountryId()) {
@@ -108,7 +108,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         } else {
             $destCountry = self::USA_COUNTRY_ID;
         }
-        $r->setDestCountry(Mage::getModel('directory/country')->load($destCountry)->getIso2Code());
+        $r->setDestCountry(AO::getModel('directory/country')->load($destCountry)->getIso2Code());
 
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());
@@ -452,10 +452,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             }
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = AO::getModel('shipping/rate_result');
         $defaults = $this->getDefaults();
         if (empty($priceArr)) {
-            $error = Mage::getModel('shipping/rate_result_error');
+            $error = AO::getModel('shipping/rate_result_error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle($this->getConfigData('title'));
             //$error->setErrorMessage($errorTitle);
@@ -463,7 +463,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('shipping/rate_result_method');
+                $rate = AO::getModel('shipping/rate_result_method');
                 $rate->setCarrier('fedex');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -488,53 +488,53 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $codes = array(
 
             'method'=>array(
-                'PRIORITYOVERNIGHT'                => Mage::helper('usa')->__('Priority Overnight'),
-                'STANDARDOVERNIGHT'                => Mage::helper('usa')->__('Standard Overnight'),
-                'FIRSTOVERNIGHT'                   => Mage::helper('usa')->__('First Overnight'),
-                'FEDEX2DAY'                        => Mage::helper('usa')->__('2Day'),
-                'FEDEXEXPRESSSAVER'                => Mage::helper('usa')->__('Express Saver'),
-                'INTERNATIONALPRIORITY'            => Mage::helper('usa')->__('International Priority'),
-                'INTERNATIONALECONOMY'             => Mage::helper('usa')->__('International Economy'),
-                'INTERNATIONALFIRST'               => Mage::helper('usa')->__('International First'),
-                'FEDEX1DAYFREIGHT'                 => Mage::helper('usa')->__('1 Day Freight'),
-                'FEDEX2DAYFREIGHT'                 => Mage::helper('usa')->__('2 Day Freight'),
-                'FEDEX3DAYFREIGHT'                 => Mage::helper('usa')->__('3 Day Freight'),
-                'FEDEXGROUND'                      => Mage::helper('usa')->__('Ground'),
-                'GROUNDHOMEDELIVERY'               => Mage::helper('usa')->__('Home Delivery'),
-                'INTERNATIONALPRIORITY FREIGHT'    => Mage::helper('usa')->__('Intl Priority Freight'),
-                'INTERNATIONALECONOMY FREIGHT'     => Mage::helper('usa')->__('Intl Economy Freight'),
-                'EUROPEFIRSTINTERNATIONALPRIORITY' => Mage::helper('usa')->__('Europe First Priority'),
+                'PRIORITYOVERNIGHT'                => AO::helper('usa')->__('Priority Overnight'),
+                'STANDARDOVERNIGHT'                => AO::helper('usa')->__('Standard Overnight'),
+                'FIRSTOVERNIGHT'                   => AO::helper('usa')->__('First Overnight'),
+                'FEDEX2DAY'                        => AO::helper('usa')->__('2Day'),
+                'FEDEXEXPRESSSAVER'                => AO::helper('usa')->__('Express Saver'),
+                'INTERNATIONALPRIORITY'            => AO::helper('usa')->__('International Priority'),
+                'INTERNATIONALECONOMY'             => AO::helper('usa')->__('International Economy'),
+                'INTERNATIONALFIRST'               => AO::helper('usa')->__('International First'),
+                'FEDEX1DAYFREIGHT'                 => AO::helper('usa')->__('1 Day Freight'),
+                'FEDEX2DAYFREIGHT'                 => AO::helper('usa')->__('2 Day Freight'),
+                'FEDEX3DAYFREIGHT'                 => AO::helper('usa')->__('3 Day Freight'),
+                'FEDEXGROUND'                      => AO::helper('usa')->__('Ground'),
+                'GROUNDHOMEDELIVERY'               => AO::helper('usa')->__('Home Delivery'),
+                'INTERNATIONALPRIORITY FREIGHT'    => AO::helper('usa')->__('Intl Priority Freight'),
+                'INTERNATIONALECONOMY FREIGHT'     => AO::helper('usa')->__('Intl Economy Freight'),
+                'EUROPEFIRSTINTERNATIONALPRIORITY' => AO::helper('usa')->__('Europe First Priority'),
             ),
 
             'dropoff'=>array(
-                'REGULARPICKUP'         => Mage::helper('usa')->__('Regular Pickup'),
-                'REQUESTCOURIER'        => Mage::helper('usa')->__('Request Courier'),
-                'DROPBOX'               => Mage::helper('usa')->__('Drop Box'),
-                'BUSINESSSERVICECENTER' => Mage::helper('usa')->__('Business Service Center'),
-                'STATION'               => Mage::helper('usa')->__('Station'),
+                'REGULARPICKUP'         => AO::helper('usa')->__('Regular Pickup'),
+                'REQUESTCOURIER'        => AO::helper('usa')->__('Request Courier'),
+                'DROPBOX'               => AO::helper('usa')->__('Drop Box'),
+                'BUSINESSSERVICECENTER' => AO::helper('usa')->__('Business Service Center'),
+                'STATION'               => AO::helper('usa')->__('Station'),
             ),
 
             'packaging'=>array(
-                'FEDEXENVELOPE' => Mage::helper('usa')->__('FedEx Envelope'),
-                'FEDEXPAK'      => Mage::helper('usa')->__('FedEx Pak'),
-                'FEDEXBOX'      => Mage::helper('usa')->__('FedEx Box'),
-                'FEDEXTUBE'     => Mage::helper('usa')->__('FedEx Tube'),
-                'FEDEX10KGBOX'  => Mage::helper('usa')->__('FedEx 10kg Box'),
-                'FEDEX25KGBOX'  => Mage::helper('usa')->__('FedEx 25kg Box'),
-                'YOURPACKAGING' => Mage::helper('usa')->__('Your Packaging'),
+                'FEDEXENVELOPE' => AO::helper('usa')->__('FedEx Envelope'),
+                'FEDEXPAK'      => AO::helper('usa')->__('FedEx Pak'),
+                'FEDEXBOX'      => AO::helper('usa')->__('FedEx Box'),
+                'FEDEXTUBE'     => AO::helper('usa')->__('FedEx Tube'),
+                'FEDEX10KGBOX'  => AO::helper('usa')->__('FedEx 10kg Box'),
+                'FEDEX25KGBOX'  => AO::helper('usa')->__('FedEx 25kg Box'),
+                'YOURPACKAGING' => AO::helper('usa')->__('Your Packaging'),
             ),
 
         );
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid FedEx XML code type: %s', $type));
+//            throw AO::exception('Mage_Shipping', AO::helper('usa')->__('Invalid FedEx XML code type: %s', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid FedEx XML code for type %s: %s', $type, $code));
+//            throw AO::exception('Mage_Shipping', AO::helper('usa')->__('Invalid FedEx XML code for type %s: %s', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];
@@ -565,7 +565,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             'CLP' => 'CHP', // Chilean Pesos
             'TWD' => 'NTD', // New Taiwan Dollars
         );
-        $currencyCode = Mage::app()->getBaseCurrencyCode();
+        $currencyCode = AO::app()->getBaseCurrencyCode();
         return isset($codes[$currencyCode]) ? $codes[$currencyCode] : $currencyCode;
     }
 
@@ -704,23 +704,23 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
          }
 
          if(!$this->_result){
-             $this->_result = Mage::getModel('shipping/tracking_result');
+             $this->_result = AO::getModel('shipping/tracking_result');
          }
          $defaults = $this->getDefaults();
 
          if($resultArr){
-             $tracking = Mage::getModel('shipping/tracking_result_status');
+             $tracking = AO::getModel('shipping/tracking_result_status');
              $tracking->setCarrier('fedex');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->addData($resultArr);
              $this->_result->append($tracking);
          }else{
-            $error = Mage::getModel('shipping/tracking_result_error');
+            $error = AO::getModel('shipping/tracking_result_error');
             $error->setCarrier('fedex');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
-            $error->setErrorMessage($errorTitle ? $errorTitle : Mage::helper('usa')->__('Unable to retrieve tracking'));
+            $error->setErrorMessage($errorTitle ? $errorTitle : AO::helper('usa')->__('Unable to retrieve tracking'));
             $this->_result->append($error);
          }
     }
@@ -733,16 +733,16 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                 foreach ($trackings as $tracking){
                     if($data = $tracking->getAllData()){
                         if (!empty($data['status'])) {
-                            $statuses .= Mage::helper('usa')->__($data['status'])."\n<br/>";
+                            $statuses .= AO::helper('usa')->__($data['status'])."\n<br/>";
                         } else {
-                            $statuses .= Mage::helper('usa')->__('Empty response')."\n<br/>";
+                            $statuses .= AO::helper('usa')->__('Empty response')."\n<br/>";
                         }
                     }
                 }
             }
         }
         if (empty($statuses)) {
-            $statuses = Mage::helper('usa')->__('Empty response');
+            $statuses = AO::helper('usa')->__('Empty response');
         }
         return $statuses;
     }

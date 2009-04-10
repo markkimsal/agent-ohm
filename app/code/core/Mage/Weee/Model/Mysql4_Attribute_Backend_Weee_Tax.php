@@ -56,7 +56,7 @@ class Mage_Weee_Model_Mysql4_Attribute_Backend_Weee_Tax extends Mage_Core_Model_
         }
         else {
             if ($storeId = $product->getStoreId()) {
-                $select->where('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $select->where('website_id IN (?)', array(0, AO::app()->getStore($storeId)->getWebsiteId()));
             }
         }
         return $this->_getReadAdapter()->fetchAll($select);
@@ -68,7 +68,7 @@ class Mage_Weee_Model_Mysql4_Attribute_Backend_Weee_Tax extends Mage_Core_Model_
 
         if (!$attribute->isScopeGlobal()) {
             if ($storeId = $product->getStoreId()) {
-                $condition[] = $this->_getWriteAdapter()->quoteInto('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $condition[] = $this->_getWriteAdapter()->quoteInto('website_id IN (?)', array(0, AO::app()->getStore($storeId)->getWebsiteId()));
             }
         }
 

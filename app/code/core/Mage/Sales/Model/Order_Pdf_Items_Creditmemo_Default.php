@@ -47,7 +47,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         // draw name
         $this->_setFontRegular();
         $x = $leftBound;
-        foreach (Mage::helper('core/string')->str_split($item->getName(), $x, true, true) as $key => $part) {
+        foreach (AO::helper('core/string')->str_split($item->getName(), $x, true, true) as $key => $part) {
             $page->drawText($part, $x, $pdf->y - $shift[0], 'UTF-8');
             $shift[0] += 10;
         }
@@ -57,13 +57,13 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
             foreach ($options as $option) {
                 // draw options label
                 $this->_setFontItalic();
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), $x, false, true) as $_option) {
+                foreach (AO::helper('core/string')->str_split(strip_tags($option['label']), $x, false, true) as $_option) {
                     $page->drawText($_option, $x, $pdf->y - $shift[0], 'UTF-8');
                     $shift[0] += 10;
                 }
                 // draw options value
                 $this->_setFontRegular();
-                foreach (Mage::helper('core/string')->str_split(strip_tags($option['value']), $x, true, true) as $_value) {
+                foreach (AO::helper('core/string')->str_split(strip_tags($option['value']), $x, true, true) as $_value) {
                     $page->drawText($_value, $x + 5, $pdf->y - $shift[0], 'UTF-8');
                     $shift[0] += 10;
                 }
@@ -77,7 +77,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         $x += 220;
 
         // draw SKU
-        foreach (Mage::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
+        foreach (AO::helper('core/string')->str_split($this->getSku($item), 25) as $key => $part) {
             $page->drawText($part, $x, $pdf->y - $shift[2], 'UTF-8');
                 $shift[2] += 10;
         }

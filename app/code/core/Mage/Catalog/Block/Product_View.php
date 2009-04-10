@@ -44,7 +44,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 
             if ($keyword = $this->getProduct()->getMetaKeyword()) {
                 $headBlock->setKeywords($keyword);
-            } elseif( $currentCategory = Mage::registry('current_category') ) {
+            } elseif( $currentCategory = AO::registry('current_category') ) {
                 $headBlock->setKeywords($this->getProduct()->getName());
             }
 
@@ -64,16 +64,16 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function getProduct()
     {
-        if (!Mage::registry('product') && $this->getProductId()) {
-            $product = Mage::getModel('catalog/product')->load($this->getProductId());
-            Mage::register('product', $product);
+        if (!AO::registry('product') && $this->getProductId()) {
+            $product = AO::getModel('catalog/product')->load($this->getProductId());
+            AO::register('product', $product);
         }
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     public function canEmailToFriend()
     {
-        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        $sendToFriendModel = AO::registry('send_to_friend_model');
         return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
     }
 
@@ -92,18 +92,18 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         $config = array();
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest(false, false, false);
+        $_request = AO::getSingleton('tax/calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $defaultTax = AO::getSingleton('tax/calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('tax/calculation')->getRateRequest();
+        $_request = AO::getSingleton('tax/calculation')->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('tax/calculation')->getRate($_request);
+        $currentTax = AO::getSingleton('tax/calculation')->getRate($_request);
 
         $_regularPrice = $this->getProduct()->getPrice();
         $_finalPrice = $this->getProduct()->getFinalPrice();
-        $_priceInclTax = Mage::helper('tax')->getPrice($this->getProduct(), $_finalPrice, true);
-        $_priceExclTax = Mage::helper('tax')->getPrice($this->getProduct(), $_finalPrice);
+        $_priceInclTax = AO::helper('tax')->getPrice($this->getProduct(), $_finalPrice, true);
+        $_priceExclTax = AO::helper('tax')->getPrice($this->getProduct(), $_finalPrice);
 
         $idSuffix = '__none__';
         if ($this->hasOptions()) {
@@ -112,12 +112,12 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
 
         $config = array(
             'productId'           => $this->getProduct()->getId(),
-            'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax'          => Mage::helper('tax')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax'      => Mage::helper('tax')->displayPriceIncludingTax(),
-            'showBothPrices'      => Mage::helper('tax')->displayBothPrices(),
-            'productPrice'        => Mage::helper('core')->currency($_finalPrice, false, false),
-            'productOldPrice'     => Mage::helper('core')->currency($_regularPrice, false, false),
+            'priceFormat'         => AO::app()->getLocale()->getJsPriceFormat(),
+            'includeTax'          => AO::helper('tax')->priceIncludesTax() ? 'true' : 'false',
+            'showIncludeTax'      => AO::helper('tax')->displayPriceIncludingTax(),
+            'showBothPrices'      => AO::helper('tax')->displayBothPrices(),
+            'productPrice'        => AO::helper('core')->currency($_finalPrice, false, false),
+            'productOldPrice'     => AO::helper('core')->currency($_regularPrice, false, false),
             'skipCalculate'       => ($_priceExclTax != $_priceInclTax ? 0 : 1),
             'defaultTax'          => $defaultTax,
             'currentTax'          => $currentTax,
@@ -129,7 +129,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         );
 
 		$responseObject = new Varien_Object();
-		Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
+		AO::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
 		if (is_array($responseObject->getAdditionalOptions())) {
 			foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
 				$config[$option] = $value;

@@ -129,10 +129,10 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     static public function getOptionArray()
     {
         return array(
-            self::VISIBILITY_NOT_VISIBLE=> Mage::helper('catalog')->__('Nowhere'),
-            self::VISIBILITY_IN_CATALOG => Mage::helper('catalog')->__('Catalog'),
-            self::VISIBILITY_IN_SEARCH  => Mage::helper('catalog')->__('Search'),
-            self::VISIBILITY_BOTH       => Mage::helper('catalog')->__('Catalog, Search')
+            self::VISIBILITY_NOT_VISIBLE=> AO::helper('catalog')->__('Nowhere'),
+            self::VISIBILITY_IN_CATALOG => AO::helper('catalog')->__('Catalog'),
+            self::VISIBILITY_IN_SEARCH  => AO::helper('catalog')->__('Search'),
+            self::VISIBILITY_BOTH       => AO::helper('catalog')->__('Catalog, Search')
         );
     }
 
@@ -156,7 +156,7 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     static public function getAllOptions()
     {
         $res = array();
-        $res[] = array('value'=>'', 'label'=> Mage::helper('catalog')->__('-- Please Select --'));
+        $res[] = array('value'=>'', 'label'=> AO::helper('catalog')->__('-- Please Select --'));
         foreach (self::getOptionArray() as $index => $value) {
             $res[] = array(
                'value' => $index,

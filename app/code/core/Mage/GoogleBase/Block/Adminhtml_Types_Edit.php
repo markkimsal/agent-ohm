@@ -40,7 +40,7 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
         $this->_blockGroup = 'googlebase';
         $this->_controller = 'adminhtml_types';
         $this->_mode = 'edit';
-        $model = Mage::registry('current_item_type');
+        $model = AO::registry('current_item_type');
         $this->_removeButton('reset');
         $this->_updateButton('save', 'label', $this->__('Save Mapping'));
         $this->_updateButton('save', 'id', 'save_button');
@@ -123,8 +123,8 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Edit extends Mage_Adminhtml_Block_Wi
 
     public function getHeaderText()
     {
-        if(!is_null(Mage::registry('current_item_type')->getId())) {
-            return $this->__('Edit Item Type "%s"', $this->htmlEscape(Mage::registry('current_item_type')->getGbaseItemtype()));
+        if(!is_null(AO::registry('current_item_type')->getId())) {
+            return $this->__('Edit Item Type "%s"', $this->htmlEscape(AO::registry('current_item_type')->getGbaseItemtype()));
         } else {
             return $this->__('New Item Type');
         }

@@ -30,15 +30,15 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
     public function loadAttributeOptions()
     {
         $attributes = array(
-            'base_subtotal' => Mage::helper('salesrule')->__('Subtotal'),
-            'total_qty' => Mage::helper('salesrule')->__('Total Items Quantity'),
-            'weight' => Mage::helper('salesrule')->__('Total Weight'),
-            'payment_method' => Mage::helper('salesrule')->__('Payment Method'),
-            'shipping_method' => Mage::helper('salesrule')->__('Shipping Method'),
-            'postcode' => Mage::helper('salesrule')->__('Shipping Postcode'),
-            'region' => Mage::helper('salesrule')->__('Shipping Region'),
-            'region_id' => Mage::helper('salesrule')->__('Shipping State/Province'),
-            'country_id' => Mage::helper('salesrule')->__('Shipping Country'),
+            'base_subtotal' => AO::helper('salesrule')->__('Subtotal'),
+            'total_qty' => AO::helper('salesrule')->__('Total Items Quantity'),
+            'weight' => AO::helper('salesrule')->__('Total Weight'),
+            'payment_method' => AO::helper('salesrule')->__('Payment Method'),
+            'shipping_method' => AO::helper('salesrule')->__('Shipping Method'),
+            'postcode' => AO::helper('salesrule')->__('Shipping Postcode'),
+            'region' => AO::helper('salesrule')->__('Shipping Region'),
+            'region_id' => AO::helper('salesrule')->__('Shipping State/Province'),
+            'country_id' => AO::helper('salesrule')->__('Shipping Country'),
         );
 
         $this->setAttributeOption($attributes);
@@ -79,22 +79,22 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('adminhtml/system_config_source_country')
+                    $options = AO::getModel('adminhtml/system_config_source_country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('adminhtml/system_config_source_allregion')
+                    $options = AO::getModel('adminhtml/system_config_source_allregion')
                         ->toOptionArray();
                     break;
 
                 case 'shipping_method':
-                    $options = Mage::getModel('adminhtml/system_config_source_shipping_allmethods')
+                    $options = AO::getModel('adminhtml/system_config_source_shipping_allmethods')
                         ->toOptionArray();
                     break;
 
                 case 'payment_method':
-                    $options = Mage::getModel('adminhtml/system_config_source_payment_allmethods')
+                    $options = AO::getModel('adminhtml/system_config_source_payment_allmethods')
                         ->toOptionArray();
                     break;
 

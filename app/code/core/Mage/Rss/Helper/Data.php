@@ -33,14 +33,14 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 {
     public function authFrontend()
     {
-        $session = Mage::getSingleton('rss/session');
+        $session = AO::getSingleton('rss/session');
         if ($session->isCustomerLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
-        $customer = Mage::getModel('customer/customer')->authenticate($username, $password);
+        $customer = AO::getModel('customer/customer')->authenticate($username, $password);
         if ($customer && $customer->getId()) {
-            Mage::getSingleton('rss/session')->settCustomer($customer);
+            AO::getSingleton('rss/session')->settCustomer($customer);
         } else {
             $this->authFailed();
         }
@@ -48,14 +48,14 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function authAdmin($path)
     {
-        $session = Mage::getSingleton('rss/session');
+        $session = AO::getSingleton('rss/session');
         if ($session->isAdminLoggedIn()) {
             return;
         }
         list($username, $password) = $this->authValidate();
-        $adminSession = Mage::getModel('admin/session');
+        $adminSession = AO::getModel('admin/session');
         $user = $adminSession->login($username, $password);
-        //$user = Mage::getModel('admin/user')->login($username, $password);
+        //$user = AO::getModel('admin/user')->login($username, $password);
         if($user && $user->getId() && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
             $session->setAdmin($user);
         } else {
@@ -65,12 +65,12 @@ class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function authValidate($headers=null)
     {
-        $userPass = Mage::helper('core/http')->authValidate($headers);
+        $userPass = AO::helper('core/http')->authValidate($headers);
         return $userPass;
     }
 
     public function authFailed()
     {
-        Mage::helper('core/http')->authFailed();
+        AO::helper('core/http')->authFailed();
     }
 }

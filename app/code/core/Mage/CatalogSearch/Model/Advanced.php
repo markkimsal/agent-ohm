@@ -44,8 +44,8 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
     {
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $product = Mage::getModel('catalog/product');
-            $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
+            $product = AO::getModel('catalog/product');
+            $attributes = AO::getResourceModel('eav/entity_attribute_collection')
                 ->setEntityTypeFilter($product->getResource()->getTypeId())
                 //->addIsSearchableFilter()
                 ->addHasOptionsFilter()
@@ -71,7 +71,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         $attributes = $this->getAttributes();
         $allConditions = array();
         $filteredAttributes = array();
-        $indexFilters = Mage::getModel('catalogindex/indexer')->buildEntityFilter(
+        $indexFilters = AO::getModel('catalogindex/indexer')->buildEntityFilter(
             $attributes,
             $values,
             $filteredAttributes,
@@ -82,7 +82,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
             $this->getProductCollection()->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($filter)));
         }
 
-        $priceFilters = Mage::getModel('catalogindex/indexer')->buildEntityPriceFilter(
+        $priceFilters = AO::getModel('catalogindex/indexer')->buildEntityPriceFilter(
             $attributes,
             $values,
             $filteredAttributes,
@@ -147,7 +147,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!count($filteredAttributes)) {
-            Mage::throwException(Mage::helper('catalogsearch')->__('You have to specify at least one search term'));
+            AO::throwException(AO::helper('catalogsearch')->__('You have to specify at least one search term'));
         }
 
         return $this;
@@ -166,7 +166,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
 
         if (is_array($value) && (isset($value['from']) || isset($value['to']))){
             if (isset($value['currency'])) {
-                $currencyModel = Mage::getModel('directory/currency')->load($value['currency']);
+                $currencyModel = AO::getModel('directory/currency')->load($value['currency']);
                 $from = $currencyModel->format($value['from'], array(), false);
                 $to = $currencyModel->format($value['to'], array(), false);
             } else {
@@ -178,10 +178,10 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 $value = sprintf('%s - %s', ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
             } elseif (strlen($value['from']) > 0) {
                 // and more
-                $value = Mage::helper('catalogsearch')->__('%s and greater', ($currencyModel ? $from : $value['from']));
+                $value = AO::helper('catalogsearch')->__('%s and greater', ($currencyModel ? $from : $value['from']));
             } elseif (strlen($value['to']) > 0) {
                 // to
-                $value = Mage::helper('catalogsearch')->__('up to %s', ($currencyModel ? $to : $value['to']));
+                $value = AO::helper('catalogsearch')->__('up to %s', ($currencyModel ? $to : $value['to']));
             }
         }
 
@@ -199,8 +199,8 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                 $value = $value['label'];
         } else if ($attribute->getFrontendInput() == 'boolean') {
             $value = $value == 1
-                ? Mage::helper('catalogsearch')->__('Yes')
-                : Mage::helper('catalogsearch')->__('No');
+                ? AO::helper('catalogsearch')->__('Yes')
+                : AO::helper('catalogsearch')->__('No');
         }
 
         $this->_searchCriterias[] = array('name'=>$name, 'value'=>$value);
@@ -214,13 +214,13 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
 
     public function getProductCollection(){
         if (is_null($this->_productCollection)) {
-            $this->_productCollection = Mage::getResourceModel('catalogsearch/advanced_collection')
-                ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            $this->_productCollection = AO::getResourceModel('catalogsearch/advanced_collection')
+                ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
                 ->addMinimalPrice()
                 ->addTaxPercents()
                 ->addStoreFilter();
-                Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
-                Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
+                AO::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_productCollection);
+                AO::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($this->_productCollection);
         }
 
         return $this->_productCollection;

@@ -39,8 +39,8 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
 
     protected function _beforeToHtml()
     {
-        $todayDate  = Mage::app()->getLocale()->date()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-        $collection = $this->_addProductAttributesAndPrices(Mage::getResourceModel('catalog/product_collection'))
+        $todayDate  = AO::app()->getLocale()->date()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        $collection = $this->_addProductAttributesAndPrices(AO::getResourceModel('catalog/product_collection'))
             ->addStoreFilter()
             ->addAttributeToFilter('news_from_date', array('date' => true, 'to' => $todayDate))
             ->addAttributeToFilter('news_to_date', array('or'=> array(

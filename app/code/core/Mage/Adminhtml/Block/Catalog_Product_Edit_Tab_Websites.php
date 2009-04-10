@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Adminh
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return AO::registry('product');
     }
 
     public function getStoreId()
@@ -73,14 +73,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Adminh
 
     public function getStoreName($storeId)
     {
-        return Mage::app()->getStore($storeId)->getName();
+        return AO::app()->getStore($storeId)->getName();
     }
 
     public function getChooseFromStoreHtml($storeTo)
     {
         if (!$this->_storeFromHtml) {
             $this->_storeFromHtml = '<select name="copy_to_stores[__store_identifier__]" disabled>';
-            $this->_storeFromHtml.= '<option value="0">'.Mage::helper('catalog')->__('Default Values').'</option>';
+            $this->_storeFromHtml.= '<option value="0">'.AO::helper('catalog')->__('Default Values').'</option>';
             foreach ($this->getWebsiteCollection() as $_website) {
                 if (!$this->hasWebsite($_website->getId())) {
                     continue;

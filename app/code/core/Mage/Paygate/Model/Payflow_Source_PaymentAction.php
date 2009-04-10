@@ -37,11 +37,11 @@ class Mage_Paygate_Model_Payflow_Source_PaymentAction
         return array(
             array(
                 'value' => Mage_Paygate_Model_Payflow_Pro::ACTION_AUTHORIZE, 
-                'label' => Mage::helper('paygate')->__('Authorize Only')
+                'label' => AO::helper('paygate')->__('Authorize Only')
             ),
             array(
                 'value' => Mage_Paygate_Model_Payflow_Pro::ACTION_AUTHORIZE_CAPTURE, 
-                'label' => Mage::helper('paypal')->__('Authorize and Capture')
+                'label' => AO::helper('paypal')->__('Authorize and Capture')
             ),
         );
     }

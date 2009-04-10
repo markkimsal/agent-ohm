@@ -63,7 +63,7 @@ class Mage_Core_Model_Date
      */
     protected function _getConfigTimezone()
     {
-        return Mage::app()->getStore()->getConfig('general/locale/timezone');
+        return AO::app()->getStore()->getConfig('general/locale/timezone');
     }
 
     /**
@@ -142,7 +142,7 @@ class Mage_Core_Model_Date
             $result = strtotime($input);
         }
 
-        $date      = Mage::app()->getLocale()->date($result);
+        $date      = AO::app()->getLocale()->date($result);
         $timestamp = $date->get(Zend_Date::TIMESTAMP) - $date->get(Zend_Date::TIMEZONE_SECS);
 
         unset($date);
@@ -166,7 +166,7 @@ class Mage_Core_Model_Date
             $result = strtotime($input);
         }
 
-        $date      = Mage::app()->getLocale()->date($result);
+        $date      = AO::app()->getLocale()->date($result);
         $timestamp = $date->get(Zend_Date::TIMESTAMP) + $date->get(Zend_Date::TIMEZONE_SECS);
 
         unset($date);
@@ -235,14 +235,14 @@ class Mage_Core_Model_Date
             }
         }
         if (!$isSupportedFormatFound) {
-            Mage::throwException(Mage::helper('core')->__('Date/time format "%s" is not supported.', $dateTimeFormat));
+            AO::throwException(AO::helper('core')->__('Date/time format "%s" is not supported.', $dateTimeFormat));
         }
 
         // apply reg rule to found format
         $regex = array_shift($regRule);
         $mask  = array_shift($regRule);
         if (!preg_match($regex, $dateTimeString, $matches)) {
-            Mage::throwException(Mage::helper('core')->__('Specified date/time "%1$s" do not match format "%2$s".', $dateTimeString, $dateTimeFormat));
+            AO::throwException(AO::helper('core')->__('Specified date/time "%1$s" do not match format "%2$s".', $dateTimeString, $dateTimeFormat));
         }
 
         // make result

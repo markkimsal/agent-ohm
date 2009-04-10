@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return AO::registry('current_category');
     }
 
     /**
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('fieldset_group_' . $group->getId(), array(
-            'legend'    => Mage::helper('catalog')->__($group->getAttributeGroupName())
+            'legend'    => AO::helper('catalog')->__($group->getAttributeGroupName())
         ));
 
         if ($this->getAddHiddenFields()) {
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('adminhtml/catalog_category_helper_image')
+            'image' => AO::getConfig()->getBlockClassName('adminhtml/catalog_category_helper_image')
         );
     }
 }

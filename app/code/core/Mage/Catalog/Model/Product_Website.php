@@ -50,18 +50,18 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
         try {
             $this->_getResource()->removeProducts($websiteIds, $productIds);
             $this->_refreshRewrites($productIds);
-            Mage::getResourceModel('catalog/category')->refreshProductIndex(
+            AO::getResourceModel('catalog/category')->refreshProductIndex(
                 array(), $productIds
             );
-            Mage::dispatchEvent('catalog_product_website_update', array(
+            AO::dispatchEvent('catalog_product_website_update', array(
                 'website_ids'   => $websiteIds,
                 'product_ids'   => $productIds,
                 'action'        => 'remove'
             ));
         }
         catch (Exception $e) {
-            Mage::throwException(
-                Mage::helper('catalog')->__('There was an error while removing products from websites')
+            AO::throwException(
+                AO::helper('catalog')->__('There was an error while removing products from websites')
             );
         }
         return $this;
@@ -79,18 +79,18 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
         try {
             $this->_getResource()->addProducts($websiteIds, $productIds);
             $this->_refreshRewrites($productIds);
-            Mage::getResourceModel('catalog/category')->refreshProductIndex(
+            AO::getResourceModel('catalog/category')->refreshProductIndex(
                 array(), $productIds
             );
-            Mage::dispatchEvent('catalog_product_website_update', array(
+            AO::dispatchEvent('catalog_product_website_update', array(
                 'website_ids'   => $websiteIds,
                 'product_ids'   => $productIds,
                 'action'        => 'add'
             ));
         }
         catch (Exception $e) {
-            Mage::throwException(
-                Mage::helper('catalog')->__('There was an error while adding products to websites')
+            AO::throwException(
+                AO::helper('catalog')->__('There was an error while adding products to websites')
             );
         }
         return $this;
@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Product_Website extends Mage_Core_Model_Abstract
      */
     protected function _refreshRewrites($productIds)
     {
-//        $urlModel = Mage::getModel('catalog/url');
+//        $urlModel = AO::getModel('catalog/url');
         /* @var $urlModel Mage_Catalog_Model_Url */
         foreach ($productIds as $productId) {
 //            $urlModel->refreshProductRewrite($productId);

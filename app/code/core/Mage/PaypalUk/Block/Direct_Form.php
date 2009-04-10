@@ -35,7 +35,7 @@ class Mage_PaypalUk_Block_Direct_Form extends Mage_Payment_Block_Form_Cc
 
     protected function _getDirect()
     {
-        return Mage::getSingleton('paypaluk/direct');
+        return AO::getSingleton('paypaluk/direct');
     }
 
 

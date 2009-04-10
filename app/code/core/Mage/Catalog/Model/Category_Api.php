@@ -53,7 +53,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         // load root categories of website
         if (null !== $website) {
             try {
-                $website = Mage::app()->getWebsite($website);
+                $website = AO::app()->getWebsite($website);
                 foreach ($website->getStores() as $store) {
                     /* @var $store Mage_Core_Model_Store */
                     $ids[] = $store->getRootCategoryId();
@@ -66,7 +66,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             // load children of root category of store
             if (null === $categoryId) {
                 try {
-                    $store = Mage::app()->getStore($store);
+                    $store = AO::app()->getStore($store);
                     $storeId = $store->getId();
                     $ids = $store->getRootCategoryId();
                 } catch (Mage_Core_Model_Store_Exception $e) {
@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             $ids = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         }
 
-        $collection = Mage::getModel('catalog/category')->getCollection()
+        $collection = AO::getModel('catalog/category')->getCollection()
             ->setStoreId($storeId)
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
@@ -121,26 +121,26 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function tree($parentId = null, $store = null)
     {
-        $tree = Mage::getResourceSingleton('catalog/category_tree')
+        $tree = AO::getResourceSingleton('catalog/category_tree')
                 ->load();
 
         if (is_null($parentId) && !is_null($store)) {
-            $parentId = Mage::app()->getStore($this->_getStoreId($store))->getRootCategoryId();
+            $parentId = AO::app()->getStore($this->_getStoreId($store))->getRootCategoryId();
         } elseif (is_null($parentId)) {
             $parentId = 1;
         }
 
-        $tree = Mage::getResourceSingleton('catalog/category_tree')
+        $tree = AO::getResourceSingleton('catalog/category_tree')
             ->load();
         /* @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
 
         $root = $tree->getNodeById($parentId);
 
         if($root && $root->getId() == 1) {
-            $root->setName(Mage::helper('catalog')->__('Root'));
+            $root->setName(AO::helper('catalog')->__('Root'));
         }
 
-        $collection = Mage::getModel('catalog/category')->getCollection()
+        $collection = AO::getModel('catalog/category')->getCollection()
             ->setStoreId($this->_getStoreId($store))
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active');
@@ -184,7 +184,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _initCategory($categoryId, $store = null)
     {
-        $category = Mage::getModel('catalog/category')
+        $category = AO::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store))
             ->load($categoryId);
 
@@ -238,7 +238,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
     {
          $parent_category = $this->_initCategory($parentId);
 
-        $category = Mage::getModel('catalog/category')
+        $category = AO::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store));
 
 
@@ -311,7 +311,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         $category = $this->_initCategory($categoryId);
         $parent_category = $this->_initCategory($parentId);
 
-        $tree = Mage::getResourceModel('catalog/category_tree')
+        $tree = AO::getResourceModel('catalog/category_tree')
                 ->load();
 
         $node           = $tree->getNodeById($category->getId());
@@ -369,7 +369,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     protected function _getProductId($productId)
     {
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
 
         $idBySku = $product->getIdBySku($productId);
         if ($idBySku) {

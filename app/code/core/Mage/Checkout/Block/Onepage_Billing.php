@@ -37,7 +37,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
     protected function _construct()
     {
         $this->getCheckout()->setStepData('billing', array(
-            'label'     => Mage::helper('checkout')->__('Billing Information'),
+            'label'     => AO::helper('checkout')->__('Billing Information'),
             'is_show'   => $this->isShow()
         ));
 
@@ -58,7 +58,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
 
     public function getCountries()
     {
-        return Mage::getResourceModel('directory/country_collection')->loadByStore();
+        return AO::getResourceModel('directory/country_collection')->loadByStore();
     }
 
     public function getMethod()
@@ -70,7 +70,7 @@ class Mage_Checkout_Block_Onepage_Billing extends Mage_Checkout_Block_Onepage_Ab
         if (!$this->isCustomerLoggedIn()) {
             return $this->getQuote()->getBillingAddress();
         } else {
-            return Mage::getModel('sales/quote_address');
+            return AO::getModel('sales/quote_address');
         }
     }
 

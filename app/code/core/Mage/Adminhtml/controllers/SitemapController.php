@@ -43,8 +43,8 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         // load layout, set active menu and breadcrumbs
         $this->loadLayout()
             ->_setActiveMenu('catalog/system_sitemap')
-            ->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'))
-            ->_addBreadcrumb(Mage::helper('sitemap')->__('Google Sitemap'), Mage::helper('sitemap')->__('Google Sitemap'))
+            ->_addBreadcrumb(AO::helper('catalog')->__('Catalog'), AO::helper('catalog')->__('Catalog'))
+            ->_addBreadcrumb(AO::helper('sitemap')->__('Google Sitemap'), AO::helper('sitemap')->__('Google Sitemap'))
         ;
         return $this;
     }
@@ -75,30 +75,30 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
     {
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $model = Mage::getModel('sitemap/sitemap');
+        $model = AO::getModel('sitemap/sitemap');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sitemap')->__('This sitemap no longer exists'));
+                AO::getSingleton('adminhtml/session')->addError(AO::helper('sitemap')->__('This sitemap no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
         // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        $data = AO::getSingleton('adminhtml/session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
 
         // 4. Register model to use later in blocks
-        Mage::register('sitemap_sitemap', $model);
+        AO::register('sitemap_sitemap', $model);
 
         // 5. Build edit form
         $this->_initAction()
-            ->_addBreadcrumb($id ? Mage::helper('sitemap')->__('Edit Sitemap') : Mage::helper('sitemap')->__('New Sitemap'), $id ? Mage::helper('sitemap')->__('Edit Sitemap') : Mage::helper('sitemap')->__('New Sitemap'))
+            ->_addBreadcrumb($id ? AO::helper('sitemap')->__('Edit Sitemap') : AO::helper('sitemap')->__('New Sitemap'), $id ? AO::helper('sitemap')->__('Edit Sitemap') : AO::helper('sitemap')->__('New Sitemap'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/sitemap_edit'))
             ->renderLayout();
     }
@@ -111,7 +111,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
-            $model = Mage::getModel('sitemap/sitemap');
+            $model = AO::getModel('sitemap/sitemap');
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model ->load($this->getRequest()->getParam('sitemap_id'));
@@ -129,9 +129,9 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 // save the data
                 $model->save();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sitemap')->__('Sitemap was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('sitemap')->__('Sitemap was successfully saved'));
                 // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
+                AO::getSingleton('adminhtml/session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -149,9 +149,9 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('adminhtml/session')->setFormData($data);
+                AO::getSingleton('adminhtml/session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
                 return;
@@ -170,7 +170,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         if ($id = $this->getRequest()->getParam('sitemap_id')) {
             try {
                 // init model and delete
-                $model = Mage::getModel('sitemap/sitemap');
+                $model = AO::getModel('sitemap/sitemap');
                 $model->setId($id);
                 // init and load sitemap model
 
@@ -182,21 +182,21 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 }
                 $model->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sitemap')->__('Sitemap was successfully deleted'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('sitemap')->__('Sitemap was successfully deleted'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('sitemap_id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sitemap')->__('Unable to find a sitemap to delete'));
+        AO::getSingleton('adminhtml/session')->addError(AO::helper('sitemap')->__('Unable to find a sitemap to delete'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -208,7 +208,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
     {
         // init and load sitemap model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $sitemap = Mage::getModel('sitemap/sitemap');
+        $sitemap = AO::getModel('sitemap/sitemap');
         /* @var $sitemap Mage_Sitemap_Model_Sitemap */
         $sitemap->load($id);
         // if sitemap record exists
@@ -216,17 +216,17 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             try {
                 $sitemap->generateXml();
 
-                $this->_getSession()->addSuccess(Mage::helper('sitemap')->__('Sitemap "%s" has been successfully generated', $sitemap->getSitemapFilename()));
+                $this->_getSession()->addSuccess(AO::helper('sitemap')->__('Sitemap "%s" has been successfully generated', $sitemap->getSitemapFilename()));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('sitemap')->__('Unable to generate a sitemap'));
+                $this->_getSession()->addException($e, AO::helper('sitemap')->__('Unable to generate a sitemap'));
             }
         }
         else {
-            $this->_getSession()->addError(Mage::helper('sitemap')->__('Unable to find a sitemap to generate'));
+            $this->_getSession()->addError(AO::helper('sitemap')->__('Unable to find a sitemap to generate'));
         }
 
         // go to grid
@@ -240,6 +240,6 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/sitemap');
+        return AO::getSingleton('admin/session')->isAllowed('catalog/sitemap');
     }
 }

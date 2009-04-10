@@ -32,14 +32,14 @@ class Mage_Adminhtml_Model_System_Config_Source_Email_Identity
     {
         if (is_null($this->_options)) {
             $this->_options = array();
-            $config = Mage::getSingleton('adminhtml/config')->getSection('trans_email')->groups->children();
+            $config = AO::getSingleton('adminhtml/config')->getSection('trans_email')->groups->children();
             foreach ($config as $node) {
                 $nodeName   = $node->getName();
                 $label      = (string) $node->label;
                 $sortOrder  = (int) $node->sort_order;
                 $this->_options[$sortOrder] = array(
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $nodeName),
-                    'label' => Mage::helper('adminhtml')->__($label)
+                    'label' => AO::helper('adminhtml')->__($label)
                 );
             }
             ksort($this->_options);

@@ -157,18 +157,18 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function loadConfig($code)
     {
-        if (!Mage::getConfig()->getNode('websites')) {
+        if (!AO::getConfig()->getNode('websites')) {
             return $this;
         }
         if (is_numeric($code)) {
-            foreach (Mage::getConfig()->getNode('websites')->children() as $websiteCode=>$website) {
+            foreach (AO::getConfig()->getNode('websites')->children() as $websiteCode=>$website) {
                 if ((int)$website->system->website->id==$code) {
                     $code = $websiteCode;
                     break;
                 }
             }
         } else {
-            $website = Mage::getConfig()->getNode('websites/'.$code);
+            $website = AO::getConfig()->getNode('websites/'.$code);
         }
         if (!empty($website)) {
             $this->setCode($code);
@@ -187,10 +187,10 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function getConfig($path) {
         if (!isset($this->_configCache[$path])) {
 
-            $config = Mage::getConfig()->getNode('websites/'.$this->getCode().'/'.$path);
+            $config = AO::getConfig()->getNode('websites/'.$this->getCode().'/'.$path);
             if (!$config) {
                 return false;
-                #throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid websites configuration path: %s', $path));
+                #throw AO::exception('Mage_Core', AO::helper('core')->__('Invalid websites configuration path: %s', $path));
             }
             if ($config->hasChildren()) {
                 $value = array();
@@ -250,7 +250,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function getGroupCollection()
     {
-        return Mage::getModel('core/store_group')
+        return AO::getModel('core/store_group')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -356,7 +356,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('core/store')
+        return AO::getModel('core/store')
             ->getCollection()
             ->addWebsiteFilter($this->getId());
     }
@@ -424,7 +424,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
             return false;
         }
         if (is_null($this->_isCanDelete)) {
-            $this->_isCanDelete = (Mage::getModel('core/website')->getCollection()->getSize() > 2)
+            $this->_isCanDelete = (AO::getModel('core/website')->getCollection()->getSize() > 2)
                 && !$this->getIsDefault();
         }
         return $this->_isCanDelete;
@@ -464,7 +464,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     protected function _afterDelete()
     {
         parent::_afterDelete();
-        Mage::getConfig()->removeCache();
+        AO::getConfig()->removeCache();
         return $this;
     }
 
@@ -476,7 +476,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     public function getBaseCurrencyCode()
     {
         if ($this->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE) == Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
-            return Mage::app()->getBaseCurrencyCode();
+            return AO::app()->getBaseCurrencyCode();
         } else {
             return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
         }
@@ -491,7 +491,7 @@ class Mage_Core_Model_Website extends Mage_Core_Model_Abstract
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
+            $currency = AO::getModel('directory/currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;

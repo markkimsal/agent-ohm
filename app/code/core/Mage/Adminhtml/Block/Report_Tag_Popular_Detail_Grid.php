@@ -43,8 +43,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('reports/tag_customer_collection')
-                ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus())
+        $collection = AO::getResourceModel('reports/tag_customer_collection')
+                ->addStatusFilter(AO::getModel('tag/tag')->getApprovedStatus())
                 ->addTagFilter($this->getRequest()->getParam('id'))
                 ->addDescOrder();
 
@@ -62,26 +62,26 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     {
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('reports')->__('First Name'),
+            'header'    =>AO::helper('reports')->__('First Name'),
             'sortable'  => false,
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('reports')->__('Last Name'),
+            'header'    =>AO::helper('reports')->__('Last Name'),
             'sortable'  => false,
             'index'     =>'lastname'
         ));
 
         $this->addColumn('product', array(
-            'header'    =>Mage::helper('reports')->__('Product Name'),
+            'header'    =>AO::helper('reports')->__('Product Name'),
             'sortable'  => false,
             'index'     =>'product'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('added_in', array(
-                'header'    => Mage::helper('reports')->__('Submitted In'),
+                'header'    => AO::helper('reports')->__('Submitted In'),
                 'sortable'  => false,
                 'index'     => 'store_id',
                 'type'      => 'store',
@@ -91,8 +91,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTagDetailExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportTagDetailCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportTagDetailExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

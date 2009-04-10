@@ -50,11 +50,11 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
      */
     protected function _prepareLayout()
     {
-        $helper = Mage::helper('catalog/category');
+        $helper = AO::helper('catalog/category');
         /* @var $helper Mage_Catalog_Helper_Category */
-        $parent = Mage::getModel('catalog/category')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load(Mage::app()->getStore()->getRootCategoryId());
+        $parent = AO::getModel('catalog/category')
+            ->setStoreId(AO::app()->getStore()->getId())
+            ->load(AO::app()->getStore()->getRootCategoryId());
         $this->_storeRootCategoryPath = $parent->getPath();
         $this->_storeRootCategoryLevel = $parent->getLevel();
         $this->prepareCategoriesToPages();
@@ -94,8 +94,8 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
      */
     public function prepareCategoriesToPages()
     {
-        $linesPerPage = Mage::getStoreConfig(self::XML_PATH_LINES_PER_PAGE);
-        $tmpCollection = Mage::getModel('catalog/category')->getCollection()
+        $linesPerPage = AO::getStoreConfig(self::XML_PATH_LINES_PER_PAGE);
+        $tmpCollection = AO::getModel('catalog/category')->getCollection()
             ->addIsActiveFilter()
             ->addPathsFilter($this->_storeRootCategoryPath . '/')
             ->addLevelFilter($this->_storeRootCategoryLevel + 1)
@@ -132,7 +132,7 @@ class Mage_Catalog_Block_Seo_Sitemap_Tree_Category extends Mage_Catalog_Block_Se
      */
     public function getTreeCollection()
     {
-        $collection = Mage::getModel('catalog/category')->getCollection()
+        $collection = AO::getModel('catalog/category')->getCollection()
             ->addNameToResult()
             ->addUrlRewriteToResult()
             ->addIsActiveFilter()

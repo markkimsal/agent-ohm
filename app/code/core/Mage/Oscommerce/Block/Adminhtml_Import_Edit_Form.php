@@ -36,7 +36,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_Bl
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'POST'));
 
-        $model = Mage::registry('oscommerce_adminhtml_import');
+        $model = AO::registry('oscommerce_adminhtml_import');
 
         if ($model->getId()) {
             $form->addField('import_id', 'hidden', array(

@@ -49,7 +49,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
                 $item->setWeeeTaxAppliedRowAmount($weeeTaxAmount);
                 $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeTaxAmount);
                 $newApplied = array();
-                $applied = Mage::helper('weee')->getApplied($item);
+                $applied = AO::helper('weee')->getApplied($item);
                 foreach ($applied as $one) {
                     $one['base_row_amount'] = $one['base_amount']*$item->getQty();
                     $one['row_amount'] = $one['amount']*$item->getQty();
@@ -58,7 +58,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
 
                     $newApplied[] = $one;
                 }
-                Mage::helper('weee')->setApplied($item, $newApplied);
+                AO::helper('weee')->setApplied($item, $newApplied);
 
                 $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
                 $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
@@ -67,7 +67,7 @@ class Mage_Weee_Model_Total_Invoice_Weee extends Mage_Sales_Model_Order_Invoice_
                 $baseTotalTax += $baseWeeeTaxAmount;
             }
         }
-        if (Mage::helper('weee')->includeInSubtotal($store)) {
+        if (AO::helper('weee')->includeInSubtotal($store)) {
             $invoice->setSubtotal($invoice->getSubtotal() + $totalTax);
             $invoice->setBaseSubtotal($invoice->getBaseSubtotal() + $baseTotalTax);
         } else {

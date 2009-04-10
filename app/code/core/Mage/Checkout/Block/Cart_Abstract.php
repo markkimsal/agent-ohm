@@ -121,7 +121,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_customer = AO::getSingleton('customer/session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -134,7 +134,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Mage_Core_Block_Templat
     public function getCheckout()
     {
         if (null === $this->_checkout) {
-            $this->_checkout = Mage::getSingleton('checkout/session');
+            $this->_checkout = AO::getSingleton('checkout/session');
         }
         return $this->_checkout;
     }

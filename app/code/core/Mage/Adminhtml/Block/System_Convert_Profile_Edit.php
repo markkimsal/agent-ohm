@@ -40,10 +40,10 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit extends Mage_Adminhtml_Bl
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save Profile'));
-        $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Delete Profile'));
+        $this->_updateButton('save', 'label', AO::helper('adminhtml')->__('Save Profile'));
+        $this->_updateButton('delete', 'label', AO::helper('adminhtml')->__('Delete Profile'));
         $this->_addButton('savecontinue', array(
-            'label' => Mage::helper('adminhtml')->__('Save and Continue Editing'),
+            'label' => AO::helper('adminhtml')->__('Save and Continue Editing'),
             'onclick' => "$('edit_form').action += 'continue/true/'; editForm.submit();",
             'class' => 'save',
         ), -1);
@@ -52,16 +52,16 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit extends Mage_Adminhtml_Bl
 
     public function getProfileId()
     {
-        return Mage::registry('current_convert_profile')->getId();
+        return AO::registry('current_convert_profile')->getId();
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('current_convert_profile')->getId()) {
-            return $this->htmlEscape(Mage::registry('current_convert_profile')->getName());
+        if (AO::registry('current_convert_profile')->getId()) {
+            return $this->htmlEscape(AO::registry('current_convert_profile')->getName());
         }
         else {
-            return Mage::helper('adminhtml')->__('New Profile');
+            return AO::helper('adminhtml')->__('New Profile');
         }
     }
 }

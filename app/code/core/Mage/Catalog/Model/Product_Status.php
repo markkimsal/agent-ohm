@@ -122,8 +122,8 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     static public function getOptionArray()
     {
         return array(
-            self::STATUS_ENABLED    => Mage::helper('catalog')->__('Enabled'),
-            self::STATUS_DISABLED   => Mage::helper('catalog')->__('Disabled')
+            self::STATUS_ENABLED    => AO::helper('catalog')->__('Enabled'),
+            self::STATUS_DISABLED   => AO::helper('catalog')->__('Disabled')
         );
     }
 
@@ -149,7 +149,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
         $res = array(
             array(
                 'value' => '',
-                'label' => Mage::helper('catalog')->__('-- Please Select --')
+                'label' => AO::helper('catalog')->__('-- Please Select --')
             )
         );
         foreach (self::getOptionArray() as $index => $value) {
@@ -190,7 +190,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
                 $stores[] = $storeId;
             }
             elseif ($attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE) {
-                $website = Mage::app()->getStore($storeId)->getWebsite();
+                $website = AO::app()->getStore($storeId)->getWebsite();
                 foreach ($website->getStores() as $store) {
                     $stores[] = $store->getId();
                 }
@@ -205,12 +205,12 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
 
         foreach ($stores as $storeId) {
             $this->_getResource()->updateProductStatus($productId, $storeId, $value);
-            Mage::getResourceModel('catalog/category')->refreshProductIndex(
+            AO::getResourceModel('catalog/category')->refreshProductIndex(
                 array(),
                 array($productId),
                 $storeId ? array($storeId) : array()
             );
-            Mage::dispatchEvent('catalog_product_status_update', array(
+            AO::dispatchEvent('catalog_product_status_update', array(
                 'product_id'    => $productId,
                 'store_id'      => $storeId,
                 'status'        => $value

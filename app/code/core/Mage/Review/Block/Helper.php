@@ -49,8 +49,8 @@ class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 	    $this->setDisplayIfEmpty($displayIfNoReviews);
 
 	    if (!$product->getRatingSummary()) {
-	        Mage::getModel('review/review')
-	           ->getEntitySummary($product, Mage::app()->getStore()->getId());
+	        AO::getModel('review/review')
+	           ->getEntitySummary($product, AO::app()->getStore()->getId());
 	    }
 	    $this->setProduct($product);
 
@@ -69,7 +69,7 @@ class Mage_Review_Block_Helper extends Mage_Core_Block_Template
 
 	public function getReviewsUrl()
 	{
-	    return Mage::getUrl('review/product/list', array(
+	    return AO::getUrl('review/product/list', array(
 	       'id'        => $this->getProduct()->getId(),
 	       'category'  => $this->getProduct()->getCategoryId()
 	    ));

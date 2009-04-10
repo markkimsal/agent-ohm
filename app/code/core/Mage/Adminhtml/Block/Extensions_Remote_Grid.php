@@ -36,14 +36,14 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
     protected function _construct()
     {
         $this->setId('packagesGrid');
-        $this->setEmptyText(Mage::helper('adminhtml')->__('No Extensions Found'));
+        $this->setEmptyText(AO::helper('adminhtml')->__('No Extensions Found'));
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('adminhtml/extension_remote_collection');
+        $collection = AO::getModel('adminhtml/extension_remote_collection');
 
         $this->setCollection($collection);
 
@@ -52,39 +52,39 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
     protected function _prepareColumns()
     {
-        $ext = Mage::getModel('adminhtml/extension');
+        $ext = AO::getModel('adminhtml/extension');
 
         $this->addColumn('channel', array(
-            'header'=>Mage::helper('adminhtml')->__('Channel'),
+            'header'=>AO::helper('adminhtml')->__('Channel'),
            	'index'=>'channel',
            	#'type'=>'options',
            	#'options'=>$ext->getKnownChannels(),
         ));
 
         $this->addColumn('category', array(
-            'header'=>Mage::helper('adminhtml')->__('Category'),
+            'header'=>AO::helper('adminhtml')->__('Category'),
            	'index'=>'category',
         ));
 
         $this->addColumn('name', array(
-            'header'=>Mage::helper('adminhtml')->__('Extension Name'),
+            'header'=>AO::helper('adminhtml')->__('Extension Name'),
            	'index'=>'name',
         ));
 
         $this->addColumn('summary', array(
-            'header'=>Mage::helper('adminhtml')->__('Summary'),
+            'header'=>AO::helper('adminhtml')->__('Summary'),
            	'index'=>'summary',
         ));
 
         $this->addColumn('remote_version', array(
-            'header'=>Mage::helper('adminhtml')->__('Available Version'),
+            'header'=>AO::helper('adminhtml')->__('Available Version'),
            	'index'=>'remote_version',
            	'type'=>'range',
            	'width'=>'140px',
         ));
 
         $this->addColumn('local_version', array(
-            'header'=>Mage::helper('adminhtml')->__('Installed Version'),
+            'header'=>AO::helper('adminhtml')->__('Installed Version'),
            	'index'=>'local_version',
            	'type'=>'range',
            	'width'=>'140px',
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 /*
         $this->addColumn('action',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Action'),
+                'header'=>AO::helper('adminhtml')->__('Action'),
                 'index'=>'template_id',
                 'sortable'=>false,
                 'filter' => false,
@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('stability', array(
-            'header'=>Mage::helper('adminhtml')->__('Stability'),
+            'header'=>AO::helper('adminhtml')->__('Stability'),
            	'index'=>'stability',
            	'type'=>'options',
            	'options'=>$ext->getStabilityOptions(),
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Grid extends Mage_Adminhtml_Block_W
 
     public function getRowUrl($row)
     {
-        $url = Mage::getModel('adminhtml/url');
+        $url = AO::getModel('adminhtml/url');
         $url->setQueryParam('id', $row->getId());
         return $url->getUrl('*/*/edit');
     }

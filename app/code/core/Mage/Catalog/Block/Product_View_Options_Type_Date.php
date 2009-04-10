@@ -57,7 +57,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
      */
     public function getDateHtml()
     {
-        if (Mage::getSingleton('catalog/product_option_type_date')->useCalendar()) {
+        if (AO::getSingleton('catalog/product_option_type_date')->useCalendar()) {
             return $this->getCalendarDateHtml();
         } else {
             return $this->getDropDownsDateHtml();
@@ -78,9 +78,9 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             ->setId('options_'.$this->getOption()->getId().'_date')
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text' . $require)
-            ->setImage(Mage::getDesign()->getSkinUrl('images/grid-cal.gif'))
+            ->setImage(AO::getDesign()->getSkinUrl('images/grid-cal.gif'))
             ->setExtraParams('onchange="opConfig.reloadPrice()"')
-            ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+            ->setFormat(AO::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
 
         return $calendar->getHtml();
     }
@@ -93,14 +93,14 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
     public function getDropDownsDateHtml()
     {
         $_fieldsSeparator = '&nbsp;';
-        $_fieldsOrder = Mage::getSingleton('catalog/product_option_type_date')->getConfigData('date_fields_order');
+        $_fieldsOrder = AO::getSingleton('catalog/product_option_type_date')->getConfigData('date_fields_order');
         $_fieldsOrder = str_replace(',', $_fieldsSeparator, $_fieldsOrder);
 
         $monthsHtml = $this->_getSelectFromToHtml('month', 1, 12);
         $daysHtml = $this->_getSelectFromToHtml('day', 1, 31);
 
-        $_yearStart = Mage::getSingleton('catalog/product_option_type_date')->getYearStart();
-        $_yearEnd = Mage::getSingleton('catalog/product_option_type_date')->getYearEnd();
+        $_yearStart = AO::getSingleton('catalog/product_option_type_date')->getYearStart();
+        $_yearEnd = AO::getSingleton('catalog/product_option_type_date')->getYearEnd();
         $yearsHtml = $this->_getSelectFromToHtml('year', $_yearStart, $_yearEnd);
 
         $_translations = array(
@@ -119,15 +119,15 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
     public function getTimeHtml()
     {
         $hourStart = 0;
-        if (Mage::getSingleton('catalog/product_option_type_date')->is24hTimeFormat()) {
+        if (AO::getSingleton('catalog/product_option_type_date')->is24hTimeFormat()) {
             $hourEnd = 23;
             $dayPartHtml = '';
         } else {
             $hourEnd = 11;
             $dayPartHtml = $this->_getHtmlSelect('day_part')
                 ->setOptions(array(
-                    'am' => Mage::helper('catalog')->__('AM'),
-                    'pm' => Mage::helper('catalog')->__('PM')
+                    'am' => AO::helper('catalog')->__('AM'),
+                    'pm' => AO::helper('catalog')->__('PM')
                 ))
                 ->getHtml();
         }

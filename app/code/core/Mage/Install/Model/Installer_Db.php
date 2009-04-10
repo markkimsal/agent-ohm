@@ -55,7 +55,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
         );
 
         try {
-            $connection = Mage::getSingleton('core/resource')->createConnection('install', $this->_getConnenctionType(), $config);
+            $connection = AO::getSingleton('core/resource')->createConnection('install', $this->_getConnenctionType(), $config);
             $variables  = $connection->fetchPairs("SHOW VARIABLES");
 
             $version = isset($variables['version']) ? $variables['version'] : 'undefined';
@@ -63,21 +63,21 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             if (preg_match("#^([0-9\.]+)#", $version, $match)) {
                 $version = $match[0];
             }
-            $requiredVersion = (string)Mage::getSingleton('install/config')->getNode('check/mysql/version');
+            $requiredVersion = (string)AO::getSingleton('install/config')->getNode('check/mysql/version');
 
             // check MySQL Server version
             if (version_compare($version, $requiredVersion) == -1) {
-                Mage::throwException(Mage::helper('install')->__('Database server version does not match system requirements (required: %s, actual: %s)', $requiredVersion, $version));
+                AO::throwException(AO::helper('install')->__('Database server version does not match system requirements (required: %s, actual: %s)', $requiredVersion, $version));
             }
 
             // check InnoDB support
             if (!isset($variables['have_innodb']) || $variables['have_innodb'] != 'YES') {
-                Mage::throwException(Mage::helper('install')->__('Database server does not support InnoDB storage engine'));
+                AO::throwException(AO::helper('install')->__('Database server does not support InnoDB storage engine'));
             }
         }
         catch (Exception $e){
             $this->_getInstaller()->getDataModel()->addError($e->getMessage());
-            Mage::throwException(Mage::helper('install')->__('Database connection error'));
+            AO::throwException(AO::helper('install')->__('Database connection error'));
         }
     }
 
@@ -88,6 +88,6 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
      */
     protected function _getConnenctionType()
     {
-        return (string) Mage::getConfig()->getNode('global/resources/default_setup/connection/type');
+        return (string) AO::getConfig()->getNode('global/resources/default_setup/connection/type');
     }
 }

@@ -45,30 +45,30 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Depends
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_depends');
 
-        $fieldset = $form->addFieldset('depends_php_fieldset', array('legend'=>Mage::helper('adminhtml')->__('PHP Version')));
+        $fieldset = $form->addFieldset('depends_php_fieldset', array('legend'=>AO::helper('adminhtml')->__('PHP Version')));
 
     	$fieldset->addField('depends_php_min', 'text', array(
             'name' => 'depends_php_min',
-            'label' => Mage::helper('adminhtml')->__('Minimum'),
+            'label' => AO::helper('adminhtml')->__('Minimum'),
             'required' => true,
             'value' => '5.2.0',
         ));
 
     	$fieldset->addField('depends_php_max', 'text', array(
             'name' => 'depends_php_max',
-            'label' => Mage::helper('adminhtml')->__('Maximum'),
+            'label' => AO::helper('adminhtml')->__('Maximum'),
             'required' => true,
             'value' => '6.0.0',
         ));
 
     	$fieldset->addField('depends_php_recommended', 'text', array(
             'name' => 'depends_php_recommended',
-            'label' => Mage::helper('adminhtml')->__('Recommended'),
+            'label' => AO::helper('adminhtml')->__('Recommended'),
         ));
 
     	$fieldset->addField('depends_php_exclude', 'text', array(
             'name' => 'depends_php_exclude',
-            'label' => Mage::helper('adminhtml')->__('Exclude (comma separated)'),
+            'label' => AO::helper('adminhtml')->__('Exclude (comma separated)'),
         ));
 
         $form->setValues($this->getData());
@@ -96,9 +96,9 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Depends
     public function getDependTypes()
     {
         return array(
-            'required'=>Mage::helper('adminhtml')->__('Required'),
-            'optional'=>Mage::helper('adminhtml')->__('Optional'),
-            'conflicts'=>Mage::helper('adminhtml')->__('Conflicts'),
+            'required'=>AO::helper('adminhtml')->__('Required'),
+            'optional'=>AO::helper('adminhtml')->__('Optional'),
+            'conflicts'=>AO::helper('adminhtml')->__('Conflicts'),
         );
     }
 }

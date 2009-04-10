@@ -42,8 +42,8 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     protected function _getOrder ()
     {
-        $order = Mage::getModel('sales/order');
-        $order->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+        $order = AO::getModel('sales/order');
+        $order->load(AO::getSingleton('checkout/session')->getLastOrderId());
 
         if (!$order->getId()) {
             return false;
@@ -57,7 +57,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function redirectAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setIdealBasicQuoteId($session->getQuoteId());
         $session->setIdealBasicOrderId($session->getLastOrderId());
 
@@ -85,7 +85,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function  successAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setLastOrderId($session->getIdealBasicOrderId(true));
 
         $order = $this->_getOrder();
@@ -115,7 +115,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setLastOrderId($session->getIdealBasicOrderId(true));
 
         $order = $this->_getOrder();
@@ -146,7 +146,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
      */
     public function failureAction ()
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         $session->setLastOrderId($session->getIdealBasicOrderId(true));
 
         $order = $this->_getOrder();
@@ -196,7 +196,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
         $xmlObj = simplexml_load_string($xmlResponse);
         $status = (string)$xmlObj->status;
 
-        $order = Mage::getModel('sales/order')
+        $order = AO::getModel('sales/order')
             ->loadByIncrementId((int)$xmlObj->purchaseID);
 
         if (!$order->getId()) {
@@ -235,7 +235,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
         if ($order->canInvoice()) {
             $invoice = $order->prepareInvoice();
             $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
+            AO::getModel('core/resource_transaction')
                ->addObject($invoice)
                ->addObject($invoice->getOrder())
                ->save();

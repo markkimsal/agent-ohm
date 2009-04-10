@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Sales_Sales extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         $this->_controller = 'report_sales_sales';
-        $this->_headerText = Mage::helper('reports')->__('Sales Report');
+        $this->_headerText = AO::helper('reports')->__('Sales Report');
         parent::__construct();
         $this->_removeButton('add');
     }

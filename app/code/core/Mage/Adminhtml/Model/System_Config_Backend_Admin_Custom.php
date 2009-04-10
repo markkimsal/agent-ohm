@@ -62,12 +62,12 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Custom extends Mage_Core_
         }
 
         if ($useCustomUrl == 1) {
-            Mage::getConfig()->saveConfig(self::XML_PATH_SECURE_BASE_URL, $value, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
-            Mage::getConfig()->saveConfig(self::XML_PATH_UNSECURE_BASE_URL, $value, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
+            AO::getConfig()->saveConfig(self::XML_PATH_SECURE_BASE_URL, $value, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
+            AO::getConfig()->saveConfig(self::XML_PATH_UNSECURE_BASE_URL, $value, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
         }
         else {
-            Mage::getConfig()->deleteConfig(self::XML_PATH_SECURE_BASE_URL, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
-            Mage::getConfig()->deleteConfig(self::XML_PATH_UNSECURE_BASE_URL, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
+            AO::getConfig()->deleteConfig(self::XML_PATH_SECURE_BASE_URL, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
+            AO::getConfig()->deleteConfig(self::XML_PATH_UNSECURE_BASE_URL, self::CONFIG_SCOPE, self::CONFIG_SCOPE_ID);
         }
 
         return $this;

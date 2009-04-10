@@ -54,7 +54,7 @@ class Mage_Protx_Model_Config extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-             $value = Mage::getStoreConfig('payment/protx_standard/'.$key);
+             $value = AO::getStoreConfig('payment/protx_standard/'.$key);
              if (is_null($value) || false===$value) {
                  $value = $default;
              }
@@ -173,7 +173,7 @@ class Mage_Protx_Model_Config extends Varien_Object
         if ($email = $this->getConfigData('vendor_email')) {
             return $email;
         } else {
-            return Mage::getStoreConfig('trans_email/ident_general/email');
+            return AO::getStoreConfig('trans_email/ident_general/email');
         }
     }
 }

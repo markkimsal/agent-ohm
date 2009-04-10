@@ -59,7 +59,7 @@ class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
      */
     public static function getLinkDir()
     {
-        return Mage::getBaseDir();
+        return AO::getBaseDir();
     }
 
     /**
@@ -75,22 +75,22 @@ class Mage_Downloadable_Model_Link extends Mage_Core_Model_Abstract
 
     public static function getBaseTmpPath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'links';
+        return AO::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'links';
     }
 
     public static function getBasePath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'links';
+        return AO::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'links';
     }
 
     public static function getBaseSampleTmpPath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'link_samples';
+        return AO::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'link_samples';
     }
 
     public static function getBaseSamplePath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'link_samples';
+        return AO::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'link_samples';
     }
 
 }

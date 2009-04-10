@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
         }
 
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = AO::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('*')
 
             ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id')
@@ -70,10 +70,10 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
             $arr[] = array(
                 'id'            => 'order/1/'.$order->getId(),
                 'type'          => 'Order',
-                'name'          => Mage::helper('adminhtml')->__('Order #%s', $order->getIncrementId()),
+                'name'          => AO::helper('adminhtml')->__('Order #%s', $order->getIncrementId()),
                 'description'   => $order->getBillingFirstname().' '.$order->getBillingLastname(),
-                'form_panel_title' => Mage::helper('adminhtml')->__('Order #%s (%s)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
-                'url'           => Mage::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id'=>$order->getId())),
+                'form_panel_title' => AO::helper('adminhtml')->__('Order #%s (%s)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
+                'url'           => AO::helper('adminhtml')->getUrl('*/sales_order/view', array('order_id'=>$order->getId())),
             );
         }
 

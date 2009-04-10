@@ -111,7 +111,7 @@ class Mage_Rating_Model_Mysql4_Rating_Collection extends Mage_Core_Model_Mysql4_
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = Mage::getResourceModel('rating/rating_option_collection')
+            $collection = AO::getResourceModel('rating/rating_option_collection')
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();

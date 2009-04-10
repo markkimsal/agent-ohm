@@ -36,7 +36,7 @@ class Mage_Adminhtml_JsonController extends Mage_Adminhtml_Controller_Action
         $arrRes = array();
 
         $countryId = $this->getRequest()->getParam('parent');
-        $arrRegions = Mage::getResourceModel('directory/region_collection')
+        $arrRegions = AO::getResourceModel('directory/region_collection')
             ->addCountryFilter($countryId)
             ->load()
             ->toOptionArray();

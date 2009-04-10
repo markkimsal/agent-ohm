@@ -40,12 +40,12 @@ class Mage_Rating_Model_Rating_Option extends Varien_Object
 
     public function getResource()
     {
-        return Mage::getResourceModel('rating/rating_option');
+        return AO::getResourceModel('rating/rating_option');
     }
 
     public function getResourceCollection()
     {
-        return Mage::getResourceModel('rating/rating_option_collection');
+        return AO::getResourceModel('rating/rating_option_collection');
     }
 
     public function load($optionId)
@@ -85,6 +85,6 @@ class Mage_Rating_Model_Rating_Option extends Varien_Object
 
     public function getCollection()
     {
-        return Mage::getResourceModel('rating/rating_option_collection');
+        return AO::getResourceModel('rating/rating_option_collection');
     }
 }

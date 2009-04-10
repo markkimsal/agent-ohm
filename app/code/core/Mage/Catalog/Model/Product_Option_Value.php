@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Product_Option_Value extends Mage_Core_Model_Abstract
      */
     public function getValuesCollection(Mage_Catalog_Model_Product_Option $option)
     {
-        $collection = Mage::getResourceModel('catalog/product_option_value_collection')
+        $collection = AO::getResourceModel('catalog/product_option_value_collection')
             ->addFieldToFilter('option_id', $option->getId())
             ->getValues($option->getStoreId());
 
@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product_Option_Value extends Mage_Core_Model_Abstract
 
     public function getValuesByOption($optionIds, $option_id, $store_id)
     {
-        $collection = Mage::getResourceModel('catalog/product_option_value_collection')
+        $collection = AO::getResourceModel('catalog/product_option_value_collection')
             ->addFieldToFilter('option_id', $option_id)
             ->getValuesByOption($optionIds, $store_id);
 

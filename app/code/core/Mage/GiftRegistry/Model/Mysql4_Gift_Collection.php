@@ -51,8 +51,8 @@ class Mage_GiftRegistry_Model_Mysql4_Gift_Collection extends Mage_Core_Model_Mys
             $this->addFieldToFilter('customer_id', $customer);
         }
         else {
-            Mage::throwException(
-                Mage::helper('giftregistry/test')->__('Invalid parameter for customer filter')
+            AO::throwException(
+                AO::helper('giftregistry/test')->__('Invalid parameter for customer filter')
             );
         }
 

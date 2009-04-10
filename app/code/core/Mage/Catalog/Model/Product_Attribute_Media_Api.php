@@ -119,21 +119,21 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
         $gallery = $this->_getGalleryAttribute($product);
 
         if (!isset($data['file']) || !isset($data['file']['mime']) || !isset($data['file']['content'])) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Image not specified.'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Image not specified.'));
         }
 
         if (!isset($this->_mimeTypes[$data['file']['mime']])) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid image type.'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Invalid image type.'));
         }
 
         $fileContent = @base64_decode($data['file']['content'], true);
         if (!$fileContent) {
-            $this->_fault('data_invalid', Mage::helper('catalog')->__('Image content is not valid base64 data.'));
+            $this->_fault('data_invalid', AO::helper('catalog')->__('Image content is not valid base64 data.'));
         }
 
         unset($data['file']['content']);
 
-        $tmpDirectory = Mage::getBaseDir('var') . DS . 'api' . DS . $this->_getSession()->getSessionId();
+        $tmpDirectory = AO::getBaseDir('var') . DS . 'api' . DS . $this->_getSession()->getSessionId();
         $fileName  = 'image.' . $this->_mimeTypes[$data['file']['mime']];
         $ioAdapter = new Varien_Io_File();
         try {
@@ -165,7 +165,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
         } catch (Mage_Core_Exception $e) {
             $this->_fault('not_created', $e->getMessage());
         } catch (Exception $e) {
-            $this->_fault('not_created', Mage::helper('catalog')->__('Can\'t create image.'));
+            $this->_fault('not_created', AO::helper('catalog')->__('Can\'t create image.'));
         }
 
         return $gallery->getBackend()->getRenamedImage($file);
@@ -255,7 +255,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
      */
     public function types($setId)
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
+        $attributes = AO::getModel('catalog/product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 
@@ -309,7 +309,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
      */
     protected function _getMediaConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return AO::getSingleton('catalog/product_media_config');
     }
 
     /**
@@ -349,7 +349,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
      */
     protected function _initProduct($productId, $store = null)
     {
-        $product = Mage::getModel('catalog/product')
+        $product = AO::getModel('catalog/product')
                        ->setStoreId($this->_getStoreId($store));
 
         $idBySku = $product->getIdBySku($productId);

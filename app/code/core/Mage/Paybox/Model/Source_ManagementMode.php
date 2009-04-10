@@ -37,12 +37,12 @@ class Mage_Paybox_Model_Source_ManagementMode
     public function toOptionArray()
     {
         return array(
-//            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => Mage::helper('paypal')->__('Authorization')),
-            array('value' => 'A', 'label' => Mage::helper('paybox')->__('Mode A')),
-            array('value' => 'B', 'label' => Mage::helper('paybox')->__('Mode B')),
-            array('value' => 'C', 'label' => Mage::helper('paybox')->__('Mode C')),
-            array('value' => 'D', 'label' => Mage::helper('paybox')->__('Mode D')),
-            array('value' => 'E', 'label' => Mage::helper('paybox')->__('Mode E')),
+//            array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH, 'label' => AO::helper('paypal')->__('Authorization')),
+            array('value' => 'A', 'label' => AO::helper('paybox')->__('Mode A')),
+            array('value' => 'B', 'label' => AO::helper('paybox')->__('Mode B')),
+            array('value' => 'C', 'label' => AO::helper('paybox')->__('Mode C')),
+            array('value' => 'D', 'label' => AO::helper('paybox')->__('Mode D')),
+            array('value' => 'E', 'label' => AO::helper('paybox')->__('Mode E')),
         );
     }
 }

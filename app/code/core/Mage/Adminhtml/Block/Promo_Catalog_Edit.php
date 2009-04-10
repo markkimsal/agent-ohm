@@ -43,24 +43,24 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('catalogrule')->__('Save Rule'));
-        $this->_updateButton('delete', 'label', Mage::helper('catalogrule')->__('Delete Rule'));
+        $this->_updateButton('save', 'label', AO::helper('catalogrule')->__('Save Rule'));
+        $this->_updateButton('delete', 'label', AO::helper('catalogrule')->__('Delete Rule'));
 
         $this->_addButton('save_apply', array(
             'class'=>'save',
-            'label'=>Mage::helper('catalogrule')->__('Save and Apply'),
+            'label'=>AO::helper('catalogrule')->__('Save and Apply'),
             'onclick'=>"$('rule_auto_apply').value=1; editForm.submit()",
         ));
     }
 
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_promo_catalog_rule');
+        $rule = AO::registry('current_promo_catalog_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('catalogrule')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
+            return AO::helper('catalogrule')->__("Edit Rule '%s'", $this->htmlEscape($rule->getName()));
         }
         else {
-            return Mage::helper('catalogrule')->__('New Rule');
+            return AO::helper('catalogrule')->__('New Rule');
         }
     }
 

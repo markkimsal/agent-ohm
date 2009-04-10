@@ -145,7 +145,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return Mage::getModel('core/store')
+        return AO::getModel('core/store')
             ->getCollection()
             ->addGroupFilter($this->getId());
     }
@@ -234,7 +234,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
             return false;
         }
         if (is_null($this->_website)) {
-            $this->_website = Mage::app()->getWebsite($this->getWebsiteId());
+            $this->_website = AO::app()->getWebsite($this->getWebsiteId());
         }
         return $this->_website;
     }

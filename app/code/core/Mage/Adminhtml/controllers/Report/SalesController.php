@@ -39,8 +39,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         if(!$act)
             $act = 'default';
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('reports')->__('Sales'), Mage::helper('reports')->__('Sales'));
+            ->_addBreadcrumb(AO::helper('reports')->__('Reports'), AO::helper('reports')->__('Reports'))
+            ->_addBreadcrumb(AO::helper('reports')->__('Sales'), AO::helper('reports')->__('Sales'));
         return $this;
     }
 
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales/sales')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Sales Report'), Mage::helper('adminhtml')->__('Sales Report'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('Sales Report'), AO::helper('adminhtml')->__('Sales Report'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales_sales'))
             ->renderLayout();
     }
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales/tax')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tax'), Mage::helper('adminhtml')->__('Tax'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('Tax'), AO::helper('adminhtml')->__('Tax'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales_tax'))
             ->renderLayout();
     }
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales/invoiced')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Total Invoiced'), Mage::helper('adminhtml')->__('Total Invoiced'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('Total Invoiced'), AO::helper('adminhtml')->__('Total Invoiced'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales_invoiced'))
             ->renderLayout();
     }
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales/refunded')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Total Refunded'), Mage::helper('adminhtml')->__('Total Refunded'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('Total Refunded'), AO::helper('adminhtml')->__('Total Refunded'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales_refunded'))
             ->renderLayout();
     }
@@ -180,7 +180,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales/coupons')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons'), Mage::helper('adminhtml')->__('Coupons'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('Coupons'), AO::helper('adminhtml')->__('Coupons'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales_coupons'))
             ->renderLayout();
     }
@@ -213,7 +213,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_initAction()
             ->_setActiveMenu('report/sales/shipping')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Shipping'), Mage::helper('adminhtml')->__('Shipping'))
+            ->_addBreadcrumb(AO::helper('adminhtml')->__('Shipping'), AO::helper('adminhtml')->__('Shipping'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_sales_shipping'))
             ->renderLayout();
     }
@@ -246,28 +246,28 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         switch ($this->getRequest()->getActionName()) {
             case 'sales':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/sales');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/sales');
                 break;
             case 'tax':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/tax');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/tax');
                 break;
             case 'shipping':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
                 break;
             case 'invoiced':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/invoiced');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/invoiced');
                 break;
             case 'refunded':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/refunded');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/refunded');
                 break;
             case 'coupons':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/coupons');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/coupons');
                 break;
             case 'shipping':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot');
+                return AO::getSingleton('admin/session')->isAllowed('report/salesroot');
                 break;
         }
     }

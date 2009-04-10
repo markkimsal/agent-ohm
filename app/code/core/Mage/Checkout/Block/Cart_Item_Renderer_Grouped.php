@@ -59,7 +59,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer_Grouped extends Mage_Checkout_Block
         $product = $this->getProduct();
         if (!$product->getData('thumbnail')
             ||($product->getData('thumbnail') == 'no_selection')
-            || (Mage::getStoreConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
+            || (AO::getStoreConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getGroupedProduct();
         }
         return $this->helper('catalog/image')->init($product, 'thumbnail');

@@ -55,7 +55,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
         if (!isset($arr[1])) {
             return false;
         }
-        $freeMethod = Mage::getStoreConfig('carriers/'.$arr[0].'/free_method', $storeId);
+        $freeMethod = AO::getStoreConfig('carriers/'.$arr[0].'/free_method', $storeId);
         return $freeMethod == $arr[1];
     }
 }

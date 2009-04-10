@@ -48,7 +48,7 @@ class Mage_ProductAlert_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Abstra
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(Mage::getModel('core/date')->gmtDate());
+            $object->setAddDate(AO::getModel('core/date')->gmtDate());
             $object->setStatus(0);
         }
         return parent::_beforeSave($object);

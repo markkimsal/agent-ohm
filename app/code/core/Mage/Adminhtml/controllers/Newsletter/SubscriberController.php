@@ -45,8 +45,8 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 
         $this->_setActiveMenu('newsletter/subscriber');
 
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter'), Mage::helper('newsletter')->__('Newsletter'));
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Subscribers'), Mage::helper('newsletter')->__('Subscribers'));
+        $this->_addBreadcrumb(AO::helper('newsletter')->__('Newsletter'), AO::helper('newsletter')->__('Newsletter'));
+        $this->_addBreadcrumb(AO::helper('newsletter')->__('Subscribers'), AO::helper('newsletter')->__('Subscribers'));
 
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/newsletter_subscriber','subscriber')
@@ -106,21 +106,21 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('newsletter')->__('Please select subscriber(s)'));
+             AO::getSingleton('adminhtml/session')->addError(AO::helper('newsletter')->__('Please select subscriber(s)'));
         }
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = Mage::getModel('newsletter/subscriber')->load($subscriberId);
+                    $subscriber = AO::getModel('newsletter/subscriber')->load($subscriberId);
                     $subscriber->unsubscribe();
                 }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__(
+                AO::getSingleton('adminhtml/session')->addSuccess(
+                    AO::helper('adminhtml')->__(
                         'Total of %d record(s) were successfully updated', count($subscribersIds)
                     )
                 );
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
         }
 
@@ -129,6 +129,6 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('newsletter/subscriber');
+        return AO::getSingleton('admin/session')->isAllowed('newsletter/subscriber');
     }
 }

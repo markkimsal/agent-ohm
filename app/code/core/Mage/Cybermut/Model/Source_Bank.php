@@ -38,9 +38,9 @@ class Mage_Cybermut_Model_Source_Bank
     public function toOptionArray()
     {
         return array(
-            array('value' => 'mutuel', 'label' => Mage::helper('cybermut')->__('Credit Mutuel')),
-            array('value' => 'cic', 'label' => Mage::helper('cybermut')->__('Groupe CIC')),
-            array('value' => 'obc', 'label' => Mage::helper('cybermut')->__('OBC')),
+            array('value' => 'mutuel', 'label' => AO::helper('cybermut')->__('Credit Mutuel')),
+            array('value' => 'cic', 'label' => AO::helper('cybermut')->__('Groupe CIC')),
+            array('value' => 'obc', 'label' => AO::helper('cybermut')->__('OBC')),
         );
     }
 }

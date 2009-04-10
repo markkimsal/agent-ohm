@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     {
         parent::__construct();
         $this->setTemplate('system/email/template/edit.phtml');
-        Mage::register('email_template', Mage::getModel('core/email_template'));
+        AO::register('email_template', AO::getModel('core/email_template'));
         if ($templateId = (int) $this->getRequest()->getParam('id')) {
             $this->getEmailTemplate()->load($templateId);
         }
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Back'),
+                        'label'   => AO::helper('adminhtml')->__('Back'),
                         'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                         'class'   => 'back'
                     )
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Reset'),
+                        'label'   => AO::helper('adminhtml')->__('Reset'),
                         'onclick' => 'window.location.href = window.location.href'
                     )
                 )
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Delete Template'),
+                        'label'   => AO::helper('adminhtml')->__('Delete Template'),
                         'onclick' => 'templateControl.deleteTemplate();',
                         'class'   => 'delete'
                     )
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Convert to Plain Text'),
+                        'label'   => AO::helper('adminhtml')->__('Convert to Plain Text'),
                         'onclick' => 'templateControl.stripTags();',
                         'id'      => 'convert_button'
                     )
@@ -98,7 +98,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Return Html Version'),
+                        'label'   => AO::helper('adminhtml')->__('Return Html Version'),
                         'onclick' => 'templateControl.unStripTags();',
                         'id'      => 'convert_button_back',
                         'style'   => 'display:none'
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Toggle Editor'),
+                        'label'   => AO::helper('adminhtml')->__('Toggle Editor'),
                         'onclick' => 'templateControl.toggleEditor();',
                         'id'      => 'toggle_button'
                     )
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Preview Template'),
+                        'label'   => AO::helper('adminhtml')->__('Preview Template'),
                         'onclick' => 'templateControl.preview();'
                     )
                 )
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Save Template'),
+                        'label'   => AO::helper('adminhtml')->__('Save Template'),
                         'onclick' => 'templateControl.save();',
                         'class'   => 'save'
                     )
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(
                     array(
-                        'label'   => Mage::helper('adminhtml')->__('Load Template'),
+                        'label'   => AO::helper('adminhtml')->__('Load Template'),
                         'onclick' => 'templateControl.load();',
                         'type'    => 'button',
                         'class'   => 'save'
@@ -222,10 +222,10 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     public function getHeaderText()
     {
         if($this->getEditMode()) {
-          return Mage::helper('adminhtml')->__('Edit Email Template');
+          return AO::helper('adminhtml')->__('Edit Email Template');
         }
 
-        return  Mage::helper('adminhtml')->__('New Email Template');
+        return  AO::helper('adminhtml')->__('New Email Template');
     }
 
 
@@ -281,12 +281,12 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
      */
     public function getEmailTemplate()
     {
-        return Mage::registry('email_template');
+        return AO::registry('email_template');
     }
 
     public function getLocaleOptions()
     {
-        return Mage::app()->getLocale()->getOptionLocales();
+        return AO::app()->getLocale()->getOptionLocales();
     }
 
     public function getTemplateOptions()
@@ -296,7 +296,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
 
     public function getCurrentLocale()
     {
-        return Mage::app()->getLocale()->getLocaleCode();
+        return AO::app()->getLocale()->getLocaleCode();
     }
 
     /**

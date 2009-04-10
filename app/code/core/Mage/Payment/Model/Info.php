@@ -64,7 +64,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     {
         if (!$this->hasMethodInstance()) {
             if ($method = $this->getMethod()) {
-                if ($instance = Mage::helper('payment')->getMethodInstance($this->getMethod())) {
+                if ($instance = AO::helper('payment')->getMethodInstance($this->getMethod())) {
                     $instance->setInfoInstance($this);
                     $this->setMethodInstance($instance);
                     return $instance;
@@ -73,7 +73,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
         } else {
             return $this->_getData('method_instance');
         }
-        Mage::throwException(Mage::helper('payment')->__('Can not retrieve payment method instance'));
+        AO::throwException(AO::helper('payment')->__('Can not retrieve payment method instance'));
     }
 
     /**
@@ -85,7 +85,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function encrypt($data)
     {
         if ($data) {
-            return Mage::helper('core')->encrypt($data);
+            return AO::helper('core')->encrypt($data);
         }
         return $data;
     }
@@ -99,7 +99,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function decrypt($data)
     {
         if ($data) {
-            return Mage::helper('core')->decrypt($data);
+            return AO::helper('core')->decrypt($data);
         }
         return $data;
     }

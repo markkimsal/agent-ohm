@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('reports/customer_collection')
+        $collection = AO::getResourceModel('reports/customer_collection')
             ->addCustomerName()
             ->joinOrders()
             ->addOrdersCount();
@@ -53,10 +53,10 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             $storeFilter = 1;
         } else if ($this->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = AO::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = AO::app()->getGroup($this->getParam('group'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Mage_Adminhtml
             'type'      => 'number'
         ));
 
-        $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+        $baseCurrencyCode = (string) AO::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('orders_avg_amount', array(
             'header'    => $this->__('Average Order Amount'),

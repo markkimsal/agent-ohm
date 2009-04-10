@@ -40,12 +40,12 @@ class Mage_Checkout_Block_Multishipping_Link extends Mage_Core_Block_Template
 
     public function getQuote()
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        return AO::getSingleton('checkout/session')->getQuote();
     }
 
     public function _toHtml()
     {
-        if (!Mage::helper('checkout')->isMultishippingCheckoutAvailable()){
+        if (!AO::helper('checkout')->isMultishippingCheckoutAvailable()){
             return '';
         }
 

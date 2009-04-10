@@ -56,14 +56,14 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             return $this;
         }
 
-        $sections = Mage::getModel('adminhtml/config')->getSections();
+        $sections = AO::getModel('adminhtml/config')->getSections();
         /* @var $sections Mage_Core_Model_Config_Element */
 
         $oldConfig = $this->_getConfig(true);
 
-        $deleteTransaction = Mage::getModel('core/resource_transaction');
+        $deleteTransaction = AO::getModel('core/resource_transaction');
         /* @var $deleteTransaction Mage_Core_Model_Resource_Transaction */
-        $saveTransaction = Mage::getModel('core/resource_transaction');
+        $saveTransaction = AO::getModel('core/resource_transaction');
         /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
 
         foreach ($groups as $group => $groupData) {
@@ -75,9 +75,9 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
 
             if ($clonedFields = !empty($groupConfig->clone_fields)) {
                 if ($groupConfig->clone_model) {
-                    $cloneModel = Mage::getModel((string)$groupConfig->clone_model);
+                    $cloneModel = AO::getModel((string)$groupConfig->clone_model);
                 } else {
-                    Mage::throwException('Config form fieldset clone model required to be able to clone fields');
+                    AO::throwException('Config form fieldset clone model required to be able to clone fields');
                 }
                 $mappedFields = array();
                 $fieldsConfig = $sections->descend($section.'/groups/'.$group.'/fields');
@@ -104,9 +104,9 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     $backendClass = 'core/config_data';
                 }
 
-                $dataObject = Mage::getModel($backendClass);
+                $dataObject = AO::getModel($backendClass);
                 if (!$dataObject instanceof Mage_Core_Model_Config_Data) {
-                    Mage::throwException('Invalid config field backend model: '.$backendClass);
+                    AO::throwException('Invalid config field backend model: '.$backendClass);
                 }
                 /* @var $dataObject Mage_Core_Model_Config_Data */
 
@@ -188,15 +188,15 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
     {
         if (is_null($this->getSection())) {
             $this->setSection('');
-//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid section value'));
+//            AO::throwException(AO::helper('adminhtml')->__('Invalid section value'));
         }
         if (is_null($this->getWebsite())) {
             $this->setWebsite('');
-//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid website value'));
+//            AO::throwException(AO::helper('adminhtml')->__('Invalid website value'));
         }
         if (is_null($this->getStore())) {
             $this->setStore('');
-//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid store value'));
+//            AO::throwException(AO::helper('adminhtml')->__('Invalid store value'));
         }
     }
 
@@ -208,10 +208,10 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
     {
         if ($this->getStore()) {
             $scope   = 'stores';
-            $scopeId = (int)Mage::getConfig()->getNode('stores/' . $this->getStore() . '/system/store/id');
+            $scopeId = (int)AO::getConfig()->getNode('stores/' . $this->getStore() . '/system/store/id');
         } elseif ($this->getWebsite()) {
             $scope   = 'websites';
-            $scopeId = (int)Mage::getConfig()->getNode('websites/' . $this->getWebsite() . '/system/website/id');
+            $scopeId = (int)AO::getConfig()->getNode('websites/' . $this->getWebsite() . '/system/website/id');
         } else {
             $scope   = 'default';
             $scopeId = 0;
@@ -227,7 +227,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
      */
     protected function _getConfig($full = true)
     {
-        $configDataCollection = Mage::getModel('core/config_data')
+        $configDataCollection = AO::getModel('core/config_data')
             ->getCollection()
             ->addScopeFilter($this->getScope(), $this->getScopeId(), $this->getSection());
 

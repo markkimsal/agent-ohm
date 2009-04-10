@@ -42,19 +42,19 @@ class Mage_Directory_Model_Observer
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();
-        if(!Mage::getStoreConfig(self::IMPORT_ENABLE) || !Mage::getStoreConfig(self::CRON_STRING_PATH)) {
+        if(!AO::getStoreConfig(self::IMPORT_ENABLE) || !AO::getStoreConfig(self::CRON_STRING_PATH)) {
             return;
         }
 
-        $service = Mage::getStoreConfig(self::IMPORT_SERVICE);
+        $service = AO::getStoreConfig(self::IMPORT_SERVICE);
         if( !$service ) {
-            $importWarnings[] = Mage::helper('directory')->__('FATAL ERROR:') . ' ' . Mage::helper('directory')->__('Invalid Import Service Specified');
+            $importWarnings[] = AO::helper('directory')->__('FATAL ERROR:') . ' ' . AO::helper('directory')->__('Invalid Import Service Specified');
         }
 
         try {
-            $importModel = Mage::getModel(Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
+            $importModel = AO::getModel(AO::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray());
         } catch (Exception $e) {
-            $importWarnings[] = Mage::helper('directory')->__('FATAL ERROR:') . ' ' . Mage::throwException(Mage::helper('directory')->__('Unable to initialize import model'));
+            $importWarnings[] = AO::helper('directory')->__('FATAL ERROR:') . ' ' . AO::throwException(AO::helper('directory')->__('Unable to initialize import model'));
         }
 
         $rates = $importModel->fetchRates();
@@ -62,26 +62,26 @@ class Mage_Directory_Model_Observer
 
         if( sizeof($errors) > 0 ) {
             foreach ($errors as $error) {
-            	$importWarnings[] = Mage::helper('directory')->__('WARNING:') . ' ' . $error;
+            	$importWarnings[] = AO::helper('directory')->__('WARNING:') . ' ' . $error;
             }
         }
 
         if (sizeof($importWarnings) == 0) {
-            Mage::getModel('directory/currency')->saveRates($rates);
+            AO::getModel('directory/currency')->saveRates($rates);
         }
         else {
-            $translate = Mage::getSingleton('core/translate');
+            $translate = AO::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
             /* @var $mailTemplate Mage_Core_Model_Email_Template */
-            $mailTemplate = Mage::getModel('core/email_template');
+            $mailTemplate = AO::getModel('core/email_template');
             $mailTemplate->setDesignConfig(array(
                 'area'  => 'frontend',
             ))->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                AO::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
+                AO::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
+                AO::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
                 null,
                 array(
                     'warnings'    => join("\n", $importWarnings),

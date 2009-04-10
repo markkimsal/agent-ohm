@@ -37,13 +37,13 @@ class Mage_Adminhtml_Block_Review_Rating_Summary extends Mage_Adminhtml_Block_Te
     public function __construct()
     {
         $this->setTemplate('rating/stars/summary.phtml');
-        $this->setReviewId(Mage::registry('review_data')->getId());
+        $this->setReviewId(AO::registry('review_data')->getId());
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('rating/rating_option_vote')
+            $ratingCollection = AO::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Review_Rating_Summary extends Mage_Adminhtml_Block_Te
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('rating/rating')->getReviewSummary($this->getReviewId()));
+            $this->setRatingSummaryCache(AO::getModel('rating/rating')->getReviewSummary($this->getReviewId()));
         }
 
         return $this->getRatingSummaryCache();

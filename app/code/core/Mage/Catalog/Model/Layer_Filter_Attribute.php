@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
         }
         $text = $this->_getOptionText($filter);
         if ($filter && $text) {
-            Mage::getSingleton('catalogindex/attribute')->applyFilterToCollection(
+            AO::getSingleton('catalogindex/attribute')->applyFilterToCollection(
                 $this->getLayer()->getProductCollection(),
                 $this->getAttributeModel(),
                 $filter
@@ -97,7 +97,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
 
         if ($data === null) {
             $options = $attribute->getFrontend()->getSelectOptions();
-            $optionsCount = Mage::getSingleton('catalogindex/attribute')->getCount(
+            $optionsCount = AO::getSingleton('catalogindex/attribute')->getCount(
                 $attribute,
                 $this->_getBaseCollectionSql()
             );
@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
                 if (is_array($option['value'])) {
                     continue;
                 }
-                if (Mage::helper('core/string')->strlen($option['value'])) {
+                if (AO::helper('core/string')->strlen($option['value'])) {
                     // Check filter type
                     if ($attribute->getIsFilterable() == self::OPTIONS_ONLY_WITH_RESULTS) {
                         if (!empty($optionsCount[$option['value']])) {

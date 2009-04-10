@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
             'close_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('catalog')->__('Close Window'),
+                    'label'   => AO::helper('catalog')->__('Close Window'),
                     'onclick' => 'addAttribute(true)'
                 ))
         );
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
     protected function _getGroupAttributes()
     {
         $attributes = array();
-        $product = Mage::registry('product');
+        $product = AO::registry('product');
         /* @var $product Mage_Catalog_Model_Product */
         foreach($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */

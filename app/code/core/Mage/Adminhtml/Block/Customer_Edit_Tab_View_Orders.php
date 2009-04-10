@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_collection')
+        $collection = AO::getResourceModel('sales/order_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('grand_total')
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
             ->addAttributeToSelect('store_id')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id')
-            ->addAttributeToFilter('customer_id', Mage::registry('current_customer')->getId());
+            ->addAttributeToFilter('customer_id', AO::registry('current_customer')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -71,38 +71,38 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
     {
 
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('customer')->__('Order #'),
+            'header'    => AO::helper('customer')->__('Order #'),
             'align'     => 'center',
             'index'     => 'increment_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('customer')->__('Purchased at'),
+            'header'    => AO::helper('customer')->__('Purchased at'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header'    => Mage::helper('customer')->__('Ship to First name'),
+            'header'    => AO::helper('customer')->__('Ship to First name'),
             'index'     => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header'    => Mage::helper('customer')->__('Ship to Last name'),
+            'header'    => AO::helper('customer')->__('Ship to Last name'),
             'index'     => 'shipping_lastname',
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('customer')->__('Grand Total'),
+            'header'    => AO::helper('customer')->__('Grand Total'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('customer')->__('Bought From'),
+                'header'    => AO::helper('customer')->__('Bought From'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view' => true,

@@ -63,23 +63,23 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     {
         if (!$this->_storeCode) {
             // get store view code
-            if (Mage::isInstalled() && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
+            if (AO::isInstalled() && AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
                 $p = explode('/', trim($this->getPathInfo(), '/'));
                 $storeCode = $p[0];
 
-                $stores = Mage::app()->getStores(true, true);
+                $stores = AO::app()->getStores(true, true);
 
                 if ($storeCode !== '' && isset($stores[$storeCode])) {
                     array_shift($p);
                     $this->setPathInfo(implode('/', $p));
                     $this->_storeCode = $storeCode;
-                    Mage::app()->setCurrentStore($storeCode);
+                    AO::app()->setCurrentStore($storeCode);
                 }
                 else {
-                    $this->_storeCode = Mage::app()->getStore()->getCode();
+                    $this->_storeCode = AO::app()->getStore()->getCode();
                 }
             } else {
-                $this->_storeCode = Mage::app()->getStore()->getCode();
+                $this->_storeCode = AO::app()->getStore()->getCode();
             }
 
         }
@@ -115,12 +115,12 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
                 $pathInfo = $requestUri;
             }
 
-            if (Mage::isInstalled() && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
+            if (AO::isInstalled() && AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
                 $p = explode('/', ltrim($pathInfo, '/'), 2);
                 $storeCode = $p[0];
-                $stores = Mage::app()->getStores(true, true);
+                $stores = AO::app()->getStores(true, true);
                 if ($storeCode!=='' && isset($stores[$storeCode])) {
-                    Mage::app()->setCurrentStore($storeCode);
+                    AO::app()->setCurrentStore($storeCode);
                     $pathInfo = '/'.(isset($p[1]) ? $p[1] : '');
                 }
                 elseif ($storeCode !== '') {
@@ -170,7 +170,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::app()->getFrontController()->getRouterByRoute($route);
+        $router = AO::app()->getFrontController()->getRouterByRoute($route);
         if (!$router) return $this;
         $module = $router->getFrontNameByRoute($route);
         if ($module) {

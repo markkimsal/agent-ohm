@@ -53,7 +53,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
             || !$this->getProductClassId()
             ) {
             return 0;
-            #throw Mage::exception('Mage_Tax', Mage::helper('tax')->__('Invalid data for tax rate calculation'));
+            #throw AO::exception('Mage_Tax', AO::helper('tax')->__('Invalid data for tax rate calculation'));
         }
 
         $cacheKey = $this->getCustomerClassId()
@@ -64,7 +64,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
 
         if (!isset($this->_cache[$cacheKey])) {
             $this->unsRateValue();
-            Mage::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
+            AO::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
             if (!$this->hasRateValue()) {
                 $this->setRateValue($this->_getResource()->fetchRate($this));
             }
@@ -80,7 +80,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
     /*public function getRegionId()
     {
         if (!$this->getData('region_id') && $this->getPostcode()) {
-            $regionId = Mage::getModel('usa/postcode')->load($this->getPostcode())->getRegionId();
+            $regionId = AO::getModel('usa/postcode')->load($this->getPostcode())->getRegionId();
             if ($regionId) {
                 $this->setRegionId($regionId);
             }
@@ -91,7 +91,7 @@ class Mage_Tax_Model_Rate_Data extends Mage_Core_Model_Abstract
     public function getCustomerClassId()
     {
         if (!$this->getData('customer_class_id')) {
-            $this->setCustomerClassId(Mage::getSingleton('customer/session')->getCustomer()->getTaxClassId());
+            $this->setCustomerClassId(AO::getSingleton('customer/session')->getCustomer()->getTaxClassId());
         }
         return $this->getData('customer_class_id');
     }

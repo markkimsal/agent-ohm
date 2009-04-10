@@ -52,7 +52,7 @@ class Mage_CatalogIndex_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_Abs
     public function getWebsiteId()
     {
         if (is_null($this->_websiteId)) {
-            $result = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+            $result = AO::app()->getStore($this->getStoreId())->getWebsiteId();
             $this->_websiteId = $result;
         }
         return $this->_websiteId;

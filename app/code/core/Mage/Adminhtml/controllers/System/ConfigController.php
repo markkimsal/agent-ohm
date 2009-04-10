@@ -64,7 +64,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        $configFields = Mage::getSingleton('adminhtml/config');
+        $configFields = AO::getSingleton('adminhtml/config');
 
 
         $sections     = $configFields->getSections($current);
@@ -78,7 +78,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $this->_setActiveMenu('system/config');
 
-       $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'), $this->getUrl('*/system'));
+       $this->_addBreadcrumb(AO::helper('adminhtml')->__('System'), AO::helper('adminhtml')->__('System'), $this->getUrl('*/system'));
 
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
@@ -100,7 +100,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('adminhtml/session');
+        $session = AO::getSingleton('adminhtml/session');
         /* @var $session Mage_Adminhtml_Model_Session */
 
         $groups = $this->getRequest()->getPost('groups');
@@ -123,9 +123,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         }
 
         try {
-            Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
+            AO::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
             if (!$this->_isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new Exception(Mage::helper('adminhtml')->__('This section is not allowed.'));
+                throw new Exception(AO::helper('adminhtml')->__('This section is not allowed.'));
             }
 
             // custom save logic
@@ -133,7 +133,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $section = $this->getRequest()->getParam('section');
             $website = $this->getRequest()->getParam('website');
             $store   = $this->getRequest()->getParam('store');
-            Mage::getModel('adminhtml/config_data')
+            AO::getModel('adminhtml/config_data')
                 ->setSection($section)
                 ->setWebsite($website)
                 ->setStore($store)
@@ -141,15 +141,15 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 ->save();
 
             // reinit configuration
-            Mage::getConfig()->reinit();
-            Mage::app()->reinitStores();
+            AO::getConfig()->reinit();
+            AO::app()->reinitStores();
 
 
             // website and store codes can be used in event implementation, so set them as well
-            Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
+            AO::dispatchEvent("admin_system_config_changed_section_{$section}",
                 array('website' => $website, 'store' => $store)
             );
-            $session->addSuccess(Mage::helper('adminhtml')->__('Configuration successfully saved'));
+            $session->addSuccess(AO::helper('adminhtml')->__('Configuration successfully saved'));
         }
         catch (Mage_Core_Exception $e) {
             foreach(split("\n", $e->getMessage()) as $message) {
@@ -157,7 +157,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             }
         }
         catch (Exception $e) {
-            $session->addException($e, Mage::helper('adminhtml')->__('Error while saving this configuration: '.$e->getMessage()));
+            $session->addException($e, AO::helper('adminhtml')->__('Error while saving this configuration: '.$e->getMessage()));
         }
 
         $this->_saveState($this->getRequest()->getPost('config_state'));
@@ -181,7 +181,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _saveAdvanced ()
     {
-        Mage::app()->cleanCache(
+        AO::app()->cleanCache(
             array(
                 'layout',
                 Mage_Core_Model_Layout_Update::LAYOUT_GENERAL_CACHE_TAG
@@ -213,7 +213,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     public function exportTableratesAction()
     {
-        $websiteModel = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
+        $websiteModel = AO::app()->getWebsite($this->getRequest()->getParam('website'));
 
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
@@ -221,7 +221,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $conditionName = $websiteModel->getConfig('carriers/tablerate/condition_name');
         }
 
-        $tableratesCollection = Mage::getResourceModel('shipping/carrier_tablerate_collection');
+        $tableratesCollection = AO::getResourceModel('shipping/carrier_tablerate_collection');
         /* @var $tableratesCollection Mage_Shipping_Model_Mysql4_Carrier_Tablerate_Collection */
         $tableratesCollection->setConditionFilter($conditionName);
         $tableratesCollection->setWebsiteFilter($websiteModel->getId());
@@ -229,9 +229,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $csv = '';
 
-        $conditionName = Mage::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
+        $conditionName = AO::getModel('shipping/carrier_tablerate')->getCode('condition_name_short', $conditionName);
 
-        $csvHeader = array('"'.Mage::helper('adminhtml')->__('Country').'"', '"'.Mage::helper('adminhtml')->__('Region/State').'"', '"'.Mage::helper('adminhtml')->__('Zip/Postal Code').'"', '"'.$conditionName.'"', '"'.Mage::helper('adminhtml')->__('Shipping Price').'"');
+        $csvHeader = array('"'.AO::helper('adminhtml')->__('Country').'"', '"'.AO::helper('adminhtml')->__('Region/State').'"', '"'.AO::helper('adminhtml')->__('Zip/Postal Code').'"', '"'.$conditionName.'"', '"'.AO::helper('adminhtml')->__('Shipping Price').'"');
         $csv .= implode(',', $csvHeader)."\n";
 
         foreach ($tableratesCollection->getItems() as $item) {
@@ -273,7 +273,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/config');
+        return AO::getSingleton('admin/session')->isAllowed('system/config');
     }
 
     /**
@@ -287,7 +287,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     protected function _isSectionAllowed($section)
     {
         try {
-            $session = Mage::getSingleton('admin/session');
+            $session = AO::getSingleton('admin/session');
             $resourceLookup = "admin/system/config/{$section}";
             $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
             if (!$session->isAllowed($resourceId)) {
@@ -309,7 +309,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = Mage::getSingleton('admin/session')->getUser();
+        $adminUser = AO::getSingleton('admin/session')->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

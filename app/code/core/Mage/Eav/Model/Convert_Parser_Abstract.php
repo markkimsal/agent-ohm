@@ -42,7 +42,7 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract
                 if (is_numeric($store)) {
                     $storeIds[] = $store;
                 } else {
-                    $storeNode = Mage::getConfig()->getNode('stores/'.$store);
+                    $storeNode = AO::getConfig()->getNode('stores/'.$store);
                     if (!$storeNode) {
                         return false;
                     }
@@ -55,12 +55,12 @@ abstract class Mage_Eav_Model_Convert_Parser_Abstract
 
     public function getStoreCode($storeId)
     {
-    	return Mage::app()->getStore($storeId?$storeId:0)->getCode();
+    	return AO::app()->getStore($storeId?$storeId:0)->getCode();
     }
 
     public function loadAttributeSets($entityTypeId)
     {
-        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection')
+        $attributeSetCollection = AO::getResourceModel('eav/entity_attribute_set_collection')
             ->setEntityTypeFilter($entityTypeId)
             ->load();
         $this->_attributeSetsById = array();

@@ -45,9 +45,9 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Tools'), Mage::helper('adminhtml')->__('Tools'));
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Backups'), Mage::helper('adminhtml')->__('Backup'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('System'), AO::helper('adminhtml')->__('System'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Tools'), AO::helper('adminhtml')->__('Tools'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Backups'), AO::helper('adminhtml')->__('Backup'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/backup', 'backup'));
 
@@ -68,17 +68,17 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     public function createAction()
     {
         try {
-            $backupDb = Mage::getModel('backup/db');
-            $backup   = Mage::getModel('backup/backup')
+            $backupDb = AO::getModel('backup/db');
+            $backup   = AO::getModel('backup/backup')
                 ->setTime(time())
                 ->setType('db')
-                ->setPath(Mage::getBaseDir("var") . DS . "backups");
+                ->setPath(AO::getBaseDir("var") . DS . "backups");
 
             $backupDb->createBackup($backup);
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Backup successfully created'));
+            $this->_getSession()->addSuccess(AO::helper('adminhtml')->__('Backup successfully created'));
         }
         catch (Exception  $e) {
-            $this->_getSession()->addException($e, Mage::helper('adminhtml')->__('Error while create backup. Please try again later'));
+            $this->_getSession()->addException($e, AO::helper('adminhtml')->__('Error while create backup. Please try again later'));
         }
         $this->_redirect('*/*');
     }
@@ -88,10 +88,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function downloadAction()
     {
-        $backup = Mage::getModel('backup/backup')
+        $backup = AO::getModel('backup/backup')
             ->setTime((int)$this->getRequest()->getParam('time'))
             ->setType($this->getRequest()->getParam('type'))
-            ->setPath(Mage::getBaseDir("var") . DS . "backups");
+            ->setPath(AO::getBaseDir("var") . DS . "backups");
         /* @var $backup Mage_Backup_Model_Backup */
 
         if (!$backup->exists()) {
@@ -114,13 +114,13 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
     public function deleteAction()
     {
         try {
-            $backup = Mage::getModel('backup/backup')
+            $backup = AO::getModel('backup/backup')
                 ->setTime((int)$this->getRequest()->getParam('time'))
                 ->setType($this->getRequest()->getParam('type'))
-                ->setPath(Mage::getBaseDir("var") . DS . "backups")
+                ->setPath(AO::getBaseDir("var") . DS . "backups")
                 ->deleteFile();
 
-            $this->_getSession()->addSuccess(Mage::helper('adminhtml')->__('Backup record was deleted'));
+            $this->_getSession()->addSuccess(AO::helper('adminhtml')->__('Backup record was deleted'));
         }
         catch (Exception $e) {
                 // Nothing
@@ -132,7 +132,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/tools/backup');
+        return AO::getSingleton('admin/session')->isAllowed('system/tools/backup');
     }
 
     /**
@@ -142,6 +142,6 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session');
+        return AO::getSingleton('adminhtml/session');
     }
 }

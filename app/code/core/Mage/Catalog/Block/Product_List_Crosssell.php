@@ -38,16 +38,16 @@ class Mage_Catalog_Block_Product_List_Crosssell extends Mage_Catalog_Block_Produ
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
+        $product = AO::registry('product');
         /* @var $product Mage_Catalog_Model_Product */
 
         $this->_itemCollection = $product->getCrossSellProductCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter();
 
-//        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
+//        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_itemCollection);
 
         $this->_itemCollection->load();
 

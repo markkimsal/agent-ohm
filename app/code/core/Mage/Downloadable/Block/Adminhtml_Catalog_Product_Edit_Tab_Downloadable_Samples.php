@@ -49,7 +49,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     /**
@@ -61,7 +61,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     {
         $addButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label' => Mage::helper('downloadable')->__('Add New Row'),
+                'label' => AO::helper('downloadable')->__('Add New Row'),
                 'id' => 'add_sample_item',
                 'class' => 'add',
             ));
@@ -80,14 +80,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = Mage::helper('downloadable/file')->getFilePath(
+            $file = AO::helper('downloadable/file')->getFilePath(
                 Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
                     array(
                         'file' => $item->getSampleFile(),
-                        'name' => Mage::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
+                        'name' => AO::helper('downloadable/file')->getFileFromPathFile($item->getSampleFile()),
                         'size' => filesize($file),
                         'status' => 'old'
                     ));
@@ -108,7 +108,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
 
     public function getSamplesTitle()
     {
-        return Mage::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+        return AO::getStoreConfig(Mage_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     protected function _prepareLayout()
@@ -118,7 +118,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->addData(array(
                     'id'      => '',
-                    'label'   => Mage::helper('adminhtml')->__('Upload Files'),
+                    'label'   => AO::helper('adminhtml')->__('Upload Files'),
                     'type'    => 'button',
                     'onclick' => 'Downloadable.massUploadByType(\'samples\')'
                 ))
@@ -137,12 +137,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type' => 'samples', '_secure' => true)));
+        $this->getConfig()->setUrl(AO::getModel('adminhtml/url')->addSessionParam()->getUrl('downloadable/file/upload', array('type' => 'samples', '_secure' => true)));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(
             'all'    => array(
-                'label' => Mage::helper('adminhtml')->__('All Files'),
+                'label' => AO::helper('adminhtml')->__('All Files'),
                 'files' => array('*.*')
             )
         ));

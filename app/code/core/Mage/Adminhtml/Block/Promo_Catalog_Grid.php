@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalogrule/rule')
+        $collection = AO::getModel('catalogrule/rule')
             ->getResourceCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -55,20 +55,20 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('rule_id', array(
-            'header'    => Mage::helper('catalogrule')->__('ID'),
+            'header'    => AO::helper('catalogrule')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('catalogrule')->__('Rule Name'),
+            'header'    => AO::helper('catalogrule')->__('Rule Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('catalogrule')->__('Date Start'),
+            'header'    => AO::helper('catalogrule')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('catalogrule')->__('Date Expire'),
+            'header'    => AO::helper('catalogrule')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('catalogrule')->__('Status'),
+            'header'    => AO::helper('catalogrule')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

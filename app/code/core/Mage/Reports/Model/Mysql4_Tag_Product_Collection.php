@@ -99,8 +99,8 @@ class Mage_Reports_Model_Mysql4_Tag_Product_Collection extends Mage_Tag_Model_My
 
      protected function _joinFields()
     {
-        $tagTable = Mage::getSingleton('core/resource')->getTableName('tag/tag');
-        $tagRelationTable = Mage::getSingleton('core/resource')->getTableName('tag/relation');
+        $tagTable = AO::getSingleton('core/resource')->getTableName('tag/tag');
+        $tagRelationTable = AO::getSingleton('core/resource')->getTableName('tag/relation');
         $this->addAttributeToSelect('name');
         $this->getSelect()
             ->join(array('relation' => $tagRelationTable), "relation.product_id = e.entity_id")

@@ -72,7 +72,7 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     public function getBatchModel()
     {
         if (is_null($this->_batch)) {
-            $this->_batch = Mage::getSingleton('dataflow/batch');
+            $this->_batch = AO::getSingleton('dataflow/batch');
         }
         return $this->_batch;
     }
@@ -85,7 +85,7 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     public function getBatchExportModel()
     {
         if (is_null($this->_batchExport)) {
-            $object = Mage::getModel('dataflow/batch_export');
+            $object = AO::getModel('dataflow/batch_export');
             $this->_batchExport = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_batchExport);
@@ -99,7 +99,7 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     public function getBatchImportModel()
     {
         if (is_null($this->_batchImport)) {
-            $object = Mage::getModel('dataflow/batch_import');
+            $object = AO::getModel('dataflow/batch_import');
             $this->_batchImport = Varien_Object_Cache::singleton()->save($object);
         }
         return Varien_Object_Cache::singleton()->load($this->_batchImport);
@@ -109,7 +109,7 @@ abstract class Mage_Dataflow_Model_Convert_Parser_Abstract
     {
         $ioAdapter = new Varien_Io_File();
         if (!$ioAdapter->fileExists($file)) {
-            Mage::throwException(Mage::helper('dataflow')->__('File "%s" don\'t exist', $file));
+            AO::throwException(AO::helper('dataflow')->__('File "%s" don\'t exist', $file));
         }
 
         $ioAdapter->setAllowCreateFolders(true);

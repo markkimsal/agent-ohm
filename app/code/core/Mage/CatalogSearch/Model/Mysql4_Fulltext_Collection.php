@@ -35,7 +35,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
      */
     protected function _getQuery()
     {
-        return Mage::helper('catalogSearch')->getQuery();
+        return AO::helper('catalogSearch')->getQuery();
     }
 
     /**
@@ -46,7 +46,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
      */
     public function addSearchFilter($query)
     {
-        Mage::getSingleton('catalogsearch/fulltext')->prepareResult();
+        AO::getSingleton('catalogsearch/fulltext')->prepareResult();
 
         $this->getSelect()->joinInner(
             array('search_result' => $this->getTable('catalogsearch/result')),

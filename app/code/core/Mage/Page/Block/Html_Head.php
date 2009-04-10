@@ -87,7 +87,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
 //        return '';
         $lines = array();
-        $baseJs = Mage::getBaseUrl('js');
+        $baseJs = AO::getBaseUrl('js');
         $html = '';
 
         $script = '<script type="text/javascript" src="%s" %s></script>';
@@ -131,7 +131,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
             if (!empty($items['script'])) {
                 $scriptItems = array();
-                if (!Mage::getStoreConfigFlag('dev/js/deprecation')) {
+                if (!AO::getStoreConfigFlag('dev/js/deprecation')) {
                     $scriptItems = $this->getChunkedItems($items['script'], 'index.php?c=auto&amp;f=');
                 } else {
                     $scriptItems = $items['script'];
@@ -188,7 +188,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = Mage::getStoreConfig('design/head/default_media_type');
+            $this->_data['media_type'] = AO::getStoreConfig('design/head/default_media_type');
         }
         return $this->_data['media_type'];
     }
@@ -196,15 +196,15 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = Mage::getStoreConfig('design/head/default_charset');
+            $this->_data['charset'] = AO::getStoreConfig('design/head/default_charset');
         }
         return $this->_data['charset'];
     }
 
     public function setTitle($title)
     {
-        $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix').' '.$title
-            .' '.Mage::getStoreConfig('design/head/title_suffix');
+        $this->_data['title'] = AO::getStoreConfig('design/head/title_prefix').' '.$title
+            .' '.AO::getStoreConfig('design/head/title_suffix');
         return $this;
     }
 
@@ -218,13 +218,13 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
 
     public function getDefaultTitle()
     {
-        return Mage::getStoreConfig('design/head/default_title');
+        return AO::getStoreConfig('design/head/default_title');
     }
 
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = Mage::getStoreConfig('design/head/default_description');
+            $this->_data['description'] = AO::getStoreConfig('design/head/default_description');
         }
         return $this->_data['description'];
     }
@@ -232,7 +232,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = Mage::getStoreConfig('design/head/default_keywords');
+            $this->_data['keywords'] = AO::getStoreConfig('design/head/default_keywords');
         }
         return $this->_data['keywords'];
     }
@@ -240,7 +240,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = Mage::getStoreConfig('design/head/default_robots');
+            $this->_data['robots'] = AO::getStoreConfig('design/head/default_robots');
         }
         return $this->_data['robots'];
     }
@@ -253,7 +253,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = Mage::getStoreConfig('design/head/includes');
+            $this->_data['includes'] = AO::getStoreConfig('design/head/includes');
         }
         return $this->_data['includes'];
     }

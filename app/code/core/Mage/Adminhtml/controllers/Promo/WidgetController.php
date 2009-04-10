@@ -54,7 +54,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('promo/catalog');
+	    return AO::getSingleton('admin/session')->isAllowed('promo/catalog');
     }
 
     /**
@@ -86,13 +86,13 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
 
         $storeId    = (int) $this->getRequest()->getParam('store');
 
-        $category = Mage::getModel('catalog/category');
+        $category = AO::getModel('catalog/category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = Mage::app()->getStore($storeId)->getRootCategoryId();
+                $rootId = AO::app()->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     $this->_redirect('*/*/', array('_current'=>true, 'id'=>null));
                     return false;
@@ -100,8 +100,8 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
             }
         }
 
-        Mage::register('category', $category);
-        Mage::register('current_category', $category);
+        AO::register('category', $category);
+        AO::register('current_category', $category);
         return $category;
     }
 }

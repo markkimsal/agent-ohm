@@ -57,7 +57,7 @@ class Mage_CatalogIndex_Model_Retreiver extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $config = Mage::getConfig()->getNode('global/catalog/product/type')->asArray();
+        $config = AO::getConfig()->getNode('global/catalog/product/type')->asArray();
         foreach ($config as $type=>$data) {
             if (isset($data['index_data_retreiver'])) {
                 $this->_retreivers[$type] = $data['index_data_retreiver'];
@@ -76,9 +76,9 @@ class Mage_CatalogIndex_Model_Retreiver extends Mage_Core_Model_Abstract
     public function getRetreiver($type)
     {
         if (isset($this->_retreivers[$type])) {
-            return Mage::getSingleton($this->_retreivers[$type]);
+            return AO::getSingleton($this->_retreivers[$type]);
         } else {
-            Mage::throwException("Data retreiver for '{$type}' is not defined");
+            AO::throwException("Data retreiver for '{$type}' is not defined");
         }
     }
 
@@ -90,7 +90,7 @@ class Mage_CatalogIndex_Model_Retreiver extends Mage_Core_Model_Abstract
     public function getCustomerGroups()
     {
         if (is_null($this->_customerGroups)) {
-            $this->_customerGroups = Mage::getModel('customer/group')->getCollection();
+            $this->_customerGroups = AO::getModel('customer/group')->getCollection();
         }
         return $this->_customerGroups;
     }

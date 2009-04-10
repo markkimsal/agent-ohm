@@ -197,7 +197,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
 
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return AO::registry('current_creditmemo');
     }
 
     /**
@@ -214,11 +214,11 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
         if ($this->hasOrder()) {
             return $this->getData('order');
         }
-        if (Mage::registry('current_order')) {
-            return Mage::registry('current_order');
+        if (AO::registry('current_order')) {
+            return AO::registry('current_order');
         }
-        if (Mage::registry('order')) {
-            return Mage::registry('order');
+        if (AO::registry('order')) {
+            return AO::registry('order');
         }
         if ($this->getInvoice())
         {
@@ -233,7 +233,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(Mage::helper('sales')->__('Can\'t get order instance'));
+        AO::throwException(AO::helper('sales')->__('Can\'t get order instance'));
     }
 
     /**
@@ -395,7 +395,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
 
     public function canCapture()
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')) {
+        if (AO::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')) {
             return $this->getInvoice()->canCapture();
         }
         return false;
@@ -423,7 +423,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return AO::registry('current_invoice');
     }
 
     /**
@@ -431,8 +431,8 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
      */
 
     public function canReturnToStock() {
-        $canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
-        if (Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
+        $canReturnToStock = AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
+        if (AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
@@ -441,7 +441,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
 
     public function canShipPartially()
     {
-        $value = Mage::registry('current_shipment')->getOrder()->getCanShipPartially();
+        $value = AO::registry('current_shipment')->getOrder()->getCanShipPartially();
         if (!is_null($value) && !$value) {
             return false;
         }
@@ -450,7 +450,7 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
 
     public function canShipPartiallyItem()
     {
-        $value = Mage::registry('current_shipment')->getOrder()->getCanShipPartiallyItem();
+        $value = AO::registry('current_shipment')->getOrder()->getCanShipPartiallyItem();
         if (!is_null($value) && !$value) {
             return false;
         }

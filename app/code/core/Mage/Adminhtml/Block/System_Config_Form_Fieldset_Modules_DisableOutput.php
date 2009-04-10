@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     {
 		$html = $this->_getHeaderHtml($element);
 
-		$modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
+		$modules = array_keys((array)AO::getConfig()->getNode('modules')->children());
 
 		sort($modules);
 
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected function _getFieldRenderer()
     {
     	if (empty($this->_fieldRenderer)) {
-    		$this->_fieldRenderer = Mage::getBlockSingleton('adminhtml/system_config_form_field');
+    		$this->_fieldRenderer = AO::getBlockSingleton('adminhtml/system_config_form_field');
     	}
     	return $this->_fieldRenderer;
     }
@@ -71,8 +71,8 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     {
     	if (empty($this->_values)) {
     		$this->_values = array(
-    			array('label'=>Mage::helper('adminhtml')->__('Enable'), 'value'=>0),
-    			array('label'=>Mage::helper('adminhtml')->__('Disable'), 'value'=>1),
+    			array('label'=>AO::helper('adminhtml')->__('Enable'), 'value'=>0),
+    			array('label'=>AO::helper('adminhtml')->__('Disable'), 'value'=>1),
     		);
     	}
     	return $this->_values;

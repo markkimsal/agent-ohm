@@ -49,7 +49,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
     {
         $this->_uniqueFields = array(array(
             'field' => array('attribute_code','entity_type_id'),
-            'title' => Mage::helper('eav')->__('Attribute with the same code')
+            'title' => AO::helper('eav')->__('Attribute with the same code')
         ));
         return $this;
     }
@@ -131,12 +131,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             /**
              * @todo !!!! need fix retrieving attribute entity, this realization is temprary
              */
-            $attribute = Mage::getModel('eav/entity_attribute')
+            $attribute = AO::getModel('eav/entity_attribute')
                 ->load($data['attribute_id'])
-                ->setEntity(Mage::getSingleton('catalog/product')->getResource());
+                ->setEntity(AO::getSingleton('catalog/product')->getResource());
 
             if ($this->isUsedBySuperProducts($attribute, $data['attribute_set_id'])) {
-                Mage::throwException(Mage::helper('eav')->__("Attribute '%s' used in configurable products.", $attribute->getAttributeCode()));
+                AO::throwException(AO::helper('eav')->__("Attribute '%s' used in configurable products.", $attribute->getAttributeCode()));
             }
 
             if ($backendTable = $attribute->getBackend()->getTable()) {
@@ -166,7 +166,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0]=='') {
-                Mage::throwException(Mage::helper('eav')->__('Frontend label is not defined'));
+                AO::throwException(AO::helper('eav')->__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0]);
 
@@ -176,7 +176,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             else {
                 $str = $frontendLabel[0];
             }
-            Mage::getModel('core/translate_string')
+            AO::getModel('core/translate_string')
                 ->setString($str)
                 ->setTranslate($frontendLabel[0])
                 ->setStoreTranslations($frontendLabel)
@@ -260,7 +260,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $write = $this->_getWriteAdapter();
             $optionTable        = $this->getTable('attribute_option');
             $optionValueTable   = $this->getTable('attribute_option_value');
-            $stores = Mage::getModel('core/store')
+            $stores = AO::getModel('core/store')
                 ->getResourceCollection()
                 ->setLoadDefault(true)
                 ->load();
@@ -308,7 +308,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
 
                     // Default value
                     if (!isset($values[0])) {
-                        Mage::throwException(Mage::helper('eav')->__('Default option value is not defined'));
+                        AO::throwException(AO::helper('eav')->__('Default option value is not defined'));
                     }
 
                     $write->delete($optionValueTable, $write->quoteInto('option_id=?', $intOptionId));

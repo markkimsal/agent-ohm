@@ -110,7 +110,7 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
     {
         if (is_string($model)) {
             $this->_model = $model;
-            $this->setItemObjectClass(Mage::getConfig()->getModelClassName($model));
+            $this->setItemObjectClass(AO::getConfig()->getModelClassName($model));
         }
         return $this;
     }
@@ -144,7 +144,7 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
     public function getResource()
     {
         if (empty($this->_resource)) {
-            $this->_resource = Mage::getResourceModel($this->getResourceModelName());
+            $this->_resource = AO::getResourceModel($this->getResourceModelName());
         }
         return $this->_resource;
     }
@@ -210,6 +210,6 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
 
     protected function _canUseCache()
     {
-        return Mage::app()->useCache('collections');
+        return AO::app()->useCache('collections');
     }
 }

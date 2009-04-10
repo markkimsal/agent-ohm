@@ -39,34 +39,34 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         parent::__construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('cms')->__('Page Information'));
+        $this->setTitle(AO::helper('cms')->__('Page Information'));
     }
 
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(
-            'label'     => Mage::helper('cms')->__('General Information'),
-            'title'     => Mage::helper('cms')->__('General Information'),
+            'label'     => AO::helper('cms')->__('General Information'),
+            'title'     => AO::helper('cms')->__('General Information'),
             'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_edit_tab_main')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('design_section', array(
-            'label'     => Mage::helper('cms')->__('Custom Design'),
-            'title'     => Mage::helper('cms')->__('Custom Design'),
+            'label'     => AO::helper('cms')->__('Custom Design'),
+            'title'     => AO::helper('cms')->__('Custom Design'),
             'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_edit_tab_design')->toHtml(),
         ));
 
         $this->addTab('meta_section', array(
-            'label'     => Mage::helper('cms')->__('Meta Data'),
-            'title'     => Mage::helper('cms')->__('Meta Data'),
+            'label'     => AO::helper('cms')->__('Meta Data'),
+            'title'     => AO::helper('cms')->__('Meta Data'),
             'content'   => $this->getLayout()->createBlock('adminhtml/cms_page_edit_tab_meta')->toHtml(),
         ));
-        if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
-            && Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (AO::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
+            && AO::helper('googleoptimizer')->isOptimizerActive()) {
             $this->addTab('googleoptimizer_section', array(
-                'label'     => Mage::helper('googleoptimizer')->__('Page View Optimization'),
-                'title'     => Mage::helper('googleoptimizer')->__('Page View Optimization'),
+                'label'     => AO::helper('googleoptimizer')->__('Page View Optimization'),
+                'title'     => AO::helper('googleoptimizer')->__('Page View Optimization'),
                 'content'   => $this->getLayout()->createBlock('googleoptimizer/adminhtml_cms_page_edit_tab_googleoptimizer')->toHtml(),
             ));
         }

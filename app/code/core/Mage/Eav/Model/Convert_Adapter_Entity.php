@@ -50,10 +50,10 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     {
         if (is_null($this->_store)) {
             try {
-                $this->_store = Mage::app()->getStore($this->getVar('store'));
+                $this->_store = AO::app()->getStore($this->getVar('store'));
             }
             catch (Exception $e) {
-                $message = Mage::helper('eav')->__('Invalid store specified');
+                $message = AO::helper('eav')->__('Invalid store specified');
                 $this->addException($message, Varien_Convert_Exception::FATAL);
                 throw $e;
             }
@@ -221,8 +221,8 @@ class Mage_Eav_Model_Convert_Adapter_Entity
     public function load()
     {
         if (!($entityType = $this->getVar('entity_type'))
-            || !(Mage::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
-            $this->addException(Mage::helper('eav')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
+            || !(AO::getResourceSingleton($entityType) instanceof Mage_Eav_Model_Entity_Interface)) {
+            $this->addException(AO::helper('eav')->__('Invalid entity specified'), Varien_Convert_Exception::FATAL);
         }
         try {
             $collection = $this->_getCollectionForLoad($entityType);
@@ -267,14 +267,14 @@ class Mage_Eav_Model_Convert_Adapter_Entity
             */
            $entityIds = $collection->getAllIds();
 
-           $message = Mage::helper('eav')->__("Loaded %d records", count($entityIds));
+           $message = AO::helper('eav')->__("Loaded %d records", count($entityIds));
            $this->addException($message);
         }
         catch (Varien_Convert_Exception $e) {
             throw $e;
         }
         catch (Exception $e) {
-            $message = Mage::helper('eav')->__('Problem loading the collection, aborting. Error: %s', $e->getMessage());
+            $message = AO::helper('eav')->__('Problem loading the collection, aborting. Error: %s', $e->getMessage());
             $this->addException($message, Varien_Convert_Exception::FATAL);
         }
 
@@ -292,20 +292,20 @@ class Mage_Eav_Model_Convert_Adapter_Entity
      */
     protected function _getCollectionForLoad($entityType)
     {
-        return Mage::getResourceModel($entityType.'_collection');
+        return AO::getResourceModel($entityType.'_collection');
     }
 
     public function save()
     {
         $collection = $this->getData();
         if ($collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $this->addException(Mage::helper('eav')->__('Entity collections expected'), Varien_Convert_Exception::FATAL);
+            $this->addException(AO::helper('eav')->__('Entity collections expected'), Varien_Convert_Exception::FATAL);
         }
 
         $this->addException($collection->getSize().' records found.');
 
         if (!$collection instanceof Mage_Eav_Model_Entity_Collection_Abstract) {
-            $this->addException(Mage::helper('eav')->__('Entity collection expected'), Varien_Convert_Exception::FATAL);
+            $this->addException(AO::helper('eav')->__('Entity collection expected'), Varien_Convert_Exception::FATAL);
         }
         try {
             $i = 0;
@@ -313,13 +313,13 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                 $model->save();
                 $i++;
             }
-            $this->addException(Mage::helper('eav')->__("Saved ".$i." record(s)"));
+            $this->addException(AO::helper('eav')->__("Saved ".$i." record(s)"));
         }
         catch (Varien_Convert_Exception $e) {
             throw $e;
         }
         catch (Exception $e) {
-            $this->addException(Mage::helper('eav')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
+            $this->addException(AO::helper('eav')->__('Problem saving the collection, aborting. Error: %s', $e->getMessage()),
                 Varien_Convert_Exception::FATAL);
         }
         return $this;

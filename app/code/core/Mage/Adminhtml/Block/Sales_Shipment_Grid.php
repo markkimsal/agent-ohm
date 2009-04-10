@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_shipment_collection')
+        $collection = AO::getResourceModel('sales/order_shipment_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
@@ -59,54 +59,54 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('sales')->__('Shipment #'),
+            'header'    => AO::helper('sales')->__('Shipment #'),
             'index'     => 'increment_id',
             'type'      => 'number',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('sales')->__('Date Shipped'),
+            'header'    => AO::helper('sales')->__('Date Shipped'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header'    => Mage::helper('sales')->__('Order #'),
+            'header'    => AO::helper('sales')->__('Order #'),
             'index'     => 'order_increment_id',
             'type'      => 'number',
         ));
 
         $this->addColumn('order_created_at', array(
-            'header'    => Mage::helper('sales')->__('Order Date'),
+            'header'    => AO::helper('sales')->__('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('shipping_firstname', array(
-            'header' => Mage::helper('sales')->__('Ship to First name'),
+            'header' => AO::helper('sales')->__('Ship to First name'),
             'index' => 'shipping_firstname',
         ));
 
         $this->addColumn('shipping_lastname', array(
-            'header' => Mage::helper('sales')->__('Ship to Last name'),
+            'header' => AO::helper('sales')->__('Ship to Last name'),
             'index' => 'shipping_lastname',
         ));
 
         $this->addColumn('total_qty', array(
-            'header' => Mage::helper('sales')->__('Total Qty'),
+            'header' => AO::helper('sales')->__('Total Qty'),
             'index' => 'total_qty',
             'type'  => 'number',
         ));
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('sales')->__('Action'),
+                'header'    => AO::helper('sales')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('sales')->__('View'),
+                        'caption' => AO::helper('sales')->__('View'),
                         'url'     => array('base'=>'*/*/view'),
                         'field'   => 'shipment_id'
                     )
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
         $this->getMassactionBlock()->setFormFieldName('shipment_ids');
 
         $this->getMassactionBlock()->addItem('pdfshipments_order', array(
-             'label'=> Mage::helper('sales')->__('PDF Packingslips'),
+             'label'=> AO::helper('sales')->__('PDF Packingslips'),
              'url'  => $this->getUrl('*/*/pdfshipments'),
         ));
 

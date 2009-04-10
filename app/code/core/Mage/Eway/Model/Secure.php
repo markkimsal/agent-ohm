@@ -45,7 +45,7 @@ class Mage_Eway_Model_Secure extends Mage_Eway_Model_Shared
      */
     public function getEwaySecureUrl()
     {
-         if (!$url = Mage::getStoreConfig('payment/' . $this->getCode() . '/api_url')) {
+         if (!$url = AO::getStoreConfig('payment/' . $this->getCode() . '/api_url')) {
              $url = 'https://www.eway.com.au/gateway_3d/payment.asp';
          }
          return $url;

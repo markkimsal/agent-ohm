@@ -39,7 +39,7 @@ abstract class Mage_Paypal_Model_Abstract extends Mage_Payment_Model_Method_Abst
      */
     public function getApi()
     {
-        return Mage::getSingleton('paypal/api_nvp');
+        return AO::getSingleton('paypal/api_nvp');
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class Mage_Paypal_Model_Abstract extends Mage_Payment_Model_Method_Abst
      */
     public function getSession()
     {
-        return Mage::getSingleton('paypal/session');
+        return AO::getSingleton('paypal/session');
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class Mage_Paypal_Model_Abstract extends Mage_Payment_Model_Method_Abst
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**

@@ -47,7 +47,7 @@ class Mage_PaypalUk_Block_Express_Info extends Mage_Payment_Block_Info
                $email = $p->getOrder()->getCustomerEmail();
             }
         } else {
-            $email = Mage::helper('paypal')->__("N/A");
+            $email = AO::helper('paypal')->__("N/A");
         }
         return $email;
     }

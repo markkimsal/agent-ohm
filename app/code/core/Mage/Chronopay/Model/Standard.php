@@ -57,7 +57,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('chronopay/config');
+        return AO::getSingleton('chronopay/config');
     }
 
     /**
@@ -76,7 +76,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
         if ($currency_code != $this->getConfig()->getCurrency()) {
-            Mage::throwException(Mage::helper('chronopay')->__('Selected currency code ('.$currency_code.') is not compatible with ChronoPay'));
+            AO::throwException(AO::helper('chronopay')->__('Selected currency code ('.$currency_code.') is not compatible with ChronoPay'));
         }
         return $this;
     }
@@ -112,7 +112,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getSuccessURL ()
     {
-        return Mage::getUrl('chronopay/standard/success', array('_secure' => true));
+        return AO::getUrl('chronopay/standard/success', array('_secure' => true));
     }
 
     /**
@@ -122,7 +122,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getNotificationURL ()
     {
-        return Mage::getUrl('chronopay/standard/notify', array('_secure' => true));
+        return AO::getUrl('chronopay/standard/notify', array('_secure' => true));
     }
 
     /**
@@ -132,7 +132,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getFailureURL ()
     {
-        return Mage::getUrl('chronopay/standard/failure', array('_secure' => true));
+        return AO::getUrl('chronopay/standard/failure', array('_secure' => true));
     }
 
     /**
@@ -156,7 +156,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-        return Mage::getUrl('chronopay/standard/redirect');
+        return AO::getUrl('chronopay/standard/redirect');
     }
 
     /**
@@ -168,7 +168,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            AO::throwException($this->_getHelper()->__('Cannot retrieve order object'));
         }
 
         $billingAddress = $order->getBillingAddress();
@@ -181,7 +181,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         if ($this->getConfig()->getDescription()) {
             $transDescription = $this->getConfig()->getDescription();
         } else {
-            $transDescription = Mage::helper('chronopay')->__('Order #%s', $order->getRealOrderId());
+            $transDescription = AO::helper('chronopay')->__('Order #%s', $order->getRealOrderId());
         }
 
         if ($order->getCustomerEmail()) {
@@ -209,11 +209,11 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         'cb_url'           => $this->getNotificationURL(),
                         'cb_type'          => 'P', // POST method used (G - GET method)
                         'decline_url'      => $this->getFailureURL(),
-                        'cs1'              => Mage::helper('core')->encrypt($order->getRealOrderId())
+                        'cs1'              => AO::helper('core')->encrypt($order->getRealOrderId())
                         );
 
         if ($this->getConfig()->getDebug()) {
-            $debug = Mage::getModel('chronopay/api_debug')
+            $debug = AO::getModel('chronopay/api_debug')
                 ->setRequestBody($this->getChronopayUrl()."\n".print_r($fields,1))
                 ->save();
             $fields['cs2'] = $debug->getId();
@@ -233,7 +233,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $order = $this->getOrder();
 
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            AO::throwException($this->_getHelper()->__('Cannot retrieve order object'));
         }
 
         try {

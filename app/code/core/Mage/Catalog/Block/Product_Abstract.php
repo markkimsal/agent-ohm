@@ -185,7 +185,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', AO::registry('product'));
         }
         return $this->getData('product');
     }
@@ -235,16 +235,16 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
                 if ($product->getPrice() != $product->getFinalPrice()) {
                     if ($price['price']<$product->getFinalPrice()) {
                         $price['savePercent'] = ceil(100 - (( 100/$product->getFinalPrice() ) * $price['price'] ));
-                        $price['formated_price'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])));
-                        $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)));
+                        $price['formated_price'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice(AO::helper('tax')->getPrice($product, $price['website_price'])));
+                        $price['formated_price_incl_tax'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice(AO::helper('tax')->getPrice($product, $price['website_price'], true)));
                         $res[] = $price;
                     }
                 }
                 else {
                     if ($price['price']<$product->getPrice()) {
                         $price['savePercent'] = ceil(100 - (( 100/$product->getPrice() ) * $price['price'] ));
-                        $price['formated_price'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'])));
-                        $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(Mage::helper('tax')->getPrice($product, $price['website_price'], true)));
+                        $price['formated_price'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice(AO::helper('tax')->getPrice($product, $price['website_price'])));
+                        $price['formated_price_incl_tax'] = AO::app()->getStore()->formatPrice(AO::app()->getStore()->convertPrice(AO::helper('tax')->getPrice($product, $price['website_price'], true)));
                         $res[] = $price;
                     }
                 }
@@ -268,7 +268,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
+            ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes());
     }
 
     /**

@@ -68,7 +68,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             return '&nbsp;';
         }
 
-        return Mage::getSingleton('core/layout')->createBlock('giftmessage/message_helper')
+        return AO::getSingleton('core/layout')->createBlock('giftmessage/message_helper')
             ->setId('giftmessage_button_' . $this->_nextId++)
             ->setCanDisplayContainer(true)
             ->setEntity($entity)
@@ -93,7 +93,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             return '';
         }
 
-        return Mage::getSingleton('core/layout')->createBlock('giftmessage/message_inline')
+        return AO::getSingleton('core/layout')->createBlock('giftmessage/message_inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)
@@ -110,8 +110,8 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     public function isMessagesAvailable($type, Varien_Object $entity, $store=null)
     {
-        $resultItems = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
-        $resultOrder = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
+        $resultItems = AO::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+        $resultOrder = AO::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
 
         if ($type == 'items') {
             return $resultItems || $resultOrder;
@@ -122,7 +122,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
         } elseif (is_numeric($store)) {
             $storeId = $store;
         } else {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
 
         if ($type=='item') {
@@ -142,7 +142,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    Mage::getModel('catalog/product')
+                    AO::getModel('catalog/product')
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()
@@ -168,7 +168,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
     {
-        $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+        $result = AO::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
 
         if ($productGiftMessageAllow==2 || is_null($productGiftMessageAllow)) {
             return $result;
@@ -304,7 +304,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      */
     public function getGiftMessage($messageId=null)
     {
-        $message = Mage::getModel('giftmessage/message');
+        $message = AO::getModel('giftmessage/message');
         if(!is_null($messageId)) {
             $message->load($messageId);
         }

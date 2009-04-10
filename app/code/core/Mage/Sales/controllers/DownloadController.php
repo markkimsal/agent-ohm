@@ -42,7 +42,7 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
     {
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         $secretKey = $this->getRequest()->getParam('key');
-        $option = Mage::getModel('sales/quote_item_option')->load($quoteItemOptionId);
+        $option = AO::getModel('sales/quote_item_option')->load($quoteItemOptionId);
 
         if ($option->getId()) {
 
@@ -53,10 +53,10 @@ class Mage_Sales_DownloadController extends Mage_Core_Controller_Front_Action
                     throw new Exception();
                 }
 
-                $filePath = Mage::getBaseDir() . $info['order_path'];
+                $filePath = AO::getBaseDir() . $info['order_path'];
                 if (!is_file($filePath) || !is_readable($filePath)) {
                     // try get file from quote
-                    $filePath = Mage::getBaseDir() . $info['quote_path'];
+                    $filePath = AO::getBaseDir() . $info['quote_path'];
                     if (!is_file($filePath) || !is_readable($filePath)) {
                         throw new Exception();
                     }

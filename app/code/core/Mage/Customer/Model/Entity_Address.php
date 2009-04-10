@@ -35,7 +35,7 @@ class Mage_Customer_Model_Entity_Address extends Mage_Eav_Model_Entity_Abstract
 {
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('customer_address')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')
@@ -45,7 +45,7 @@ class Mage_Customer_Model_Entity_Address extends Mage_Eav_Model_Entity_Abstract
     protected function _afterSave(Varien_Object $address)
     {
         if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
-            $customer = Mage::getModel('customer/customer')
+            $customer = AO::getModel('customer/customer')
                 ->load($address->getCustomerId());
 
             if ($address->getIsDefaultBilling()) {

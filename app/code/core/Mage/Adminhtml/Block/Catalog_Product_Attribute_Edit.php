@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             $this->_addButton(
                 'close',
                 array(
-                    'label'     => Mage::helper('catalog')->__('Close Window'),
+                    'label'     => AO::helper('catalog')->__('Close Window'),
                     'class'     => 'cancel',
                     'onclick'   => 'window.close()',
                     'level'     => -1
@@ -55,31 +55,31 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             );
         }
 
-        $this->_updateButton('save', 'label', Mage::helper('catalog')->__('Save Attribute'));
+        $this->_updateButton('save', 'label', AO::helper('catalog')->__('Save Attribute'));
         $this->_addButton(
             'save_and_edit_button',
             array(
-                'label'     => Mage::helper('catalog')->__('Save And Continue Edit'),
+                'label'     => AO::helper('catalog')->__('Save And Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit()',
                 'class'     => 'save'
             ),
             100
         );
 
-        if (! Mage::registry('entity_attribute')->getIsUserDefined()) {
+        if (! AO::registry('entity_attribute')->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', Mage::helper('catalog')->__('Delete Attribute'));
+            $this->_updateButton('delete', 'label', AO::helper('catalog')->__('Delete Attribute'));
         }
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('entity_attribute')->getId()) {
-            return Mage::helper('catalog')->__('Edit Product Attribute "%s"', $this->htmlEscape(Mage::registry('entity_attribute')->getFrontendLabel()));
+        if (AO::registry('entity_attribute')->getId()) {
+            return AO::helper('catalog')->__('Edit Product Attribute "%s"', $this->htmlEscape(AO::registry('entity_attribute')->getFrontendLabel()));
         }
         else {
-            return Mage::helper('catalog')->__('New Product Attribute');
+            return AO::helper('catalog')->__('New Product Attribute');
         }
     }
 

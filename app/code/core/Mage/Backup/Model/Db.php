@@ -49,7 +49,7 @@ class Mage_Backup_Model_Db
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('backup/db');
+        return AO::getResourceSingleton('backup/db');
     }
 
     public function getTables()

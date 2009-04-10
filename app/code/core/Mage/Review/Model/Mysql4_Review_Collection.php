@@ -42,7 +42,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
 
     public function __construct()
     {
-        $resources = Mage::getSingleton('core/resource');
+        $resources = AO::getSingleton('core/resource');
 
         parent::__construct($resources->getConnection('review_read'));
 
@@ -55,7 +55,7 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
         $this->_select->from(array('main_table'=>$this->_reviewTable))
             ->join(array('detail'=>$this->_reviewDetailTable), 'main_table.review_id=detail.review_id');
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('review/review'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('review/review'));
     }
 
     public function addCustomerFilter($customerId)
@@ -159,11 +159,11 @@ class Mage_Review_Model_Mysql4_Review_Collection extends Varien_Data_Collection_
     public function addRateVotes()
     {
         foreach( $this->getItems() as $item ) {
-            $votesCollection = Mage::getModel('rating/rating_option_vote')
+            $votesCollection = AO::getModel('rating/rating_option_vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
-                ->addRatingInfo(Mage::app()->getStore()->getId())
+                ->setStoreFilter(AO::app()->getStore()->getId())
+                ->addRatingInfo(AO::app()->getStore()->getId())
                 ->load();
             $item->setRatingVotes( $votesCollection );
         }

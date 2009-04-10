@@ -54,10 +54,10 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         $shipment = false;
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
-            $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+            $shipment = AO::getModel('sales/order_shipment')->load($shipmentId);
         }
         elseif ($orderId = $this->getRequest()->getParam('order_id')) {
-            $order      = Mage::getModel('sales/order')->load($orderId);
+            $order      = AO::getModel('sales/order')->load($orderId);
 
             /**
              * Check order existing
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 return false;
             }
 
-            $convertor  = Mage::getModel('sales/convert_order');
+            $convertor  = AO::getModel('sales/convert_order');
             $shipment    = $convertor->toShipment($order);
             $savedQtys = $this->_getItemQtys();
             foreach ($order->getAllItems() as $orderItem) {
@@ -107,21 +107,21 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             }
             if ($tracks = $this->getRequest()->getPost('tracking')) {
                 foreach ($tracks as $data) {
-                    $track = Mage::getModel('sales/order_shipment_track')
+                    $track = AO::getModel('sales/order_shipment_track')
                     ->addData($data);
                     $shipment->addTrack($track);
                 }
             }
         }
 
-        Mage::register('current_shipment', $shipment);
+        AO::register('current_shipment', $shipment);
         return $shipment;
     }
 
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('core/resource_transaction')
+        $transactionSave = AO::getModel('core/resource_transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
@@ -245,13 +245,13 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                Mage::throwException($this->__('You need specify carrier.'));
+                AO::throwException($this->__('You need specify carrier.'));
             }
             if (empty($number)) {
-                Mage::throwException($this->__('Tracking number can not be empty.'));
+                AO::throwException($this->__('Tracking number can not be empty.'));
             }
             if ($shipment = $this->_initShipment()) {
-                $track = Mage::getModel('sales/order_shipment_track')
+                $track = AO::getModel('sales/order_shipment_track')
                     ->setNumber($number)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -290,7 +290,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = Mage::getModel('sales/order_shipment_track')->load($trackId);
+        $track = AO::getModel('sales/order_shipment_track')->load($trackId);
         if ($track->getId()) {
             try {
                 if ($shipmentId = $this->_initShipment()) {
@@ -329,7 +329,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     {
         $trackId    = $this->getRequest()->getParam('track_id');
         $shipmentId = $this->getRequest()->getParam('shipment_id');
-        $track = Mage::getModel('sales/order_shipment_track')->load($trackId);
+        $track = AO::getModel('sales/order_shipment_track')->load($trackId);
         if ($track->getId()) {
             try {
                 $response = $track->getNumberDetail();
@@ -349,7 +349,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         }
 
         if ( is_object($response)){
-            $className = Mage::getConfig()->getBlockClassName('adminhtml/template');
+            $className = AO::getConfig()->getBlockClassName('adminhtml/template');
             $block = new $className();
             $block->setType('adminhtml/template')
                 ->setIsAnonymous(true)
@@ -377,7 +377,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException($this->__('Comment text field can not be empty.'));
+                AO::throwException($this->__('Comment text field can not be empty.'));
             }
             $shipment = $this->_initShipment();
             $shipment->addComment($data['comment'], isset($data['is_customer_notified']));

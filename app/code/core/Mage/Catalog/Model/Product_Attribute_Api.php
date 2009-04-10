@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
      */
     public function items($setId)
     {
-        $attributes = Mage::getModel('catalog/product')->getResource()
+        $attributes = AO::getModel('catalog/product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
         $result = array();
@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Product_Attribute_Api extends Mage_Catalog_Model_Api_Re
      */
     public function options($attributeId, $store = null)
     {
-        $attribute = Mage::getModel('catalog/product')
+        $attribute = AO::getModel('catalog/product')
             ->setStoreId($this->_getStoreId($store))
             ->getResource()
             ->getAttribute($attributeId);

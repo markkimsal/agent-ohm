@@ -121,7 +121,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
-        Mage::helper('core')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
+        AO::helper('core')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
         $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
         return $this;
     }
@@ -133,8 +133,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function exportCustomerAddress()
     {
-        $address = Mage::getModel('customer/address');
-        Mage::helper('core')->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
+        $address = AO::getModel('customer/address');
+        AO::helper('core')->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;
     }
 
@@ -151,7 +151,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             ->setCustomerAddressId($address->getCustomerAddressId())
             ->setEmail($address->getEmail());
 
-        Mage::helper('core')->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
+        AO::helper('core')->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
 
         return $this;
     }
@@ -181,7 +181,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function getItemsCollection()
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getModel('sales/quote_address_item')->getCollection()
+            $this->_items = AO::getModel('sales/quote_address_item')->getCollection()
                 ->setAddressFilter($this->getId());
 
             if ($this->getId()) {
@@ -325,14 +325,14 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             if ($item->getParentItemId()) {
                 return $this;
             }
-            $addressItem = Mage::getModel('sales/quote_address_item')
+            $addressItem = AO::getModel('sales/quote_address_item')
                 ->setAddress($this)
                 ->importQuoteItem($item);
             $this->getItemsCollection()->addItem($addressItem);
 
             if ($item->getHasChildren()) {
                 foreach ($item->getChildren() as $child) {
-                    $addressChildItem = Mage::getModel('sales/quote_address_item')
+                    $addressChildItem = AO::getModel('sales/quote_address_item')
                         ->setAddress($this)
                         ->importQuoteItem($child)
                         ->setParentItem($addressItem);
@@ -362,7 +362,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function getShippingRatesCollection()
     {
         if (is_null($this->_rates)) {
-            $this->_rates = Mage::getModel('sales/quote_address_rate')->getCollection()
+            $this->_rates = AO::getModel('sales/quote_address_rate')->getCollection()
                 ->setAddressFilter($this->getId());
             if ($this->getId()) {
                 foreach ($this->_rates as $rate) {
@@ -490,7 +490,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             return $this;
         }
 
-        $request = Mage::getModel('shipping/rate_request');
+        $request = AO::getModel('shipping/rate_request');
         $request->setAllItems($this->getAllItems());
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
@@ -512,8 +512,8 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         /**
          * Store and website identifiers need specify from quote
          */
-        /*$request->setStoreId(Mage::app()->getStore()->getId());
-        $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());*/
+        /*$request->setStoreId(AO::app()->getStore()->getId());
+        $request->setWebsiteId(AO::app()->getStore()->getWebsiteId());*/
 
         $request->setStoreId($this->getQuote()->getStore()->getId());
         $request->setWebsiteId($this->getQuote()->getStore()->getWebsiteId());
@@ -524,7 +524,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setBaseCurrency($this->getQuote()->getStore()->getBaseCurrency());
         $request->setPackageCurrency($this->getQuote()->getStore()->getCurrentCurrency());
 
-        $result = Mage::getModel('shipping/shipping')
+        $result = AO::getModel('shipping/shipping')
             ->collectRates($request)
                 ->getResult();
 
@@ -533,7 +533,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             $shippingRates = $result->getAllRates();
 
             foreach ($shippingRates as $shippingRate) {
-                $rate = Mage::getModel('sales/quote_address_rate')
+                $rate = AO::getModel('sales/quote_address_rate')
                     ->importShippingRate($shippingRate);
                 $this->addShippingRate($rate);
 
@@ -557,15 +557,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function getTotalModels()
     {
         if (!$this->_totalModels) {
-            $totalsConfig = Mage::getConfig()->getNode('global/sales/quote/totals');
+            $totalsConfig = AO::getConfig()->getNode('global/sales/quote/totals');
             $models = array();
             foreach ($totalsConfig->children() as $totalCode=>$totalConfig) {
-                $sort = Mage::getStoreConfig('sales/totals_sort/'.$totalCode);
+                $sort = AO::getStoreConfig('sales/totals_sort/'.$totalCode);
                 while (isset($models[$sort])) {
                     $sort++;
                 }
                 $class = $totalConfig->getClassName();
-                if ($class && ($model = Mage::getModel($class))) {
+                if ($class && ($model = AO::getModel($class))) {
                     $models[$sort] = $model->setCode($totalCode);
                 }
             }
@@ -598,7 +598,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function addTotal($total)
     {
         if (is_array($total)) {
-            $totalInstance = Mage::getModel('sales/quote_address_total')
+            $totalInstance = AO::getModel('sales/quote_address_total')
                 ->setData($total);
         } elseif ($total instanceof Mage_Sales_Model_Quote_Total) {
             $totalInstance = $total;
@@ -615,7 +615,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!Mage::getStoreConfigFlag('sales/minimum_order/active', $storeId)) {
+        if (!AO::getStoreConfigFlag('sales/minimum_order/active', $storeId)) {
             return true;
         }
 
@@ -626,7 +626,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             return true;
         }
 
-        $amount = Mage::getStoreConfig('sales/minimum_order/amount', $storeId);
+        $amount = AO::getStoreConfig('sales/minimum_order/amount', $storeId);
         if ($this->getBaseSubtotalWithDiscount() < $amount) {
             return false;
         }
@@ -645,10 +645,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     public function setShippingAmount($value, $alreadyExclTax = false)
     {
-        if (Mage::helper('tax')->shippingPriceIncludesTax()) {
-            $includingTax = Mage::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
+        if (AO::helper('tax')->shippingPriceIncludesTax()) {
+            $includingTax = AO::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
             if (!$alreadyExclTax) {
-                $value = Mage::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
+                $value = AO::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
             }
             $this->setShippingTaxAmount($includingTax - $value);
         }
@@ -657,10 +657,10 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
     public function setBaseShippingAmount($value, $alreadyExclTax = false)
     {
-        if (Mage::helper('tax')->shippingPriceIncludesTax()) {
-            $includingTax = Mage::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
+        if (AO::helper('tax')->shippingPriceIncludesTax()) {
+            $includingTax = AO::helper('tax')->getShippingPrice($value, true, $this, $this->getQuote()->getCustomerTaxClassId());
             if (!$alreadyExclTax) {
-                $value = Mage::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
+                $value = AO::helper('tax')->getShippingPrice($value, false, $this, $this->getQuote()->getCustomerTaxClassId());
             }
             $this->setBaseShippingTaxAmount($includingTax - $value);
         }

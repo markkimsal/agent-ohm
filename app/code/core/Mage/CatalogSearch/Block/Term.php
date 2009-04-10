@@ -39,8 +39,8 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = Mage::getResourceModel('catalogsearch/query_collection')
-                ->setPopularQueryFilter(Mage::app()->getStore()->getId())
+            $terms = AO::getResourceModel('catalogsearch/query_collection')
+                ->setPopularQueryFilter(AO::app()->getStore()->getId())
                 ->setOrder('popularity', 'DESC')
                 ->setPageSize(100)
                 ->load()
@@ -75,7 +75,7 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
 
     public function getSearchUrl($obj)
 	{
-	    $url = Mage::getModel('core/url');
+	    $url = AO::getModel('core/url');
 	    /*
 	    * url encoding will be done in Url.php http_build_query
 	    * so no need to explicitly called urlencode for the text

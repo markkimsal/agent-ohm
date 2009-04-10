@@ -64,11 +64,11 @@ class Mage_Install_Model_Installer_Pear extends Mage_Install_Model_Installer_Abs
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        Mage::getSingleton('install/session')->addError($message);
+                        AO::getSingleton('install/session')->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());
-                    #Mage::getSingleton('install/session')->addError($message);
+                    #AO::getSingleton('install/session')->addError($message);
                 }
                 $result = false;
             }

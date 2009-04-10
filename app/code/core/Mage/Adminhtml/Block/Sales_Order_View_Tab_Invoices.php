@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_invoice_collection')
+        $collection = AO::getResourceModel('sales/order_invoice_collection')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
@@ -69,31 +69,31 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('sales')->__('Invoice #'),
+            'header'    => AO::helper('sales')->__('Invoice #'),
             'index'     => 'increment_id',
             'width'     => '120px',
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('sales')->__('Bill to Name'),
+            'header' => AO::helper('sales')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('sales')->__('Invoice Date'),
+            'header'    => AO::helper('sales')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('sales')->__('Status'),
+            'header'    => AO::helper('sales')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('sales/order_invoice')->getStates(),
+            'options'   => AO::getModel('sales/order_invoice')->getStates(),
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header'    => Mage::helper('customer')->__('Amount'),
+            'header'    => AO::helper('customer')->__('Amount'),
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getRowUrl($row)
@@ -133,12 +133,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Invoices');
+        return AO::helper('sales')->__('Invoices');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Invoices');
+        return AO::helper('sales')->__('Order Invoices');
     }
 
     public function canShowTab()

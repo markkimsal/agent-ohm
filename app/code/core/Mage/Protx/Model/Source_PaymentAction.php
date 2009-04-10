@@ -38,9 +38,9 @@ class Mage_Protx_Model_Source_PaymentAction
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT, 'label' => Mage::helper('protx')->__('PAYMENT')),
-            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_DEFERRED, 'label' => Mage::helper('protx')->__('DEFERRED')),
-            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_AUTHENTICATE, 'label' => Mage::helper('protx')->__('AUTHENTICATE')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_PAYMENT, 'label' => AO::helper('protx')->__('PAYMENT')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_DEFERRED, 'label' => AO::helper('protx')->__('DEFERRED')),
+            array('value' => Mage_Protx_Model_Config::PAYMENT_TYPE_AUTHENTICATE, 'label' => AO::helper('protx')->__('AUTHENTICATE')),
         );
     }
 }

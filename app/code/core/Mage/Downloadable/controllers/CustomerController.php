@@ -41,9 +41,9 @@ class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Ac
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('customer')->getLoginUrl();
+        $loginUrl = AO::helper('customer')->getLoginUrl();
 
-        if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
+        if (!AO::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

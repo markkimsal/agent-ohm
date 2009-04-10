@@ -40,8 +40,8 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
     public function __construct()
     {
         parent::__construct();
-        $session = Mage::getSingleton('customer/session');
-        $purchased = Mage::getResourceModel('downloadable/link_purchased_collection')
+        $session = AO::getSingleton('customer/session');
+        $purchased = AO::getResourceModel('downloadable/link_purchased_collection')
             ->addFieldToFilter('customer_id', $session->getCustomerId())
             ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
@@ -49,7 +49,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
         foreach ($purchased as $_item) {
             $purchasedIds[] = $_item->getId();
         }
-        $purchasedItems = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+        $purchasedItems = AO::getResourceModel('downloadable/link_purchased_item_collection')
             ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
             ->addFieldToFilter('status', array('nin' => Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING_PAYMENT))
             ->setOrder('item_id', 'desc');
@@ -110,7 +110,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
             $downloads = $item->getNumberOfDownloadsBought() - $item->getNumberOfDownloadsUsed();
             return $downloads;
         }
-        return Mage::helper('downloadable')->__('Unlimited');
+        return AO::helper('downloadable')->__('Unlimited');
     }
 
     /**
@@ -131,7 +131,7 @@ class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Tem
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return AO::getStoreConfigFlag(Mage_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
 }

@@ -41,7 +41,7 @@ class Mage_Catalog_Model_Category_Attribute_Source_Sortby
      * @return Mage_Catalog_Model_Config
      */
     protected function _getCatalogConfig() {
-        return Mage::getSingleton('catalog/config');
+        return AO::getSingleton('catalog/config');
     }
 
     /**
@@ -53,12 +53,12 @@ class Mage_Catalog_Model_Category_Attribute_Source_Sortby
     {
         if (is_null($this->_options)) {
             $this->_options = array(array(
-                'label' => Mage::helper('catalog')->__('Best Value'),
+                'label' => AO::helper('catalog')->__('Best Value'),
                 'value' => 'position'
             ));
             foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
                 $this->_options[] = array(
-                    'label' => Mage::helper('catalog')->__($attribute['frontend_label']),
+                    'label' => AO::helper('catalog')->__($attribute['frontend_label']),
                     'value' => $attribute['attribute_code']
                 );
             }

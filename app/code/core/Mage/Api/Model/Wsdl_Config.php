@@ -66,22 +66,22 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
 
     public function getCache()
     {
-        return Mage::app()->getCache();
+        return AO::app()->getCache();
     }
 
     protected function _loadCache($id)
     {
-        return Mage::app()->loadCache($id);
+        return AO::app()->loadCache($id);
     }
 
     protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
     {
-        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+        return AO::app()->saveCache($data, $id, $tags, $lifetime);
     }
 
     protected function _removeCache($id)
     {
-        return Mage::app()->removeCache($id);
+        return AO::app()->removeCache($id);
     }
 
     public function init()
@@ -97,8 +97,8 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
             /**
              * Reset include path
              */
-            $codeDir = Mage::getConfig()->getOptions()->getCodeDir();
-            $libDir = Mage::getConfig()->getOptions()->getLibDir();
+            $codeDir = AO::getConfig()->getOptions()->getCodeDir();
+            $libDir = AO::getConfig()->getOptions()->getLibDir();
 
             set_include_path(
                 // excluded '/app/code/local'
@@ -111,12 +111,12 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
                 /*BP . $codeDir . DS .'community' . PS .
                 BP . $codeDir . DS .'core' . PS .
                 BP . $libDir . PS .*/
-                Mage::registry('original_include_path')
+                AO::registry('original_include_path')
             );
         }
 
-        if (Mage::isInstalled()) {
-            if (Mage::app()->useCache('config')) {
+        if (AO::isInstalled()) {
+            if (AO::app()->useCache('config')) {
                 $loaded = $this->loadCache();
                 if ($loaded) {
                     return $this;
@@ -127,9 +127,9 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
         $mergeWsdl = new Mage_Api_Model_Wsdl_Config_Base();
         $mergeWsdl->setHandler($this->getHandler());
 
-        $modules = Mage::getConfig()->getNode('modules')->children();
+        $modules = AO::getConfig()->getNode('modules')->children();
 
-        $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api").DS.'wsdl2.xml';
+        $baseWsdlFile = AO::getConfig()->getModuleDir('etc', "Mage_Api").DS.'wsdl2.xml';
         $this->loadFile($baseWsdlFile);
 
         foreach ($modules as $modName=>$module) {
@@ -138,7 +138,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
                 if ($disableLocalModules && ('local' === (string)$module->codePool)) {
                     continue;
                 }
-                $wsdlFile = Mage::getConfig()->getModuleDir('etc', $modName).DS.'wsdl.xml';
+                $wsdlFile = AO::getConfig()->getModuleDir('etc', $modName).DS.'wsdl.xml';
                 if ($mergeWsdl->loadFile($wsdlFile)) {
                     $this->extend($mergeWsdl, true);
                 }
@@ -146,7 +146,7 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
         }
         $this->setWsdlContent($this->_xml->asXML());
 
-        if (Mage::app()->useCache('config')) {
+        if (AO::app()->useCache('config')) {
             $this->saveCache(array('config'));
         }
 

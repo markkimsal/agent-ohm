@@ -57,6 +57,6 @@ class Mage_Adminhtml_SalesController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('sales');
+	    return AO::getSingleton('admin/session')->isAllowed('sales');
     }
 }

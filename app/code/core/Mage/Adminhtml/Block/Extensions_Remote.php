@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Extensions_Remote extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         $this->_controller = 'extensions_remote';
-        $this->_headerText = Mage::helper('adminhtml')->__('Browse Available Remote Extensions');
+        $this->_headerText = AO::helper('adminhtml')->__('Browse Available Remote Extensions');
 
         parent::__construct();
 

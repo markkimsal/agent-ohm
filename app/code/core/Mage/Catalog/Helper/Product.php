@@ -56,7 +56,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return $product->getProductUrl();
         }
         elseif (is_numeric($product)) {
-            return Mage::getModel('catalog/product')->load($product)->getProductUrl();
+            return AO::getModel('catalog/product')->load($product)->getProductUrl();
         }
         return false;
     }
@@ -92,7 +92,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         $url = false;
         if (!$product->getImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            $url = AO::getDesign()->getSkinUrl('images/no_image.jpg');
         }
         elseif ($attribute = $product->getResource()->getAttribute('image')) {
             $url = $attribute->getFrontend()->getUrl($product);
@@ -109,7 +109,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         $url = false;
         if (!$product->getSmallImage()) {
-            $url = Mage::getDesign()->getSkinUrl('images/no_image.jpg');
+            $url = AO::getDesign()->getSkinUrl('images/no_image.jpg');
         }
         elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($product);
@@ -130,7 +130,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getEmailToFriendUrl($product)
     {
         $categoryId = null;
-        if ($category = Mage::registry('current_category')) {
+        if ($category = AO::registry('current_category')) {
             $categoryId = $category->getId();
         }
         return $this->_getUrl('sendfriend/product/send', array(
@@ -142,7 +142,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getStatuses()
     {
         if(is_null($this->_statuses)) {
-            $this->_statuses = array();//Mage::getModel('catalog/product_status')->getResourceCollection()->load();
+            $this->_statuses = array();//AO::getModel('catalog/product_status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -157,7 +157,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
+            $product = AO::getModel('catalog/product')->load($product);
         }
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -178,11 +178,11 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getProductUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+            $this->_productUrlSuffix[$storeId] = AO::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
         }
         return $this->_productUrlSuffix[$storeId];
     }

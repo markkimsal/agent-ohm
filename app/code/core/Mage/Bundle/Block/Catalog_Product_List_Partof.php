@@ -41,8 +41,8 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
 
     protected function _prepareData()
     {
-        $collection = Mage::getModel('catalog/product')->getResourceCollection()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+        $collection = AO::getModel('catalog/product')->getResourceCollection()
+            ->addAttributeToSelect(AO::getSingleton('catalog/config')->getProductAttributes())
             ->addAttributeToSort('position', 'asc')
             ->addStoreFilter()
             ->addMinimalPrice()
@@ -50,14 +50,14 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
             ->joinTable('bundle/option', 'parent_id=entity_id', array('option_id' => 'option_id'))
             ->joinTable('bundle/selection', 'option_id=option_id', array('product_id' => 'product_id'), '{{table}}.product_id='.$this->getProduct()->getId());
 
-            $ids = Mage::getSingleton('checkout/cart')->getProductIds();
+            $ids = AO::getSingleton('checkout/cart')->getProductIds();
 
             if (count($ids)) {
-                $collection->addIdFilter(Mage::getSingleton('checkout/cart')->getProductIds(), true);
+                $collection->addIdFilter(AO::getSingleton('checkout/cart')->getProductIds(), true);
             }
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        AO::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
+        AO::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
         $collection->getSelect()->group('entity_id');
 
         $collection->load();
@@ -123,7 +123,7 @@ class Mage_Bundle_Block_Catalog_Product_List_Partof extends Mage_Catalog_Block_P
     public function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('product');
+            $this->_product = AO::registry('product');
         }
         return $this->_product;
     }

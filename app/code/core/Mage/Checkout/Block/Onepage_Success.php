@@ -42,7 +42,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
      */
     public function getOrderId()
     {
-        return Mage::getSingleton('checkout/session')->getLastRealOrderId();
+        return AO::getSingleton('checkout/session')->getLastRealOrderId();
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
      */
     public function canPrint()
     {
-        return Mage::getSingleton('customer/session')->isLoggedIn() && $this->isOrderVisible();
+        return AO::getSingleton('customer/session')->isLoggedIn() && $this->isOrderVisible();
     }
 
     /**
@@ -62,11 +62,11 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
      */
     public function getPrintUrl()
     {
-        /*if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return $this->getUrl('sales/order/print', array('order_id'=>Mage::getSingleton('checkout/session')->getLastOrderId()));
+        /*if (AO::getSingleton('customer/session')->isLoggedIn()) {
+            return $this->getUrl('sales/order/print', array('order_id'=>AO::getSingleton('checkout/session')->getLastOrderId()));
         }
-        return $this->getUrl('sales/guest/printOrder', array('order_id'=>Mage::getSingleton('checkout/session')->getLastOrderId()));*/
-        return $this->getUrl('sales/order/print', array('order_id'=>Mage::getSingleton('checkout/session')->getLastOrderId()));
+        return $this->getUrl('sales/guest/printOrder', array('order_id'=>AO::getSingleton('checkout/session')->getLastOrderId()));*/
+        return $this->getUrl('sales/order/print', array('order_id'=>AO::getSingleton('checkout/session')->getLastOrderId()));
     }
 
     /**
@@ -76,7 +76,7 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
      */
     public function getViewOrderUrl()
     {
-        return $this->getUrl('sales/order/view/', array('order_id'=>Mage::getSingleton('checkout/session')->getLastOrderId(), '_secure' => true));
+        return $this->getUrl('sales/order/view/', array('order_id'=>AO::getSingleton('checkout/session')->getLastOrderId(), '_secure' => true));
     }
 
     /**
@@ -87,12 +87,12 @@ class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
     public function isOrderVisible()
     {
         if (!$this->_order) {
-            $this->_order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+            $this->_order = AO::getModel('sales/order')->load(AO::getSingleton('checkout/session')->getLastOrderId());
         }
         if (!$this->_order) {
             return false;
         }
-        return !in_array($this->_order->getState(), Mage::getSingleton('sales/order_config')->getInvisibleOnFrontStates());
+        return !in_array($this->_order->getState(), AO::getSingleton('sales/order_config')->getInvisibleOnFrontStates());
     }
 
 }

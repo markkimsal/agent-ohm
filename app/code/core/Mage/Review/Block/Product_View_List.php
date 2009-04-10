@@ -37,7 +37,7 @@ class Mage_Review_Block_Product_View_List extends Mage_Review_Block_Product_View
 
     public function getProductId()
     {
-        return Mage::registry('product')->getId();
+        return AO::registry('product')->getId();
     }
 
     protected function _prepareLayout()
@@ -62,6 +62,6 @@ class Mage_Review_Block_Product_View_List extends Mage_Review_Block_Product_View
 
     public function getReviewUrl($id)
     {
-        return Mage::getUrl('*/*/view', array('id' => $id));
+        return AO::getUrl('*/*/view', array('id' => $id));
     }
 }

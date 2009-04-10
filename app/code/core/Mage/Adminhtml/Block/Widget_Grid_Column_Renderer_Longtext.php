@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Longtext extends Mage_Adm
         if ($this->getColumn()->getTruncate()) {
             $truncateLength = $this->getColumn()->getTruncate();
         }
-        $text = Mage::helper('core/string')->truncate(parent::_getValue($row), $truncateLength);
+        $text = AO::helper('core/string')->truncate(parent::_getValue($row), $truncateLength);
         if ($this->getColumn()->getEscape()) {
         	$text = $this->htmlEscape($text);
         }

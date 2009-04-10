@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('checkout/agreement')
+        $collection = AO::getModel('checkout/agreement')
             ->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
     {
         $this->addColumn('agreement_id',
             array(
-                'header'=>Mage::helper('checkout')->__('ID'),
+                'header'=>AO::helper('checkout')->__('ID'),
                 'align' =>'right',
                 'width' => '50px',
                 'index' => 'agreement_id'
@@ -56,14 +56,14 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('name',
             array(
-                'header'=>Mage::helper('checkout')->__('Condition Name'),
+                'header'=>AO::helper('checkout')->__('Condition Name'),
                 'index' => 'name'
             )
         );
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('adminhtml')->__('Store View'),
+                'header'        => AO::helper('adminhtml')->__('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_all'     => true,
@@ -75,12 +75,12 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('adminhtml')->__('Status'),
+            'header'    => AO::helper('adminhtml')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                0 => Mage::helper('adminhtml')->__('Disabled'),
-                1 => Mage::helper('adminhtml')->__('Enabled')
+                0 => AO::helper('adminhtml')->__('Disabled'),
+                1 => AO::helper('adminhtml')->__('Enabled')
             ),
         ));
 

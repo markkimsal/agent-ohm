@@ -126,9 +126,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getStore()
     {
         if ($storeId = $this->getStoreId()) {
-            return Mage::app()->getStore($storeId);
+            return AO::app()->getStore($storeId);
         }
-        return Mage::app()->getStore();
+        return AO::app()->getStore();
     }
 
     /**
@@ -300,7 +300,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         foreach ($this->getItemsCollection() as $item) {
             $products[] = $item->getProductId();
         }
-        $productsCollection = Mage::getModel('catalog/product')->getCollection()
+        $productsCollection = AO::getModel('catalog/product')->getCollection()
             ->setStoreId($this->getStoreId());
 
         if (!empty($products)) {
@@ -324,7 +324,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('sales/order_config');
+        return AO::getSingleton('sales/order_config');
     }
 
     /**
@@ -456,7 +456,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function addStatusToHistory($status, $comment='', $isCustomerNotified = false)
     {
-        $status = Mage::getModel('sales/order_status_history')
+        $status = AO::getModel('sales/order_status_history')
             ->setStatus($status)
             ->setComment($comment)
             ->setIsCustomerNotified($isCustomerNotified);
@@ -473,14 +473,14 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function place()
     {
         $this->_placePayment();
-        Mage::dispatchEvent('sales_order_place_after', array('order'=>$this));
+        AO::dispatchEvent('sales_order_place_after', array('order'=>$this));
         return $this;
     }
 
     public function hold()
     {
         if (!$this->canHold()) {
-            Mage::throwException(Mage::helper('sales')->__('Hold action is not available'));
+            AO::throwException(AO::helper('sales')->__('Hold action is not available'));
         }
         $this->setHoldBeforeState($this->getState());
         $this->setHoldBeforeStatus($this->getStatus());
@@ -558,9 +558,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             if ($method = $this->getShippingMethod()) {
                 $data = explode('_', $method);
                 $carrierCode = $data[0];
-                $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model');
+                $className = AO::getStoreConfig('carriers/'.$carrierCode.'/model');
                 if ($className) {
-                    $carrierModel = Mage::getModel($className);
+                    $carrierModel = AO::getModel($className);
                 }
             }
             $this->setData('shipping_carrier', $carrierModel);
@@ -575,23 +575,23 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function sendNewOrderEmail()
     {
-        if (!Mage::helper('sales')->canSendNewOrderEmail($this->getStore()->getId())) {
+        if (!AO::helper('sales')->canSendNewOrderEmail($this->getStore()->getId())) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $paymentBlock = Mage::helper('payment')->getInfoBlock($this->getPayment())
+        $paymentBlock = AO::helper('payment')->getInfoBlock($this->getPayment())
             ->setIsSecureMode(true);
 
         $paymentBlock->getMethod()->setStore($this->getStore()->getId());
 
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = AO::getModel('core/email_template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStoreId());
+        $copyMethod = AO::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStoreId());
         if ($copyTo && $copyMethod == 'bcc') {
             foreach ($copyTo as $email) {
                 $mailTemplate->addBcc($email);
@@ -599,10 +599,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         if ($this->getCustomerIsGuest()) {
-            $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $this->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $this->getStoreId());
             $customerName = $this->getBillingAddress()->getName();
         } else {
-            $template = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $this->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $this->getStoreId());
             $customerName = $this->getCustomerName();
         }
 
@@ -625,7 +625,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
                 ->sendTransactional(
                     $template,
-                    Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $this->getStoreId()),
+                    AO::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $this->getStoreId()),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -648,36 +648,36 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function sendOrderUpdateEmail($notifyCustomer=true, $comment='')
     {
-        if (!Mage::helper('sales')->canSendOrderCommentEmail($this->getStore()->getId())) {
+        if (!AO::helper('sales')->canSendOrderCommentEmail($this->getStore()->getId())) {
             return $this;
         }
 
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
+        $copyMethod = AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $this->getStoreId());
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
 
         // set design parameters, required for email (remember current)
-        $currentDesign = Mage::getDesign()->setAllGetOld(array(
+        $currentDesign = AO::getDesign()->setAllGetOld(array(
             'store'   => $this->getStoreId(),
             'area'    => 'frontend',
-            'package' => Mage::getStoreConfig('design/package/name', $this->getStoreId()),
+            'package' => AO::getStoreConfig('design/package/name', $this->getStoreId()),
         ));
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
         $sendTo = array();
 
-        $mailTemplate = Mage::getModel('core/email_template');
+        $mailTemplate = AO::getModel('core/email_template');
 
         if ($this->getCustomerIsGuest()) {
-            $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $this->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $this->getStoreId());
             $customerName = $this->getBillingAddress()->getName();
         } else {
-            $template = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId());
+            $template = AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $this->getStoreId());
             $customerName = $this->getCustomerName();
         }
 
@@ -707,7 +707,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
                 ->sendTransactional(
                     $template,
-                    Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
+                    AO::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $this->getStoreId()),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -721,14 +721,14 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $translate->setTranslateInline(true);
 
         // revert current design
-        Mage::getDesign()->setAllGetOld($currentDesign);
+        AO::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }
 
     protected function _getEmails($configPath)
     {
-        $data = Mage::getStoreConfig($configPath, $this->getStoreId());
+        $data = AO::getStoreConfig($configPath, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
         }
@@ -740,7 +740,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = Mage::getResourceModel('sales/order_address_collection')
+            $this->_addresses = AO::getResourceModel('sales/order_address_collection')
                 ->addAttributeToSelect('*')
                 ->setOrderFilter($this->getId());
 
@@ -776,7 +776,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
-            $this->_items = Mage::getResourceModel('sales/order_item_collection')
+            $this->_items = AO::getResourceModel('sales/order_item_collection')
                 ->setOrderFilter($this->getId());
             if ($filterByTypes) {
                 $this->_items->filterByTypes($filterByTypes);
@@ -796,7 +796,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
     public function getItemsRandomCollection($limit=1)
     {
-        $collection = Mage::getModel('sales/order_item')->getCollection()
+        $collection = AO::getModel('sales/order_item')->getCollection()
             ->setOrderFilter($this->getId())
             ->setRandomOrder()
             ->setPageSize($limit);
@@ -806,11 +806,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $products[] = $item->getProductId();
         }
 
-        $productsCollection = Mage::getModel('catalog/product')
+        $productsCollection = AO::getModel('catalog/product')
             ->getCollection()
             ->addIdFilter($products)
             ->load();
-        Mage::getSingleton('catalog/product_visibility')
+        AO::getSingleton('catalog/product_visibility')
             ->addVisibleInSiteFilterToCollection($productsCollection);
         foreach ($collection as $item) {
             $item->setProduct($productsCollection->getItemById($item->getProductId()));
@@ -869,7 +869,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = Mage::getResourceModel('sales/order_payment_collection')
+            $this->_payments = AO::getResourceModel('sales/order_payment_collection')
                 ->addAttributeToSelect('*')
                 ->setOrderFilter($this->getId());
 
@@ -933,7 +933,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getStatusHistoryCollection($reload=false)
     {
         if (is_null($this->_statusHistory) || $reload) {
-            $this->_statusHistory = Mage::getResourceModel('sales/order_status_history_collection')
+            $this->_statusHistory = AO::getResourceModel('sales/order_status_history_collection')
                 ->addAttributeToSelect('*')
                 ->setOrderFilter($this->getId())
                 ->setOrder('created_at', 'desc')
@@ -1025,7 +1025,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getOrderCurrency()
     {
         if (is_null($this->_orderCurrency)) {
-            $this->_orderCurrency = Mage::getModel('directory/currency')->load($this->getOrderCurrencyCode());
+            $this->_orderCurrency = AO::getModel('directory/currency')->load($this->getOrderCurrencyCode());
         }
         return $this->_orderCurrency;
     }
@@ -1061,7 +1061,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getBaseCurrency()
     {
         if (is_null($this->_baseCurrency)) {
-            $this->_baseCurrency = Mage::getModel('directory/currency')->load($this->getBaseCurrencyCode());
+            $this->_baseCurrency = AO::getModel('directory/currency')->load($this->getBaseCurrencyCode());
         }
         return $this->_baseCurrency;
     }
@@ -1095,7 +1095,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getTotalDue()
     {
         $total = $this->getGrandTotal()-$this->getTotalPaid();
-        $total = Mage::app()->getStore($this->getStoreId())->roundPrice($total);
+        $total = AO::app()->getStore($this->getStoreId())->roundPrice($total);
         return max($total, 0);
     }
 
@@ -1107,7 +1107,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getBaseTotalDue()
     {
         $total = $this->getBaseGrandTotal()-$this->getBaseTotalPaid();
-        $total = Mage::app()->getStore($this->getStoreId())->roundPrice($total);
+        $total = AO::app()->getStore($this->getStoreId())->roundPrice($total);
         return max($total, 0);
     }
 
@@ -1130,7 +1130,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getInvoiceCollection()
     {
         if (is_null($this->_invoices)) {
-            $this->_invoices = Mage::getResourceModel('sales/order_invoice_collection')
+            $this->_invoices = AO::getResourceModel('sales/order_invoice_collection')
                 ->addAttributeToSelect('*')
                 ->setOrderFilter($this->getId());
 
@@ -1153,7 +1153,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if (empty($this->_shipments)) {
             if ($this->getId()) {
                 //TODO: add full name logic
-                $this->_shipments = Mage::getResourceModel('sales/order_shipment_collection')
+                $this->_shipments = AO::getResourceModel('sales/order_shipment_collection')
                     ->addAttributeToSelect('increment_id')
                     ->addAttributeToSelect('created_at')
                     ->addAttributeToSelect('total_qty')
@@ -1179,7 +1179,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
-                $this->_creditmemos = Mage::getResourceModel('sales/order_Creditmemo_collection')
+                $this->_creditmemos = AO::getResourceModel('sales/order_Creditmemo_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();
@@ -1198,7 +1198,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
-            $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection')
+            $this->_tracks = AO::getResourceModel('sales/order_shipment_track_collection')
                 ->addAttributeToSelect('*')
                 ->setOrderFilter($this->getId());
 
@@ -1258,7 +1258,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $customerName = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
         }
         else {
-            $customerName = Mage::helper('sales')->__('Guest');
+            $customerName = AO::helper('sales')->__('Guest');
         }
         return $customerName;
     }
@@ -1283,7 +1283,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('core')->formatDate($this->getCreatedAtStoreDate(), $format);
+        return AO::helper('core')->formatDate($this->getCreatedAtStoreDate(), $format);
     }
 
     public function getEmailCustomerNote()
@@ -1394,8 +1394,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
     public function getFullTaxInfo()
     {
-        $rates = Mage::getModel('sales/order_tax')->getCollection()->loadByOrder($this)->toArray();
-        return Mage::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
+        $rates = AO::getModel('sales/order_tax')->getCollection()->loadByOrder($this)->toArray();
+        return AO::getSingleton('tax/calculation')->reproduceProcess($rates['items']);
     }
 
     /**
@@ -1405,7 +1405,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function prepareInvoice($qtys = array())
     {
-        $convertor = Mage::getModel('sales/convert_order');
+        $convertor = AO::getModel('sales/convert_order');
         $invoice = $convertor->toInvoice($this);
         foreach ($this->getAllItems() as $orderItem) {
             if (!$orderItem->isDummy() && !$orderItem->getQtyToInvoice()) {
@@ -1441,7 +1441,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function prepareShipment($qtys = array())
     {
         $totalToShip = 0;
-        $convertor = Mage::getModel('sales/convert_order');
+        $convertor = AO::getModel('sales/convert_order');
         $shipment = $convertor->toShipment($this);
         foreach ($this->getAllItems() as $orderItem) {
             if (!$orderItem->isDummy() && !$orderItem->getQtyToShip()) {

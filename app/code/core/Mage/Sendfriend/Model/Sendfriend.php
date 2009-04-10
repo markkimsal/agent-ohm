@@ -48,11 +48,11 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
 
     public function toOptionArray()
     {
-        if(!$collection = Mage::registry('config_system_email_template')) {
-            $collection = Mage::getResourceModel('core/email_template_collection')
+        if(!$collection = AO::registry('config_system_email_template')) {
+            $collection = AO::getResourceModel('core/email_template_collection')
                 ->load();
 
-            Mage::register('config_system_email_template', $collection);
+            AO::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
         array_unshift($options, array('value'=>'', 'label'=>''));
@@ -61,13 +61,13 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
 
     public function send()
     {
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
         $errors = array();
 
-        $this->_emailModel = Mage::getModel('core/email_template');
+        $this->_emailModel = AO::getModel('core/email_template');
         $message = nl2br(htmlspecialchars($this->_sender['message']));
         $sender  = array(
             'name' => strip_tags($this->_sender['name']),
@@ -77,7 +77,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         foreach($this->_emails as $key => $email) {
             $this->_emailModel->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_SENDFRIEND_EMAIL_TEMPLATE),
+                AO::getStoreConfig(self::XML_PATH_SENDFRIEND_EMAIL_TEMPLATE),
                 $sender,
                 $email,
                 $this->_names[$key],
@@ -89,7 +89,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
                     'message'       => $message,
                     'sender_name'   => strip_tags($this->_sender['name']),
                     'sender_email'  => strip_tags($this->_sender['email']),
-                    'product_image' => Mage::helper('catalog/image')->init($this->_product, 'small_image')->resize(75),
+                    'product_image' => AO::helper('catalog/image')->init($this->_product, 'small_image')->resize(75),
                 )
             );
         }
@@ -102,7 +102,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-        $helper = Mage::helper('sendfriend');
+        $helper = AO::helper('sendfriend');
 
         if (empty($this->_sender['name'])) {
             $errors[] = $helper->__('Sender name can\'t be empty');
@@ -189,7 +189,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getMaxSendsToFriend()
     {
-        return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_per_hour'));
+        return max(0, (int) AO::getStoreConfig('sendfriend/email/max_per_hour'));
     }
 
     /**
@@ -199,7 +199,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getTemplate()
     {
-        return Mage::getStoreConfig('sendfriend/email/template');
+        return AO::getStoreConfig('sendfriend/email/template');
     }
 
     /**
@@ -209,7 +209,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getMaxRecipients()
     {
-        return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_recipients'));
+        return max(0, (int) AO::getStoreConfig('sendfriend/email/max_recipients'));
     }
 
     /**
@@ -219,11 +219,11 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function canEmailToFriend()
     {
-        if (!Mage::getStoreConfig('sendfriend/email/enabled')) {
+        if (!AO::getStoreConfig('sendfriend/email/enabled')) {
             return false;
         }
-        if (!Mage::getStoreConfig('sendfriend/email/allow_guest')
-            && !Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!AO::getStoreConfig('sendfriend/email/allow_guest')
+            && !AO::getSingleton('customer/session')->isLoggedIn()) {
             return false;
         }
         return true;
@@ -236,7 +236,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     private function _getSendToFriendCheckType()
     {
-        return max(0, (int) Mage::getStoreConfig('sendfriend/email/check_by'));
+        return max(0, (int) AO::getStoreConfig('sendfriend/email/check_by'));
     }
 
     /**
@@ -246,7 +246,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     private function _amountByCookies()
     {
         $newTimes = array();
-        $oldTimes = Mage::app()->getCookie()
+        $oldTimes = AO::app()->getCookie()
             ->get($this->_cookieName);
         if ($oldTimes){
             $oldTimes = explode(',', $oldTimes);
@@ -259,7 +259,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         $amount = count($newTimes);
 
         $newTimes[] = time();
-        Mage::app()->getCookie()
+        AO::app()->getCookie()
             ->set($this->_cookieName, implode(',', $newTimes), $this->_period);
 
         return $amount;
@@ -301,8 +301,8 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function register()
     {
-        if (!Mage::registry('send_to_friend_model')) {
-            Mage::register('send_to_friend_model', $this);
+        if (!AO::registry('send_to_friend_model')) {
+            AO::register('send_to_friend_model', $this);
         }
         return $this;
     }

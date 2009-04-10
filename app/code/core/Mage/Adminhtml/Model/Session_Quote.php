@@ -66,8 +66,8 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function __construct()
     {
         $this->init('adminhtml_quote');
-        if (Mage::app()->isSingleStoreMode()) {
-            $this->setStoreId(Mage::app()->getStore(true)->getId());
+        if (AO::app()->isSingleStoreMode()) {
+            $this->setStoreId(AO::app()->getStore(true)->getId());
         }
     }
 
@@ -79,14 +79,14 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getQuote()
     {
         if (is_null($this->_quote)) {
-            $this->_quote = Mage::getModel('sales/quote');
+            $this->_quote = AO::getModel('sales/quote');
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->load($this->getQuoteId());
             }
             elseif($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId(Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
+                    ->setCustomerGroupId(AO::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();
@@ -106,7 +106,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('customer/customer');
+            $this->_customer = AO::getModel('customer/customer');
             if ($customerId = $this->getCustomerId()) {
                 $this->_customer->load($customerId);
             }
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore($this->getStoreId());
+            $this->_store = AO::app()->getStore($this->getStoreId());
             if ($currencyId = $this->getCurrencyId()) {
                 $this->_store->setCurrentCurrencyCode($currencyId);
             }
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstrac
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('sales/order');
+            $this->_order = AO::getModel('sales/order');
             if ($this->getOrderId()) {
                 $this->_order->load($this->getOrderId());
             }

@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_Creditmemo_collection')
+        $collection = AO::getResourceModel('sales/order_Creditmemo_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
@@ -68,40 +68,40 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('sales')->__('Credit Memo #'),
+            'header' => AO::helper('sales')->__('Credit Memo #'),
             'width' => '120px',
             'index' => 'increment_id',
         ));
 
         /*$this->addColumn('billing_firstname', array(
-            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'header' => AO::helper('sales')->__('Bill to First name'),
             'index' => 'billing_firstname',
         ));
 
         $this->addColumn('billing_lastname', array(
-            'header' => Mage::helper('sales')->__('Bill to Last name'),
+            'header' => AO::helper('sales')->__('Bill to Last name'),
             'index' => 'billing_lastname',
         ));*/
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('sales')->__('Bill to Name'),
+            'header' => AO::helper('sales')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Created At'),
+            'header' => AO::helper('sales')->__('Created At'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('sales')->__('Status'),
+            'header'    => AO::helper('sales')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('sales/order_creditmemo')->getStates(),
+            'options'   => AO::getModel('sales/order_creditmemo')->getStates(),
         ));
 
         $this->addColumn('base_grand_total', array(
-            'header'    => Mage::helper('customer')->__('Refunded'),
+            'header'    => AO::helper('customer')->__('Refunded'),
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',
@@ -117,7 +117,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getRowUrl($row)
@@ -140,12 +140,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Credit Memos');
+        return AO::helper('sales')->__('Credit Memos');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Credit Memos');
+        return AO::helper('sales')->__('Order Credit Memos');
     }
 
     public function canShowTab()

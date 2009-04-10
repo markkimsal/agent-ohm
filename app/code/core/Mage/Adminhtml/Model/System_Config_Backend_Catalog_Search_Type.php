@@ -42,13 +42,13 @@ class Mage_Adminhtml_Model_System_Config_Backend_Catalog_Search_Type extends Mag
     protected function _afterSave()
     {
         $newValue = $this->getValue();
-        $oldValue = Mage::getConfig()->getNode(
+        $oldValue = AO::getConfig()->getNode(
             Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );
         if ($newValue != $oldValue) {
-            Mage::getSingleton('catalogsearch/fulltext')->resetSearchResults();
+            AO::getSingleton('catalogsearch/fulltext')->resetSearchResults();
         }
 
         return $this;

@@ -42,7 +42,7 @@ class Mage_Install_Model_Wizard
 
     public function __construct()
     {
-        $this->_steps = Mage::getSingleton('install/config')->getWizardSteps();
+        $this->_steps = AO::getSingleton('install/config')->getWizardSteps();
 
         foreach ($this->_steps as $index => $step) {
             $this->_steps[$index]->setUrl(
@@ -112,7 +112,7 @@ class Mage_Install_Model_Wizard
 
     protected function _getUrl($controller, $action)
     {
-        return Mage::getUrl($this->_getUrlPath($controller, $action));
+        return AO::getUrl($this->_getUrlPath($controller, $action));
     }
 
     /**

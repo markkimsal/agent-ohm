@@ -40,12 +40,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function getConditionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_condition_combine');
+        return AO::getModel('catalogrule/rule_condition_combine');
     }
 
     public function getActionsInstance()
     {
-        return Mage::getModel('catalogrule/rule_action_collection');
+        return AO::getModel('catalogrule/rule_action_collection');
     }
 
     public function getNow()
@@ -63,12 +63,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 
     public function toString($format='')
     {
-        $str = Mage::helper('catalogrule')->__("Name: %s", $this->getName()) ."\n"
-             . Mage::helper('catalogrule')->__("Start at: %s", $this->getStartAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
-             . Mage::helper('catalogrule')->__("Description: %s", $this->getDescription()) ."\n\n"
+        $str = AO::helper('catalogrule')->__("Name: %s", $this->getName()) ."\n"
+             . AO::helper('catalogrule')->__("Start at: %s", $this->getStartAt()) ."\n"
+             . AO::helper('catalogrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
+             . AO::helper('catalogrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
+             . AO::helper('catalogrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . AO::helper('catalogrule')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";
         return $str;
@@ -125,7 +125,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     */
     public function getResourceCollection()
     {
-        return Mage::getResourceModel('catalogrule/rule_collection');
+        return AO::getResourceModel('catalogrule/rule_collection');
     }
 
     protected function _afterSave()
@@ -137,7 +137,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getMatchingProductIds()
     {
         if (empty($this->_productIds)) {
-            $productCollection = Mage::getResourceModel('catalog/product_collection');
+            $productCollection = AO::getResourceModel('catalog/product_collection');
             $websiteIds = explode(',', $this->getWebsiteIds());
             if (!empty($websiteIds)) {
                 $productCollection->addWebsiteFilter($websiteIds);
@@ -147,12 +147,12 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
             $this->getConditions()->collectValidatedAttributes($productCollection);
 
             $this->_productIds = array();
-            Mage::getSingleton('core/resource_iterator')->walk(
+            AO::getSingleton('core/resource_iterator')->walk(
                 $productCollection->getSelect(),
                 array(array($this, 'callbackValidateProduct')),
                 array(
                     'attributes'=>$this->getCollectedAttributes(),
-                    'product'=>Mage::getModel('catalog/product'),
+                    'product'=>AO::getModel('catalog/product'),
                 )
             );
         }
@@ -178,7 +178,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
     public function applyToProduct($product, $websiteIds=null)
     {
         if (is_numeric($product)) {
-            $product = Mage::getModel('catalog/product')->load($product);
+            $product = AO::getModel('catalog/product')->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = explode(',', $this->getWebsiteIds());
@@ -194,7 +194,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
                 $ids = explode(',', $ids);
             }
 
-            $groupIds = Mage::getModel('customer/group')->getCollection()->getAllIds();
+            $groupIds = AO::getModel('customer/group')->getCollection()->getAllIds();
             $ids = array_intersect($ids, $groupIds);
             $this->setData('customer_group_ids', $ids);
             $this->setCustomerGroupChecked(true);

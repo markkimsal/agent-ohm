@@ -54,17 +54,17 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
 //    public function loadAggregatorOptions()
 //    {
 //        $this->setAggregatorOption(array(
-//            '1/all' => Mage::helper('rule')->__('MATCHING ALL'),
-//            '1/any' => Mage::helper('rule')->__('MATCHING ANY'),
-//            '0/all' => Mage::helper('rule')->__('NOT MATCHING ALL'),
-//            '0/any' => Mage::helper('rule')->__('NOT MATCHING ANY'),
+//            '1/all' => AO::helper('rule')->__('MATCHING ALL'),
+//            '1/any' => AO::helper('rule')->__('MATCHING ANY'),
+//            '0/all' => AO::helper('rule')->__('NOT MATCHING ALL'),
+//            '0/any' => AO::helper('rule')->__('NOT MATCHING ANY'),
 //        ));
 //        return $this;
 //    }
 
     public function loadAttributeOptions()
     {
-        $hlp = Mage::helper('salesrule');
+        $hlp = AO::helper('salesrule');
         $this->setAttributeOption(array(
             'qty'  => $hlp->__('total quantity'),
             'row_total'  => $hlp->__('total amount'),
@@ -75,14 +75,14 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('rule')->__('is'),
-            '!='  => Mage::helper('rule')->__('is not'),
-            '>='  => Mage::helper('rule')->__('equals or greater than'),
-            '<='  => Mage::helper('rule')->__('equals or less than'),
-            '>'   => Mage::helper('rule')->__('greater than'),
-            '<'   => Mage::helper('rule')->__('less than'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
+            '=='  => AO::helper('rule')->__('is'),
+            '!='  => AO::helper('rule')->__('is not'),
+            '>='  => AO::helper('rule')->__('equals or greater than'),
+            '<='  => AO::helper('rule')->__('equals or less than'),
+            '>'   => AO::helper('rule')->__('greater than'),
+            '<'   => AO::helper('rule')->__('less than'),
+            '()'  => AO::helper('rule')->__('is one of'),
+            '!()' => AO::helper('rule')->__('is not one of'),
         ));
         return $this;
     }
@@ -95,7 +95,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml().
-            Mage::helper('salesrule')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:",
+            AO::helper('salesrule')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:",
               $this->getAttributeElement()->getHtml(),
               $this->getOperatorElement()->getHtml(),
               $this->getValueElement()->getHtml(),

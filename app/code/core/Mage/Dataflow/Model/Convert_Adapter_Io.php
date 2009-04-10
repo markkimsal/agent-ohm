@@ -55,7 +55,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
                         $path = $this->_resource->getCleanPath($this->getVar('path'));
                     }
                     else {
-                        $baseDir = Mage::getBaseDir();
+                        $baseDir = AO::getBaseDir();
                         $path = $this->_resource->getCleanPath($baseDir . DS . trim($this->getVar('path'), DS));
                     }
 
@@ -64,47 +64,47 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
                     $realPath = realpath($path);
 
                     if (!$isError && $realPath === false) {
-                        $message = Mage::helper('dataflow')->__('Destination folder "%s" does not exist or not access to create', $ioConfig['path']);
-                        Mage::throwException($message);
+                        $message = AO::helper('dataflow')->__('Destination folder "%s" does not exist or not access to create', $ioConfig['path']);
+                        AO::throwException($message);
                     }
                     elseif (!$isError && !is_dir($realPath)) {
-                        $message = Mage::helper('dataflow')->__('Destination folder "%s" is not a directory', $realPath);
-                        Mage::throwException($message);
+                        $message = AO::helper('dataflow')->__('Destination folder "%s" is not a directory', $realPath);
+                        AO::throwException($message);
                     }
                     elseif (!$isError) {
                         if ($forWrite && !is_writeable($realPath)) {
-                            $message = Mage::helper('dataflow')->__('Destination folder "%s" is not a writeable', $realPath);
-                            Mage::throwException($message);
+                            $message = AO::helper('dataflow')->__('Destination folder "%s" is not a writeable', $realPath);
+                            AO::throwException($message);
                         }
                         else {
                             $ioConfig['path'] = rtrim($realPath, DS);
                         }
                     }
 
-//                    $baseDir = Mage::getBaseDir();
+//                    $baseDir = AO::getBaseDir();
 //                    $path = $this->_resource->getCleanPath($baseDir . '/' . trim($this->getVar('path'), '/'));
 //                    $basePath = $this->_resource->getCleanPath($baseDir);
 //
 //                    if (strpos($path, $basePath) !== 0) {
-//                        $message = Mage::helper('dataflow')->__('Access denied to destination folder "%s"', $path);
-//                        Mage::throwException($message);
+//                        $message = AO::helper('dataflow')->__('Access denied to destination folder "%s"', $path);
+//                        AO::throwException($message);
 //                    } else {
 //                        $this->_resource->checkAndCreateFolder($path);
 //                    }
 //
 //                    $realPath = realpath($path);
 //                    if (!$isError && $realPath === false) {
-//                        $message = Mage::helper('dataflow')->__('Destination folder "%s" does not exist or not access to create', $ioConfig['path']);
-//                        Mage::throwException($message);
+//                        $message = AO::helper('dataflow')->__('Destination folder "%s" does not exist or not access to create', $ioConfig['path']);
+//                        AO::throwException($message);
 //                    }
 //                    elseif (!$isError && !is_dir($realPath)) {
-//                        $message = Mage::helper('dataflow')->__('Destination folder "%s" is not a directory', $realPath);
-//                        Mage::throwException($message);
+//                        $message = AO::helper('dataflow')->__('Destination folder "%s" is not a directory', $realPath);
+//                        AO::throwException($message);
 //                    }
 //                    elseif (!$isError) {
 //                        if ($forWrite && !is_writeable($realPath)) {
-//                            $message = Mage::helper('dataflow')->__('Destination folder "%s" is not a writeable', $realPath);
-//                            Mage::throwException($message);
+//                            $message = AO::helper('dataflow')->__('Destination folder "%s" is not a writeable', $realPath);
+//                            AO::throwException($message);
 //                        }
 //                        else {
 //                            $ioConfig['path'] = rtrim($realPath, '/');
@@ -122,8 +122,8 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
             try {
                 $this->_resource->open($ioConfig);
             } catch (Exception $e) {
-                $message = Mage::helper('dataflow')->__('Error occured during file opening: "%s"', $e->getMessage());
-                Mage::throwException($message);
+                $message = AO::helper('dataflow')->__('Error occured during file opening: "%s"', $e->getMessage());
+                AO::throwException($message);
             }
         }
         return $this->_resource;
@@ -140,16 +140,16 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
             return $this;
         }
 
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = AO::getSingleton('dataflow/batch');
         $destFile = $batchModel->getIoAdapter()->getFile(true);
 
         $result = $this->getResource()->read($this->getVar('filename'), $destFile);
         $filename = $this->getResource()->pwd() . '/' . $this->getVar('filename');
         if (false === $result) {
-            $message = Mage::helper('dataflow')->__('Could not load file: "%s"', $filename);
-            Mage::throwException($message);
+            $message = AO::helper('dataflow')->__('Could not load file: "%s"', $filename);
+            AO::throwException($message);
         } else {
-            $message = Mage::helper('dataflow')->__('Loaded successfully: "%s"', $filename);
+            $message = AO::helper('dataflow')->__('Loaded successfully: "%s"', $filename);
             $this->addException($message);
         }
 
@@ -168,7 +168,7 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
             return $this;
         }
 
-        $batchModel = Mage::getSingleton('dataflow/batch');
+        $batchModel = AO::getSingleton('dataflow/batch');
 
         $dataFile = $batchModel->getIoAdapter()->getFile(true);
 
@@ -177,12 +177,12 @@ class Mage_Dataflow_Model_Convert_Adapter_Io extends Mage_Dataflow_Model_Convert
         $result   = $this->getResource()->write($filename, $dataFile, 0777);
 
         if (false === $result) {
-            $message = Mage::helper('dataflow')->__('Could not save file: %s', $filename);
-            Mage::throwException($message);
+            $message = AO::helper('dataflow')->__('Could not save file: %s', $filename);
+            AO::throwException($message);
         } else {
-            $message = Mage::helper('dataflow')->__('Saved successfully: "%s" [%d byte(s)]', $filename, $batchModel->getIoAdapter()->getFileSize());
+            $message = AO::helper('dataflow')->__('Saved successfully: "%s" [%d byte(s)]', $filename, $batchModel->getIoAdapter()->getFileSize());
             if ($this->getVar('link')) {
-                $message .= Mage::helper('dataflow')->__('<a href="%s" target="_blank">Link</a>', $this->getVar('link'));
+                $message .= AO::helper('dataflow')->__('<a href="%s" target="_blank">Link</a>', $this->getVar('link'));
             }
             $this->addException($message);
         }

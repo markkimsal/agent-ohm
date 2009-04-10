@@ -39,14 +39,14 @@ class Mage_Adminhtml_Block_Extensions_Config_Form extends Mage_Adminhtml_Block_W
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('cache_enable', array(
-            'legend'=>Mage::helper('adminhtml')->__('PEAR config')
+            'legend'=>AO::helper('adminhtml')->__('PEAR config')
         ));
 
         $fieldset->addField('preferred_state', 'select', array(
             'name'=>'preferred_state',
-            'label'=>Mage::helper('adminhtml')->__('Preferred state'),
+            'label'=>AO::helper('adminhtml')->__('Preferred state'),
             'value'=>$pear->getConfig()->get('preferred_state'),
-            'options'=>Mage::getModel('adminhtml/extension')->getStabilityOptions(),
+            'options'=>AO::getModel('adminhtml/extension')->getStabilityOptions(),
         ));
 
         $this->setForm($form);

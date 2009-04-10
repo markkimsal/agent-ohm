@@ -38,9 +38,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark extends Ma
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
 		$html = $this->_getHeaderHtml($element);
-        $renderer = Mage::getBlockSingleton('adminhtml/system_config_form_field');
+        $renderer = AO::getBlockSingleton('adminhtml/system_config_form_field');
 
-        $attributes = Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
+        $attributes = AO::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 
         foreach ($attributes as $key => $attribute) {
             /**
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark extends Ma
             $field = new Varien_Data_Form_Element_Text();
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm( $this->getForm() )
-                ->setLabel(Mage::helper('adminhtml')->__('Size for %s', $attribute['title']))
+                ->setLabel(AO::helper('adminhtml')->__('Size for %s', $attribute['title']))
                 ->setRenderer($renderer);
         	$html.= $field->toHtml();
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark extends Ma
             $field = new Varien_Data_Form_Element_Imagefile();
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm( $this->getForm() )
-                ->setLabel(Mage::helper('adminhtml')->__('Watermark File for %s', $attribute['title']))
+                ->setLabel(AO::helper('adminhtml')->__('Watermark File for %s', $attribute['title']))
                 ->setRenderer($renderer);
         	$html.= $field->toHtml();
 
@@ -69,9 +69,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark extends Ma
             $field = new Varien_Data_Form_Element_Select();
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm( $this->getForm() )
-                ->setLabel(Mage::helper('adminhtml')->__('Position of Watermark for %s', $attribute['title']))
+                ->setLabel(AO::helper('adminhtml')->__('Position of Watermark for %s', $attribute['title']))
                 ->setRenderer($renderer)
-                ->setValues(Mage::getSingleton('adminhtml/system_config_source_catalog_product_watermark_position')->toOptionArray());
+                ->setValues(AO::getSingleton('adminhtml/system_config_source_catalog_product_watermark_position')->toOptionArray());
         	$html.= $field->toHtml();
         }
 

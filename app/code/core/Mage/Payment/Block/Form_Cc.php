@@ -40,7 +40,7 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('payment/config');
+        return AO::getSingleton('payment/config');
     }
 
     /**

@@ -39,8 +39,8 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         $this->loadLayout();
 
         $this->_setActiveMenu('cms/poll');
-        $this->_addBreadcrumb(Mage::helper('poll')->__('Poll Manager'), Mage::helper('poll')->__('Poll Manager'), $this->getUrl('*/*/'));
-        $this->_addBreadcrumb(Mage::helper('poll')->__('Edit Poll Answer'), Mage::helper('poll')->__('Edit Poll Answer'));
+        $this->_addBreadcrumb(AO::helper('poll')->__('Poll Manager'), AO::helper('poll')->__('Poll Manager'), $this->getUrl('*/*/'));
+        $this->_addBreadcrumb(AO::helper('poll')->__('Edit Poll Answer'), AO::helper('poll')->__('Edit Poll Answer'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/poll_answer_edit'));
 
@@ -52,16 +52,16 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
         //print '@@';
         if ( $post = $this->getRequest()->getPost() ) {
             try {
-                $model = Mage::getModel('poll/poll_answer');
+                $model = AO::getModel('poll/poll_answer');
                 $model->setData($post)
                     ->setId($this->getRequest()->getParam('id'))
                     ->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('poll')->__('Answer was successfully saved'));
+                AO::getSingleton('adminhtml/session')->addSuccess(AO::helper('poll')->__('Answer was successfully saved'));
                 $this->_redirect('*/poll/edit', array('id' => $this->getRequest()->getParam('poll_id'), 'tab' => 'answers_section'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                AO::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -83,9 +83,9 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
             $data = Zend_Json_Decoder::decode($post['data']);
             try {
                 if( trim($data['answer_title']) == '' ) {
-                    throw new Exception(Mage::helper('poll')->__('Invalid Answer'));
+                    throw new Exception(AO::helper('poll')->__('Invalid Answer'));
                 }
-                $model = Mage::getModel('poll/poll_answer');
+                $model = AO::getModel('poll/poll_answer');
                 $model->setData($data)
                     ->save();
             } catch (Exception $e) {
@@ -103,7 +103,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 
         if ( $id = $this->getRequest()->getParam('id') ) {
             try {
-                $model = Mage::getModel('poll/poll_answer');
+                $model = AO::getModel('poll/poll_answer');
                 $model->setId(Zend_Json_Decoder::decode($id))
                     ->delete();
             } catch (Exception $e) {
@@ -112,14 +112,14 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
             }
         } else {
             $response->setError(1);
-            $response->setMessage(Mage::helper('poll')->__('Unable to find answer to delete.'));
+            $response->setMessage(AO::helper('poll')->__('Unable to find answer to delete.'));
         }
         $this->getResponse()->setBody( $response->toJson() );
     }
 
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('cms/poll');
+	    return AO::getSingleton('admin/session')->isAllowed('cms/poll');
     }
 
 }

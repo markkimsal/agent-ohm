@@ -95,7 +95,7 @@ class Mage_Tax_Model_Mysql4_Calculation_Rule_Collection extends Mage_Core_Model_
                 $field = 'cd.customer_tax_class_id';
                 break;
             default:
-                Mage::throwException('Invalid type supplied');
+                AO::throwException('Invalid type supplied');
         }
 
         $this->joinCalculationData('cd');

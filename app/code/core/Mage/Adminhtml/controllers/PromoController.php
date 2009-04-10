@@ -38,13 +38,13 @@ class Mage_Adminhtml_PromoController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('promo');
-        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Promotions'), Mage::helper('adminhtml')->__('Promo'));
+        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Promotions'), AO::helper('adminhtml')->__('Promo'));
         $this->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('promo');
+        return AO::getSingleton('admin/session')->isAllowed('promo');
     }
 
 }

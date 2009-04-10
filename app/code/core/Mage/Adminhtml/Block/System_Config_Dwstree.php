@@ -48,11 +48,11 @@ class Mage_Adminhtml_Block_System_Config_Dwstree extends Mage_Adminhtml_Block_Wi
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
 
-        $websitesConfig = Mage::getConfig()->getNode('websites');
-        $storesConfig = Mage::getConfig()->getNode('stores');
+        $websitesConfig = AO::getConfig()->getNode('websites');
+        $storesConfig = AO::getConfig()->getNode('stores');
 
         $this->addTab('default', array(
-            'label'  => Mage::helper('adminhtml')->__('Default Config'),
+            'label'  => AO::helper('adminhtml')->__('Default Config'),
             'url'    => $this->getUrl('*/*/*', array('section'=>$section)),
             'class' => 'default',
         ));

@@ -38,7 +38,7 @@ class Mage_CatalogIndex_Model_Indexer_Price extends Mage_CatalogIndex_Model_Inde
     protected function _construct()
     {
         $this->_init('catalogindex/indexer_price');
-        $this->_customerGroups = Mage::getModel('customer/group')->getCollection();
+        $this->_customerGroups = AO::getModel('customer/group')->getCollection();
     }
 
     public function createIndexData(Mage_Catalog_Model_Product $object, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)

@@ -51,7 +51,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Renderer_Conversion ext
 
     public function getStoreViews()
     {
-        $storeViews = Mage::app()->getStores();
+        $storeViews = AO::app()->getStores();
         return $storeViews;
     }
 
@@ -69,8 +69,8 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Renderer_Conversion ext
     {
         $storeViewsUrls = array();
         foreach ($this->getStoreViews() as $_store) {
-            Mage::helper('googleoptimizer')->setStoreId($_store->getId());
-            $storeViewsUrls[$_store->getCode()] = Mage::helper('googleoptimizer')->getConversionPagesUrl()->getData();
+            AO::helper('googleoptimizer')->setStoreId($_store->getId());
+            $storeViewsUrls[$_store->getCode()] = AO::helper('googleoptimizer')->getConversionPagesUrl()->getData();
         }
         $storeViewsUrls = new Varien_Object($storeViewsUrls);
         return $storeViewsUrls->toJson();

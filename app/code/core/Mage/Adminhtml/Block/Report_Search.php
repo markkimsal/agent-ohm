@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Report_Search extends Mage_Adminhtml_Block_Widget_Gri
     public function __construct()
     {
         $this->_controller = 'report_search';
-        $this->_headerText = Mage::helper('reports')->__('Search Terms');
+        $this->_headerText = AO::helper('reports')->__('Search Terms');
         parent::__construct();
         $this->_removeButton('add');
     }

@@ -36,7 +36,7 @@ class Mage_Adminhtml_Model_Search_Catalog extends Varien_Object
             return $this;
         }
 
-        $collection = Mage::helper('catalogSearch')->getQuery()->getResultCollection()
+        $collection = AO::helper('catalogSearch')->getQuery()->getResultCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('description')
             ->addSearchFilter($this->getQuery())
@@ -49,8 +49,8 @@ class Mage_Adminhtml_Model_Search_Catalog extends Varien_Object
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => 'Product',
                 'name'          => $product->getName(),
-                'description'   => Mage::helper('core/string')->substr($product->getDescription(), 0, 50),
-                'url'           => Mage::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id'=>$product->getId())),
+                'description'   => AO::helper('core/string')->substr($product->getDescription(), 0, 50),
+                'url'           => AO::helper('adminhtml')->getUrl('*/catalog_product/edit', array('id'=>$product->getId())),
             );
         }
 

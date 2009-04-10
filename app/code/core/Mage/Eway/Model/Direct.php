@@ -56,7 +56,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('payment/eway_direct/debug_flag');
+        return AO::getStoreConfig('payment/eway_direct/debug_flag');
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getUseccv()
     {
-        return Mage::getStoreConfig('payment/eway_direct/useccv');
+        return AO::getStoreConfig('payment/eway_direct/useccv');
     }
 
     /**
@@ -76,7 +76,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getApiGatewayUrl()
     {
-        $value = Mage::getStoreConfig('payment/eway_direct/api_url');
+        $value = AO::getStoreConfig('payment/eway_direct/api_url');
         if (!$value || $value === false) {
             return 'https://www.eway.com.au/gateway/xmlpayment.asp';
         }
@@ -90,7 +90,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getCustomerId()
     {
-        return Mage::getStoreConfig('payment/eway_direct/customer_id');
+        return AO::getStoreConfig('payment/eway_direct/customer_id');
     }
 
     /**
@@ -100,7 +100,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getAccepteCurrency()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/currency');
+        return AO::getStoreConfig('payment/' . $this->getCode() . '/currency');
     }
 
     public function validate()
@@ -113,7 +113,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
         if ($currency_code != $this->getAccepteCurrency()) {
-            Mage::throwException(Mage::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatible with eWAY'));
+            AO::throwException(AO::helper('eway')->__('Selected currency code ('.$currency_code.') is not compatible with eWAY'));
         }
         return $this;
     }
@@ -131,11 +131,11 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
-                $message = Mage::helper('eway')->__('There has been an error processing your payment.') . $e['message'];
+                $message = AO::helper('eway')->__('There has been an error processing your payment.') . $e['message'];
             } else {
-                $message = Mage::helper('eway')->__('There has been an error processing your payment. Please try later or contact us for help.');
+                $message = AO::helper('eway')->__('There has been an error processing your payment. Please try later or contact us for help.');
             }
-            Mage::throwException($message);
+            AO::throwException($message);
         }
         return $this;
     }
@@ -162,12 +162,12 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
             if ($item->getParentItem()) {
                 continue;
             }
-            if (Mage::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 10000) {
+            if (AO::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 10000) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        $invoiceDesc = Mage::helper('core/string')->substr($invoiceDesc, 0, -2);
+        $invoiceDesc = AO::helper('core/string')->substr($invoiceDesc, 0, -2);
 
         $address = clone $billing;
         $address->unsFirstname();
@@ -225,7 +225,7 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
     public function call($xml)
     {
         if ($this->getDebug()) {
-            $debug = Mage::getModel('eway/api_debug')
+            $debug = AO::getModel('eway/api_debug')
                 ->setRequestBody($xml)
                 ->save();
         }

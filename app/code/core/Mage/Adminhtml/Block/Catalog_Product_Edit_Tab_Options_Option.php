@@ -70,10 +70,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
     public function getProduct()
     {
         if (!$this->_productInstance) {
-            if ($product = Mage::registry('product')) {
+            if ($product = AO::registry('product')) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = Mage::getSingleton('catalog/product');
+                $this->_productInstance = AO::getSingleton('catalog/product');
             }
         }
 
@@ -101,17 +101,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete Option'),
+                    'label' => AO::helper('catalog')->__('Delete Option'),
                     'class' => 'delete delete-product-option',
                 ))
         );
 
         $path = 'global/catalog/product/options/custom/groups';
 
-        foreach (Mage::getConfig()->getNode($path)->children() as $group) {
+        foreach (AO::getConfig()->getNode($path)->children() as $group) {
             $this->setChild($group->getName() . '_option_type',
                 $this->getLayout()->createBlock(
-                    (string) Mage::getConfig()->getNode($path . '/' . $group->getName() . '/render')
+                    (string) AO::getConfig()->getNode($path . '/' . $group->getName() . '/render')
                 )
             );
         }
@@ -140,7 +140,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName().'[{{id}}][type]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_product_options_type')->toOptionArray());
+            ->setOptions(AO::getSingleton('adminhtml/system_config_source_product_options_type')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -153,7 +153,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{id}}][is_require]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+            ->setOptions(AO::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -175,7 +175,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
         if (!$this->_values) {
             $values = array();
-            $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int) AO::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
                 /* @var $option Mage_Catalog_Model_Product_Option */
 

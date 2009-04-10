@@ -88,7 +88,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         if(is_object($product)) {
             return $product->getGiftMessageAvailable();
         }
-        return Mage::getModel('catalog/product')->load($product)->getGiftMessageAvailable();
+        return AO::getModel('catalog/product')->load($product)->getGiftMessageAvailable();
     }
 
     /**
@@ -105,7 +105,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         if(is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
-                $giftMessage = Mage::getModel('giftmessage/message');
+                $giftMessage = AO::getModel('giftmessage/message');
 
                 switch ($message['type']) {
                     case 'quote':
@@ -184,7 +184,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     public function salesEventOrderToQuote($observer)
     {
         if($giftMessageId = $observer->getEvent()->getOrder()->getGiftMessageId()) {
-            $giftMessage = Mage::getModel('giftmessage/message')->load($giftMessageId)
+            $giftMessage = AO::getModel('giftmessage/message')->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $observer->getEvent()->getQuote()->setGiftMessageId($giftMessage->getId());
@@ -206,7 +206,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
         /* @var $orderItem Mage_Sales_Model_Order_Item */
         /* @var $quoteItem Mage_Sales_Model_Quote_Item */
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = Mage::getModel('giftmessage/message')->load($giftMessageId)
+            $giftMessage = AO::getModel('giftmessage/message')->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $quoteItem->setGiftMessageId($giftMessage->getId());

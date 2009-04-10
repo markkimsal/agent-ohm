@@ -78,7 +78,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getApi()
     {
-        return Mage::getSingleton('paypalUk/api_pro');
+        return AO::getSingleton('paypalUk/api_pro');
     }
 
     public function authorize(Varien_Object $payment, $amount)
@@ -99,7 +99,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcCidStatus($api->getCvv2Match());
          }else{
             $e = $api->getError();
-            Mage::throwException($e['message']?$e['message']:Mage::helper('paypalUk')->__('There has been an error processing your payment. Please try later or contact us for help.'));
+            AO::throwException($e['message']?$e['message']:AO::helper('paypalUk')->__('There has been an error processing your payment. Please try later or contact us for help.'));
          }
 
     }
@@ -130,7 +130,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcCidStatus($api->getCvv2Match());
          } else {
             $e = $api->getError();
-            Mage::throwException($e['message']?$e['message']:Mage::helper('paypalUk')->__('There has been an error processing your payment. Please try later or contact us for help.'));
+            AO::throwException($e['message']?$e['message']:AO::helper('paypalUk')->__('There has been an error processing your payment. Please try later or contact us for help.'));
          }
 
          return $this;
@@ -151,7 +151,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
          }
         } else {
             $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paypalUk')->__('Invalid transaction id'));
+            $payment->setStatusDescription(AO::helper('paypalUk')->__('Invalid transaction id'));
         }
         return $this;
     }
@@ -172,10 +172,10 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
                  $error = $e['message'];
              }
         } else {
-            $error = Mage::helper('paypalUk')->__('Invalid transaction id');
+            $error = AO::helper('paypalUk')->__('Invalid transaction id');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }
@@ -197,10 +197,10 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
              $error = $e['message'];
          }
         } else {
-            $error = Mage::helper('paypalUk')->__('Error in refunding the payment');
+            $error = AO::helper('paypalUk')->__('Error in refunding the payment');
         }
         if ($error !== false) {
-            Mage::throwException($error);
+            AO::throwException($error);
         }
         return $this;
     }

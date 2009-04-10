@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
     {
         $html = '';
 /*
-        if (Mage::registry('current_convert_profile')->getDirection()=='import') {
+        if (AO::registry('current_convert_profile')->getDirection()=='import') {
             $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
                 ->setLabel($this->__('Upload import file'))
                 ->setOnClick('showUpload()')
@@ -67,13 +67,13 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
 
     public function getProfileId()
     {
-        return Mage::registry('current_convert_profile')->getId();
+        return AO::registry('current_convert_profile')->getId();
     }
 
     public function getImportedFiles()
     {
         $files = array();
-        $path = Mage::app()->getConfig()->getTempVarDir().'/import';
+        $path = AO::app()->getConfig()->getTempVarDir().'/import';
         if (!is_readable($path)) {
             return $files;
         }
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Tab_Run extends Mage_Admi
 
     public function getParseType()
     {
-        $data = Mage::registry('current_convert_profile')->getGuiData();
+        $data = AO::registry('current_convert_profile')->getGuiData();
         if ($data)
         	return ($data['parse']['type'] == 'excel_xml') ? 'xml': $data['parse']['type'];
     }

@@ -127,7 +127,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
      */
     public function setWebsiteId($websiteId)
     {
-        $this->_website = Mage::app()->getWebsite($websiteId);
+        $this->_website = AO::app()->getWebsite($websiteId);
         return $this;
     }
 
@@ -139,7 +139,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = Mage::getModel('customer/customer')->load($customerId);
+        $this->_customer = AO::getModel('customer/customer')->load($customerId);
         return $this;
     }
 
@@ -201,7 +201,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     protected function _getPriceBlock()
     {
         if (is_null($this->_priceBlock)) {
-            $this->_priceBlock = Mage::helper('productalert')->createBlock('productalert/email_price');
+            $this->_priceBlock = AO::helper('productalert')->createBlock('productalert/email_price');
         }
         return $this->_priceBlock;
     }
@@ -214,7 +214,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     protected function _getStockBlock()
     {
         if (is_null($this->_stockBlock)) {
-            $this->_stockBlock = Mage::helper('productalert')->createBlock('productalert/email_stock');
+            $this->_stockBlock = AO::helper('productalert')->createBlock('productalert/email_stock');
         }
         return $this->_stockBlock;
     }
@@ -239,16 +239,16 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
         $storeId    = $this->_website->getDefaultGroup()->getDefaultStore()->getId();
         $storeCode  = $this->_website->getDefaultGroup()->getDefaultStore()->getCode();
 
-        if ($this->_type == 'price' && !Mage::getStoreConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId)) {
+        if ($this->_type == 'price' && !AO::getStoreConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId)) {
             return false;
-        } elseif ($this->_type == 'stock' && !Mage::getStoreConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId)) {
+        } elseif ($this->_type == 'stock' && !AO::getStoreConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId)) {
             return false;
         }
 
-        Mage::getDesign()->setStore($storeId);
-        Mage::getDesign()->setArea('frontend');
+        AO::getDesign()->setStore($storeId);
+        AO::getDesign()->setArea('frontend');
 
-        $translate = Mage::getSingleton('core/translate');
+        $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
@@ -259,7 +259,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
                 $this->_getPriceBlock()->addProduct($product);
             }
             $block = $this->_getPriceBlock()->toHtml();
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId);
+            $templateId = AO::getStoreConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId);
         }
         elseif ($this->_type == 'stock') {
             $this->_getStockBlock()->setStoreCode($storeCode);
@@ -268,19 +268,19 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
                 $this->_getStockBlock()->addProduct($product);
             }
             $block = $this->_getStockBlock()->toHtml();
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
+            $templateId = AO::getStoreConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
         }
         else {
             return false;
         }
 
-        Mage::getModel('core/email_template')
+        AO::getModel('core/email_template')
             ->setDesignConfig(array(
                 'area'  => 'frontend',
                 'store' => $storeId
             ))->sendTransactional(
                 $templateId,
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId),
+                AO::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId),
                 $this->_customer->getEmail(),
                 $this->_customer->getName(),
                 array(

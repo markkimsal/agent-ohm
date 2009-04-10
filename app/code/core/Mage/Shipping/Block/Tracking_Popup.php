@@ -68,7 +68,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
      */
     protected function _initOrder()
     {
-        $order = Mage::getModel('sales/order')->load($this->_order_id);
+        $order = AO::getModel('sales/order')->load($this->_order_id);
 
         if (!$order->getId()) {
             return false;
@@ -84,7 +84,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
      */
     protected function _initShipment()
     {
-        $ship = Mage::getModel('sales/order_shipment')->load($this->_ship_id);
+        $ship = AO::getModel('sales/order_shipment')->load($this->_ship_id);
 
         if (!$ship->getEntityId()) {
             return false;
@@ -156,7 +156,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     */
     public function getTrackingInfoByTrackId()
     {
-        $shipTrack[] = array(Mage::getModel('sales/order_shipment_track')->load($this->getTrackId())
+        $shipTrack[] = array(AO::getModel('sales/order_shipment_track')->load($this->getTrackId())
                        ->getNumberDetail());
         return $shipTrack;
     }
@@ -166,7 +166,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     */
     public function formatDeliveryDateTime($date,$time)
     {
-        return Mage::app()->getLocale()->date(strtotime($date.' '.$time),Zend_Date::TIMESTAMP)->toString('MM/dd/YYYY hh:mm a');
+        return AO::app()->getLocale()->date(strtotime($date.' '.$time),Zend_Date::TIMESTAMP)->toString('MM/dd/YYYY hh:mm a');
     }
 
     /*
@@ -174,7 +174,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     */
     public function formatDeliveryDate($date)
     {
-        return Mage::app()->getLocale()->date(strtotime($date),Zend_Date::TIMESTAMP)->toString('MM/dd/YYYY');
+        return AO::app()->getLocale()->date(strtotime($date),Zend_Date::TIMESTAMP)->toString('MM/dd/YYYY');
     }
 
     /*
@@ -185,12 +185,12 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
         if (!empty($date)) {
             $time = $date.' '.$time;
         }
-        return Mage::app()->getLocale()->date(strtotime($time),Zend_Date::TIMESTAMP)->toString('hh:mm a');
+        return AO::app()->getLocale()->date(strtotime($time),Zend_Date::TIMESTAMP)->toString('hh:mm a');
     }
 
     public function getStoreSupportEmail()
     {
-        return Mage::getStoreConfig('trans_email/ident_support/email');
+        return AO::getStoreConfig('trans_email/ident_support/email');
     }
 
     public function getContactUs()

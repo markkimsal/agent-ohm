@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Tax_Class_Edit_Form extends Mage_Adminhtml_Block_Widg
 
     protected function _prepareForm()
     {
-        $model  = Mage::registry('tax_class');
+        $model  = AO::registry('tax_class');
         $form   = new Varien_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
@@ -53,20 +53,20 @@ class Mage_Adminhtml_Block_Tax_Class_Edit_Form extends Mage_Adminhtml_Block_Widg
         $classType  = $this->getClassType();
 
         $this->setTitle($classType == 'CUSTOMER'
-            ? Mage::helper('cms')->__('Customer Tax Class Information')
-            : Mage::helper('cms')->__('Product Tax Class Information')
+            ? AO::helper('cms')->__('Customer Tax Class Information')
+            : AO::helper('cms')->__('Product Tax Class Information')
         );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => $classType == 'CUSTOMER'
-                ? Mage::helper('tax')->__('Customer Tax Class Information')
-                : Mage::helper('tax')->__('Product Tax Class Information')
+                ? AO::helper('tax')->__('Customer Tax Class Information')
+                : AO::helper('tax')->__('Product Tax Class Information')
         ));
 
         $fieldset->addField('class_name', 'text',
             array(
                 'name'  => 'class_name',
-                'label' => Mage::helper('tax')->__('Class Name'),
+                'label' => AO::helper('tax')->__('Class Name'),
                 'class' => 'required-entry',
                 'value' => $model->getClassName(),
                 'required' => true,

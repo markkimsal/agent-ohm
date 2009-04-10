@@ -38,7 +38,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
      */
     protected function _expireAjax()
     {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
+        if (!AO::getSingleton('checkout/session')->getQuote()->hasItems()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
             exit;
         }
@@ -51,7 +51,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function getExpress()
     {
-        return Mage::getSingleton('paypaluk/express');
+        return AO::getSingleton('paypaluk/express');
     }
 
     /**
@@ -96,7 +96,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function reviewAction()
     {
-        $payment = Mage::getSingleton('checkout/session')->getQuote()->getPayment();
+        $payment = AO::getSingleton('checkout/session')->getQuote()->getPayment();
         if ($payment && $payment->getPaypalPayerId()) {
             $this->loadLayout();
             $this->_initLayoutMessages('paypaluk/session');
@@ -113,7 +113,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function getReview()
     {
-        return Mage::getSingleton('paypaluk/express_review');
+        return AO::getSingleton('paypaluk/express_review');
     }
 
     /*
@@ -153,7 +153,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
         * 3- save order
         */
         $error_message = '';
-        $payPalSession = Mage::getSingleton('paypaluk/session');
+        $payPalSession = AO::getSingleton('paypaluk/session');
 
         try {
             $address = $this->getReview()->getQuote()->getShippingAddress();
@@ -161,7 +161,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
                 if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
                     $this->getReview()->saveShippingMethod($shippingMethod);
                  } else if (!$this->getReview()->getQuote()->getIsVirtual()) {
-                    $payPalSession->addError(Mage::helper('paypalUk')->__('Please select a valid shipping method'));
+                    $payPalSession->addError(AO::helper('paypalUk')->__('Please select a valid shipping method'));
                     $this->_redirect('paypaluk/express/review');
                     return;
                 }
@@ -169,9 +169,9 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
             $billing = $this->getReview()->getQuote()->getBillingAddress();
             $shipping = $this->getReview()->getQuote()->getShippingAddress();
 
-            $convertQuote = Mage::getModel('sales/convert_quote');
+            $convertQuote = AO::getModel('sales/convert_quote');
             /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-            $order = Mage::getModel('sales/order');
+            $order = AO::getModel('sales/order');
             /* @var $order Mage_Sales_Model_Order */
 
             if ($this->getReview()->getQuote()->isVirtual()) {
@@ -189,7 +189,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
             /**
               * We can use configuration data for declare new order status
             */
-            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getReview()->getQuote()));
+            AO::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getReview()->getQuote()));
 
             //customer checkout from shopping cart page
             if (!$order->getCustomerEmail()) {
@@ -269,23 +269,23 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function updateOrderAction() {
         $error_message = '';
-        $payPalSession = Mage::getSingleton('paypal/session');
+        $payPalSession = AO::getSingleton('paypal/session');
 
-        $order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+        $order = AO::getModel('sales/order')->load(AO::getSingleton('checkout/session')->getLastOrderId());
 
         if ($order->getId()) {
             $comment = null;
             if ($order->canInvoice() && $this->getExpress()->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
                 $invoice = $order->prepareInvoice();
                 $invoice->register()->capture();
-                Mage::getModel('core/resource_transaction')
+                AO::getModel('core/resource_transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder())
                     ->save();
 
                 $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $orderStatus = $this->getExpress()->getConfigData('order_status');
-                $comment = Mage::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId());
+                $comment = AO::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId());
             } else {
                 $this->getExpress()->placeOrder($order->getPayment());
 
@@ -297,14 +297,14 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
                 $orderStatus = $order->getConfig()->getStateDefaultStatus($orderState);
             }
             if (!$comment) {
-                $comment = Mage::helper('paypal')->__('Customer returned from PayPal site.');
+                $comment = AO::helper('paypal')->__('Customer returned from PayPal site.');
             }
 
             $order->setState($orderState, $orderStatus, $comment, $notified = true);
             $order->save();
 
-            Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false);
-            Mage::getSingleton('checkout/session')->getQuote()->save();
+            AO::getSingleton('checkout/session')->getQuote()->setIsActive(false);
+            AO::getSingleton('checkout/session')->getQuote()->save();
 
             $order->sendNewOrderEmail();
         }

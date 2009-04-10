@@ -34,7 +34,7 @@ class Mage_Paypal_Model_Express_Review
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -55,7 +55,7 @@ class Mage_Paypal_Model_Express_Review
      */
     public function getAddress($addressId)
     {
-        $address = Mage::getModel('customer/address')->load((int)$addressId);
+        $address = AO::getModel('customer/address')->load((int)$addressId);
         $address->explodeStreetAddress();
         if ($address->getRegionId()) {
             $address->setRegion($address->getRegionId());
@@ -74,7 +74,7 @@ class Mage_Paypal_Model_Express_Review
         if (empty($shippingMethod)) {
             $res = array(
                 'error' => -1,
-                'message' => Mage::helper('paypalUk')->__('Invalid data')
+                'message' => AO::helper('paypalUk')->__('Invalid data')
             );
             return $res;
         }
@@ -102,9 +102,9 @@ class Mage_Paypal_Model_Express_Review
             $shipping = $this->getQuote()->getShippingAddress();
 
 
-            $convertQuote = Mage::getModel('sales/convert_quote');
+            $convertQuote = AO::getModel('sales/convert_quote');
             /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-            $order = Mage::getModel('sales/order');
+            $order = AO::getModel('sales/order');
             /* @var $order Mage_Sales_Model_Order */
 
             if ($this->getQuote()->isVirtual()) {
@@ -124,7 +124,7 @@ class Mage_Paypal_Model_Express_Review
             /**
              * We can use configuration data for declare new order status
              */
-            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
+            AO::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getQuote()));
             #$order->save();
             $order->place();
             $order->save();

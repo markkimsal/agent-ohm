@@ -53,7 +53,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function isOptimizerActive($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_ENABLED, $store);
+        return AO::getStoreConfig(self::XML_PATH_ENABLED, $store);
     }
 
     /**
@@ -131,11 +131,11 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
          * )
          */
         $urls = array();
-        $choices = Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
+        $choices = AO::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')
             ->toOptionArray();
-        $url = Mage::getModel('core/url');
-        $session = Mage::getSingleton('core/session')->setSkipSessionIdFlag(true);
-        $store = Mage::app()->getStore($this->getStoreId());
+        $url = AO::getModel('core/url');
+        $session = AO::getSingleton('core/session')->setSkipSessionIdFlag(true);
+        $store = AO::app()->getStore($this->getStoreId());
         foreach ($choices as $choice) {
             $route = '';
             switch ($choice['value']) {
@@ -161,13 +161,13 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
             if ($route) {
                 $_query = array();
                 $_path = Mage_Core_Model_Url::XML_PATH_UNSECURE_URL;
-                if (Mage::getConfig()->shouldUrlBeSecure('/' . $route)) {
+                if (AO::getConfig()->shouldUrlBeSecure('/' . $route)) {
                     $_path = Mage_Core_Model_Url::XML_PATH_SECURE_URL;
                 }
                 $storeBaseUrl = $store->getConfig($_path);
                 $websiteBaseUrl = $store->getWebsite()->getConfig($_path);
-                $defaultBaseUrl = Mage::app()->getStore(0)->getConfig($_path);
-                if ($storeBaseUrl == $websiteBaseUrl && !Mage::app()->isSingleStoreMode()) {
+                $defaultBaseUrl = AO::app()->getStore(0)->getConfig($_path);
+                if ($storeBaseUrl == $websiteBaseUrl && !AO::app()->isSingleStoreMode()) {
                     $_query = array('__store' => $store->getCode());
                 }
                 $urls[$choice['value']] = $url->setStore($this->getStoreId())->getUrl($route, array('_secure' => true, '_query' => $_query));
@@ -187,7 +187,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     public function getProductAttributes(Varien_Object $product)
     {
         /** @var $product Mage_Catalog_Model_Product */
-        $allowedAttributes = array_keys(Mage::getConfig()->getNode(self::XML_PATH_ALLOWED_ATTRIBUTES)->asArray());
+        $allowedAttributes = array_keys(AO::getConfig()->getNode(self::XML_PATH_ALLOWED_ATTRIBUTES)->asArray());
         $productAttributes = $product->getAttributes();
         $optimizerAttributes = array();
         foreach ($productAttributes as $_attributeCode => $_attribute) {

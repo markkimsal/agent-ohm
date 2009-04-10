@@ -35,7 +35,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getFromDate()) {
-            $object->setFromDate(new Zend_Date(Mage::getModel('core/date')->gmtTimestamp()));
+            $object->setFromDate(new Zend_Date(AO::getModel('core/date')->gmtTimestamp()));
         }
         if ($object->getFromDate() instanceof Zend_Date) {
             $object->setFromDate($object->getFromDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));

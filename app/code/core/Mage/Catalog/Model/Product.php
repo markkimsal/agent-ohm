@@ -102,9 +102,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('core')->__('Model collection resource name is not defined'));
+            AO::throwException(AO::helper('core')->__('Model collection resource name is not defined'));
         }
-        $collection = Mage::getResourceModel($this->_resourceCollectionName);
+        $collection = AO::getResourceModel($this->_resourceCollectionName);
         $collection->setStoreId($this->getStoreId());
         return $collection;
     }
@@ -117,7 +117,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getUrlModel()
     {
         if ($this->_urlModel === null) {
-            $this->_urlModel = Mage::getSingleton('catalog/product_url');
+            $this->_urlModel = AO::getSingleton('catalog/product_url');
         }
         return $this->_urlModel;
     }
@@ -185,14 +185,14 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         if ($singleton === true) {
             if (is_null($this->_typeInstanceSingleton)) {
-                $this->_typeInstanceSingleton = Mage::getSingleton('catalog/product_type')
+                $this->_typeInstanceSingleton = AO::getSingleton('catalog/product_type')
                     ->factory($this, true);
             }
             return $this->_typeInstanceSingleton;
         }
 
         if ($this->_typeInstance === null) {
-            $this->_typeInstance = Mage::getSingleton('catalog/product_type')
+            $this->_typeInstance = AO::getSingleton('catalog/product_type')
                 ->factory($this);
         }
         return $this->_typeInstance;
@@ -224,7 +224,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getLinkInstance()
     {
         if (!$this->_linkInstance) {
-            $this->_linkInstance = Mage::getSingleton('catalog/product_link');
+            $this->_linkInstance = AO::getSingleton('catalog/product_link');
         }
         return $this->_linkInstance;
     }
@@ -247,7 +247,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getCategoryId()
     {
-        if ($category = Mage::registry('current_category')) {
+        if ($category = AO::registry('current_category')) {
             return $category->getId();
         }
         return false;
@@ -262,7 +262,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = Mage::getModel('catalog/category')->load($this->getCategoryId());
+            $category = AO::getModel('catalog/category')->load($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
@@ -273,7 +273,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if (is_string($ids)) {
             $ids = explode(',', $ids);
         } elseif (!is_array($ids)) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs'));
+            AO::throwException(AO::helper('catalog')->__('Invalid category IDs'));
         }
         foreach ($ids as $i=>$v) {
             if (empty($v)) {
@@ -334,7 +334,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $storeIds = array();
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
-                    $websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                    $websiteStores = AO::app()->getWebsite($websiteId)->getStoreIds();
                     $storeIds = array_merge($storeIds, $websiteStores);
                 }
             }
@@ -500,7 +500,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function cleanCache()
     {
-        Mage::app()->cleanCache('catalog_product_'.$this->getId());
+        AO::app()->cleanCache('catalog_product_'.$this->getId());
         return $this;
     }
 
@@ -511,7 +511,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getPriceModel()
     {
-        return Mage::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
+        return AO::getSingleton('catalog/product_type')->priceFactory($this->getTypeId());
     }
 
     /**
@@ -871,7 +871,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getMediaConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return AO::getSingleton('catalog/product_media_config');
     }
 
     /**
@@ -884,7 +884,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->getWebsiteIds();
         $this->getCategoryIds();
 
-        $newProduct = Mage::getModel('catalog/product')->setData($this->getData())
+        $newProduct = AO::getModel('catalog/product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setSku(null)
@@ -892,9 +892,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
             ->setId(null)
-            ->setStoreId(Mage::app()->getStore()->getId());
+            ->setStoreId(AO::app()->getStore()->getId());
 
-        Mage::dispatchEvent('catalog_model_product_duplicate', array('current_product'=>$this, 'new_product'=>$newProduct));
+        AO::dispatchEvent('catalog_model_product_duplicate', array('current_product'=>$this, 'new_product'=>$newProduct));
 
         /* @var $newProduct Mage_Catalog_Model_Product */
 
@@ -1019,7 +1019,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function getVisibleInCatalogStatuses()
     {
-        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+        return AO::getSingleton('catalog/product_status')->getVisibleStatusIds();
     }
 
     public function isVisibleInCatalog()
@@ -1029,7 +1029,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     public function getVisibleInSiteVisibilities()
     {
-        return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
+        return AO::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
     }
 
     public function isVisibleInSiteVisibility()
@@ -1044,7 +1044,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function isSalable()
     {
-        Mage::dispatchEvent('catalog_product_is_salable_before', array(
+        AO::dispatchEvent('catalog_product_is_salable_before', array(
             'product'   => $this
         ));
 
@@ -1054,7 +1054,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             'product'    => $this,
             'is_salable' => $salable
         ));
-        Mage::dispatchEvent('catalog_product_is_salable_after', array(
+        AO::dispatchEvent('catalog_product_is_salable_after', array(
             'product'   => $this,
             'salable'   => $object
         ));
@@ -1152,7 +1152,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function fromArray($data)
     {
         if (isset($data['stock_item'])) {
-            $stockItem = Mage::getModel('cataloginventory/stock_item')
+            $stockItem = AO::getModel('cataloginventory/stock_item')
                 ->setData($data['stock_item'])
                 ->setProduct($this);
             $this->setStockItem($stockItem);
@@ -1170,7 +1170,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function delete()
     {
         parent::delete();
-        Mage::dispatchEvent($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
+        AO::dispatchEvent($this->_eventPrefix.'_delete_after_done', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -1231,7 +1231,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getOptionInstance()
     {
         if (!$this->_optionInstance) {
-            $this->_optionInstance = Mage::getSingleton('catalog/product_option');
+            $this->_optionInstance = AO::getSingleton('catalog/product_option');
         }
         return $this->_optionInstance;
     }
@@ -1378,7 +1378,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $assigned = $this->getCategoryIds();
             foreach ($assigned as $one) {
                 $allCategories[] = $one;
-                $anchors = Mage::getModel('catalog/category')->load($one)->getAnchorsAbove();
+                $anchors = AO::getModel('catalog/category')->load($one)->getAnchorsAbove();
                 foreach ($anchors as $anchor) {
                     $allCategories[] = $anchor;
                 }
@@ -1406,7 +1406,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getImageUrl()
     {
-        return (string)Mage::helper('catalog/image')->init($this, 'image')->resize(265);
+        return (string)AO::helper('catalog/image')->init($this, 'image')->resize(265);
     }
 
     /**
@@ -1414,7 +1414,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getSmallImageUrl($width = 88, $height = 77)
     {
-        return (string)Mage::helper('catalog/image')->init($this, 'small_image')->resize($width, $height);
+        return (string)AO::helper('catalog/image')->init($this, 'small_image')->resize($width, $height);
     }
 
     /**
@@ -1422,7 +1422,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getThumbnailUrl($width = 75, $height = 75)
     {
-        return (string)Mage::helper('catalog/image')->init($this, 'thumbnail')->resize($width, $height);
+        return (string)AO::helper('catalog/image')->init($this, 'thumbnail')->resize($width, $height);
     }
 
     /**
@@ -1471,7 +1471,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function setOrigData($key=null, $data=null)
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if (AO::app()->getStore()->isAdmin()) {
             return parent::setOrigData($key, $data);
         }
 

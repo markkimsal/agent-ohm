@@ -30,9 +30,9 @@ class Mage_Core_AjaxController extends Mage_Core_Controller_Front_Action
         if ($translate = $this->getRequest()->getPost('translate')) {
             try {
                 if ($area = $this->getRequest()->getPost('area')) {
-                    Mage::getDesign()->setArea($area);
+                    AO::getDesign()->setArea($area);
                 }
-                Mage::getModel('core/translate_inline')->processAjaxPost($translate);
+                AO::getModel('core/translate_inline')->processAjaxPost($translate);
                 echo "{success:true}";
             }
             catch (Exception $e) {

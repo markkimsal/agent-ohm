@@ -104,7 +104,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
      */
     function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         parent::__construct($resource->getConnection('log_read'));
 
         $this->_visitorTable = $resource->getTableName('log/visitor');
@@ -116,7 +116,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         $this->_summaryTypeTable = $resource->getTableName('log/summary_type_table');
         $this->_quoteTable = $resource->getTableName('log/quote_table');
 
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('log/visitor'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('log/visitor'));
     }
 
     /**
@@ -142,7 +142,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
             ->where( 'visitor_table.last_visit_at >= ( ? - INTERVAL '.$minutes.' MINUTE)', now() );
 
 
-        $customersCollection = Mage::getModel('customer/customer')->getCollection();
+        $customersCollection = AO::getModel('customer/customer')->getCollection();
         /* @var $customersCollection Mage_Customer_Model_Entity_Customer_Collection */
         $firstname = $customersCollection->getAttribute('firstname');
         $lastname  = $customersCollection->getAttribute('lastname');
@@ -184,7 +184,7 @@ class Mage_Log_Model_Mysql4_Visitor_Collection extends Varien_Data_Collection_Db
         /**
          * @todo : need remove agregation logic
          */
-        $timeZoneOffset = Mage::getModel('core/date')->getGmtOffset();//Mage::app()->getLocale()->date()->getGmtOffset();
+        $timeZoneOffset = AO::getModel('core/date')->getGmtOffset();//AO::app()->getLocale()->date()->getGmtOffset();
         $this->_itemObjectClass = 'Varien_Object';
         $this->_setIdFieldName('summary_id');
 

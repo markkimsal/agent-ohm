@@ -39,11 +39,11 @@ class Mage_Install_Block_Begin extends Mage_Install_Block_Abstract
     
     public function getLanguages()
     {
-        return Mage::getSingleton('install/config')->getLanguages();
+        return AO::getSingleton('install/config')->getLanguages();
     }
     
     public function getPostUrl()
     {
-        return Mage::getUrl('install/wizard/beginPost');
+        return AO::getUrl('install/wizard/beginPost');
     }
 }

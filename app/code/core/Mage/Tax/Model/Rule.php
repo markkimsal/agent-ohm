@@ -45,14 +45,14 @@ class Mage_Tax_Model_Rule extends Mage_Core_Model_Abstract
 
     public function cleanCache()
     {
-        $ids = Mage::getModel('catalog/product')->getCollection()
+        $ids = AO::getModel('catalog/product')->getCollection()
             ->addAttributeToFilter('tax_class_id', $this->getTaxProductClassId())
             ->getAllIds();
         $tags = array();
         foreach ($ids as $id) {
             $tags[] = 'catalog_product_'.$id;
         }
-        Mage::app()->cleanCache($tags);
+        AO::app()->cleanCache($tags);
     }
 //    public function __construct($rule=false)
 //    {
@@ -62,7 +62,7 @@ class Mage_Tax_Model_Rule extends Mage_Core_Model_Abstract
 //
 //    public function getResource()
 //    {
-//        return Mage::getResourceModel('tax/rule');
+//        return AO::getResourceModel('tax/rule');
 //    }
 //
 //    public function load($ruleId)

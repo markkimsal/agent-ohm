@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
 
     protected function _prepareLayout()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = AO::registry('current_customer');
 
         $this->setChild('sales', $this->getLayout()->createBlock('adminhtml/customer_edit_tab_view_sales'));
 
@@ -56,23 +56,23 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
 
         /* @var $accordion Mage_Adminhtml_Block_Widget_Accordion */
         $accordion->addItem('lastOrders', array(
-            'title'       => Mage::helper('customer')->__('Recent Orders'),
+            'title'       => AO::helper('customer')->__('Recent Orders'),
             'ajax'        => true,
             'content_url' => $this->getUrl('*/*/lastOrders', array('_current' => true)),
         ));
 
         // add shopping cart block of each website
-        foreach (Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
-            $website = Mage::app()->getWebsite($websiteId);
+        foreach (AO::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+            $website = AO::app()->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = Mage::getModel('sales/quote')
+            $cartItemsCount = AO::getModel('sales/quote')
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)->getSize();
             // prepare title for cart
-            $title = Mage::helper('customer')->__('Shopping Cart - %d item(s)', $cartItemsCount);
+            $title = AO::helper('customer')->__('Shopping Cart - %d item(s)', $cartItemsCount);
             if (count($customer->getSharedWebsiteIds()) > 1) {
-                $title = Mage::helper('customer')->__('Shopping Cart of %1$s - %2$d item(s)',
+                $title = AO::helper('customer')->__('Shopping Cart of %1$s - %2$d item(s)',
                     $website->getName(), $cartItemsCount
                 );
             }
@@ -86,13 +86,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
         }
 
         // count wishlist items
-        $wishlistCount = Mage::getModel('wishlist/wishlist')->loadByCustomer($customer)
+        $wishlistCount = AO::getModel('wishlist/wishlist')->loadByCustomer($customer)
             ->getProductCollection()
             ->addStoreData()
             ->getSize();
         // add wishlist ajax accordion
         $accordion->addItem('wishlist', array(
-            'title' => Mage::helper('customer')->__('Wishlist - %d item(s)', $wishlistCount),
+            'title' => AO::helper('customer')->__('Wishlist - %d item(s)', $wishlistCount),
             'ajax'  => true,
             'content_url' => $this->getUrl('*/*/viewWishlist', array('_current' => true)),
         ));
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = Mage::registry('current_customer');
+            $this->_customer = AO::registry('current_customer');
         }
         return $this->_customer;
     }
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
-            return Mage::getModel('customer/group')
+            return AO::getModel('customer/group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -121,7 +121,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = Mage::getModel('log/customer')
+            $this->_customerLog = AO::getModel('log/customer')
                 ->load($this->getCustomer()->getId());
 
         }
@@ -130,13 +130,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
 
     public function getCreateDate()
     {
-        $date = Mage::app()->getLocale()->date($this->getCustomer()->getCreatedAtTimestamp());
+        $date = AO::app()->getLocale()->date($this->getCustomer()->getCreatedAtTimestamp());
         return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
     }
 
     public function getStoreCreateDate()
     {
-        $date = Mage::app()->getLocale()->storeDate(
+        $date = AO::app()->getLocale()->storeDate(
             $this->getCustomer()->getStoreId(),
             $this->getCustomer()->getCreatedAtTimestamp(),
             true
@@ -146,35 +146,35 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
 
     public function getStoreCreateDateTimezone()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())
+        return AO::app()->getStore($this->getCustomer()->getStoreId())
             ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE);
     }
 
     public function getLastLoginDate()
     {
         if ($date = $this->getCustomerLog()->getLoginAtTimestamp()) {
-            $date = Mage::app()->getLocale()->date($date);
+            $date = AO::app()->getLocale()->date($date);
             return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
         }
-        return Mage::helper('customer')->__('Never');
+        return AO::helper('customer')->__('Never');
     }
 
     public function getStoreLastLoginDate()
     {
         if ($date = $this->getCustomerLog()->getLoginAtTimestamp()) {
-            $date = Mage::app()->getLocale()->storeDate(
+            $date = AO::app()->getLocale()->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
             );
             return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
         }
-        return Mage::helper('customer')->__('Never');
+        return AO::helper('customer')->__('Never');
     }
 
     public function getStoreLastLoginDateTimezone()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())
+        return AO::app()->getStore($this->getCustomer()->getStoreId())
             ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE);
     }
 
@@ -183,26 +183,26 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
             strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
-            return Mage::helper('customer')->__('Offline');
+            return AO::helper('customer')->__('Offline');
         }
-        return Mage::helper('customer')->__('Online');
+        return AO::helper('customer')->__('Online');
     }
 
     public function getIsConfirmedStatus()
     {
         $this->getCustomer();
         if (!$this->_customer->getConfirmation()) {
-            return Mage::helper('customer')->__('Confirmed');
+            return AO::helper('customer')->__('Confirmed');
         }
         if ($this->_customer->isConfirmationRequired()) {
-            return Mage::helper('customer')->__('Not confirmed, cannot login');
+            return AO::helper('customer')->__('Not confirmed, cannot login');
         }
-        return Mage::helper('customer')->__('Not confirmed, can login');
+        return AO::helper('customer')->__('Not confirmed, can login');
     }
 
     public function getCreatedInStore()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())->getName();
+        return AO::app()->getStore($this->getCustomer()->getStoreId())->getName();
     }
 
     public function getStoreId()
@@ -217,7 +217,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View extends Mage_Adminhtml_Block_T
             $html = $address->format('html');
         }
         else {
-            $html = Mage::helper('customer')->__("Customer doesn't have primary billing address");
+            $html = AO::helper('customer')->__("Customer doesn't have primary billing address");
         }
         return $html;
     }

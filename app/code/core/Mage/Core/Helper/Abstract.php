@@ -60,7 +60,7 @@ abstract class Mage_Core_Helper_Abstract
     protected function _getRequest()
     {
         if (!$this->_request) {
-            $this->_request = Mage::app()->getRequest();
+            $this->_request = AO::app()->getRequest();
         }
         return $this->_request;
     }
@@ -73,7 +73,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _loadCache($id)
     {
-        return Mage::app()->loadCache($id);
+        return AO::app()->loadCache($id);
     }
 
     /**
@@ -86,7 +86,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
-        Mage::app()->saveCache($data, $id, $tags, $lifeTime);
+        AO::app()->saveCache($data, $id, $tags, $lifeTime);
         return $this;
     }
 
@@ -98,7 +98,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _removeCache($id)
     {
-        Mage::app()->removeCache($id);
+        AO::app()->removeCache($id);
         return $this;
     }
 
@@ -110,7 +110,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _cleanCache($tags=array())
     {
-        Mage::app()->cleanCache($tags);
+        AO::app()->cleanCache($tags);
         return $this;
     }
 
@@ -138,7 +138,7 @@ abstract class Mage_Core_Helper_Abstract
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getModuleName());
         array_unshift($args, $expr);
-        return Mage::app()->getTranslator()->translate($args);
+        return AO::app()->getTranslator()->translate($args);
     }
 
     /**
@@ -201,7 +201,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     protected function _getUrl($route, $params = array())
     {
-        return Mage::getUrl($route, $params);
+        return AO::getUrl($route, $params);
     }
 
     /**
@@ -246,7 +246,7 @@ abstract class Mage_Core_Helper_Abstract
     public function urlDecode($url)
     {
         $url = base64_decode(strtr($url, '-_,', '+/='));
-        return Mage::getSingleton('core/url')->sessionUrlVar($url);
+        return AO::getSingleton('core/url')->sessionUrlVar($url);
     }
 
     /**

@@ -42,7 +42,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         $checkout = $this->getData('checkout_session');
         if (is_null($checkout)) {
-            $checkout = Mage::getSingleton('checkout/session');
+            $checkout = AO::getSingleton('checkout/session');
             $this->setData('checkout_session', $checkout);
         }
         return $checkout;
@@ -77,7 +77,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
     {
         $customer = $this->getData('customer_session');
         if (is_null($customer)) {
-            $customer = Mage::getSingleton('customer/session');
+            $customer = AO::getSingleton('customer/session');
             $this->setData('customer_session', $customer);
         }
         return $customer;
@@ -132,7 +132,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
 
     protected function _createOrderFromAddress($address)
     {
-        $order = Mage::getModel('sales/order')->createFromQuoteAddress($address)
+        $order = AO::getModel('sales/order')->createFromQuoteAddress($address)
             ->setCustomerId($this->getCustomer()->getId())
             ->setGlobalCurrencyCode('USD')
             ->setBaseCurrencyCode('USD')
@@ -145,7 +145,7 @@ abstract class Mage_Checkout_Model_Type_Abstract extends Varien_Object
 
     protected function _emailOrderConfirmation($email, $name, $order)
     {
-        $mailer = Mage::getModel('core/email')
+        $mailer = AO::getModel('core/email')
             ->setTemplate('email/order.phtml')
             ->setType('html')
             ->setTemplateVar('order', $order)

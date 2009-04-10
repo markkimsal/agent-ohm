@@ -44,7 +44,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
             $productIds = array($productIds);
         }
 
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
 
         foreach ($productIds as &$productId) {
             if ($newId = $product->getIdBySku($productId)) {
@@ -52,7 +52,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
             }
         }
 
-        $collection = Mage::getModel('catalog/product')
+        $collection = AO::getModel('catalog/product')
             ->getCollection()
             ->setFlag('require_stock_items', true)
             ->addFieldToFilter('entity_id', array('in'=>$productIds));
@@ -75,7 +75,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
 
     public function update($productId, $data)
     {
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
 
         if ($newId = $product->getIdBySku($productId)) {
             $productId = $newId;

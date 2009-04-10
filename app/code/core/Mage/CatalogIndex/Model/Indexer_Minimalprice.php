@@ -39,8 +39,8 @@ class Mage_CatalogIndex_Model_Indexer_Minimalprice extends Mage_CatalogIndex_Mod
     protected function _construct()
     {
         $this->_init('catalogindex/indexer_minimalprice');
-        $this->_currencyModel = Mage::getModel('directory/currency');
-        $this->_customerGroups = Mage::getModel('customer/group')->getCollection();
+        $this->_currencyModel = AO::getModel('directory/currency');
+        $this->_customerGroups = AO::getModel('customer/group')->getCollection();
 
         return parent::_construct();
     }
@@ -49,7 +49,7 @@ class Mage_CatalogIndex_Model_Indexer_Minimalprice extends Mage_CatalogIndex_Mod
     {
         $data = $this->getData('tier_price_attribute');
         if (is_null($data)) {
-            $data = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'tier_price');
+            $data = AO::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'tier_price');
             $this->setData('tier_price_attribute', $data);
         }
         return $data;
@@ -59,7 +59,7 @@ class Mage_CatalogIndex_Model_Indexer_Minimalprice extends Mage_CatalogIndex_Mod
     {
         $data = $this->getData('price_attribute');
         if (is_null($data)) {
-            $data = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'price');
+            $data = AO::getModel('eav/entity_attribute')->loadByCode('catalog_product', 'price');
             $this->setData('price_attribute', $data);
         }
         return $data;

@@ -50,7 +50,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
      */
     public function getCookie()
     {
-        return Mage::app()->getCookie();
+        return AO::app()->getCookie();
     }
 
     /**
@@ -85,7 +85,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
      */
     public function isValidationByIp()
     {
-        return (1 == Mage::getStoreConfig(self::XML_PATH_POLL_CHECK_BY_IP));
+        return (1 == AO::getStoreConfig(self::XML_PATH_POLL_CHECK_BY_IP));
     }
 
     /**
@@ -187,7 +187,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
         	$pattern = '#^' . preg_quote($this->_pollCookieDefaultName, '#') . '(\d+)$#';
         	$match   = array();
         	if (preg_match($pattern, $cookieName, $match)) {
-        	    if ($match[1] != Mage::getSingleton('core/session')->getJustVotedPoll()) {
+        	    if ($match[1] != AO::getSingleton('core/session')->getJustVotedPoll()) {
         	        $idsArray[$match[1]] = $match[1];
         	    }
         	}

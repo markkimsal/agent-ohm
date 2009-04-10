@@ -41,20 +41,20 @@ class Mage_Adminhtml_Block_Customer_Group_Edit extends Mage_Adminhtml_Block_Widg
         $this->_objectId = 'id';
         $this->_controller = 'customer_group';
 
-        $this->_updateButton('save', 'label', Mage::helper('customer')->__('Save Customer Group'));
-        $this->_updateButton('delete', 'label', Mage::helper('customer')->__('Delete Customer Group'));
+        $this->_updateButton('save', 'label', AO::helper('customer')->__('Save Customer Group'));
+        $this->_updateButton('delete', 'label', AO::helper('customer')->__('Delete Customer Group'));
 
-        if(!Mage::registry('current_group')->getId() || Mage::registry('current_group')->usesAsDefault()) {
+        if(!AO::registry('current_group')->getId() || AO::registry('current_group')->usesAsDefault()) {
             $this->_removeButton('delete');
         }
     }
 
     public function getHeaderText()
     {
-        if(!is_null(Mage::registry('current_group')->getId())) {
-            return Mage::helper('customer')->__('Edit Customer Group "%s"', $this->htmlEscape(Mage::registry('current_group')->getCustomerGroupCode()));
+        if(!is_null(AO::registry('current_group')->getId())) {
+            return AO::helper('customer')->__('Edit Customer Group "%s"', $this->htmlEscape(AO::registry('current_group')->getCustomerGroupCode()));
         } else {
-            return Mage::helper('customer')->__('New Customer Group');
+            return AO::helper('customer')->__('New Customer Group');
         }
     }
 

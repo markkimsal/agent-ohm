@@ -35,7 +35,7 @@ class Mage_Sales_Model_Entity_Order_Creditmemo_Comment extends Mage_Eav_Model_En
 {
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('creditmemo_comment')->setConnection(
             $resource->getConnection('sales_read'),
             $resource->getConnection('sales_write')

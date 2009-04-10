@@ -78,7 +78,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
     protected function _loadWebsiteCollection()
     {
         $this->_websiteCollection = array();
-        foreach (Mage::getModel('core/website')->getCollection() as $website) {
+        foreach (AO::getModel('core/website')->getCollection() as $website) {
             $this->_websiteCollection[$website->getId()] = $website;
         }
         $this->_cleanupCollection();
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
     protected function _loadGroupCollection()
     {
         $this->_groupCollection = array();
-        foreach (Mage::getModel('core/store_group')->getCollection() as $group) {
+        foreach (AO::getModel('core/store_group')->getCollection() as $group) {
             $this->_groupCollection[$group->getId()] = $group;
         }
         $this->_cleanupCollection();
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
     protected function _loadStoreCollection()
     {
         $this->_storeCollection = array();
-        foreach (Mage::getModel('core/store')->getCollection() as $store) {
+        foreach (AO::getModel('core/store')->getCollection() as $store) {
             $this->_storeCollection[$store->getId()] = $store;
         }
         $this->_cleanupCollection();
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         }
         if ($all) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('All Store Views'),
+                'label' => AO::helper('adminhtml')->__('All Store Views'),
                 'value' => 0
             );
         }
@@ -197,7 +197,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         }
         if ($all && !$this->_forceDisableWebsitesAll()) {
             $options[] = array(
-                'label' => Mage::helper('adminhtml')->__('Admin'),
+                'label' => AO::helper('adminhtml')->__('Admin'),
                 'value' => 0
             );
         }

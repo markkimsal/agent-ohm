@@ -32,7 +32,7 @@ class Mage_Tax_Model_Rate_Type_Source
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getModel('tax/rate_type')->getCollection()
+            $this->_options = AO::getModel('tax/rate_type')->getCollection()
                 ->load()
                 ->toOptionArray();
             array_unshift($this->_options, array('value'=>'', 'label'=>''));

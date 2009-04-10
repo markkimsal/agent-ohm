@@ -36,7 +36,7 @@ class Mage_Customer_Model_Entity_Address_Attribute_Source_Region extends Mage_Ea
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('directory/region_collection')->load()->toOptionArray();
+            $this->_options = AO::getResourceModel('directory/region_collection')->load()->toOptionArray();
         }
         return $this->_options;
     }

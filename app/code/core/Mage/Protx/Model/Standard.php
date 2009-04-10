@@ -57,7 +57,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('protx/config');
+        return AO::getSingleton('protx/config');
     }
 
     /**
@@ -98,7 +98,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getSuccessURL ()
     {
-        return Mage::getUrl('protx/standard/successresponse');
+        return AO::getUrl('protx/standard/successresponse');
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     protected function getFailureURL ()
     {
-        return Mage::getUrl('protx/standard/failureresponse');
+        return AO::getUrl('protx/standard/failureresponse');
     }
 
     /**
@@ -177,7 +177,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            AO::throwException($this->_getHelper()->__('Cannot retrieve order object'));
         }
 
         $shipping = $order->getShippingAddress();
@@ -199,7 +199,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         // Up to 100 chars of free format description
         $description = $this->getConfig()->getDescription() != ''
                        ? $this->getConfig()->getDescription()
-                       : Mage::app()->getStore()->getName() . ' ' . ' payment';
+                       : AO::app()->getStore()->getName() . ' ' . ' payment';
         $queryPairs['Description'] = $description;
 
         $queryPairs['SuccessURL'] = $this->getSuccessURL();
@@ -249,7 +249,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $queryPairs['Apply3DSecure'] = '0';
 
         if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
+            AO::getModel('protx/api_debug')
                 ->setRequestBody($this->getProtxUrl()."\n".print_r($queryPairs,1))
                 ->save();
         }
@@ -279,7 +279,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-        return Mage::getUrl('protx/standard/redirect');
+        return AO::getUrl('protx/standard/redirect');
     }
 
     /**

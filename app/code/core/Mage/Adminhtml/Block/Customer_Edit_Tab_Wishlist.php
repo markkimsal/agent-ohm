@@ -44,12 +44,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
         $this->setUseAjax(true);
         $this->_parentTemplate = $this->getTemplate();
         $this->setTemplate('customer/tab/wishlist.phtml');
-        $this->setEmptyText(Mage::helper('customer')->__('No Items Found'));
+        $this->setEmptyText(AO::helper('customer')->__('No Items Found'));
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('wishlist/wishlist')->loadByCustomer(Mage::registry('current_customer'))
+        $collection = AO::getModel('wishlist/wishlist')->loadByCustomer(AO::registry('current_customer'))
             ->getProductCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
@@ -65,59 +65,59 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
     {
 
         /*$this->addColumn('product_id', array(
-            'header'    => Mage::helper('customer')->__('ID'),
+            'header'    => AO::helper('customer')->__('ID'),
             'index'     => 'product_id',
             'type'      => 'number',
             'width'     => '130px'
         ));*/
 
         $this->addColumn('product_name', array(
-            'header'    => Mage::helper('customer')->__('Product name'),
+            'header'    => AO::helper('customer')->__('Product name'),
             'index'     => 'name'
         ));
 
         $this->addColumn('description', array(
-            'header'    => Mage::helper('customer')->__('User description'),
+            'header'    => AO::helper('customer')->__('User description'),
             'index'     => 'description',
             'renderer'  => 'adminhtml/customer_edit_tab_wishlist_grid_renderer_description'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
-                'header'    => Mage::helper('customer')->__('Added From'),
+                'header'    => AO::helper('customer')->__('Added From'),
                 'index'     => 'store_name',
                 'type'      => 'store'
             ));
         }
 
         $this->addColumn('visible_in', array(
-            'header'    => Mage::helper('customer')->__('Visible In'),
+            'header'    => AO::helper('customer')->__('Visible In'),
             'index'     => 'store_id',
             'type'      => 'store'
         ));
 
         $this->addColumn('added_at', array(
-            'header'    => Mage::helper('customer')->__('Date Added'),
+            'header'    => AO::helper('customer')->__('Date Added'),
             'index'     => 'added_at',
             'gmtoffset' => true,
             'type'      => 'date'
         ));
 
         $this->addColumn('days', array(
-            'header'    => Mage::helper('customer')->__('Days in Wishlist'),
+            'header'    => AO::helper('customer')->__('Days in Wishlist'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number'
         ));
 
         $this->addColumn('action', array(
-            'header'    => Mage::helper('customer')->__('Action'),
+            'header'    => AO::helper('customer')->__('Action'),
             'index'     => 'wishlist_item_id',
             'type'      => 'action',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
                 array(
-                    'caption' =>  Mage::helper('customer')->__('Delete'),
+                    'caption' =>  AO::helper('customer')->__('Delete'),
                     'url'     =>  '#',
                     'onclick' =>  'return wishlistControl.removeItem($wishlist_item_id);'
                 )
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
 
     public function getGridParentHtml()
     {
-        $templateName = Mage::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
+        $templateName = AO::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
         return $this->fetchView($templateName);
     }
 

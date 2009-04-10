@@ -155,7 +155,7 @@ function destruct($object)
  */
 function __()
 {
-    return Mage::app()->getTranslator()->translate(func_get_args());
+    return AO::app()->getTranslator()->translate(func_get_args());
 }
 
 /**
@@ -326,7 +326,7 @@ function mageSendErrorHeader()
     if (!isset($_SERVER['SCRIPT_NAME'])) {
         return;
     }
-    $action = Mage::app()->getRequest()->getBasePath()."bugreport.php";
+    $action = AO::app()->getRequest()->getBasePath()."bugreport.php";
     echo '<form id="error_report" method="post" style="display:none" action="'.$action.'"><textarea name="error">';
 }
 

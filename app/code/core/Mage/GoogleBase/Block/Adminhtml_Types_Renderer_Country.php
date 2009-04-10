@@ -44,6 +44,6 @@ class Mage_GoogleBase_Block_Adminhtml_Types_Renderer_Country
     public function render(Varien_Object $row)
     {
         $iso = $row->getData($this->getColumn()->getIndex());
-        return Mage::getSingleton('googlebase/config')->getCountryInfo($iso, 'name');
+        return AO::getSingleton('googlebase/config')->getCountryInfo($iso, 'name');
     }
 }

@@ -39,14 +39,14 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
 
     protected function _toHtml()
     {
-        if( !Mage::registry('poll_data') ) {
+        if( !AO::registry('poll_data') ) {
             $this->assign('answers', false);
             return parent::_toHtml();
         }
 
-        $collection = Mage::getModel('poll/poll_answer')
+        $collection = AO::getModel('poll/poll_answer')
             ->getResourceCollection()
-            ->addPollFilter(Mage::registry('poll_data')->getId())
+            ->addPollFilter(AO::registry('poll_data')->getId())
             ->load();
         $this->assign('answers', $collection);
 
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
         $this->setChild('deleteButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('poll')->__('Delete'),
+                    'label'     => AO::helper('poll')->__('Delete'),
                     'onclick'   => 'answer.del(this)',
                     'class' => 'delete f-right'
                 ))
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
         $this->setChild('addButton',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('poll')->__('Add New Answer'),
+                    'label'     => AO::helper('poll')->__('Add New Answer'),
                     'onclick'   => 'answer.add(this)',
                     'class' => 'add'
                 ))

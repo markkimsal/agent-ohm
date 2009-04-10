@@ -37,7 +37,7 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Configurable extends Mage_CatalogIndex
      * @param array $additionalWheres
      */
     protected function _prepareLinkFetchSelect($store, $table, $idField, $whereField, $id, $additionalWheres = array()) {
-        $statusAttribute = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'status');
+        $statusAttribute = AO::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'status');
 
         $this->_getLinkSelect()
             ->joinLeft(array('s'=>$this->getTable('cataloginventory/stock_item')), "s.product_id=l.{$idField}", array())

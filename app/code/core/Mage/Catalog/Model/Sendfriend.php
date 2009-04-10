@@ -43,11 +43,11 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
 
     public function toOptionArray()
     {
-        if(!$collection = Mage::registry('config_system_email_template')) {
-            $collection = Mage::getResourceModel('core/email_template_collection')
+        if(!$collection = AO::registry('config_system_email_template')) {
+            $collection = AO::getResourceModel('core/email_template_collection')
                 ->load();
 
-            Mage::register('config_system_email_template', $collection);
+            AO::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
         array_unshift($options, array('value'=>'', 'label'=>''));
@@ -58,12 +58,12 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
     {
         $errors = array();
 
-        $this->_emailModel = Mage::getModel('core/email_template');
+        $this->_emailModel = AO::getModel('core/email_template');
 
         $this->_emailModel->load($this->getTemplate());
         if (!$this->_emailModel->getId()) {
-            Mage::throwException(
-               Mage::helper('catalog')
+            AO::throwException(
+               AO::helper('catalog')
                    ->__('Invalid transactional email code')
             );
         }
@@ -78,8 +78,8 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         }
 
         if (count($errors)) {
-            Mage::throwException(
-                Mage::helper('catalog')
+            AO::throwException(
+                AO::helper('catalog')
                     ->__('Email to %s was not sent', implode(', ', $errors))
             );
         }
@@ -88,8 +88,8 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
     public function canSend()
     {
         if (!$this->canEmailToFriend()) {
-            Mage::throwException(
-                Mage::helper('catalog')
+            AO::throwException(
+                AO::helper('catalog')
                     ->__('You cannot email this product to a friend')
             );
         }
@@ -101,30 +101,30 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         }
 
         if ($amount >= $this->getMaxSendsToFriend()){
-            Mage::throwException(
-                Mage::helper('catalog')
+            AO::throwException(
+                AO::helper('catalog')
                     ->__('You have exceeded limit of %d sends in an hour', $this->getMaxSendsToFriend())
             );
         }
 
         $maxRecipients = $this->getMaxRecipients();
         if (count($this->_emails) > $maxRecipients) {
-            Mage::throwException(
-                Mage::helper('catalog')
+            AO::throwException(
+                AO::helper('catalog')
                     ->__('You cannot send more than %d emails at a time', $this->getMaxRecipients())
             );
         }
 
         if (count($this->_emails) < 1) {
-            Mage::throwException(
-                Mage::helper('catalog')
+            AO::throwException(
+                AO::helper('catalog')
                     ->__('You have to specify at least one recipient')
             );
         }
 
         if (!$this->getTemplate()){
-            Mage::throwException(
-                Mage::helper('catalog')
+            AO::throwException(
+                AO::helper('catalog')
                     ->__('Email template is not specified by administrator')
             );
         }
@@ -164,7 +164,7 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getMaxSendsToFriend()
     {
-        return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_per_hour'));
+        return max(0, (int) AO::getStoreConfig('sendfriend/email/max_per_hour'));
     }
 
     /**
@@ -174,7 +174,7 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getTemplate()
     {
-        return Mage::getStoreConfig('sendfriend/email/template');
+        return AO::getStoreConfig('sendfriend/email/template');
     }
 
     /**
@@ -184,7 +184,7 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getMaxRecipients()
     {
-        return max(0, (int) Mage::getStoreConfig('sendfriend/email/max_recipients'));
+        return max(0, (int) AO::getStoreConfig('sendfriend/email/max_recipients'));
     }
 
     /**
@@ -194,11 +194,11 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function canEmailToFriend()
     {
-        if (!Mage::getStoreConfig('sendfriend/email/enabled')) {
+        if (!AO::getStoreConfig('sendfriend/email/enabled')) {
             return false;
         }
-        if (!Mage::getStoreConfig('sendfriend/email/allow_guest')
-            && !Mage::getSingleton('customer/session')->isLoggedIn()) {
+        if (!AO::getStoreConfig('sendfriend/email/allow_guest')
+            && !AO::getSingleton('customer/session')->isLoggedIn()) {
             return false;
         }
         return true;
@@ -230,13 +230,13 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     private function _getSendToFriendCheckType()
     {
-        return max(0, (int) Mage::getStoreConfig('sendfriend/email/check_by'));
+        return max(0, (int) AO::getStoreConfig('sendfriend/email/check_by'));
     }
 
     private function _amountByCookies()
     {
         $newTimes = array();
-        $oldTimes = Mage::app()->getCookie()->get($this->_cookieName);
+        $oldTimes = AO::app()->getCookie()->get($this->_cookieName);
         if ($oldTimes){
             $oldTimes = explode(',', $oldTimes);
             foreach ($oldTimes as $time){
@@ -248,7 +248,7 @@ class Mage_Catalog_Model_Sendfriend extends Mage_Core_Model_Abstract
         $amount = count($newTimes);
 
         $newTimes[] = time();
-        Mage::app()->getCookie()
+        AO::app()->getCookie()
             ->set($this->_cookieName, implode(',', $newTimes), $this->_period);
 
         return $amount;

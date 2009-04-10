@@ -89,7 +89,7 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
         }
 
         if (!$storeId) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = AO::app()->getStore()->getId();
         }
 
         $this->getResource()->loadByEntityType($this, $storeId);
@@ -153,7 +153,7 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
         }
 
         if (false === $this->_validate()) {
-            throw new Exception(Mage::helper('googleoptimizer')->__('All fields of script types have to be filled.'));
+            throw new Exception(AO::helper('googleoptimizer')->__('All fields of script types have to be filled.'));
         }
 
         // use default scripts, need to delete scripts for current store

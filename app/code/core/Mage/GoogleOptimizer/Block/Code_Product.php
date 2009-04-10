@@ -42,7 +42,7 @@ class Mage_GoogleOptimizer_Block_Code_Product extends Mage_GoogleOptimizer_Block
 
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return AO::registry('current_product');
     }
 
     public function getGoogleOptimizer()

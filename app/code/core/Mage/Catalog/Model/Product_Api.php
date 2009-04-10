@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function items($filters = null, $store = null)
     {
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = AO::getModel('catalog/product')->getCollection()
             ->setStoreId($this->_getStoreId($store))
             ->addAttributeToSelect('name');
 
@@ -139,7 +139,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             $this->_fault('data_invalid');
         }
 
-        $product = Mage::getModel('catalog/product');
+        $product = AO::getModel('catalog/product');
         /* @var $product Mage_Catalog_Model_Product */
         $product->setStoreId($this->_getStoreId($store))
             ->setAttributeSetId($set)
@@ -233,7 +233,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             foreach ($productData['websites'] as &$website) {
                 if (is_string($website)) {
                     try {
-                        $website = Mage::app()->getWebsite($website)->getId();
+                        $website = AO::app()->getWebsite($website)->getId();
                     } catch (Exception $e) { }
                 }
             }

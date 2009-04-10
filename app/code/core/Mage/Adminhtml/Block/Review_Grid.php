@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareCollection()
     {
-        $model = Mage::getModel('review/review');
+        $model = AO::getModel('review/review');
         $collection = $model->getProductCollection();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             $collection->addCustomerFilter($this->getCustomerId());
         }
 
-        if (Mage::registry('usePendingFilter') === true) {
+        if (AO::registry('usePendingFilter') === true) {
             $collection->addStatusFilter($model->getPendingStatus());
         }
 
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
     protected function _prepareColumns()
     {
-        $statuses = Mage::getModel('review/review')
+        $statuses = AO::getModel('review/review')
             ->getStatusCollection()
             ->load()
             ->toOptionArray();
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $statuses = $tmpArr;
 
         $this->addColumn('review_id', array(
-            'header'        => Mage::helper('review')->__('ID'),
+            'header'        => AO::helper('review')->__('ID'),
             'align'         => 'right',
             'width'         => '50px',
             'filter_index'  => 'rt.review_id',
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('created_at', array(
-            'header'        => Mage::helper('review')->__('Created On'),
+            'header'        => AO::helper('review')->__('Created On'),
             'align'         => 'left',
             'type'          => 'datetime',
             'width'         => '100px',
@@ -96,9 +96,9 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'         => 'created_at',
         ));
 
-        if( !Mage::registry('usePendingFilter') ) {
+        if( !AO::registry('usePendingFilter') ) {
             $this->addColumn('status', array(
-                'header'        => Mage::helper('review')->__('Status'),
+                'header'        => AO::helper('review')->__('Status'),
                 'align'         => 'left',
                 'type'          => 'options',
                 'options'       => $statuses,
@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
 
         $this->addColumn('title', array(
-            'header'        => Mage::helper('review')->__('Title'),
+            'header'        => AO::helper('review')->__('Title'),
             'align'         => 'left',
             'width'         => '100px',
             'filter_index'  => 'rdt.title',
@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('nickname', array(
-            'header'        => Mage::helper('review')->__('Nickname'),
+            'header'        => AO::helper('review')->__('Nickname'),
             'align'         => 'left',
             'width'         => '100px',
             'filter_index'  => 'rdt.nickname',
@@ -131,7 +131,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('detail', array(
-            'header'        => Mage::helper('review')->__('Review'),
+            'header'        => AO::helper('review')->__('Review'),
             'align'         => 'left',
             'index'         => 'detail',
             'filter_index'  => 'rdt.detail',
@@ -144,9 +144,9 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!AO::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'    => Mage::helper('review')->__('Visible In'),
+                'header'    => AO::helper('review')->__('Visible In'),
                 'index'     => 'stores',
                 'type'      => 'store',
                 'store_view' => true,
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         }
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('review')->__('Type'),
+            'header'    => AO::helper('review')->__('Type'),
             'type'      => 'select',
             'index'     => 'type',
             'filter'    => 'adminhtml/review_grid_filter_type',
@@ -162,14 +162,14 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('review')->__('Product Name'),
+            'header'    => AO::helper('review')->__('Product Name'),
             'align'     =>'left',
             'type'      => 'text',
             'index'     => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('review')->__('Product SKU'),
+            'header'    => AO::helper('review')->__('Product SKU'),
             'align'     => 'right',
             'type'      => 'text',
             'width'     => '50px',
@@ -178,19 +178,19 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('adminhtml')->__('Action'),
+                'header'    => AO::helper('adminhtml')->__('Action'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getReviewId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('adminhtml')->__('Edit'),
+                        'caption' => AO::helper('adminhtml')->__('Edit'),
                         'url'     => array(
                             'base'=>'*/catalog_product_review/edit',
                             'params'=> array(
                                 'productId' => $this->getProductId(),
                                 'customerId' => $this->getCustomerId(),
-                                'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null
+                                'ret'       => ( AO::registry('usePendingFilter') ) ? 'pending' : null
                             )
                          ),
                          'field'   => 'id'
@@ -200,38 +200,38 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                 'sortable'  => false
         ));
 
-        $this->addRssList('*/rss_catalog/review', Mage::helper('catalog')->__('Pending Reviews RSS'));
+        $this->addRssList('*/rss_catalog/review', AO::helper('catalog')->__('Pending Reviews RSS'));
 
         return parent::_prepareColumns();
     }
 
     protected function _prepareMassaction()
     {
-        if (Mage::registry('usePendingFilter') == true) {
+        if (AO::registry('usePendingFilter') == true) {
             $this->setMassactionIdField('review_id');
             $this->setMassactionIdFieldOnlyIndexValue(true);
             $this->getMassactionBlock()->setFormFieldName('reviews');
 
             $this->getMassactionBlock()->addItem('delete', array(
-                'label'=> Mage::helper('review')->__('Delete'),
+                'label'=> AO::helper('review')->__('Delete'),
                 'url'  => $this->getUrl('*/*/massDelete'),
-                'confirm' => Mage::helper('review')->__('Are you sure?')
+                'confirm' => AO::helper('review')->__('Are you sure?')
             ));
 
-            $statuses = Mage::getModel('review/review')
+            $statuses = AO::getModel('review/review')
                 ->getStatusCollection()
                 ->load()
                 ->toOptionArray();
             array_unshift($statuses, array('label'=>'', 'value'=>''));
             $this->getMassactionBlock()->addItem('update_status', array(
-                'label'         => Mage::helper('review')->__('Update status'),
+                'label'         => AO::helper('review')->__('Update status'),
                 'url'           => $this->getUrl('*/*/massUpdateStatus'),
                 'additional'    => array(
                     'status'    => array(
                         'name'      => 'status',
                         'type'      => 'select',
                         'class'     => 'required-entry',
-                        'label'     => Mage::helper('review')->__('Status'),
+                        'label'     => AO::helper('review')->__('Status'),
                         'values'    => $statuses
                     )
                 )
@@ -246,14 +246,14 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
-            'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null,
+            'ret'       => ( AO::registry('usePendingFilter') ) ? 'pending' : null,
         ));
     }
 
     public function getGridUrl()
     {
         if( $this->getProductId() || $this->getCustomerId() ) {
-            return $this->getUrl('*/catalog_product_review/' . (Mage::registry('usePendingFilter') ? 'pending' : ''), array(
+            return $this->getUrl('*/catalog_product_review/' . (AO::registry('usePendingFilter') ? 'pending' : ''), array(
                 'productId' => $this->getProductId(),
                 'customerId' => $this->getCustomerId(),
             ));

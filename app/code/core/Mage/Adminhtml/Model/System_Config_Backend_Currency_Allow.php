@@ -47,16 +47,16 @@ class Mage_Adminhtml_Model_System_Config_Backend_Currency_Allow extends Mage_Adm
         $exceptions = array();
         foreach ($this->_getAllowedCurrencies() as $currencyCode) {
             if (!in_array($currencyCode, $this->_getInstalledCurrencies())) {
-                $exceptions[] = Mage::helper('adminhtml')->__('Selected allow currency "%s" is not available in installed currencies', Mage::app()->getLocale()->currency($currencyCode)->getName());
+                $exceptions[] = AO::helper('adminhtml')->__('Selected allow currency "%s" is not available in installed currencies', AO::app()->getLocale()->currency($currencyCode)->getName());
             }
         }
 
         if (!in_array($this->_getCurrencyDefault(), $this->_getAllowedCurrencies())) {
-            $exceptions[] = Mage::helper('adminhtml')->__('Default display currency "%s" is not available in allowed currencies', Mage::app()->getLocale()->currency($this->_getCurrencyDefault())->getName());
+            $exceptions[] = AO::helper('adminhtml')->__('Default display currency "%s" is not available in allowed currencies', AO::app()->getLocale()->currency($this->_getCurrencyDefault())->getName());
         }
 
         if ($exceptions) {
-            Mage::throwException(join("\n", $exceptions));
+            AO::throwException(join("\n", $exceptions));
         }
 
         return $this;

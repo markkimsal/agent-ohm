@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Messages extends Mage_Adminhtml_Bl
 
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('adminhtml/session_quote')->getMessages(true));
+        $this->addMessages(AO::getSingleton('adminhtml/session_quote')->getMessages(true));
         parent::_prepareLayout();
     }
 

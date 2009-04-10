@@ -71,11 +71,11 @@ class Mage_Core_Model_Config_Data extends Mage_Core_Model_Abstract
         $websiteCode = $this->getWebsiteCode();
         $path        = $this->getPath();
         if ($websiteCode) {
-            return Mage::app()->getWebsite($websiteCode)->getConfig($path);
+            return AO::app()->getWebsite($websiteCode)->getConfig($path);
         }
         if ($storeCode) {
-            return Mage::app()->getStore($storeCode)->getConfig($path);
+            return AO::app()->getStore($storeCode)->getConfig($path);
         }
-        return (string) Mage::getConfig()->getNode('default/' . $path);
+        return (string) AO::getConfig()->getNode('default/' . $path);
     }
 }

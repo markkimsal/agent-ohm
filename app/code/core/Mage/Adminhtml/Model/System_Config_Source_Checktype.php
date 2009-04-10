@@ -30,8 +30,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Checktype
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('adminhtml')->__('IP Address')),
-            array('value'=>1, 'label'=>Mage::helper('adminhtml')->__('Cookie (Unsafe)')),
+            array('value'=>0, 'label'=>AO::helper('adminhtml')->__('IP Address')),
+            array('value'=>1, 'label'=>AO::helper('adminhtml')->__('Cookie (Unsafe)')),
         );
     }
 }

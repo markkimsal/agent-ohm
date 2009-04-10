@@ -36,7 +36,7 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
     public function setValidationFilter($websiteId, $customerGroupId, $couponCode='', $now=null)
     {
         if (is_null($now)) {
-            $now = Mage::getModel('core/date')->date('Y-m-d');
+            $now = AO::getModel('core/date')->date('Y-m-d');
         }
 
         $this->addBindParam('coupon_code', $couponCode);

@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit_Tab_Contents
     public function getMageRoles()
     {
         $arr = array();
-        foreach (Mage::getModel('adminhtml/extension')->getRoles() as $k=>$role) {
+        foreach (AO::getModel('adminhtml/extension')->getRoles() as $k=>$role) {
             if (isset($role['name'])) {
                 $arr[$k] = $role['name'];
             }

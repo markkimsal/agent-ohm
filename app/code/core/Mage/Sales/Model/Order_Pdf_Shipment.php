@@ -44,7 +44,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
         $this->_setFontBold($style, 10);
         foreach ($shipments as $shipment) {
             if ($shipment->getStoreId()) {
-                Mage::app()->getLocale()->emulate($shipment->getStoreId());
+                AO::app()->getLocale()->emulate($shipment->getStoreId());
             }
             $page = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
             $pdf->pages[] = $page;
@@ -58,11 +58,11 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $this->insertAddress($page, $shipment->getStore());
 
             /* Add head */
-            $this->insertOrder($page, $order, Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, $order->getStoreId()));
+            $this->insertOrder($page, $order, AO::getStoreConfigFlag(self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, $order->getStoreId()));
 
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
             $this->_setFontRegular($page);
-            $page->drawText(Mage::helper('sales')->__('Packingslip # ') . $shipment->getIncrementId(), 35, 780, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Packingslip # ') . $shipment->getIncrementId(), 35, 780, 'UTF-8');
 
             /* Add table */
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
@@ -74,9 +74,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
             $page->drawRectangle(25, $this->y, 570, $this->y-15);
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-            $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('sales')->__('SKU'), 470, $this->y, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
+            $page->drawText(AO::helper('sales')->__('SKU'), 470, $this->y, 'UTF-8');
 
             $this->y -=15;
 
@@ -104,9 +104,9 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
                     $this->y -=10;
 
                     $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
-                    $page->drawText(Mage::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
-                    $page->drawText(Mage::helper('sales')->__('SKU'), 470, $this->y, 'UTF-8');
+                    $page->drawText(AO::helper('sales')->__('QTY'), 35, $this->y, 'UTF-8');
+                    $page->drawText(AO::helper('sales')->__('Products'), 60, $this->y, 'UTF-8');
+                    $page->drawText(AO::helper('sales')->__('SKU'), 470, $this->y, 'UTF-8');
 
                     $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
                     $this->y -=20;
@@ -120,7 +120,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment extends Mage_Sales_Model_Order_Pdf_Abs
         $this->_afterGetPdf();
 
         if ($shipment->getStoreId()) {
-            Mage::app()->getLocale()->revert();
+            AO::app()->getLocale()->revert();
         }
         return $pdf;
     }

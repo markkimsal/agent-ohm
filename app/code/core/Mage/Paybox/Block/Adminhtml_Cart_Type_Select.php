@@ -40,7 +40,7 @@ class Mage_Paybox_Block_Adminhtml_Cart_Type_Select extends Mage_Adminhtml_Block_
      */
     public function getModel()
     {
-        return Mage::getModel('paybox/system');
+        return AO::getModel('paybox/system');
     }
 
     public function getParentHtmlId()

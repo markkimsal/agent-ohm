@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_shipment_collection')
+        $collection = AO::getResourceModel('sales/order_shipment_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
@@ -63,23 +63,23 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('sales')->__('Shipment #'),
+            'header' => AO::helper('sales')->__('Shipment #'),
             'index' => 'increment_id',
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('sales')->__('Ship to Name'),
+            'header' => AO::helper('sales')->__('Ship to Name'),
             'index' => 'shipping_name',
         ));
 
         $this->addColumn('created_at', array(
-            'header' => Mage::helper('sales')->__('Date Shipped'),
+            'header' => AO::helper('sales')->__('Date Shipped'),
             'index' => 'created_at',
             'type' => 'datetime',
         ));
 
         $this->addColumn('total_qty', array(
-            'header' => Mage::helper('sales')->__('Total Qty'),
+            'header' => AO::helper('sales')->__('Total Qty'),
             'index' => 'total_qty',
             'type'  => 'number',
         ));
@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getRowUrl($row)
@@ -117,12 +117,12 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Shipments');
+        return AO::helper('sales')->__('Shipments');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Shipments');
+        return AO::helper('sales')->__('Order Shipments');
     }
 
     public function canShowTab()

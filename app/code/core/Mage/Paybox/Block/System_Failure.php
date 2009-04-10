@@ -41,12 +41,12 @@ class Mage_Paybox_Block_System_Failure extends Mage_Core_Block_Template
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     public function getErrorMessage()
     {
-        $msg = Mage::helper('paybox')->__($this->getCheckout()->getPayboxErrorMessage());
+        $msg = AO::helper('paybox')->__($this->getCheckout()->getPayboxErrorMessage());
         $this->getCheckout()->unsPayboxErrorMessage();
         return $msg;
     }
@@ -56,6 +56,6 @@ class Mage_Paybox_Block_System_Failure extends Mage_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart', array('_secure' => true));
+        return AO::getUrl('checkout/cart', array('_secure' => true));
     }
 }

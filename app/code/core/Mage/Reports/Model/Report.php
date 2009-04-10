@@ -30,7 +30,7 @@ class Mage_Reports_Model_Report extends Mage_Core_Model_Abstract
 
     public function initCollection($modelClass)
     {
-        $this->_reportModel = Mage::getResourceModel($modelClass);
+        $this->_reportModel = AO::getResourceModel($modelClass);
 
         return $this;
     }

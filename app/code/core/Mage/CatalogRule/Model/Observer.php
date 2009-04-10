@@ -46,7 +46,7 @@ class Mage_CatalogRule_Model_Observer
 
         $productWebsiteIds = $product->getWebsiteIds();
 
-        $rules = Mage::getModel('catalogrule/rule')->getCollection()
+        $rules = AO::getModel('catalogrule/rule')->getCollection()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
@@ -69,9 +69,9 @@ class Mage_CatalogRule_Model_Observer
      */
     public function applyAllRules($observer)
     {
-        $resource = Mage::getResourceSingleton('catalogrule/rule');
+        $resource = AO::getResourceSingleton('catalogrule/rule');
         $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
-        Mage::app()->removeCache('catalog_rules_dirty');
+        AO::app()->removeCache('catalog_rules_dirty');
         return $this;
     }
 
@@ -89,24 +89,24 @@ class Mage_CatalogRule_Model_Observer
         if ($observer->hasDate()) {
             $date = $observer->getDate();
         } else {
-            $date = Mage::app()->getLocale()->storeTimeStamp($storeId);
+            $date = AO::app()->getLocale()->storeTimeStamp($storeId);
         }
 
         if ($observer->hasWebsiteId()) {
             $wId = $observer->getWebsiteId();
         } else {
-            $wId = Mage::app()->getStore($storeId)->getWebsiteId();
+            $wId = AO::app()->getStore($storeId)->getWebsiteId();
         }
 
         if ($observer->hasCustomerGroupId()) {
             $gId = $observer->getCustomerGroupId();
         } else {
-            $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            $gId = AO::getSingleton('customer/session')->getCustomerGroupId();
         }
 
         $key = "$date|$wId|$gId|$pId";
         if (!isset($this->_rulePrices[$key])) {
-            $rulePrice = Mage::getResourceModel('catalogrule/rule')
+            $rulePrice = AO::getResourceModel('catalogrule/rule')
                 ->getRulePrice($date, $wId, $gId, $pId);
             $this->_rulePrices[$key] = $rulePrice;
         }
@@ -126,10 +126,10 @@ class Mage_CatalogRule_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         $storeId = $product->getStoreId();
-        $date = Mage::app()->getLocale()->storeDate($storeId);
+        $date = AO::app()->getLocale()->storeDate($storeId);
         $key = false;
 
-        if ($ruleData = Mage::registry('rule_data')) {
+        if ($ruleData = AO::registry('rule_data')) {
             $wId = $ruleData->getWebsiteId();
             $gId = $ruleData->getCustomerGroupId();
             $pId = $product->getId();
@@ -145,7 +145,7 @@ class Mage_CatalogRule_Model_Observer
 
         if ($key) {
             if (!isset($this->_rulePrices[$key])) {
-                $rulePrice = Mage::getResourceModel('catalogrule/rule')
+                $rulePrice = AO::getResourceModel('catalogrule/rule')
                     ->getRulePrice($date, $wId, $gId, $pId);
                 $this->_rulePrices[$key] = $rulePrice;
             }
@@ -168,7 +168,7 @@ class Mage_CatalogRule_Model_Observer
      */
     public function dailyCatalogUpdate($observer)
     {
-        Mage::getResourceSingleton('catalogrule/rule')->applyAllRulesForDateRange();
+        AO::getResourceSingleton('catalogrule/rule')->applyAllRulesForDateRange();
         return $this;
     }
 

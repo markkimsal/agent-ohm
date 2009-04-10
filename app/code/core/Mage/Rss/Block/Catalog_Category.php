@@ -49,11 +49,11 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
     {
         $categoryId = $this->getRequest()->getParam('cid');
         $storeId = $this->_getStoreId();
-        $rssObj = Mage::getModel('rss/rss');
+        $rssObj = AO::getModel('rss/rss');
         if ($categoryId) {
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+            $category = AO::getModel('catalog/category')->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = Mage::getSingleton('catalog/layer')->setStore($storeId);
+                $layer = AO::getSingleton('catalog/layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
                 $newurl = $category->getUrl();
@@ -75,7 +75,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = Mage::getModel('catalog/product')->getCollection();
+                $productCollection = AO::getModel('catalog/product')->getCollection();
 
                 $currentyCateogry = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);
@@ -111,8 +111,8 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
                             '<td><a href="'.$_product->getProductUrl().'"><img src="' . $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75, 75)
                             .'" border="0" align="left" height="75" width="75"></a></td>'.
                             '<td  style="text-decoration:none;">'.$_product->getDescription().
-                            '<p> Price:'.Mage::helper('core')->currency($_product->getPrice()).
-                            ($_product->getPrice() != $final_price  ? ' Special Price:'. Mage::helper('core')->currency($final_price) : '').
+                            '<p> Price:'.AO::helper('core')->currency($_product->getPrice()).
+                            ($_product->getPrice() != $final_price  ? ' Special Price:'. AO::helper('core')->currency($final_price) : '').
                             '</p>'.
                             '</td>'.
                             '</tr></table>'

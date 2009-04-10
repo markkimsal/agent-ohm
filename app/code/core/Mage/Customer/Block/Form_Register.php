@@ -33,7 +33,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
 {
     protected function _prepareLayout()
     {
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('customer')->__('Create New Customer Account'));
+        $this->getLayout()->getBlock('head')->setTitle(AO::helper('customer')->__('Create New Customer Account'));
         return parent::_prepareLayout();
     }
 
@@ -70,7 +70,7 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = new Varien_Object(Mage::getSingleton('customer/session')->getCustomerFormData(true));
+            $data = new Varien_Object(AO::getSingleton('customer/session')->getCustomerFormData(true));
             $this->setData('form_data', $data);
         }
         return $data;
@@ -112,6 +112,6 @@ class Mage_Customer_Block_Form_Register extends Mage_Directory_Block_Data
      */
     public function isNewsletterEnabled()
     {
-        return !Mage::getStoreConfigFlag('advanced/modules_disable_output/Mage_Newsletter');
+        return !AO::getStoreConfigFlag('advanced/modules_disable_output/Mage_Newsletter');
     }
 }

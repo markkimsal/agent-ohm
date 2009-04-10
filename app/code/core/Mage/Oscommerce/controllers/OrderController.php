@@ -42,8 +42,8 @@ class Mage_Oscommerce_OrderController extends Mage_Core_Controller_Front_Action
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = Mage::helper('customer')->getLoginUrl();
-        if (!Mage::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
+        $loginUrl = AO::helper('customer')->getLoginUrl();
+        if (!AO::getSingleton('customer/session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -57,7 +57,7 @@ class Mage_Oscommerce_OrderController extends Mage_Core_Controller_Front_Action
      */
     protected function _canViewOrder($order)
     {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerId = AO::getSingleton('customer/session')->getCustomerId();
         if (isset($order['osc_magento_id']) && isset($order['magento_customers_id']) && $order['magento_customers_id'] == $customerId) {
             return true;
         }
@@ -83,9 +83,9 @@ class Mage_Oscommerce_OrderController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $order = Mage::getModel('oscommerce/oscommerce')->loadOrderById($orderId);
+        $order = AO::getModel('oscommerce/oscommerce')->loadOrderById($orderId);
         if ($order && $this->_canViewOrder($order['order'])) {
-            Mage::register('current_oscommerce_order', $order);
+            AO::register('current_oscommerce_order', $order);
            $this->loadLayout();
             if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
                 $navigationBlock->setActive('oscommerce/order/view');

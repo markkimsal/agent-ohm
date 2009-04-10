@@ -44,18 +44,18 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
     {
 
         if ($this->getRequest()->getParam('website')) {
-            $storeId = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeId = AO::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')) {
-            $storeId = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeId = AO::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else if ($this->getRequest()->getParam('store')) {
             $storeId = (int)$this->getRequest()->getParam('store');
         } else {
             $storeId = '';
         }
 
-        $collection = Mage::getResourceModel('reports/tag_collection')
+        $collection = AO::getResourceModel('reports/tag_collection')
             ->addSummary($storeId)
-            ->addStatusFilter(Mage::getModel('tag/tag')->getApprovedStatus());
+            ->addStatusFilter(AO::getModel('tag/tag')->getApprovedStatus());
 
         if($storeId != '') {
             $collection->addStoreFilter($storeId);
@@ -68,13 +68,13 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('reports')->__('Tag Name'),
+            'header'    =>AO::helper('reports')->__('Tag Name'),
             'sortable'  =>false,
             'index'     =>'name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('reports')->__('Popularity'),
+            'header'    =>AO::helper('reports')->__('Popularity'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('uses', array(
-            'header'    =>Mage::helper('reports')->__('Number Of Uses'),
+            'header'    =>AO::helper('reports')->__('Number Of Uses'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('historical_uses', array(
-            'header'    =>Mage::helper('reports')->__('Number Of Historical Uses'),
+            'header'    =>AO::helper('reports')->__('Number Of Historical Uses'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -99,13 +99,13 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('catalog')->__('Action'),
+                'header'    => AO::helper('catalog')->__('Action'),
                 'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('catalog')->__('Show Details'),
+                        'caption' => AO::helper('catalog')->__('Show Details'),
                         'url'     => array(
                             'base'=>'*/*/tagDetail'
                         ),
@@ -118,8 +118,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Grid extends Mage_Adminhtml_Block_
         ));
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportPopularCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportPopularExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportPopularCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportPopularExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

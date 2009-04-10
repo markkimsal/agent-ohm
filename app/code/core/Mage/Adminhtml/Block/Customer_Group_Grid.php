@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/group_collection')
+        $collection = AO::getResourceModel('customer/group_collection')
             ->addTaxClass();
 
         $this->setCollection($collection);
@@ -61,19 +61,19 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
     protected function _prepareColumns()
     {
         $this->addColumn('time', array(
-            'header' => Mage::helper('customer')->__('ID'),
+            'header' => AO::helper('customer')->__('ID'),
             'width' => '50px',
             'align' => 'right',
             'index' => 'customer_group_id',
         ));
 
         $this->addColumn('type', array(
-            'header' => Mage::helper('customer')->__('Group Name'),
+            'header' => AO::helper('customer')->__('Group Name'),
             'index' => 'customer_group_code',
         ));
 
         $this->addColumn('class_name', array(
-            'header' => Mage::helper('customer')->__('Tax Class'),
+            'header' => AO::helper('customer')->__('Tax Class'),
             'index' => 'class_name',
             'width' => '200px'
         ));

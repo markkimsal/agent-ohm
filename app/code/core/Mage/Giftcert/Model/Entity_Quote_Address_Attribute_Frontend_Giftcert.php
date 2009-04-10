@@ -32,7 +32,7 @@ class Mage_Giftcert_Model_Entity_Quote_Address_Attribute_Frontend_Giftcert
     {
         $amount = $address->getGiftcertAmount();
         if ($amount) {
-            $address->addTotal(array('code'=>'giftcert', 'title'=>Mage::helper('giftcert')->__('Gift Certificate').' ('.$address->getGiftcertCode().')', 'value'=>-$amount, 'output'=>true));
+            $address->addTotal(array('code'=>'giftcert', 'title'=>AO::helper('giftcert')->__('Gift Certificate').' ('.$address->getGiftcertCode().')', 'value'=>-$amount, 'output'=>true));
         }
         return $this;
     }

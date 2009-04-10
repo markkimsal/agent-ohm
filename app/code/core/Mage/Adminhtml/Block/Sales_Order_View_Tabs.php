@@ -43,13 +43,13 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Wi
         if ($this->hasOrder()) {
             return $this->getData('order');
         }
-        if (Mage::registry('current_order')) {
-            return Mage::registry('current_order');
+        if (AO::registry('current_order')) {
+            return AO::registry('current_order');
         }
-        if (Mage::registry('order')) {
-            return Mage::registry('order');
+        if (AO::registry('order')) {
+            return AO::registry('order');
         }
-        Mage::throwException(Mage::helper('sales')->__('Can\'t get order instance'));
+        AO::throwException(AO::helper('sales')->__('Can\'t get order instance'));
     }
 
     public function __construct()
@@ -57,47 +57,47 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tabs extends Mage_Adminhtml_Block_Wi
         parent::__construct();
         $this->setId('sales_order_view_tabs');
         $this->setDestElementId('sales_order_view');
-        $this->setTitle(Mage::helper('sales')->__('Order View'));
+        $this->setTitle(AO::helper('sales')->__('Order View'));
     }
 
     protected function _beforeToHtml()
     {
 //        $this->addTab('order_info', array(
-//            'label'     => Mage::helper('sales')->__('Information'),
-//            'title'     => Mage::helper('sales')->__('Order Information'),
+//            'label'     => AO::helper('sales')->__('Information'),
+//            'title'     => AO::helper('sales')->__('Order Information'),
 //            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_info')->toHtml(),
 //            'active'    => true
 //        ));
 //
 //        $this->addTab('order_invoices', array(
-//            'label'     => Mage::helper('catalogrule')->__('Invoices'),
-//            'title'     => Mage::helper('catalogrule')->__('Order Invoices'),
+//            'label'     => AO::helper('catalogrule')->__('Invoices'),
+//            'title'     => AO::helper('catalogrule')->__('Order Invoices'),
 //            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_invoices')->toHtml(),
 //        ));
 //
 //        $this->addTab('order_creditmemos', array(
-//            'label'     => Mage::helper('catalogrule')->__('Credit Memos'),
-//            'title'     => Mage::helper('catalogrule')->__('Order Credit Memos'),
+//            'label'     => AO::helper('catalogrule')->__('Credit Memos'),
+//            'title'     => AO::helper('catalogrule')->__('Order Credit Memos'),
 //            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_creditmemos')->toHtml(),
 //        ));
 //
 //        if (!$this->getOrder()->getIsVirtual()) {
 //            $this->addTab('order_shipments', array(
-//                'label'     => Mage::helper('catalogrule')->__('Shipments'),
-//                'title'     => Mage::helper('catalogrule')->__('Order Shipments'),
+//                'label'     => AO::helper('catalogrule')->__('Shipments'),
+//                'title'     => AO::helper('catalogrule')->__('Order Shipments'),
 //                'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_shipments')->toHtml(),
 //            ));
 //        }
 //
 //        /*$this->addTab('order_giftmessages', array(
-//            'label'     => Mage::helper('catalogrule')->__('Gift Messages'),
-//            'title'     => Mage::helper('catalogrule')->__('Order Gift Messages'),
+//            'label'     => AO::helper('catalogrule')->__('Gift Messages'),
+//            'title'     => AO::helper('catalogrule')->__('Order Gift Messages'),
 //            'content'   => 'Gift Messages',
 //        ));*/
 //
 //        $this->addTab('order_history', array(
-//            'label'     => Mage::helper('catalogrule')->__('Comments History'),
-//            'title'     => Mage::helper('catalogrule')->__('Order History'),
+//            'label'     => AO::helper('catalogrule')->__('Comments History'),
+//            'title'     => AO::helper('catalogrule')->__('Order History'),
 //            'content'   => $this->getLayout()->createBlock('adminhtml/sales_order_view_tab_history')->toHtml(),
 //        ));
         return parent::_beforeToHtml();

@@ -221,7 +221,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function getTable($alias)
     {
-        return Mage::getSingleton('core/resource')->getTableName($alias);
+        return AO::getSingleton('core/resource')->getTableName($alias);
     }
 
     /**
@@ -234,7 +234,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function setType($type)
     {
-        $this->_type = Mage::getSingleton('eav/config')->getEntityType($type);
+        $this->_type = AO::getSingleton('eav/config')->getEntityType($type);
         $this->_afterSetConfig();
         return $this;
     }
@@ -247,7 +247,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     public function getEntityType()
     {
         if (empty($this->_type)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Entity is not initialized'));
+            throw AO::exception('Mage_Eav', AO::helper('eav')->__('Entity is not initialized'));
         }
         return $this->_type;
     }
@@ -295,7 +295,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
         }
 
         if (!is_array($attributes)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Unknown parameter'));
+            throw AO::exception('Mage_Eav', AO::helper('eav')->__('Unknown parameter'));
         }
 
         foreach ($attributes as $attrCode) {
@@ -330,7 +330,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             if (isset($this->_attributesById[$attributeId])) {
                 return $this->_attributesById[$attributeId];
             }
-            $attributeInstance = Mage::getSingleton('eav/config')->getAttribute($this->getEntityType(), $attributeId);
+            $attributeInstance = AO::getSingleton('eav/config')->getAttribute($this->getEntityType(), $attributeId);
             if ($attributeInstance) {
                 $attributeCode = $attributeInstance->getAttributeCode();
             }
@@ -341,7 +341,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             if (isset($this->_attributesByCode[$attributeCode])) {
                 return $this->_attributesByCode[$attributeCode];
             }
-            $attributeInstance = Mage::getSingleton('eav/config')
+            $attributeInstance = AO::getSingleton('eav/config')
                 ->getAttribute($this->getEntityType(), $attributeCode);
             if (!$attributeInstance->getAttributeCode() && in_array($attribute, $this->getDefaultAttributes())) {
                 $attributeInstance
@@ -445,7 +445,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function loadAllAttributes($object=null)
     {
-        $attributeCodes = Mage::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType(), $object);
+        $attributeCodes = AO::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType(), $object);
         /**
          * Check and init default attributes
          */
@@ -456,7 +456,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 $this->getAttribute($attributeCodes[$attributeIndex]);
                 unset($attributeCodes[$attributeIndex]);
             } else {
-                $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
+                $attribute = AO::getModel($this->getEntityType()->getAttributeModel());
                 $attribute->setAttributeCode($attributeCode)
                     ->setBackendType('static')
                     ->setEntityType($this->getEntityType())
@@ -621,7 +621,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
             if (empty($table)) {
                 $table = Mage_Eav_Model_Entity::DEFAULT_ENTITY_TABLE;
             }
-            $this->_entityTable = Mage::getSingleton('core/resource')->getTableName($table);
+            $this->_entityTable = AO::getSingleton('core/resource')->getTableName($table);
         }
         return $this->_entityTable;
     }
@@ -666,7 +666,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 /**
                  * entity type prefix include DB table name prefix
                  */
-                //Mage::getSingleton('core/resource')->getTableName($prefix);
+                //AO::getSingleton('core/resource')->getTableName($prefix);
             } else {
                 $this->_valueTablePrefix = $this->getEntityTable();
             }
@@ -947,7 +947,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
              */
             if (is_numeric($k) || is_array($v)) {
                 continue;
-                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid data object key'));
+                throw AO::exception('Mage_Eav', AO::helper('eav')->__('Invalid data object key'));
             }
 
             $attribute = $this->getAttribute($k);
@@ -1026,7 +1026,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
         }
 
         if ($fieldProp['DATA_TYPE'] == 'decimal') {
-            $value = Mage::app()->getLocale()->getNumber($value);
+            $value = AO::app()->getLocale()->getNumber($value);
         }
 
         return $value;
@@ -1147,7 +1147,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     protected function _prepareValueForSave($value, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($attribute->getBackendType() == 'decimal') {
-            return Mage::app()->getLocale()->getNumber($value);
+            return AO::app()->getLocale()->getNumber($value);
         }
         return $value;
     }
@@ -1355,7 +1355,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
 //        $attributes = $this->getAttributesByCode();
 //        foreach ($defaultAttributes as $attr) {
 //            if (empty($attributes[$attr]) && !$this->getAttribute($attr)) {
-//                $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
+//                $attribute = AO::getModel($this->getEntityType()->getAttributeModel());
 //                $attribute->setAttributeCode($attr)
 //                    ->setBackendType('static')
 //                    ->setEntityType($this->getEntityType())

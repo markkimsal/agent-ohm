@@ -33,6 +33,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Locale_Timezone
 {
     public function toOptionArray()
     {
-        return Mage::app()->getLocale()->getOptionTimezones();
+        return AO::app()->getLocale()->getOptionTimezones();
     }
 }

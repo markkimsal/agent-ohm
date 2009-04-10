@@ -69,7 +69,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
      */
     public function setInStockFilterToCollection( $collection)
     {
-        $manageStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $manageStock = AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
@@ -100,12 +100,12 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
     {
         if (!$this->_isConfig) {
             $this->_isConfig = true;
-            $this->_isConfigManageStock  = (int)Mage::getStoreConfigFlag(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
-            $this->_isConfigBackorders   = (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_BACKORDERS);
-            $this->_configMinQty         = (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_QTY);
-            $this->_configNotifyStockQty = (int)Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
-            $this->_configTypeIds        = array_keys(Mage::helper('catalogInventory')->getIsQtyTypeIds(true));
-            $this->_stock                = Mage::getModel('cataloginventory/stock');
+            $this->_isConfigManageStock  = (int)AO::getStoreConfigFlag(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+            $this->_isConfigBackorders   = (int)AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_BACKORDERS);
+            $this->_configMinQty         = (int)AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_QTY);
+            $this->_configNotifyStockQty = (int)AO::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
+            $this->_configTypeIds        = array_keys(AO::helper('catalogInventory')->getIsQtyTypeIds(true));
+            $this->_stock                = AO::getModel('cataloginventory/stock');
         }
     }
 
@@ -160,7 +160,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
      */
     public function updateLowStockDate()
     {
-        $nowUTC = Mage::app()->getLocale()->date(null, null, null, false)->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        $nowUTC = AO::app()->getLocale()->date(null, null, null, false)->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
         $this->_initConfig();
         $this->_getWriteAdapter()->update($this->getTable('cataloginventory/stock_item'),
             array('low_stock_date' => new Zend_Db_Expr(sprintf('CASE

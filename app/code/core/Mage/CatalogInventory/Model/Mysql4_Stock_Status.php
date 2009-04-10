@@ -151,7 +151,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Status extends Mage_Core_Model_My
      * @return array
      */
     public function getWebsiteStores() {
-        $select = Mage::getModel('core/website')->getDefaultStoresSelect(false);
+        $select = AO::getModel('core/website')->getDefaultStoresSelect(false);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
 

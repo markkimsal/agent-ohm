@@ -49,7 +49,7 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
     public function __construct()
     {
         parent::__construct();
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('backup/backup'))
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('backup/backup'))
              ->setOrder('time','desc');
 
     }
@@ -81,7 +81,7 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
     {
         if (!$this->_isLoaded) {
 
-            $readPath = Mage::getBaseDir('var') . DS . "backups";
+            $readPath = AO::getBaseDir('var') . DS . "backups";
 
             $ioProxy = new Varien_Io_File();
 
@@ -174,14 +174,14 @@ class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection
             if (is_array($condition)) {
                 if (isset($condition['from']) || isset($condition['to'])) {
                     if ($field == 'time_formated') {
-                        $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                        $format = AO::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
                         if (isset($condition['from'])) {
-                            $condition['from'] = Mage::app()->getLocale()->date($condition['from'], $format)->getTimestamp()
-                                + Mage::app()->getLocale()->date($condition['from'], $format)->getGmtOffset();
+                            $condition['from'] = AO::app()->getLocale()->date($condition['from'], $format)->getTimestamp()
+                                + AO::app()->getLocale()->date($condition['from'], $format)->getGmtOffset();
                         }
                         if (isset($condition['to'])) {
-                            $condition['to'] = Mage::app()->getLocale()->date($condition['to'], $format)->getTimestamp()
-                                + Mage::app()->getLocale()->date($condition['to'], $format)->getGmtOffset();
+                            $condition['to'] = AO::app()->getLocale()->date($condition['to'], $format)->getTimestamp()
+                                + AO::app()->getLocale()->date($condition['to'], $format)->getGmtOffset();
                         }
                         $field = 'time';
                     }

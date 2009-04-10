@@ -34,8 +34,8 @@ class Mage_Strikeiron_Model_Source_Salestaxminmax
     public function toOptionArray()
     {
         return array(
-            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_COMPLETE_MIN, 'label' => Mage::helper('strikeiron')->__('Minimum tax rate')),
-            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_COMPLETE_MAX , 'label' => Mage::helper('strikeiron')->__('Maximum tax rate')),
+            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_COMPLETE_MIN, 'label' => AO::helper('strikeiron')->__('Minimum tax rate')),
+            array('value' => Mage_Strikeiron_Model_Service_SalesUseTax::SALETAX_COMPLETE_MAX , 'label' => AO::helper('strikeiron')->__('Maximum tax rate')),
 
         );
     }

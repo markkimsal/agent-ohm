@@ -30,8 +30,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Paypal_Standardtypes
     public function toOptionArray()
     {
         return array(
-            array('value'=>'IPN', 'label'=>Mage::helper('adminhtml')->__('Instant Payment Notification (IPN)')),
-            //array('value'=>'PDT', 'label'=>Mage::helper('adminhtml')->__('Payment Data Transfer (PDT)')),
+            array('value'=>'IPN', 'label'=>AO::helper('adminhtml')->__('Instant Payment Notification (IPN)')),
+            //array('value'=>'PDT', 'label'=>AO::helper('adminhtml')->__('Payment Data Transfer (PDT)')),
         );
     }
 }

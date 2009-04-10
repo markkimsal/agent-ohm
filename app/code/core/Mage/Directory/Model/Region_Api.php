@@ -42,7 +42,7 @@ class Mage_Directory_Model_Region_Api extends Mage_Api_Model_Resource_Abstract
     public function items($country)
     {
         try {
-            $country = Mage::getModel('directory/country')->loadByCode($country);
+            $country = AO::getModel('directory/country')->loadByCode($country);
         } catch (Mage_Core_Exception $e) {
             $this->_fault('country_not_exists', $e->getMessage());
         }

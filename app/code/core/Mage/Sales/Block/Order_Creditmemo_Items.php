@@ -40,14 +40,14 @@ class Mage_Sales_Block_Order_Creditmemo_Items extends Mage_Sales_Block_Items_Abs
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return AO::registry('current_order');
     }
 
     public function getPrintCreditmemoUrl($creditmemo){
-        return Mage::getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
+        return AO::getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
     }
 
     public function getPrintAllCreditmemosUrl($order){
-        return Mage::getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
+        return AO::getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
     }
 }

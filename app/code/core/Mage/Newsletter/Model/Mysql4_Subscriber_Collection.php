@@ -84,12 +84,12 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function __construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('newsletter_read'));
-        $this->_subscriberTable = Mage::getSingleton('core/resource')->getTableName('newsletter/subscriber');
-        $this->_queueLinkTable = Mage::getSingleton('core/resource')->getTableName('newsletter/queue_link');
-        $this->_storeTable = Mage::getSingleton('core/resource')->getTableName('core/store');
+        parent::__construct(AO::getSingleton('core/resource')->getConnection('newsletter_read'));
+        $this->_subscriberTable = AO::getSingleton('core/resource')->getTableName('newsletter/subscriber');
+        $this->_queueLinkTable = AO::getSingleton('core/resource')->getTableName('newsletter/queue_link');
+        $this->_storeTable = AO::getSingleton('core/resource')->getTableName('core/store');
         $this->_select->from(array('main_table'=>$this->_subscriberTable));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('newsletter/subscriber'));
+        $this->setItemObjectClass(AO::getConfig()->getModelClassName('newsletter/subscriber'));
     }
 
     /**
@@ -143,12 +143,12 @@ class Mage_Newsletter_Model_Mysql4_Subscriber_Collection extends Varien_Data_Col
      */
     public function showCustomerInfo()
     {
-        $customer = Mage::getModel('customer/customer');
+        $customer = AO::getModel('customer/customer');
         /* @var $customer Mage_Customer_Model_Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
 
-//        $customersCollection = Mage::getModel('customer/customer')->getCollection();
+//        $customersCollection = AO::getModel('customer/customer')->getCollection();
 //        /* @var $customersCollection Mage_Customer_Model_Entity_Customer_Collection */
 //        $firstname = $customersCollection->getAttribute('firstname');
 //        $lastname  = $customersCollection->getAttribute('lastname');

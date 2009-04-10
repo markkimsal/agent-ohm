@@ -79,18 +79,18 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
     public function pdfshipmentsAction(){
         $shipmentIds = $this->getRequest()->getPost('shipment_ids');
         if (!empty($shipmentIds)) {
-            $shipments = Mage::getResourceModel('sales/order_shipment_collection')
+            $shipments = AO::getResourceModel('sales/order_shipment_collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $shipmentIds))
                 ->load();
             if (!isset($pdf)){
-                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                $pdf = AO::getModel('sales/order_pdf_shipment')->getPdf($shipments);
             } else {
-                $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
+                $pages = AO::getModel('sales/order_pdf_shipment')->getPdf($shipments);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('packingslip'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
@@ -100,12 +100,12 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
     {
         /** @see Mage_Adminhtml_Sales_Order_InvoiceController */
         if ($shipmentId = $this->getRequest()->getParam('invoice_id')) { // invoice_id o_0
-            if ($shipment = Mage::getModel('sales/order_shipment')->load($shipmentId)) {
+            if ($shipment = AO::getModel('sales/order_shipment')->load($shipmentId)) {
                 if ($shipment->getStoreId()) {
-                    Mage::app()->setCurrentStore($shipment->getStoreId());
+                    AO::app()->setCurrentStore($shipment->getStoreId());
                 }
-                $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf(array($shipment));
-                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                $pdf = AO::getModel('sales/order_pdf_shipment')->getPdf(array($shipment));
+                $this->_prepareDownloadResponse('packingslip'.AO::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             }
         }
         else {
@@ -115,6 +115,6 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('sales/shipment');
+        return AO::getSingleton('admin/session')->isAllowed('sales/shipment');
     }
 }

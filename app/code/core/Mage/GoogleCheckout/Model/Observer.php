@@ -43,7 +43,7 @@ class Mage_GoogleCheckout_Model_Observer
             return;
         }
 
-        Mage::getModel('googlecheckout/api')
+        AO::getModel('googlecheckout/api')
             ->setStoreId($order->getStoreId())
             ->deliver($order->getExtOrderId(), $track->getCarrierCode(), $track->getNumber());
     }
@@ -69,7 +69,7 @@ class Mage_GoogleCheckout_Model_Observer
         }
 
         if ($items) {
-            Mage::getModel('googlecheckout/api')
+            AO::getModel('googlecheckout/api')
                 ->setStoreId($order->getStoreId())
                 ->shipItems($order->getExtOrderId(), $items);
         }

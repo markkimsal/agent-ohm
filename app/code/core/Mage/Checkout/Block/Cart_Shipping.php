@@ -55,7 +55,7 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = AO::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;
@@ -93,12 +93,12 @@ class Mage_Checkout_Block_Cart_Shipping extends Mage_Checkout_Block_Cart_Abstrac
 
     public function getCityActive()
     {
-        return (bool)Mage::getStoreConfig('carriers/dhl/active');
+        return (bool)AO::getStoreConfig('carriers/dhl/active');
     }
 
     public function getStateActive()
     {
-        return (bool)Mage::getStoreConfig('carriers/dhl/active') || (bool)Mage::getStoreConfig('carriers/tablerate/active');
+        return (bool)AO::getStoreConfig('carriers/dhl/active') || (bool)AO::getStoreConfig('carriers/tablerate/active');
     }
 
     public function formatPrice($price)

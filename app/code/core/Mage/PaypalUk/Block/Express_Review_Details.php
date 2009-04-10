@@ -40,7 +40,7 @@ class Mage_PaypalUk_Block_Express_Review_Details extends Mage_Core_Block_Templat
      */
     public function getReview()
     {
-        return Mage::getSingleton('paypaluk/express_review');
+        return AO::getSingleton('paypaluk/express_review');
     }
 
     public function getAddress()
@@ -53,7 +53,7 @@ class Mage_PaypalUk_Block_Express_Review_Details extends Mage_Core_Block_Templat
 
     public function getItems()
     {
-//		$priceFilter = Mage::app()->getStore()->getPriceFilter();
+//		$priceFilter = AO::app()->getStore()->getPriceFilter();
 //        $itemsFilter = new Varien_Filter_Object_Grid();
 //        $itemsFilter->addFilter(new Varien_Filter_Sprintf('%d'), 'qty');
 //        $itemsFilter->addFilter($priceFilter, 'price');
@@ -66,7 +66,7 @@ class Mage_PaypalUk_Block_Express_Review_Details extends Mage_Core_Block_Templat
     {
 //        $totals = $this->getAddress()->getTotals();
 //        $totalsFilter = new Varien_Filter_Object_Grid();
-//        $totalsFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'value');
+//        $totalsFilter->addFilter(AO::app()->getStore()->getPriceFilter(), 'value');
 //        return $totalsFilter->filter($totals);
         return $this->getReview()->getQuote()->getTotals();
     }

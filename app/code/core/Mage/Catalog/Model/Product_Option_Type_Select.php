@@ -49,14 +49,14 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
 
         if (empty($value) && $option->getIsRequire() && !$this->getProduct()->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
+            AO::throwException(AO::helper('catalog')->__('Please specify the product required option(s)'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                Mage::throwException(Mage::helper('catalog')->__('Please specify the product required option(s)'));
+                AO::throwException(AO::helper('catalog')->__('Please specify the product required option(s)'));
             }
         }
         return $this;
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
         if ($this->getIsValid()) {
             return is_array($this->getUserValue()) ? implode(',', $this->getUserValue()) : $this->getUserValue();
         }
-        Mage::throwException(Mage::helper('catalog')->__('Option validation failed to add product to cart'));
+        AO::throwException(AO::helper('catalog')->__('Option validation failed to add product to cart'));
     }
 
     /**
@@ -85,7 +85,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
     public function getFormattedOptionValue($optionValue)
     {
         $result = $this->getEditableOptionValue($optionValue);
-        return Mage::helper('core')->htmlEscape($result);
+        return AO::helper('core')->htmlEscape($result);
     }
 
     /**
@@ -102,7 +102,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
             foreach (explode(',', $optionValue) as $_value) {
                 $result .= $option->getValueById($_value)->getTitle() . ', ';
             }
-            $result = Mage::helper('core/string')->substr($result, 0, -2);
+            $result = AO::helper('core/string')->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             $result = $option->getValueById($optionValue)->getTitle();
         } else {

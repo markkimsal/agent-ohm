@@ -54,7 +54,7 @@ class Mage_Backup_Model_Mysql4_Db
      */
     public function __construct()
     {
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('backup_read');
+        $this->_read = AO::getSingleton('core/resource')->getConnection('backup_read');
     }
 
     /**
@@ -342,7 +342,7 @@ class Mage_Backup_Model_Mysql4_Db
             . "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n"
             . "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n"
             . "/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\n"
-            . "\n-- Dump completed on " . Mage::getSingleton('core/date')->gmtDate() . " GMT";
+            . "\n-- Dump completed on " . AO::getSingleton('core/date')->gmtDate() . " GMT";
 
         return $footer;
     }

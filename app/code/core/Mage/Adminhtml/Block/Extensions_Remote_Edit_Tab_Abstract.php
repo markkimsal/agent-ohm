@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Extensions_Remote_Edit_Tab_Abstract extends Mage_Admi
 
     public function initForm()
     {
-        $this->setPkg(Mage::registry('remote_extension'));
+        $this->setPkg(AO::registry('remote_extension'));
         return $this;
     }
 

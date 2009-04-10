@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setTemplate('system/config/edit.phtml');
 
         $sectionCode = $this->getRequest()->getParam('section');
-        $sections = Mage::getSingleton('adminhtml/config')->getSections();
+        $sections = AO::getSingleton('adminhtml/config')->getSections();
 
         $this->_section = $sections->$sectionCode;
 
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_System_Config_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('adminhtml')->__('Save Config'),
+                    'label'     => AO::helper('adminhtml')->__('Save Config'),
                     'onclick'   => 'configForm.submit()',
                     'class' => 'save',
                 ))

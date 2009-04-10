@@ -53,6 +53,6 @@ class Mage_Adminhtml_Block_System_Email_Template extends Mage_Adminhtml_Block_Te
 
     public function getHeaderText()
     {
-        return Mage::helper('adminhtml')->__('Transactional Emails');
+        return AO::helper('adminhtml')->__('Transactional Emails');
     }
 }

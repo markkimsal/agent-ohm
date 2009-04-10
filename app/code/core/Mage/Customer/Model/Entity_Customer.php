@@ -39,7 +39,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('core/resource');
+        $resource = AO::getSingleton('core/resource');
         $this->setType('customer');
         $this->setConnection(
             $resource->getConnection('customer_read'),
@@ -86,7 +86,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
 
         if ($this->_getWriteAdapter()->fetchOne($select)) {
-            Mage::throwException(Mage::helper('customer')->__('Customer email already exists'));
+            AO::throwException(AO::helper('customer')->__('Customer email already exists'));
         }
 
         // set confirmation key logic
@@ -170,7 +170,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             ->where('email=:customer_email');
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                Mage::throwException(Mage::helper('customer')->__('Customer website id must be specified, when using website scope.'));
+                AO::throwException(AO::helper('customer')->__('Customer website id must be specified, when using website scope.'));
             }
             $select->where('website_id=?', (int)$customer->getWebsiteId());
         }

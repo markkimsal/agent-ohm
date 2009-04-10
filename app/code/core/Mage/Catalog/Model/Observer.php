@@ -45,17 +45,17 @@ class Mage_Catalog_Model_Observer
         $store = $observer->getEvent()->getStore();
         /* @var $store Mage_Core_Model_Store */
         if ($store->dataHasChangedFor('group_id')) {
-            Mage::app()->reinitStores();
-            Mage::getModel('catalog/url')->refreshRewrites($store->getId());
-            Mage::getResourceModel('catalog/category')->refreshProductIndex(
+            AO::app()->reinitStores();
+            AO::getModel('catalog/url')->refreshRewrites($store->getId());
+            AO::getResourceModel('catalog/category')->refreshProductIndex(
                 array(),
                 array(),
                 array($store->getId())
             );
-            if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-                Mage::getResourceModel('catalog/category_flat')->synchronize(null, array($store->getId()));
+            if (AO::helper('catalog/category_flat')->isEnabled(true)) {
+                AO::getResourceModel('catalog/category_flat')->synchronize(null, array($store->getId()));
             }
-            Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($store);
+            AO::getResourceSingleton('catalog/product')->refreshEnabledIndex($store);
         }
         return $this;
     }
@@ -70,19 +70,19 @@ class Mage_Catalog_Model_Observer
     {
         $store = $observer->getEvent()->getStore();
         /* @var $store Mage_Core_Model_Store */
-        Mage::app()->reinitStores();
-        Mage::getConfig()->reinit();
-        Mage::getModel('catalog/url')->refreshRewrites($store->getId());
-        Mage::getResourceSingleton('catalog/category')->refreshProductIndex(
+        AO::app()->reinitStores();
+        AO::getConfig()->reinit();
+        AO::getModel('catalog/url')->refreshRewrites($store->getId());
+        AO::getResourceSingleton('catalog/category')->refreshProductIndex(
             array(),
             array(),
             array($store->getId())
         );
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-            Mage::getResourceModel('catalog/category_flat')
+        if (AO::helper('catalog/category_flat')->isEnabled(true)) {
+            AO::getResourceModel('catalog/category_flat')
                 ->synchronize(null, array($store->getId()));
         }
-        Mage::getResourceModel('catalog/product')->refreshEnabledIndex($store);
+        AO::getResourceModel('catalog/product')->refreshEnabledIndex($store);
         return $this;
     }
 
@@ -97,16 +97,16 @@ class Mage_Catalog_Model_Observer
         $group = $observer->getEvent()->getGroup();
         /* @var $group Mage_Core_Model_Store_Group */
         if ($group->dataHasChangedFor('root_category_id') || $group->dataHasChangedFor('website_id')) {
-            Mage::app()->reinitStores();
+            AO::app()->reinitStores();
             foreach ($group->getStores() as $store) {
-                Mage::getModel('catalog/url')->refreshRewrites($store->getId());
-                Mage::getResourceSingleton('catalog/category')->refreshProductIndex(
+                AO::getModel('catalog/url')->refreshRewrites($store->getId());
+                AO::getResourceSingleton('catalog/category')->refreshProductIndex(
                     array(),
                     array(),
                     array($store->getId())
                 );
-                if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-                    Mage::getResourceModel('catalog/category_flat')
+                if (AO::helper('catalog/category_flat')->isEnabled(true)) {
+                    AO::getResourceModel('catalog/category_flat')
                         ->synchronize(null, array($store->getId()));
                 }
             }
@@ -125,14 +125,14 @@ class Mage_Catalog_Model_Observer
         $categoryId = $observer->getEvent()->getCategoryId();
         $prevParentId = $observer->getEvent()->getPrevParentId();
         $parentId = $observer->getEvent()->getParentId();
-        Mage::getModel('catalog/url')->refreshCategoryRewrite($categoryId);
-        Mage::getResourceSingleton('catalog/category')->refreshProductIndex(array(
+        AO::getModel('catalog/url')->refreshCategoryRewrite($categoryId);
+        AO::getResourceSingleton('catalog/category')->refreshProductIndex(array(
             $categoryId, $prevParentId, $parentId
         ));
-        Mage::getModel('catalog/category')->load($prevParentId)->save();
-        Mage::getModel('catalog/category')->load($parentId)->save();
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
-            Mage::getResourceModel('catalog/category_flat')
+        AO::getModel('catalog/category')->load($prevParentId)->save();
+        AO::getModel('catalog/category')->load($parentId)->save();
+        if (AO::helper('catalog/category_flat')->isEnabled(true)) {
+            AO::getResourceModel('catalog/category_flat')
                 ->move($categoryId, $prevParentId, $parentId);
         }
         return $this;
@@ -146,8 +146,8 @@ class Mage_Catalog_Model_Observer
      */
     public function catalogProductImportAfter(Varien_Event_Observer $observer)
     {
-        Mage::getModel('catalog/url')->refreshRewrites();
-        Mage::getResourceSingleton('catalog/category')->refreshProductIndex();
+        AO::getModel('catalog/url')->refreshRewrites();
+        AO::getResourceSingleton('catalog/category')->refreshProductIndex();
         return $this;
     }
 
@@ -159,7 +159,7 @@ class Mage_Catalog_Model_Observer
      */
     public function catalogProductCompareClean(Varien_Event_Observer $observer)
     {
-        Mage::getModel('catalog/product_compare_item')->clean();
+        AO::getModel('catalog/product_compare_item')->clean();
         return $this;
     }
 
@@ -171,9 +171,9 @@ class Mage_Catalog_Model_Observer
      */
     public function categorySaveAfter(Varien_Event_Observer $observer)
     {
-        if (Mage::helper('catalog/category_flat')->isEnabled(true)) {
+        if (AO::helper('catalog/category_flat')->isEnabled(true)) {
             $category = $observer->getEvent()->getCategory();
-            Mage::getResourceModel('catalog/category_flat')->synchronize($category);
+            AO::getResourceModel('catalog/category_flat')->synchronize($category);
         }
         return $this;
     }

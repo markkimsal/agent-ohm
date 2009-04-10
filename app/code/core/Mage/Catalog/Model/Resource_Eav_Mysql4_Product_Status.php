@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Status extends Mage_Core_Mo
     protected function _getProductAttribute($attribute)
     {
         if (empty($this->_productAttributes[$attribute])) {
-            $this->_productAttributes[$attribute] = Mage::getSingleton('catalog/product')->getResource()->getAttribute($attribute);
+            $this->_productAttributes[$attribute] = AO::getSingleton('catalog/product')->getResource()->getAttribute($attribute);
         }
         return $this->_productAttributes[$attribute];
     }
@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Status extends Mage_Core_Mo
         $indexTable = $this->getTable('catalog/product_enabled_index');
 
         if ($storeId == 0) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (AO::app()->getStores() as $store) {
                 $this->refreshEnabledIndex($productId, $store->getId());
             }
 

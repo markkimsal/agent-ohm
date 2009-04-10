@@ -41,8 +41,8 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $this->loadLayout();
         $this->_setActiveMenu('catalog/sets');
 
-        $this->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'));
-        $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Attribute Sets'), Mage::helper('catalog')->__('Manage Attribute Sets'));
+        $this->_addBreadcrumb(AO::helper('catalog')->__('Catalog'), AO::helper('catalog')->__('Catalog'));
+        $this->_addBreadcrumb(AO::helper('catalog')->__('Manage Attribute Sets'), AO::helper('catalog')->__('Manage Attribute Sets'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_toolbar_main'));
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_grid'));
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $this->_setTypeId();
-        $attributeSet = Mage::getModel('eav/entity_attribute_set')
+        $attributeSet = AO::getModel('eav/entity_attribute_set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -61,14 +61,14 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
             return;
         }
 
-        Mage::register('current_attribute_set', $attributeSet);
+        AO::register('current_attribute_set', $attributeSet);
 
         $this->loadLayout();
         $this->_setActiveMenu('catalog/sets');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $this->_addBreadcrumb(Mage::helper('catalog')->__('Catalog'), Mage::helper('catalog')->__('Catalog'));
-        $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Product Sets'), Mage::helper('catalog')->__('Manage Product Sets'));
+        $this->_addBreadcrumb(AO::helper('catalog')->__('Catalog'), AO::helper('catalog')->__('Catalog'));
+        $this->_addBreadcrumb(AO::helper('catalog')->__('Manage Product Sets'), AO::helper('catalog')->__('Manage Product Sets'));
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/catalog_product_attribute_set_main'));
 
@@ -87,14 +87,14 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
         $response = new Varien_Object();
         $response->setError(0);
 
-        $modelSet = Mage::getModel('eav/entity_attribute_set')
+        $modelSet = AO::getModel('eav/entity_attribute_set')
             ->setId($this->getRequest()->getParam('id'))
-            ->setEntityTypeId(Mage::registry('entityType'));
+            ->setEntityTypeId(AO::registry('entityType'));
 
         if( $this->getRequest()->getParam('gotoEdit') ) {
-            $modelSet = Mage::getModel('eav/entity_attribute_set');
+            $modelSet = AO::getModel('eav/entity_attribute_set');
             $modelSet->setAttributeSetName($this->getRequest()->getParam('attribute_set_name'))
-                ->setEntityTypeId(Mage::registry('entityType'));
+                ->setEntityTypeId(AO::registry('entityType'));
         } else {
             $data = Zend_Json_Decoder::decode($this->getRequest()->getPost('data'));
             $modelSet->organizeData($data);
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            Mage::getModel('eav/entity_attribute_set')
+            AO::getModel('eav/entity_attribute_set')
                 ->setId($setId)
                 ->delete();
 
@@ -162,12 +162,12 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     protected function _setTypeId()
     {
-        Mage::register('entityType',
-            Mage::getModel('catalog/product')->getResource()->getTypeId());
+        AO::register('entityType',
+            AO::getModel('catalog/product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/attributes/sets');
+        return AO::getSingleton('admin/session')->isAllowed('catalog/attributes/sets');
     }
 }

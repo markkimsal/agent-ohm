@@ -36,7 +36,7 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
 {
 	public function getCustomer()
 	{
-		return Mage::getSingleton('customer/session')->getCustomer();
+		return AO::getSingleton('customer/session')->getCustomer();
 	}
 
     public function getPrimaryShippingAddressHtml()
@@ -46,7 +46,7 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
         if( $address instanceof Varien_Object ) {
             return $address->format('html');
         } else {
-            return Mage::helper('customer')->__('You have not set a primary shipping address.');
+            return AO::helper('customer')->__('You have not set a primary shipping address.');
         }
     }
 
@@ -57,18 +57,18 @@ class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Temp
         if( $address instanceof Varien_Object ) {
         	return $address->format('html');
         } else {
-            return Mage::helper('customer')->__('You have not set a primary billing address.');
+            return AO::helper('customer')->__('You have not set a primary billing address.');
         }
     }
 
     public function getPrimaryShippingAddressEditUrl()
     {
-    	return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+    	return AO::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
     }
 
     public function getPrimaryBillingAddressEditUrl()
     {
-    	return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+    	return AO::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
     }
 
     public function getAddressBookUrl()

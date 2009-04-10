@@ -85,7 +85,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     protected function _loadIndexers()
     {
         foreach ($this->_getRegisteredIndexers() as $name=>$class) {
-            $this->_indexers[$name] = Mage::getSingleton($class);
+            $this->_indexers[$name] = AO::getSingleton($class);
         }
         return $this;
     }
@@ -98,7 +98,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     protected function _getRegisteredIndexers()
     {
         $result = array();
-        $indexerRegistry = Mage::getConfig()->getNode('global/catalogindex/indexer');
+        $indexerRegistry = AO::getConfig()->getNode('global/catalogindex/indexer');
 
         foreach ($indexerRegistry->children() as $node) {
             $result[$node->getName()] = (string) $node->class;
@@ -133,7 +133,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     {
         $stores = $this->getData('_stores');
         if (is_null($stores)) {
-            $stores = Mage::app()->getStores();
+            $stores = AO::app()->getStores();
             $this->setData('_stores', $stores);
         }
         return $stores;
@@ -148,7 +148,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     {
         $websites = $this->getData('_websites');
         if (is_null($websites)) {
-            $websites = Mage::getModel('core/website')->getCollection()->load();
+            $websites = AO::getModel('core/website')->getCollection()->load();
             /* @var $stores Mage_Core_Model_Mysql4_Website_Collection */
 
             $this->setData('_websites', $websites);
@@ -180,7 +180,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
         /**
          * Check indexer flag
          */
-        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        $flag = AO::getModel('catalogindex/catalog_index_flag')->loadSelf();
         if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
             return $this;
         } else /*if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED)*/ {
@@ -211,10 +211,10 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                 $stores = array($stores);
             } else if (is_array($stores)) {
                 foreach ($stores as $one) {
-                    $websites[] = Mage::app()->getStore($one)->getWebsiteId();
+                    $websites[] = AO::app()->getStore($one)->getWebsiteId();
                 }
             } else if (!is_array($stores)) {
-                Mage::throwException('Invalid stores supplied for indexing');
+                AO::throwException('Invalid stores supplied for indexing');
             }
 
             /**
@@ -235,7 +235,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             } else if ($attributes == self::REINDEX_TYPE_ATTRIBUTE) {
                 $attributeCodes = $this->_indexers['eav']->getIndexableAttributeCodes();
             } else {
-                Mage::throwException('Invalid attributes supplied for indexing');
+                AO::throwException('Invalid attributes supplied for indexing');
             }
 
             /**
@@ -256,7 +256,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
              * (prices depends from website level)
              */
             foreach ($websites as $website) {
-                $ws = Mage::app()->getWebsite($website);
+                $ws = AO::app()->getWebsite($website);
                 if (!$ws) {
                     continue;
                 }
@@ -279,7 +279,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                     $collection = $this->_getProductCollection($store, $products);
                     $collection->addAttributeToFilter(
                         'status',
-                        array('in'=>Mage::getModel('catalog/product_status')->getSaleableStatusIds())
+                        array('in'=>AO::getModel('catalog/product_status')->getSaleableStatusIds())
                     );
                     $collection->addFieldToFilter('type_id', $type);
 
@@ -293,7 +293,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             foreach ($stores as $store) {
                 foreach ($this->_getPriorifiedProductTypes() as $type) {
                     $collection = $this->_getProductCollection($store, $products);
-                    Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($collection);
+                    AO::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($collection);
                     $collection->addFieldToFilter('type_id', $type);
 
                     $this->_walkCollection($collection, $store, $attributeCodes);
@@ -303,7 +303,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
             /**
              * Catalog Product Flat price update
              */
-            if (Mage::helper('catalog/product_flat')->isBuilt()) {
+            if (AO::helper('catalog/product_flat')->isBuilt()) {
                 foreach ($stores as $store) {
                     $this->updateCatalogProductFlat($store, $products);
                 }
@@ -330,7 +330,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
      */
     protected function _getProductCollection($store, $products)
     {
-        $collection = Mage::getModel('catalog/product')
+        $collection = AO::getModel('catalog/product')
             ->getCollection()
             ->setStoreId($store)
             ->addStoreFilter($store);
@@ -383,9 +383,9 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                 $this->_getResource()->reindexFinalPrices($stepData, $store);
             }
 
-            Mage::getResourceSingleton('catalog/product')->refreshEnabledIndex($store, $stepData);
+            AO::getResourceSingleton('catalog/product')->refreshEnabledIndex($store, $stepData);
 
-            $kill = Mage::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
+            $kill = AO::getModel('catalogindex/catalog_index_kill_flag')->loadSelf();
             if ($kill->checkIsThisProcess()) {
                 $this->_getResource()->rollBack();
                 $kill->delete();
@@ -398,7 +398,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     public function queueIndexing()
     {
-        $flag = Mage::getModel('catalogindex/catalog_index_flag')
+        $flag = AO::getModel('catalogindex/catalog_index_flag')
             ->loadSelf()
             ->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_QUEUED)
             ->save();
@@ -418,7 +418,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_productTypePriority)) {
             $this->_productTypePriority = array();
-            $config = Mage::getConfig()->getNode('global/catalog/product/type');
+            $config = AO::getConfig()->getNode('global/catalog/product/type');
 
             foreach ($config->children() as $type) {
                 $typeName = $type->getName();
@@ -432,17 +432,17 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
     protected function _getBaseToSpecifiedCurrencyRate($code)
     {
-        return Mage::app()->getStore()->getBaseCurrency()->getRate($code);
+        return AO::app()->getStore()->getBaseCurrency()->getRate($code);
     }
 
     public function buildEntityPriceFilter($attributes, $values, &$filteredAttributes, $productCollection)
     {
         $additionalCalculations = array();
         $filter = array();
-        $store = Mage::app()->getStore()->getId();
-        $website = Mage::app()->getStore()->getWebsiteId();
+        $store = AO::app()->getStore()->getId();
+        $website = AO::app()->getStore()->getWebsiteId();
 
-        $currentStoreCurrency = Mage::app()->getStore()->getCurrentCurrencyCode();
+        $currentStoreCurrency = AO::app()->getStore()->getCurrentCurrencyCode();
 
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
@@ -470,7 +470,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                                     'store_id'=>$store,
                                     'response_object'=>$response,
                                 );
-                                Mage::dispatchEvent('catalogindex_prepare_price_select', $args);
+                                AO::dispatchEvent('catalogindex_prepare_price_select', $args);
                                 $additionalCalculations[$code] = $response->getAdditionalCalculations();
 
                                 if ($indexer->isAttributeIdUsed()) {
@@ -508,7 +508,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
                             if ($code == 'price') {
                                 $filter[$code]->where(
                                     $table . '.customer_group_id = ?',
-                                    Mage::getSingleton('customer/session')->getCustomerGroupId()
+                                    AO::getSingleton('customer/session')->getCustomerGroupId()
                                 );
                             }
 
@@ -524,7 +524,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
     public function buildEntityFilter($attributes, $values, &$filteredAttributes, $productCollection)
     {
         $filter = array();
-        $store = Mage::app()->getStore()->getId();
+        $store = AO::app()->getStore()->getId();
 
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();

@@ -24,7 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-set_include_path(get_include_path().PS.Mage::getBaseDir('lib').DS.'googlecheckout');
+set_include_path(get_include_path().PS.AO::getBaseDir('lib').DS.'googlecheckout');
 
 require_once('googleresponse.php');
 require_once('googlemerchantcalculations.php');
@@ -35,7 +35,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 {
     public function log($text, $nl=true)
     {
-        error_log(print_r($text,1).($nl?"\n":''), 3, Mage::getBaseDir('log').DS.'callback.log');
+        error_log(print_r($text,1).($nl?"\n":''), 3, AO::getBaseDir('log').DS.'callback.log');
         return $this;
     }
 
@@ -44,13 +44,13 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_GoogleCheckout');
         array_unshift($args, $expr);
-        return Mage::app()->getTranslator()->translate($args);
+        return AO::app()->getTranslator()->translate($args);
     }
 
     public function getMerchantId()
     {
         if (!$this->hasData('merchant_id')) {
-            $this->setData('merchant_id', Mage::getStoreConfig('google/checkout/merchant_id', $this->getStoreId()));
+            $this->setData('merchant_id', AO::getStoreConfig('google/checkout/merchant_id', $this->getStoreId()));
         }
         return $this->getData('merchant_id');
     }
@@ -58,7 +58,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
     public function getMerchantKey()
     {
         if (!$this->hasData('merchant_key')) {
-            $this->setData('merchant_key', Mage::getStoreConfig('google/checkout/merchant_key', $this->getStoreId()));
+            $this->setData('merchant_key', AO::getStoreConfig('google/checkout/merchant_key', $this->getStoreId()));
         }
         return $this->getData('merchant_key');
     }
@@ -66,7 +66,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
     public function getServerType()
     {
         if (!$this->hasData('server_type')) {
-            $this->setData('server_type', Mage::getStoreConfig('google/checkout/sandbox', $this->getStoreId()) ? "sandbox" : "");
+            $this->setData('server_type', AO::getStoreConfig('google/checkout/sandbox', $this->getStoreId()) ? "sandbox" : "");
         }
         return $this->getData('server_type');
     }
@@ -74,7 +74,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
     public function getLocale()
     {
         if (!$this->hasData('locale')) {
-            $this->setData('locale', Mage::getStoreConfig('google/checkout/locale', $this->getStoreId()));
+            $this->setData('locale', AO::getStoreConfig('google/checkout/locale', $this->getStoreId()));
         }
         return $this->getData('locale');
     }
@@ -82,7 +82,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
     public function getCurrency()
     {
         if (!$this->hasData('currency')) {
-            $this->setData('currency', Mage::app()->getStore()->getBaseCurrencyCode());
+            $this->setData('currency', AO::app()->getStore()->getBaseCurrencyCode());
             //$this->setData('currency', $this->getLocale()=='en_US' ? 'USD' : 'GBP');
         }
         return $this->getData('currency');
@@ -104,7 +104,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
             ));
 
             //Setup the log file
-            $logDir = Mage::getBaseDir('log');
+            $logDir = AO::getBaseDir('log');
             $this->getData('g_request')->SetLogFiles(
                 $logDir.DS.'googleerror.log',
                 $logDir.DS.'googlemessage.log',
@@ -128,7 +128,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
             ));
 
             //Setup the log file
-            $logDir = Mage::getBaseDir('log');
+            $logDir = AO::getBaseDir('log');
             $this->getData('g_response')->SetLogFiles(
                 $logDir.DS.'googleerror.log',
                 $logDir.DS.'googlemessage.log',
@@ -165,8 +165,8 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\r\n".$xml;
 
-        if (Mage::getStoreConfig('google/checkout/debug', $this->getStoreId())) {
-            $debug = Mage::getModel('googlecheckout/api_debug');
+        if (AO::getStoreConfig('google/checkout/debug', $this->getStoreId())) {
+            $debug = AO::getModel('googlecheckout/api_debug');
             $debug->setDir('out')->setUrl($url)->setRequestBody($xml)->save();
         }
 
@@ -198,6 +198,6 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
 
     protected function _getCallbackUrl()
     {
-        return Mage::getUrl('googlecheckout/api', array('_forced_secure'=>Mage::getStoreConfig('google/checkout/use_secure_callback_url', $this->getStoreId())));
+        return AO::getUrl('googlecheckout/api', array('_forced_secure'=>AO::getStoreConfig('google/checkout/use_secure_callback_url', $this->getStoreId())));
     }
 }

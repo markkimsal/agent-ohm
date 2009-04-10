@@ -91,7 +91,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
      * @return Mage_Adminhtml_Model_Giftmessage_Save
      */
     protected function _saveOne($entityId, $giftmessage) {
-        $giftmessageModel = Mage::getModel('giftmessage/message');
+        $giftmessageModel = AO::getModel('giftmessage/message');
 
         if ($this->_getMappedType($giftmessage['type'])!='quote_item') {
             $entityModel = $giftmessageModel->getEntityModelByType($this->_getMappedType($giftmessage['type']));
@@ -140,7 +140,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
         if(is_null($giftmessageModel)) {
-            $giftmessageModel = Mage::getModel('giftmessage/message')
+            $giftmessageModel = AO::getModel('giftmessage/message')
                 ->load($entityModel->getGiftMessageId());
         }
         $giftmessageModel->delete();
@@ -237,7 +237,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
      */
     public function isGiftMessagesAvailable($item)
     {
-        return Mage::helper('giftmessage/message')->getIsMessagesAvailable(
+        return AO::helper('giftmessage/message')->getIsMessagesAvailable(
             'item', $item, $item->getStore()
         );
     }
@@ -253,7 +253,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
         foreach ($products as $productId=>$data) {
-            $product = Mage::getModel('catalog/product')
+            $product = AO::getModel('catalog/product')
                 ->setStore($this->_getSession()->getStore())
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);
@@ -336,7 +336,7 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('adminhtml/session_quote');
+        return AO::getSingleton('adminhtml/session_quote');
     }
 
     /**

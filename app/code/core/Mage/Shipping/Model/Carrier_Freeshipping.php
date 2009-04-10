@@ -51,7 +51,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
             return false;
         }
 
-        $result = Mage::getModel('shipping/rate_result');
+        $result = AO::getModel('shipping/rate_result');
 //      $packageValue = $request->getBaseCurrency()->convert($request->getPackageValueWithDiscount(), $request->getPackageCurrency());
         $packageValue = $request->getPackageValueWithDiscount();
 
@@ -61,7 +61,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
             || ($packageValue >= $this->getConfigData('free_shipping_subtotal'));
 
         if ($allow) {
-            $method = Mage::getModel('shipping/rate_result_method');
+            $method = AO::getModel('shipping/rate_result_method');
 
             $method->setCarrier('freeshipping');
             $method->setCarrierTitle($this->getConfigData('title'));

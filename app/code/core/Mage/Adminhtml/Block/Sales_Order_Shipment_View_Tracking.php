@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('sales')->__('Add'),
+                    'label'   => AO::helper('sales')->__('Add'),
                     'class'   => 'save',
                     'onclick' => $onclick
                 ))
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return AO::registry('current_shipment');
     }
 
     /**
@@ -116,10 +116,10 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('shipping/config')->getAllCarriers(
+        $carrierInstances = AO::getSingleton('shipping/config')->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
-        $carriers['custom'] = Mage::helper('sales')->__('Custom Value');
+        $carriers['custom'] = AO::helper('sales')->__('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
                 $carriers[$code] = $carrier->getConfigData('title');
@@ -130,11 +130,11 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Mage_Admin
 
     public function getCarrierTitle($code)
     {
-        if ($carrier = Mage::getSingleton('shipping/config')->getCarrierInstance($code)) {
+        if ($carrier = AO::getSingleton('shipping/config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
         }
         else {
-            return Mage::helper('sales')->__('Custom Value');
+            return AO::helper('sales')->__('Custom Value');
         }
         return false;
     }

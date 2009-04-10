@@ -82,7 +82,7 @@ class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
      */
     public function getScriptCode()
     {
-        if (!Mage::helper('googleoptimizer')->isOptimizerActive()) {
+        if (!AO::helper('googleoptimizer')->isOptimizerActive()) {
             return '';
         }
         if (is_null($this->_scriptType)) {

@@ -116,7 +116,7 @@ class Mage_Core_Model_Translate
     {
 	$this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
 
-	$this->_translateInline = Mage::getSingleton('core/translate_inline')
+	$this->_translateInline = AO::getSingleton('core/translate_inline')
 	    ->isAllowed($area=='adminhtml' ? 'admin' : null);
 
 	if (!$forceReload) {
@@ -126,7 +126,7 @@ class Mage_Core_Model_Translate
 		    return $this;
 		}
 	    }
-	    Mage::app()->removeCache($this->getCacheId());
+	    AO::app()->removeCache($this->getCacheId());
 	}
 
 	$this->_data = array();
@@ -153,11 +153,11 @@ class Mage_Core_Model_Translate
      */
     public function getModulesConfig()
     {
-	if (!Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')) {
+	if (!AO::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')) {
 	    return array();
 	}
 
-	$config = Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')->children();
+	$config = AO::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA).'/translate/modules')->children();
 	if (!$config) {
 	    return array();
 	}
@@ -179,7 +179,7 @@ class Mage_Core_Model_Translate
 	    $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
 	}
 	if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
-	    $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
+	    $this->_config[self::CONFIG_KEY_STORE] = AO::app()->getStore()->getId();
 	}
 	if (!isset($this->_config[self::CONFIG_KEY_DESIGN_PACKAGE])) {
 	    $this->_config[self::CONFIG_KEY_DESIGN_PACKAGE] = $d->getPackageName();
@@ -296,8 +296,8 @@ class Mage_Core_Model_Translate
      */
     protected function _getModuleFilePath($module, $fileName)
     {
-	//$file = Mage::getConfig()->getModuleDir('locale', $module);
-	$file = Mage::getBaseDir('locale');
+	//$file = AO::getConfig()->getModuleDir('locale', $module);
+	$file = AO::getBaseDir('locale');
 	$file.= DS.$this->getLocale().DS.$fileName;
 	return $file;
     }
@@ -328,7 +328,7 @@ class Mage_Core_Model_Translate
     {
 	if (is_null($this->_data)) {
 	    return array();
-	    //Mage::throwException('Translation data is not initialized. Please contact developers.');
+	    //AO::throwException('Translation data is not initialized. Please contact developers.');
 	}
 	return $this->_data;
     }
@@ -341,7 +341,7 @@ class Mage_Core_Model_Translate
     public function getLocale()
     {
 	if (is_null($this->_locale)) {
-	    $this->_locale = Mage::app()->getLocale()->getLocaleCode();
+	    $this->_locale = AO::app()->getLocale()->getLocaleCode();
 	}
 	return $this->_locale;
     }
@@ -359,7 +359,7 @@ class Mage_Core_Model_Translate
      */
     public function getResource()
     {
-	return Mage::getResourceSingleton('core/translate');
+	return AO::getResourceSingleton('core/translate');
     }
 
     /**
@@ -464,23 +464,23 @@ class Mage_Core_Model_Translate
 	    $localeCode = $this->getLocale();
 	}
 
-	$filePath = Mage::getBaseDir('locale')  . DS
+	$filePath = AO::getBaseDir('locale')  . DS
 		  . $localeCode . DS . 'template' . DS . $type . DS . $file;
 
 	if (!file_exists($filePath)) { // If no template specified for this locale, use store default
-	    $filePath = Mage::getBaseDir('locale') . DS
-		      . Mage::app()->getLocale()->getDefaultLocale()
+	    $filePath = AO::getBaseDir('locale') . DS
+		      . AO::app()->getLocale()->getDefaultLocale()
 		      . DS . 'template' . DS . $type . DS . $file;
 	}
 
 	if (!file_exists($filePath)) {  // If no template specified as  store default locale, use en_US
-	    $filePath = Mage::getBaseDir('locale') . DS
+	    $filePath = AO::getBaseDir('locale') . DS
 		      . Mage_Core_Model_Locale::DEFAULT_LOCALE
 		      . DS . 'template' . DS . $type . DS . $file;
 	}
 
 	$ioAdapter = new Varien_Io_File();
-	$ioAdapter->open(array('path' => Mage::getBaseDir('locale')));
+	$ioAdapter->open(array('path' => AO::getBaseDir('locale')));
 
 	return (string) $ioAdapter->read($filePath);
     }
@@ -524,7 +524,7 @@ class Mage_Core_Model_Translate
 	if (!$this->_canUseCache()) {
 	    return false;
 	}
-	$data = Mage::app()->loadCache($this->getCacheId());
+	$data = AO::app()->loadCache($this->getCacheId());
 	$data = unserialize($data);
 	return $data;
     }
@@ -540,7 +540,7 @@ class Mage_Core_Model_Translate
 	if (!$this->_canUseCache()) {
 	    return $this;
 	}
-	Mage::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array(self::CACHE_TAG), null);
+	AO::app()->saveCache(serialize($this->getData()), $this->getCacheId(), array(self::CACHE_TAG), null);
 	return $this;
     }
 
@@ -551,7 +551,7 @@ class Mage_Core_Model_Translate
      */
     protected function _canUseCache()
     {
-	return Mage::app()->useCache('translate');
+	return AO::app()->useCache('translate');
     }
 
     /**

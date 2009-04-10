@@ -49,7 +49,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         }
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
 
-        $taxCalculationModel = Mage::getSingleton('tax/calculation');
+        $taxCalculationModel = AO::getSingleton('tax/calculation');
         /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest($address, $address->getQuote()->getBillingAddress(), $custTaxClassId, $store);
 
@@ -125,14 +125,14 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         }
 
 
-        $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+        $shippingTaxClass = AO::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
 
         $shippingTax      = 0;
         $shippingBaseTax  = 0;
 
         if ($shippingTaxClass) {
             if ($rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass))) {
-                if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
+                if (!AO::helper('tax')->shippingPriceIncludesTax()) {
                     $shippingTax    = $address->getShippingAmount() * $rate/100;
                     $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
                 } else {
@@ -156,7 +156,7 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
             }
         }
 
-        if (!Mage::helper('tax')->shippingPriceIncludesTax()) {
+        if (!AO::helper('tax')->shippingPriceIncludesTax()) {
             $address->setShippingTaxAmount($shippingTax);
             $address->setBaseShippingTaxAmount($shippingBaseTax);
         }
@@ -211,10 +211,10 @@ class Mage_Sales_Model_Quote_Address_Total_Tax extends Mage_Sales_Model_Quote_Ad
         $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
 
-        if (($amount!=0) || (Mage::helper('tax')->displayZeroTax($store))) {
+        if (($amount!=0) || (AO::helper('tax')->displayZeroTax($store))) {
             $address->addTotal(array(
                 'code'=>$this->getCode(),
-                'title'=>Mage::helper('sales')->__('Tax'),
+                'title'=>AO::helper('sales')->__('Tax'),
                 'full_info'=>$applied ? $applied : array(),
                 'value'=>$amount
             ));

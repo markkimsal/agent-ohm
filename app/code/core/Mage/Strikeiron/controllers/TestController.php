@@ -36,7 +36,7 @@ class Mage_Strikeiron_TestController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
-        $model = Mage::getModel('strikeiron/strikeiron');
+        $model = AO::getModel('strikeiron/strikeiron');
         $model->getTaxRate();
     }
 }

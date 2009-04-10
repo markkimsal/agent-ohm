@@ -94,8 +94,8 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportCouponsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportCouponsExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportCouponsCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportCouponsExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

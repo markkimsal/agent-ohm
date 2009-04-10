@@ -89,8 +89,8 @@ class Mage_Adminhtml_Block_Report_Customer_Totals_Grid extends Mage_Adminhtml_Bl
             'renderer'  => 'adminhtml/report_grid_column_renderer_currency'
         ));
 
-        $this->addExportType('*/*/exportTotalsCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportTotalsExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportTotalsCsv', AO::helper('reports')->__('CSV'));
+        $this->addExportType('*/*/exportTotalsExcel', AO::helper('reports')->__('Excel'));
 
         return parent::_prepareColumns();
     }

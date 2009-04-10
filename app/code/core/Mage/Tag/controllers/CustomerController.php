@@ -38,10 +38,10 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
     {
         $tagId = (int) $this->getRequest()->getParam('tagId');
         if ($tagId) {
-            $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-            $model = Mage::getModel('tag/tag_relation');
+            $customerId = AO::getSingleton('customer/session')->getCustomerId();
+            $model = AO::getModel('tag/tag_relation');
             $model->loadByTagCustomer(null, $tagId, $customerId);
-            Mage::register('tagModel', $model);
+            AO::register('tagModel', $model);
             return $model->getTagId();
         }
         return false;
@@ -49,8 +49,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function indexAction()
     {
-        if( !Mage::getSingleton('customer/session')->getCustomerId() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !AO::getSingleton('customer/session')->getCustomerId() ) {
+            AO::getSingleton('customer/session')->authenticate($this);
             return;
         }
 
@@ -66,18 +66,18 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('tag')->__('My Tags'));
+        $this->getLayout()->getBlock('head')->setTitle(AO::helper('tag')->__('My Tags'));
         $this->renderLayout();
     }
 
     public function viewAction()
     {
-        if( !Mage::getSingleton('customer/session')->getCustomerId() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !AO::getSingleton('customer/session')->getCustomerId() ) {
+            AO::getSingleton('customer/session')->authenticate($this);
             return;
         }
         if ($tagId = $this->_getTagId()) {
-            Mage::register('tagId', $tagId);
+            AO::register('tagId', $tagId);
             $this->loadLayout();
             $this->_initLayoutMessages('tag/session');
 
@@ -86,7 +86,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
             }
 
             $this->_initLayoutMessages('checkout/session');
-            $this->getLayout()->getBlock('head')->setTitle(Mage::helper('tag')->__('My Tags'));
+            $this->getLayout()->getBlock('head')->setTitle(AO::helper('tag')->__('My Tags'));
             $this->renderLayout();
         }
         else {
@@ -96,8 +96,8 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function editAction()
     {
-        if( !Mage::getSingleton('customer/session')->getCustomerId() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !AO::getSingleton('customer/session')->getCustomerId() ) {
+            AO::getSingleton('customer/session')->authenticate($this);
             return;
         }
 
@@ -117,21 +117,21 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function removeAction()
     {
-        if( !Mage::getSingleton('customer/session')->getCustomerId() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !AO::getSingleton('customer/session')->getCustomerId() ) {
+            AO::getSingleton('customer/session')->authenticate($this);
             return;
         }
 
         if ($tagId = $this->_getTagId()) {
             try {
-                $model = Mage::registry('tagModel');
+                $model = AO::registry('tagModel');
                 $model->deactivate();
-                $tag = Mage::getModel('tag/tag')->load($tagId)->aggregate();
-                Mage::getSingleton('tag/session')->addSuccess(Mage::helper('tag')->__('Your tag was successfully deleted'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                $tag = AO::getModel('tag/tag')->load($tagId)->aggregate();
+                AO::getSingleton('tag/session')->addSuccess(AO::helper('tag')->__('Your tag was successfully deleted'));
+                $this->getResponse()->setRedirect(AO::getUrl('*/*/'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')->addError(Mage::helper('tag')->__('Unable to remove tag. Please, try again later.'));
+                AO::getSingleton('tag/session')->addError(AO::helper('tag')->__('Unable to remove tag. Please, try again later.'));
             }
         }
         else {
@@ -141,17 +141,17 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
     public function saveAction()
     {
-        if( !Mage::getSingleton('customer/session')->getCustomerId() ) {
-            Mage::getSingleton('customer/session')->authenticate($this);
+        if( !AO::getSingleton('customer/session')->getCustomerId() ) {
+            AO::getSingleton('customer/session')->authenticate($this);
             return;
         }
 
         $tagId      = (int) $this->getRequest()->getParam('tagId');
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        $customerId = AO::getSingleton('customer/session')->getCustomerId();
         $tagName    = (string) $this->getRequest()->getPost('productTagName');
 
         if (strlen($tagName) === 0) {
-            Mage::getSingleton('tag/session')->addError(Mage::helper('tag')->__('Tag can\'t be empty.'));
+            AO::getSingleton('tag/session')->addError(AO::helper('tag')->__('Tag can\'t be empty.'));
             $this->_redirect('*/*/edit', array('tagId'=>$tagId));
             return;
         }
@@ -161,9 +161,9 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                 $productId  = 0;
                 $isNew      = false;
                 $message    = false;
-                $storeId    = Mage::app()->getStore()->getId();
+                $storeId    = AO::app()->getStore()->getId();
 
-                $tagModel = Mage::getModel('tag/tag');
+                $tagModel = AO::getModel('tag/tag');
                 $tagModel->load($tagId);
 
                 if( $tagModel->getName() != $tagName ) {
@@ -174,7 +174,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                     }
                     else {
                         $isNew  = true;
-                        $message= Mage::helper('tag')->__('Thank you. Your tag has been accepted for moderation.');
+                        $message= AO::helper('tag')->__('Thank you. Your tag has been accepted for moderation.');
                         $status = $tagModel->getPendingStatus();
                     }
 
@@ -184,7 +184,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                         ->save();
                 }
 
-                $tagRalationModel = Mage::getModel('tag/tag_relation');
+                $tagRalationModel = AO::getModel('tag/tag_relation');
                 $tagRalationModel->loadByTagCustomer(null, $tagId, $customerId, $storeId);
 
                 if ($tagRalationModel->getCustomerId() == $customerId ) {
@@ -196,7 +196,7 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
                     }
 
                     foreach ($productIds as $productId) {
-                        $newTagRalationModel = Mage::getModel('tag/tag_relation')
+                        $newTagRalationModel = AO::getModel('tag/tag_relation')
                             ->setTagId($tagModel->getId())
                             ->setCustomerId($customerId)
                             ->setStoreId($storeId)
@@ -208,15 +208,15 @@ class Mage_Tag_CustomerController extends Mage_Core_Controller_Front_Action
 
                 if( $tagModel->getId() ) {
                     $tagModel->aggregate();
-                    $this->getResponse()->setRedirect(Mage::getUrl('*/*/'));
+                    $this->getResponse()->setRedirect(AO::getUrl('*/*/'));
                 }
-                $message = ($message) ? $message : Mage::helper('tag')->__('Your tag was successfully saved');
-                Mage::getSingleton('tag/session')->addSuccess($message);
+                $message = ($message) ? $message : AO::helper('tag')->__('Your tag was successfully saved');
+                AO::getSingleton('tag/session')->addSuccess($message);
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('tag/session')->addError(
-                    Mage::helper('tag')->__('Unable to save your tag. Please, try again later.')
+                AO::getSingleton('tag/session')->addError(
+                    AO::helper('tag')->__('Unable to save your tag. Please, try again later.')
                 );
             }
         }

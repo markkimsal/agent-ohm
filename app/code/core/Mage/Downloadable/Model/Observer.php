@@ -62,23 +62,23 @@ class Mage_Downloadable_Model_Observer
     public function saveDownloadableOrderItem($observer)
     {
         $orderItem = $observer->getEvent()->getItem();
-        if (Mage::getModel('downloadable/link_purchased')->load($orderItem->getId(), 'order_item_id')->getId()) {
+        if (AO::getModel('downloadable/link_purchased')->load($orderItem->getId(), 'order_item_id')->getId()) {
             return $this;
         }
-        $product = Mage::getModel('catalog/product')
+        $product = AO::getModel('catalog/product')
             ->setStoreId($orderItem->getOrder()->getStoreId())
             ->load($orderItem->getProductId());
         if ($product->getTypeId() == Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance(true)->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = Mage::getModel('downloadable/link_purchased');
-                Mage::helper('core')->copyFieldset(
+                $linkPurchased = AO::getModel('downloadable/link_purchased');
+                AO::helper('core')->copyFieldset(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                Mage::helper('core')->copyFieldset(
+                AO::helper('core')->copyFieldset(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -86,17 +86,17 @@ class Mage_Downloadable_Model_Observer
                 );
                 $linkSectionTitle = (
                     $product->getLinksTitle()?
-                    $product->getLinksTitle():Mage::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                    $product->getLinksTitle():AO::getStoreConfig(Mage_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchasedItem = Mage::getModel('downloadable/link_purchased_item')
+                        $linkPurchasedItem = AO::getModel('downloadable/link_purchased_item')
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        Mage::helper('core')->copyFieldset(
+                        AO::helper('core')->copyFieldset(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],
@@ -126,7 +126,7 @@ class Mage_Downloadable_Model_Observer
      */
     public function setHasDownloadableProducts($observer)
     {
-        $session = Mage::getSingleton('checkout/session');
+        $session = AO::getSingleton('checkout/session');
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
@@ -152,7 +152,7 @@ class Mage_Downloadable_Model_Observer
         /** @var $order Mage_Sales_Model_Order */
         $status = '';
         $orderItemsIds = array();
-        $orderItemStatusToEnable = Mage::getStoreConfig(Mage_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS);
+        $orderItemStatusToEnable = AO::getStoreConfig(Mage_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS);
         if ($order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
             $status = Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING;
         } elseif ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED
@@ -181,7 +181,7 @@ class Mage_Downloadable_Model_Observer
         }
 
         if ($orderItemsIds) {
-            $linkPurchased = Mage::getResourceModel('downloadable/link_purchased_item_collection')
+            $linkPurchased = AO::getResourceModel('downloadable/link_purchased_item_collection')
             ->addFieldToFilter('order_item_id', array('in'=>$orderItemsIds));
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != Mage_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED) {
@@ -215,7 +215,7 @@ class Mage_Downloadable_Model_Observer
             }
         }
 
-        if ($isContain && Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
+        if ($isContain && AO::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
             $result->setIsAllowed(false);
         }
 

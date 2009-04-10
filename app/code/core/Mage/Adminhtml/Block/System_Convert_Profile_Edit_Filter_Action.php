@@ -39,9 +39,9 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Edit_Filter_Action
     {
         $values = array(
             ''       => '',
-            'create' => Mage::helper('adminhtml')->__('Create'),
-            'run'    => Mage::helper('adminhtml')->__('Run'),
-            'update' => Mage::helper('adminhtml')->__('Update'),
+            'create' => AO::helper('adminhtml')->__('Create'),
+            'run'    => AO::helper('adminhtml')->__('Run'),
+            'update' => AO::helper('adminhtml')->__('Update'),
         );
         $value = $this->getValue();
 

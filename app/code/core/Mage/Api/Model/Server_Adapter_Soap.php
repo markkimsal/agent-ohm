@@ -94,15 +94,15 @@ class Mage_Api_Model_Server_Adapter_Soap
      */
     public function run()
     {
-        $urlModel = Mage::getModel('core/url')
+        $urlModel = AO::getModel('core/url')
             ->setUseSession(false);
         if ($this->getController()->getRequest()->getParam('wsdl')) {
             // Generating wsdl content from template
             $io   = new Varien_Io_File();
-            $io->open(array('path'=>Mage::getModuleDir('etc', 'Mage_Api')));
+            $io->open(array('path'=>AO::getModuleDir('etc', 'Mage_Api')));
             $wsdlContent = $io->read('wsdl.xml');
 
-            $template = Mage::getModel('core/email_template_filter');
+            $template = AO::getModel('core/email_template_filter');
 
             $wsdlConfig = new Varien_Object();
             $queryParams = $this->getController()->getRequest()->getQuery();

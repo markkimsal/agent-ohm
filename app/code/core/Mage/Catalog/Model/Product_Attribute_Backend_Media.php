@@ -218,13 +218,13 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $file = realpath($file);
 
         if (!$file) {
-            Mage::throwException(Mage::helper('catalog')->__('Image not exists'));
+            AO::throwException(AO::helper('catalog')->__('Image not exists'));
         }
 
         $pathinfo = pathinfo($file);
 
         if (!isset($pathinfo['extension']) || !in_array($pathinfo['extension'], array('jpg','jpeg','gif','png'))) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid image file type'));
+            AO::throwException(AO::helper('catalog')->__('Invalid image file type'));
         }
 
 
@@ -252,7 +252,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             }
         }
         catch (Exception $e) {
-            Mage::throwException(Mage::helper('catalog')->__('Failed to move file: %s', $e->getMessage()));
+            AO::throwException(AO::helper('catalog')->__('Failed to move file: %s', $e->getMessage()));
         }
 
         $fileName = str_replace(DS, '/', $fileName);
@@ -437,7 +437,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('catalog/product_attribute_backend_media');
+        return AO::getResourceSingleton('catalog/product_attribute_backend_media');
     }
 
     /**
@@ -447,7 +447,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('catalog/product_media_config');
+        return AO::getSingleton('catalog/product_media_config');
     }
 
     /**

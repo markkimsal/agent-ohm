@@ -69,7 +69,7 @@ class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
      */
     public function getHomeUrl()
     {
-        return Mage::getBaseUrl();
+        return AO::getBaseUrl();
     }
 
     protected function _prepareString($string)

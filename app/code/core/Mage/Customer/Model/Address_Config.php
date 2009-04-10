@@ -42,7 +42,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
 
     public function __construct()
     {
-        parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
+        parent::__construct(AO::getConfig()->getNode()->global->customer->address);
     }
 
     public function getFormats()
@@ -62,7 +62,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                 }
 
                 $type->setRenderer(
-                    Mage::helper('customer/address')
+                    AO::helper('customer/address')
                         ->getRenderer($renderer)->setType($type)
                 );
 
@@ -81,7 +81,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
                 ->setDefaultFormat('{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, {{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}');
 
             $this->_defaultType->setRenderer(
-                Mage::helper('customer/address')
+                AO::helper('customer/address')
                     ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType)
             );
         }

@@ -45,19 +45,19 @@ class Mage_Adminhtml_Block_Extensions_Custom_Edit extends Mage_Adminhtml_Block_W
         $this->_updateButton('reset', 'onclick', "resetPackage()");
 
         $this->_addButton('create', array(
-            'label'=>Mage::helper('adminhtml')->__('Save data and Create Package'),
+            'label'=>AO::helper('adminhtml')->__('Save data and Create Package'),
             'class'=>'save',
             'onclick'=>"createPackage()",
         ));
         $this->_addButton('save_as', array(
-            'label'=>Mage::helper('adminhtml')->__('Save As...'),
-            'title'=>Mage::helper('adminhtml')->__('Save package with custom package file name'),
+            'label'=>AO::helper('adminhtml')->__('Save As...'),
+            'title'=>AO::helper('adminhtml')->__('Save package with custom package file name'),
             'onclick'=>'saveAsPackage()'
         ));
     }
 
     public function getHeaderText()
     {
-        return Mage::helper('adminhtml')->__('New Extension');
+        return AO::helper('adminhtml')->__('New Extension');
     }
 }

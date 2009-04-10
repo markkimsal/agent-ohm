@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Templ
     {
         parent::__construct();
         $this->setTemplate('newsletter/problem/list.phtml');
-        $collection = Mage::getResourceSingleton('newsletter/problem_collection')
+        $collection = AO::getResourceSingleton('newsletter/problem_collection')
             ->addSubscriberInfo()
             ->addQueueInfo();
 
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Templ
             $this->getLayout()->createBlock('adminhtml/widget_button','del.button')
                 ->setData(
                     array(
-                        'label' => Mage::helper('newsletter')->__('Delete Selected Problems'),
+                        'label' => AO::helper('newsletter')->__('Delete Selected Problems'),
                         'onclick' => 'problemController.deleteSelected();'
                     )
                 )
@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Templ
             $this->getLayout()->createBlock('adminhtml/widget_button','unsubscribe.button')
                 ->setData(
                     array(
-                        'label' => Mage::helper('newsletter')->__('Unsubscribe Selected'),
+                        'label' => AO::helper('newsletter')->__('Unsubscribe Selected'),
                         'onclick' => 'problemController.unsubscribe();'
                     )
                 )
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Templ
 
     public function getShowButtons()
     {
-        return  Mage::getResourceSingleton('newsletter/problem_collection')->getSize() > 0;
+        return  AO::getResourceSingleton('newsletter/problem_collection')->getSize() > 0;
     }
 
 }// Class Mage_Adminhtml_Block_Newsletter_Problem END

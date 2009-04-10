@@ -36,7 +36,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
-            ->setTitle(Mage::helper('customer')->__('Address Book'));
+            ->setTitle(AO::helper('customer')->__('Address Book'));
 
         return parent::_prepareLayout();
     }
@@ -95,7 +95,7 @@ class Mage_Customer_Block_Address_Book extends Mage_Core_Block_Template
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = AO::getSingleton('customer/session')->getCustomer();
             $this->setData('customer', $customer);
         }
         return $customer;

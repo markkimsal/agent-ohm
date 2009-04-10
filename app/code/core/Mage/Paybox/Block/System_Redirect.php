@@ -38,7 +38,7 @@ class Mage_Paybox_Block_System_Redirect extends Mage_Core_Block_Abstract
         $system = $this->getOrder()->getPayment()->getMethodInstance();
 
         $form = new Varien_Data_Form();
-        $form->setAction(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).$system->getPayboxFile())
+        $form->setAction(AO::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).$system->getPayboxFile())
             ->setId('paybox_system_checkout')
             ->setName('paybox_system_checkout')
             ->setMethod('POST')

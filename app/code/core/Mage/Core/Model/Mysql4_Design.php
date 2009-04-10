@@ -34,23 +34,23 @@ class Mage_Core_Model_Mysql4_Design extends Mage_Core_Model_Mysql4_Abstract
 
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $format = AO::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         if ($date = $object->getDateFrom()) {
-            $date = Mage::app()->getLocale()->date($date, $format, null, false);
+            $date = AO::app()->getLocale()->date($date, $format, null, false);
             $object->setDateFrom($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         } else {
             $object->setDateFrom(null);
         }
 
         if ($date = $object->getDateTo()) {
-            $date = Mage::app()->getLocale()->date($date, $format, null, false);
+            $date = AO::app()->getLocale()->date($date, $format, null, false);
             $object->setDateTo($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         } else {
             $object->setDateTo(null);
         }
 
         if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo()) && strtotime($object->getDateFrom()) > strtotime($object->getDateTo())){
-            Mage::throwException(Mage::helper('core')->__('Start date can\'t be greater than end date'));
+            AO::throwException(AO::helper('core')->__('Start date can\'t be greater than end date'));
         }
 
         $check = $this->_checkIntersection(
@@ -61,7 +61,7 @@ class Mage_Core_Model_Mysql4_Design extends Mage_Core_Model_Mysql4_Abstract
         );
 
         if ($check){
-            Mage::throwException(Mage::helper('core')
+            AO::throwException(AO::helper('core')
                 ->__('Your design change for the specified store intersects with another one, please specify another date range')
             );
         }

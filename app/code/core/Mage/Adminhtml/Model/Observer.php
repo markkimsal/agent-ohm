@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_Observer
     public function bindLocale($observer)
     {
         if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('adminhtml/session')->getLocale()) {
+            if ($choosedLocale = AO::getSingleton('adminhtml/session')->getLocale()) {
                 $locale->setLocaleCode($choosedLocale);
             }
         }
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Model_Observer
 
     public function bindStore()
     {
-        Mage::app()->setCurrentStore('admin');
+        AO::app()->setCurrentStore('admin');
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Model_Observer
      */
     public function massactionPrepareKey()
     {
-        $request = Mage::app()->getFrontController()->getRequest();
+        $request = AO::app()->getFrontController()->getRequest();
         if ($key = $request->getPost('massaction_prepare_key')) {
             $value = is_array($request->getPost($key)) ? $request->getPost($key) : split(',', $request->getPost($key));
             $request->setPost($key, $value ? $value : null);

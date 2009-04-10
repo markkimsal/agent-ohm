@@ -58,7 +58,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
      */
     public function getModel()
     {
-        return Mage::getSingleton('paybox/system');
+        return AO::getSingleton('paybox/system');
     }
 
     /**
@@ -68,7 +68,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('checkout/session');
+        return AO::getSingleton('checkout/session');
     }
 
     /**
@@ -80,12 +80,12 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $session = $this->getCheckout();
         $session->setPayboxQuoteId($session->getQuoteId());
 
-        $order = Mage::getModel('sales/order');
+        $order = AO::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
         $order->addStatusToHistory($order->getStatus(), $this->__('Customer was redirected to Paybox'));
         $order->save();
 
-        $session->setPayboxOrderId(Mage::helper('core')->encrypt($session->getLastRealOrderId()));
+        $session->setPayboxOrderId(AO::helper('core')->encrypt($session->getLastRealOrderId()));
         $session->setPayboxPaymentAction(
             $order->getPayment()->getMethodInstance()->getPaymentAction()
         );
@@ -108,20 +108,20 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $this->setPayboxResponse($this->getRequest()->getParams());
         if ($this->_checkResponse()) {
 
-            $order = Mage::getModel('sales/order');
+            $order = AO::getModel('sales/order');
             $order->loadByIncrementId($this->_payboxResponse['ref']);
 
             if (!$order->getId()) {
-                Mage::throwException($this->__('There are no order.'));
+                AO::throwException($this->__('There are no order.'));
             }
 
-            if (Mage::helper('core')->decrypt($this->getCheckout()->getPayboxOrderId()) != $this->_payboxResponse['ref']) {
-                Mage::throwException($this->__('Order is not match.'));
+            if (AO::helper('core')->decrypt($this->getCheckout()->getPayboxOrderId()) != $this->_payboxResponse['ref']) {
+                AO::throwException($this->__('Order is not match.'));
             }
             $this->getCheckout()->unsPayboxOrderId();
 
             if (($order->getBaseGrandTotal()*100) != $this->_payboxResponse['amount']) {
-                Mage::throwException($this->__('Amount is not match.'));
+                AO::throwException($this->__('Amount is not match.'));
             }
 
             if ($this->_payboxResponse['error'] == '00000') {
@@ -171,7 +171,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
             $this->getCheckout()->unsPayboxQuoteId();
             $this->getCheckout()->setPayboxErrorMessage('Order was canceled by Paybox');
 
-            $order = Mage::getModel('sales/order')
+            $order = AO::getModel('sales/order')
                 ->loadByIncrementId($this->_payboxResponse['ref']);
             $order->cancel();
             $order->addStatusToHistory($order->getStatus(), $this->__('Customer was refuse by Paybox'));
@@ -192,7 +192,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $this->setPayboxResponse($this->getRequest()->getParams());
         if ($this->_checkResponse()) {
 
-            $order = Mage::getModel('sales/order')
+            $order = AO::getModel('sales/order')
                 ->loadByIncrementId($this->_payboxResponse['ref']);
             $order->cancel();
             $order->addStatusToHistory($order->getStatus(), $this->__('Order was canceled by customer'));
@@ -219,14 +219,14 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $session = $this->getCheckout();
         $session->setPayboxQuoteId($session->getQuoteId());
 
-        $order = Mage::getModel('sales/order')
+        $order = AO::getModel('sales/order')
             ->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         $order->addStatusToHistory(
             $order->getStatus(), $this->__('Customer was redirected to Paybox using \'command line\' mode')
         );
         $order->save();
 
-        $session->setPayboxOrderId(Mage::helper('core')->encrypt($session->getLastRealOrderId()));
+        $session->setPayboxOrderId(AO::helper('core')->encrypt($session->getLastRealOrderId()));
         $session->setPayboxPaymentAction(
             $order->getPayment()->getMethodInstance()->getPaymentAction()
         );
@@ -241,7 +241,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         }
 
         $paramStr = str_replace(';', '\;', $paramStr);
-        $result = shell_exec(Mage::getBaseDir().'/'.$this->getModel()->getPayboxFile().' '.$paramStr);
+        $result = shell_exec(AO::getBaseDir().'/'.$this->getModel()->getPayboxFile().' '.$paramStr);
 
         if (isset($fieldsArr['PBX_PING']) && $fieldsArr['PBX_PING'] == '1') {
             $fieldsArr['PBX_PING'] = '0';
@@ -252,7 +252,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
             }
 
             $paramStr = str_replace(';', '\;', $paramStr);
-            $result = shell_exec(Mage::getBaseDir().'/'.$this->getModel()->getPayboxFile().' '.$paramStr);
+            $result = shell_exec(AO::getBaseDir().'/'.$this->getModel()->getPayboxFile().' '.$paramStr);
         }
 
         $this->loadLayout(false);
@@ -352,7 +352,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         if ($order->canInvoice()) {
             $invoice = $order->prepareInvoice();
             $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
+            AO::getModel('core/resource_transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();

@@ -90,7 +90,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('catalog/product_link')
+        return AO::getResourceSingleton('catalog/product_link')
             ->getChildrenIds($parentId,
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('catalog/product_link')
+        return AO::getResourceSingleton('catalog/product_link')
             ->getParentIdsByChild($childId,
                 Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -119,7 +119,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
         if (!$this->getProduct($product)->hasData($this->_keyAssociatedProducts)) {
             $associatedProducts = array();
 
-            if (!Mage::app()->getStore()->isAdmin()) {
+            if (!AO::app()->getStore()->isAdmin()) {
                 $this->setSaleableStatus($product);
             }
 
@@ -168,7 +168,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     public function setSaleableStatus($product = null)
     {
         $this->getProduct($product)->setData($this->_keyStatusFilters,
-            Mage::getSingleton('catalog/product_status')->getSaleableStatusIds());
+            AO::getSingleton('catalog/product_status')->getSaleableStatusIds());
         return $this;
     }
 
@@ -282,7 +282,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                             }
 
                             if (!isset($_result[0])) {
-                                return Mage::helper('checkout')->__('Can not add item to shopping cart');
+                                return AO::helper('checkout')->__('Can not add item to shopping cart');
                             }
 
                             $_result[0]->setCartQty($qty);
@@ -304,6 +304,6 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                 return $products;
             }
         }
-        return Mage::helper('catalog')->__('Please specify the product(s) quantity');
+        return AO::helper('catalog')->__('Please specify the product(s) quantity');
     }
 }

@@ -225,7 +225,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
 
     public function getFormatedOptionValue($optionValue)
     {
-        if (Mage::helper('catalog/product_options')->isHtmlFormattedOptionValue($optionValue)) {
+        if (AO::helper('catalog/product_options')->isHtmlFormattedOptionValue($optionValue)) {
             return array('value' => $optionValue);
         }
 
@@ -235,7 +235,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             $_truncatedValue = nl2br($_truncatedValue);
             return array('value' => $_truncatedValue);
         } else {
-            $_truncatedValue = Mage::helper('core/string')->truncate($optionValue, 55, '');
+            $_truncatedValue = AO::helper('core/string')->truncate($optionValue, 55, '');
             $_truncatedValue = nl2br($_truncatedValue);
         }
 
@@ -243,7 +243,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             'value' => $_truncatedValue
         );
 
-        if (Mage::helper('core/string')->strlen($optionValue) > 55) {
+        if (AO::helper('core/string')->strlen($optionValue) > 55) {
             $formateOptionValue['value'] = $formateOptionValue['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $formateOptionValue = array_merge($formateOptionValue, array('full_view' => $optionValue));

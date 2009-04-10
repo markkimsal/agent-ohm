@@ -245,7 +245,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
            //$this->setAddressStatus($result->getAddressStatus());
 
             if (!$this->getShippingAddress()) {
-                $this->setShippingAddress(Mage::getModel('customer/address'));
+                $this->setShippingAddress(AO::getModel('customer/address'));
             }
 //print_r($result->getData());
             $a = $this->getShippingAddress();
@@ -261,7 +261,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             $a->setRegion($result->getShiptostate());
             $a->setPostcode($result->getShiptozip());
             $a->setCountry($result->getShiptocountry());
-            $a->setTelephone(Mage::helper('paypalUk')->__('N/A'));
+            $a->setTelephone(AO::helper('paypalUk')->__('N/A'));
 //echo "<hr>";
 //print_r($a->getData());
 //echo "<hr>";
@@ -359,7 +359,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         $proReq = substr($proReq, 1);
 
         if ($this->getDebug()) {
-            $debug = Mage::getModel('paypaluk/api_debug')
+            $debug = AO::getModel('paypaluk/api_debug')
                 ->setRequestBody($proReq)
                 ->save();
         }
@@ -387,7 +387,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         }
         $http->close();
 
-        $result = Mage::getModel('paypaluk/api_result');
+        $result = AO::getModel('paypaluk/api_result');
         $valArray = $this->deformatNVP($response);
 
         foreach($valArray as $k=>$v) {
@@ -411,7 +411,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout)
             ->setUrlEncodeBody(false);
 
-        $result = Mage::getModel('paypaluk/api_result');
+        $result = AO::getModel('paypaluk/api_result');
 
         try {
             $response = $client->request();
@@ -464,7 +464,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {
             if ($result->getTransstate()>1000) {
                 $errorArr['code'] = $result->getResultCode();
-                $errorArr['message'] = Mage::helper('paypalUk')->__('Voided transaction');
+                $errorArr['message'] = AO::helper('paypalUk')->__('Voided transaction');
                 $this->setError($errorArr);
                 return false;
             } elseif(in_array($result->getTransstate(),$this->_validVoidTransState)) {
@@ -474,7 +474,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         }
 
         $errorArr['code'] = $result->getResultCode();
-        $errorArr['message'] = $result->getRespmsg() ? $result->getRespmsg() : Mage::helper('paypalUk')->__('Error in inquriing the transaction');
+        $errorArr['message'] = $result->getRespmsg() ? $result->getRespmsg() : AO::helper('paypalUk')->__('Error in inquriing the transaction');
         $this->setError($errorArr);
         return false;
     }
@@ -500,7 +500,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             return $this;
         }
         $errorArr['code'] = $result->getResultCode();
-        $errorArr['message'] = $result->getRespmsg() ? $result->getRespmsg() : Mage::helper('paypalUk')->__('Error in voiding the transaction');
+        $errorArr['message'] = $result->getRespmsg() ? $result->getRespmsg() : AO::helper('paypalUk')->__('Error in voiding the transaction');
         $this->setError($errorArr);
         return false;
     }
@@ -529,7 +529,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
         }
 
         $errorArr['code'] = $result->getResultCode();
-        $errorArr['message'] = $result->getRespmsg() ? $result->getRespmsg() : Mage::helper('paypalUk')->__('Error in voiding the transaction');
+        $errorArr['message'] = $result->getRespmsg() ? $result->getRespmsg() : AO::helper('paypalUk')->__('Error in voiding the transaction');
         $this->setError($errorArr);
         return false;
     }

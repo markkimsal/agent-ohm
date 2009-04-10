@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Back'),
+                    'label'     => AO::helper('core')->__('Back'),
                     'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
                     'class' => 'back'
                 ))
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Save'),
+                    'label'     => AO::helper('core')->__('Save'),
                     'onclick'   => 'designForm.submit()',
                     'class' => 'save'
                 ))
@@ -56,8 +56,8 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('core')->__('Delete'),
-                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('core')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                    'label'     => AO::helper('core')->__('Delete'),
+                    'onclick'   => 'confirmSetLocation(\''.AO::helper('core')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
                     'class'  => 'delete'
                 ))
         );
@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
 
     public function getDesignChangeId()
     {
-        return Mage::registry('design')->getId();
+        return AO::registry('design')->getId();
     }
 
     public function getDeleteUrl()
@@ -87,10 +87,10 @@ class Mage_Adminhtml_Block_System_Design_Edit extends Mage_Adminhtml_Block_Widge
     public function getHeader()
     {
         $header = '';
-        if (Mage::registry('design')->getId()) {
-            $header = Mage::helper('core')->__('Edit Design Change');
+        if (AO::registry('design')->getId()) {
+            $header = AO::helper('core')->__('Edit Design Change');
         } else {
-            $header = Mage::helper('core')->__('New Design Change');
+            $header = AO::helper('core')->__('New Design Change');
         }
         return $header;
     }

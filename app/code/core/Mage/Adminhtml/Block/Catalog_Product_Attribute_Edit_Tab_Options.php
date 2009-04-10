@@ -45,14 +45,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete'),
+                    'label' => AO::helper('catalog')->__('Delete'),
                     'class' => 'delete delete-option'
                 )));
 
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Add Option'),
+                    'label' => AO::helper('catalog')->__('Add Option'),
                     'class' => 'add',
                     'id'    => 'add_new_option_button'
                 )));
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getModel('core/store')
+            $stores = AO::getModel('core/store')
                 ->getResourceCollection()
                 ->setLoadDefault(true)
                 ->load();
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
         $values = $this->getData('option_values');
         if (is_null($values)) {
             $values = array();
-            $optionCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $optionCollection = AO::getResourceModel('eav/entity_attribute_option_collection')
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setPositionOrder('desc', true)
                 ->load();
@@ -149,7 +149,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
         if (is_array($frontendLabel)) {
             $frontendLabel = array_shift($frontendLabel);
         }
-        $translations = Mage::getModel('core/translate_string')
+        $translations = AO::getModel('core/translate_string')
            ->load(Mage_Catalog_Model_Entity_Attribute::MODULE_NAME.Mage_Core_Model_Translate::SCOPE_SEPARATOR.$frontendLabel)
            ->getStoreTranslations();
         foreach ($this->getStores() as $store) {
@@ -165,7 +165,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
         $values = $this->getData('store_option_values_'.$storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+            $valuesCollection = AO::getResourceModel('eav/entity_attribute_option_collection')
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setStoreFilter($storeId, false)
                 ->load();
@@ -179,7 +179,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
 
     public function getAttributeObject()
     {
-        return Mage::registry('entity_attribute');
+        return AO::registry('entity_attribute');
     }
 
 }

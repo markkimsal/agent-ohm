@@ -73,7 +73,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
 
             foreach (array_keys(Mage_Catalog_Model_Product_Type::getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
-                $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+                $this->_productTypes[$typeId] = AO::getSingleton('catalog/product_type')
                     ->factory($productEmulator);
             }
         }
@@ -136,7 +136,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function getProductStatusModel()
     {
-        return Mage::getSingleton('catalog/product_status');
+        return AO::getSingleton('catalog/product_status');
     }
 
     /**
@@ -146,7 +146,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      */
     public function getStockItemModel()
     {
-        return Mage::getModel('cataloginventory/stock_item');
+        return AO::getModel('cataloginventory/stock_item');
     }
 
     /**
@@ -456,7 +456,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
             $stockId = Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID;
         }
         if ($websiteId === null) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = AO::app()->getStore()->getWebsiteId();
         }
         $productIds = array();
         foreach ($productCollection as $product) {

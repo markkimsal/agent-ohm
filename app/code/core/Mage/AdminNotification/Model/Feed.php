@@ -61,8 +61,8 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
     public function getFeedUrl()
     {
         if (is_null($this->_feedUrl)) {
-            $this->_feedUrl = Mage::getStoreConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://'
-            . Mage::getStoreConfig(self::XML_FEED_URL_PATH);
+            $this->_feedUrl = AO::getStoreConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://'
+            . AO::getStoreConfig(self::XML_FEED_URL_PATH);
         }
         return $this->_feedUrl;
     }
@@ -93,7 +93,7 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
             }
 
             if ($feedData) {
-                Mage::getModel('adminnotification/inbox')->parse(array_reverse($feedData));
+                AO::getModel('adminnotification/inbox')->parse(array_reverse($feedData));
             }
 
         }
@@ -120,7 +120,7 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
      */
     public function getFrequency()
     {
-        return Mage::getStoreConfig(self::XML_FREQUENCY_PATH) * 3600;
+        return AO::getStoreConfig(self::XML_FREQUENCY_PATH) * 3600;
     }
 
     /**
@@ -130,8 +130,8 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
      */
     public function getLastUpdate()
     {
-        return Mage::app()->loadCache('admin_notifications_lastcheck');
-//        return Mage::getStoreConfig(self::XML_LAST_UPDATE_PATH);
+        return AO::app()->loadCache('admin_notifications_lastcheck');
+//        return AO::getStoreConfig(self::XML_LAST_UPDATE_PATH);
     }
 
     /**
@@ -141,8 +141,8 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
      */
     public function setLastUpdate()
     {
-        Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
-//        $config = Mage::getModel('core/config');
+        AO::app()->saveCache(time(), 'admin_notifications_lastcheck');
+//        $config = AO::getModel('core/config');
 //        /* @var $config Mage_Core_Model_Config */
 //        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;

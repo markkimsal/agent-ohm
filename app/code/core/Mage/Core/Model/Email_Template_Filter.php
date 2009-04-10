@@ -47,7 +47,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     {
         $skipParams = array('type', 'id', 'output');
         $blockParameters = $this->_getIncludeParameters($construction[2]);
-        $layout = Mage::app()->getLayout();
+        $layout = AO::app()->getLayout();
 
         if (isset($blockParameters['type'])) {
             $type = $blockParameters['type'];
@@ -83,13 +83,13 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $setArea    = null;
 
         $params = $this->_getIncludeParameters($construction[2]);
-        $layout = Mage::getModel('core/layout');
+        $layout = AO::getModel('core/layout');
         /* @var $layout Mage_Core_Model_Layout */
         if (isset($params['area'])) {
             $layout->setArea($params['area']);
         }
         else {
-            $layout->setArea(Mage::app()->getLayout()->getArea());
+            $layout->setArea(AO::app()->getLayout()->getArea());
         }
 
         $layout->getUpdate()->addHandle($params['handle']);
@@ -127,7 +127,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $params['_absolute'] = $this->_useAbsoluteLinks;
 
-        $url = Mage::getDesign()->getSkinUrl($params['url'], $params);
+        $url = AO::getDesign()->getSkinUrl($params['url'], $params);
 
         return $url;
     }
@@ -157,22 +157,22 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         }
 
         if (!self::$_urlInstance) {
-            self::$_urlInstance = Mage::getModel('core/url')->setStore(
+            self::$_urlInstance = AO::getModel('core/url')->setStore(
 
-        		Mage::app()->getStore(Mage_Core_Model_Design_Package::getDesign()->getStore()->getId())
-//                Mage::app()->getStore(Mage::getDesign()->getStore())->getId()
+        		AO::app()->getStore(Mage_Core_Model_Design_Package::getDesign()->getStore()->getId())
+//                AO::app()->getStore(AO::getDesign()->getStore())->getId()
             );
         }
         $_urlInstanceOldStore = null;
-        if (!empty($path) && !Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
-            && !Mage::app()->isSingleStoreMode())
+        if (!empty($path) && !AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+            && !AO::app()->isSingleStoreMode())
         {
-            $params['_query']['___store'] = Mage::app()->getStore(Mage::getDesign()->getStore())->getCode();
-        } elseif (!empty($path) && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
-            && !Mage::app()->isSingleStoreMode())
+            $params['_query']['___store'] = AO::app()->getStore(AO::getDesign()->getStore())->getCode();
+        } elseif (!empty($path) && AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+            && !AO::app()->isSingleStoreMode())
         {
             $_urlInstanceOldStore = self::$_urlInstance->getStore();
-            self::$_urlInstance->setStore(Mage::app()->getStore(Mage::getDesign()->getStore())->getCode());
+            self::$_urlInstance->setStore(AO::app()->getStore(AO::getDesign()->getStore())->getCode());
         }
 
         $url = self::$_urlInstance->getUrl($path, $params);

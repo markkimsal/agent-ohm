@@ -39,9 +39,9 @@ class Mage_Admin_Model_Mysql4_Acl_Role
     
     public function __construct() 
     {
-        $this->_roleTable = Mage::getSingleton('core/resource')->getTableName('admin/role');
-        $this->_read = Mage::getSingleton('core/resource')->getConnection('admin_read');
-        $this->_write = Mage::getSingleton('core/resource')->getConnection('admin_write');
+        $this->_roleTable = AO::getSingleton('core/resource')->getTableName('admin/role');
+        $this->_read = AO::getSingleton('core/resource')->getConnection('admin_read');
+        $this->_write = AO::getSingleton('core/resource')->getConnection('admin_write');
     }
     
     public function load($roleId)

@@ -62,7 +62,7 @@ class Mage_Sales_Model_Entity_Sale_Collection extends Varien_Object implements I
 
     public function __construct()
     {
-        $this->_entity = Mage::getModel('sales_entity/order');
+        $this->_entity = AO::getModel('sales_entity/order');
         $this->_read = $this->_entity->getReadConnection();
     }
 
@@ -102,7 +102,7 @@ class Mage_Sales_Model_Entity_Sale_Collection extends Varien_Object implements I
             $this->printLogQuery(true, true, $this->getSelect()->__toString());
             throw $e;
         }
-        $stores = Mage::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
+        $stores = AO::getResourceModel('core/store_collection')->setWithoutDefaultFilter()->load()->toOptionHash();
         if (! empty($values)) {
             foreach ($values as $v) {
                 $obj = new Varien_Object($v);
@@ -136,7 +136,7 @@ class Mage_Sales_Model_Entity_Sale_Collection extends Varien_Object implements I
         }
 
         if ($logQuery){
-            Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+            AO::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
         }
         return $this;
     }

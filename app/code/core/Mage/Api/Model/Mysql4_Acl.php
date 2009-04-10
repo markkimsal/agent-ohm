@@ -52,11 +52,11 @@ class Mage_Api_Model_Mysql4_Acl extends Mage_Core_Model_Mysql4_Abstract
      */
     function loadAcl()
     {
-        $acl = Mage::getModel('api/acl');
+        $acl = AO::getModel('api/acl');
 
-        Mage::getSingleton('api/config')->loadAclResources($acl);
+        AO::getSingleton('api/config')->loadAclResources($acl);
 
-        $roleTable = Mage::getSingleton('core/resource')->getTableName('api/role');
+        $roleTable = AO::getSingleton('core/resource')->getTableName('api/role');
         $rolesArr = $this->_getReadAdapter()->fetchAll(
                         $this->_getReadAdapter()->select()
                             ->from($this->getTable('role'))
@@ -90,13 +90,13 @@ class Mage_Api_Model_Mysql4_Acl extends Mage_Core_Model_Mysql4_Abstract
             switch ($role['role_type']) {
                 case Mage_Api_Model_Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
-                    $acl->addRole(Mage::getModel('api/acl_role_group', $roleId), $parent);
+                    $acl->addRole(AO::getModel('api/acl_role_group', $roleId), $parent);
                     break;
 
                 case Mage_Api_Model_Acl::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('api/acl_role_user', $roleId), $parent);
+                        $acl->addRole(AO::getModel('api/acl_role_user', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }
@@ -123,7 +123,7 @@ class Mage_Api_Model_Mysql4_Acl extends Mage_Core_Model_Mysql4_Abstract
 
             $assert = null;
             if (0!=$rule['assert_id']) {
-                $assertClass = Mage::getSingleton('api/config')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = AO::getSingleton('api/config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             try {
@@ -137,7 +137,7 @@ class Mage_Api_Model_Mysql4_Acl extends Mage_Core_Model_Mysql4_Abstract
                 //if ( eregi("^Resource '(.*)' not found", $m) ) {
                     // Deleting non existent resource rule from rules table
                     //$cond = $this->_write->quoteInto('resource_id = ?', $resource);
-                    //$this->_write->delete(Mage::getSingleton('core/resource')->getTableName('admin/rule'), $cond);
+                    //$this->_write->delete(AO::getSingleton('core/resource')->getTableName('admin/rule'), $cond);
                 //} else {
                     //TODO: We need to log such exceptions to somewhere like a system/errors.log
                 //}
