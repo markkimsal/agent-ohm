@@ -306,10 +306,9 @@ class AO {
      */
     public static function dispatchEvent($name, array $data=array())
     {
-        Varien_Profiler::start('DISPATCH EVENT:'.$name);
-        $result = AO::app()->dispatchEvent($name, $data);
-        #$result = AO::registry('events')->dispatch($name, $data);
-        Varien_Profiler::stop('DISPATCH EVENT:'.$name);
+        if (VPROF) Varien_Profiler::start('DISPATCH EVENT:'.$name);
+        $result = AO::$_app->dispatchEvent($name, $data);
+        if (VPROF) Varien_Profiler::stop('DISPATCH EVENT:'.$name);
         return $result;
     }
 
