@@ -198,9 +198,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function setLayout(Mage_Core_Model_Layout $layout)
     {
         $this->_layout = $layout;
-        AO::dispatchEvent('core_block_abstract_prepare_layout_before', array('block' => $this));
         $this->_prepareLayout();
-        AO::dispatchEvent('core_block_abstract_prepare_layout_after', array('block' => $this));
         return $this;
     }
 
@@ -629,8 +627,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     final public function toHtml()
     {
-        AO::dispatchEvent('core_block_abstract_to_html_before', array('block' => $this));
-
         if (AO::getStoreConfig('advanced/modules_disable_output/'.$this->getModuleName())) {
             return '';
         }
@@ -652,7 +648,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
 
         $html = $this->_afterToHtml($html);
-        AO::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this));
 
         return $html;
     }
@@ -952,6 +947,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         return $this->_getData('name_in_layout');
     }
+
+    public function setNameInLayout($n)
+    {
+        return $this->_data['name_in_layout'] = $n;
+    }
+
 
     public function countChildren()
     {
