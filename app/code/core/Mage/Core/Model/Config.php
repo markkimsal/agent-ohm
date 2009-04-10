@@ -1011,32 +1011,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
 
-
-	/**
-	 * Get model class instance.
-	 *
-	 * Example:
-	 * $config->getModelInstance('catalog/product')
-	 *
-	 * Will instantiate Mage_Catalog_Model_Mysql4_Product
-	 *
-	 * @param string $modelClass
-	 * @param array|object $constructArguments
-	 * @return Mage_Core_Model_Abstract
-	 */
-	public function getModelInstance($modelClass='', $constructArguments=array())
-	{
-
-		$className = $this->getModelClassName($modelClass);
-        //AB seems slightly slower with this commented out, probably
-        //has to do with internal class not found error handling
-        //class_exists($className);
-        if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
-        $obj = new $className($constructArguments);
-        if (VPROF) Varien_Profiler::stop('CORE::create_object_of::'.$className);
-        return $obj;
-	}
-
 	public function getNodeClassInstance($path)
 	{
 		$config = AO::getConfig()->getNode($path);
@@ -1048,39 +1022,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		}
 	}
 
-	/**
-	 * Get resource model object by alias
-	 *
-	 * @param	string $modelClass
-	 * @param	array $constructArguments
-	 * @return	object
-	 */
-	public function getResourceModelInstance($modelClass='', $constructArguments=array())
-	{
-		$classArr = explode('/', $modelClass);
-
-		$resourceModel = false;
-
-		if (!isset($this->_xml->global->models->{$classArr[0]})) {
-			return false;
-		}
-
-		$module = $this->_xml->global->models->{$classArr[0]};
-
-		if ((count($classArr)==2)
-			&& isset($module->{$classArr[1]}->resourceModel)
-			&& $resourceInfo = $module->{$classArr[1]}->resourceModel) {
-			$resourceModel = (string) $resourceInfo;
-		}
-		elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
-			$resourceModel = (string) $resourceInfo;
-		}
-
-		if (!$resourceModel) {
-			return false;
-		}
-		return $this->getModelInstance($resourceModel.'/'.$classArr[1], $constructArguments);
-	}
 
 	/**
 	 * Get resource configuration for resource name

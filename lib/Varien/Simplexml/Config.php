@@ -43,7 +43,7 @@ class Varien_Simplexml_Config
      *
      * @var Varien_Simplexml_Element
      */
-    protected $_xml = null;
+    public $_xml = null;
 
     /**
      * Enter description here...

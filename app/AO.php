@@ -82,6 +82,8 @@ class AO {
 
     static private $_isDeveloperMode = true;
 
+    static public $_coreConfig       = null;
+
     public static $headersSentThrowsException = true;
 
     public static function getVersion()
@@ -271,7 +273,7 @@ class AO {
      */
     public static function getConfig()
     {
-        return AO::registry('config');
+        return AO::$_coreConfig;
     }
 
     /**
@@ -310,16 +312,27 @@ class AO {
     }
 
     /**
-     * Retrieve model object
+     * Get model class instance.
      *
-     * @link    Mage_Core_Model_Config::getModelInstance
+     * Example
+     * Mage::getModel('catalog/product')
+     *
+     * Will instantiate Mage_Catalog_Model_Product
+     *
      * @param   string $modelClass
      * @param   array $arguments
      * @return  Mage_Core_Model_Abstract
      */
     public static function getModel($modelClass='', $arguments=array())
     {
-        return AO::getConfig()->getModelInstance($modelClass, $arguments);
+        $className = AO::$_coreConfig->getModelClassName($modelClass);
+        //AB seems slightly slower with this commented out, probably
+        //has to do with internal class not found error handling
+        //class_exists($className);
+        if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
+        $obj = new $className($arguments);
+        if (VPROF) Varien_Profiler::stop('CORE::create_object_of::'.$className);
+        return $obj;
     }
 
     /**
@@ -347,7 +360,33 @@ class AO {
      */
     public static function getResourceModel($modelClass, $arguments=array())
     {
-        return AO::getConfig()->getResourceModelInstance($modelClass, $arguments);
+		$classArr = explode('/', $modelClass);
+
+		$resourceModel = false;
+
+		if (!isset(AO::$_coreConfig->_xml->global->models->{$classArr[0]})) {
+			return false;
+		}
+
+		$module = AO::$_coreConfig->_xml->global->models->{$classArr[0]};
+
+		if ((count($classArr)==2)
+			&& isset($module->{$classArr[1]}->resourceModel)
+			&& $resourceInfo = $module->{$classArr[1]}->resourceModel) {
+			$resourceModel = (string) $resourceInfo;
+		}
+		elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
+			$resourceModel = (string) $resourceInfo;
+		}
+
+		if (!$resourceModel) {
+			return false;
+		}
+        $className = AO::$_coreConfig->getModelClassName($resourceModel.'/'.$classArr[1]);
+        if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
+        $obj = new $className($arguments);
+        if (VPROF) Varien_Profiler::stop('CORE::create_object_of::'.$className);
+        return $obj;
     }
 
     /**
@@ -434,7 +473,7 @@ class AO {
 
 
         if (VPROF) Varien_Profiler::start('mage::app::register_config');
-		AO::register('config', new Mage_Core_Model_Config());
+		AO::$_coreConfig = new Mage_Core_Model_Config();
         if (VPROF) Varien_Profiler::stop('mage::app::register_config');
 
         if (VPROF) Varien_Profiler::start('mage::app::init');
