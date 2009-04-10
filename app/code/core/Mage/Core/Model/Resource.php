@@ -154,7 +154,6 @@ class Mage_Core_Model_Resource
             $tableName = $modelEntity;
         }
         
-        AO::dispatchEvent('resource_get_tablename', array('resource' => $this, 'model_entity' => $modelEntity, 'table_name' => $tableName));
         $mappedTableName = $this->getMappedTableName($tableName);
         if ($mappedTableName) {
         	$tableName = $mappedTableName;

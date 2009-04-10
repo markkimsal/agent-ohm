@@ -31,7 +31,7 @@ class Mage_Core_Controller_Varien_Router_Admin extends Mage_Core_Controller_Vari
     {
         // set defaults
         $d = explode('/', (string)AO::getConfig()->getNode('default/web/default/admin'));
-        $this->getFront()->setDefault(array(
+		AO::app()->getFrontController()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : '',
             'controller' => !empty($d[1]) ? $d[1] : 'index',
             'action'     => !empty($d[2]) ? $d[2] : 'index'

@@ -72,7 +72,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     public function fetchDefault()
     {
         $d = explode('/', AO::getStoreConfig('web/default/front'));
-        $this->getFront()->setDefault(array(
+		AO::app()->getFrontController()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : 'core',
             'controller' => !empty($d[1]) ? $d[1] : 'index',
             'action'     => !empty($d[2]) ? $d[2] : 'index'
@@ -112,7 +112,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         $this->fetchDefault();
 
-        $front = $this->getFront();
+		$front = AO::app()->getFrontController();
 
         $p = explode('/', trim($request->getPathInfo(), '/'));
 
@@ -123,7 +123,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
             if(!empty($p[0])) {
                 $module = $p[0];
             } else {
-                $module = $this->getFront()->getDefault('module');
+                $module = $front->getDefault('module');
                 $request->setAlias(Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS,	'');
             }
         }

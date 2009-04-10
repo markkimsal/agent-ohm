@@ -78,18 +78,13 @@ if (get_magic_quotes_gpc()) {
 function __autoload($class)
 {
 
-	//bt_die();
-    $classFile = uc_words($class, DS).'.php';
+    $classFile = str_replace('_', DS, $class).'.php';
 	if (strstr($classFile, 'Model') && substr($classFile, 0, 4) === 'Mage') {
 		$classFile = scrunchName($classFile, 3);
 	}
 	if (strstr($classFile, 'Block') && substr($classFile, 0, 4) === 'Mage') {
 		$classFile = scrunchName($classFile, 3);
 	}
-
-    //$a = explode('_', $class);
-    //if (VPROF) Varien_Profiler::start('AUTOLOAD');
-    //if (VPROF) Varien_Profiler::start('AUTOLOAD: '.$a[0]);
 
 	$s = substr($classFile, 0, 4);
 	switch ($s) {
@@ -102,9 +97,6 @@ function __autoload($class)
 	}
 
     return @include($classFile);
-
-    //if (VPROF) Varien_Profiler::stop('AUTOLOAD');
-    //if (VPROF) Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
 }
 
 	function scrunchName($f, $l=1) {

@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+@include(BP.'app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php');
 
 class Mage_Core_Controller_Varien_Front extends Varien_Object
 {
@@ -89,7 +89,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     public function addRouter($name, Mage_Core_Controller_Varien_Router_Abstract $router)
     {
-        $router->setFront($this);
+//        $router->setFront($this);
         $this->_routers[$name] = $router;
         return $this;
     }

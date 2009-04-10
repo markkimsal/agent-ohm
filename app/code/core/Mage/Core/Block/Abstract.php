@@ -139,7 +139,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         /**
          * Please override this one instead of overriding real __construct constructor
          */
+		$class = get_class($this);
+		$module = substr($class, 0, strpos($class, '_Block'));
+		$this->setData('module_name', $module);
     }
+
 
     /**
      * Retrieve request object
@@ -632,9 +636,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
 
         if (!($html = $this->_loadCache())) {
-            $translate = AO::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
             if ($this->hasData('translate_inline')) {
+                $translate = AO::getSingleton('core/translate');
                 $translate->setTranslateInline($this->getData('translate_inline'));
             }
 
@@ -827,14 +831,12 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getModuleName()
     {
-        $module = $this->getData('module_name');
-        if (is_null($module)) {
-            $class = get_class($this);
-            $module = substr($class, 0, strpos($class, '_Block'));
-            $this->setData('module_name', $module);
-        }
-        return $module;
+        return $this->getData('module_name');
     }
+
+	public function setModuleName($m) {
+        return $this->setData('module_name', $m);
+	}
 
     /**
      * Translate block sentence
