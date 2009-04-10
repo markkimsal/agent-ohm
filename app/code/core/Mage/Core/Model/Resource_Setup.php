@@ -99,13 +99,6 @@ class Mage_Core_Model_Resource_Setup
     static public function applyAllUpdates()
     {
         AO::app()->setUpdateMode(true);
-        $res = AO::getSingleton('core/resource');
-        /*
-        if ($res->getAutoUpdate() == Mage_Core_Model_Resource::AUTO_UPDATE_NEVER) {
-            return true;
-        }
-        */
-
         self::$_hadUpdates = false;
 
         $resources = AO::getConfig()->getNode('global/resources')->children();
@@ -122,6 +115,7 @@ class Mage_Core_Model_Resource_Setup
         }
 /*
         if (self::$_hadUpdates) {
+        	$res = AO::getSingleton('core/resource');
             if ($res->getAutoUpdate() == Mage_Core_Model_Resource::AUTO_UPDATE_ONCE) {
                 $res->setAutoUpdate(Mage_Core_Model_Resource::AUTO_UPDATE_NEVER);
             }
