@@ -979,7 +979,7 @@ abstract class Zend_Db_Adapter_Abstract
     {
         if ($auto === false || $this->_autoQuoteIdentifiers === true) {
             $q = $this->getQuoteIdentifierSymbol();
-            return ($q . str_replace("$q", "$q$q", $value) . $q);
+            return ($q . str_replace($q, $q.$q, $value) . $q);
         }
         return $value;
     }
