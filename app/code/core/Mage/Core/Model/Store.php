@@ -200,6 +200,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->storeCode;
     }
 
+    public function setCode($c)
+    {
+        return $this->storeCode = $c;
+    }
+
     /**
      * Retrieve store configuration data
      *
