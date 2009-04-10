@@ -59,6 +59,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     protected static $_showTemplateHints;
     protected static $_showTemplateHintsBlocks;
 
+    public function setTemplate($v)
+    {
+        return $this->setData('template', $v);
+    }
+
     public function getTemplate()
     {
         return $this->_getData('template');
