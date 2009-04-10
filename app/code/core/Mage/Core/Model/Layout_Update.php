@@ -256,6 +256,7 @@ class Mage_Core_Model_Layout_Update
 
     public function fetchFileLayoutUpdates()
     {
+		$coreConfig = AO::getConfig();
         $elementClass = $this->getElementClass();
 
         $design = Mage_Core_Model_Design_Package::getDesign();
@@ -266,15 +267,15 @@ class Mage_Core_Model_Layout_Update
         $cacheTags = array('layout');
 
         if (AO::app()->useCache('layout') && ($layoutStr = AO::app()->loadCache($cacheKey))) {
-            $this->_packageLayout = simplexml_load_string($layoutStr, $elementClass);
+            $this->_packageLayout = simplexml_load_string($layoutStr);
         }
 
         if (empty($layoutStr)) {
-            $updatesRoot = AO::app()->getConfig()->getNode($area.'/layout/updates');
+            $updatesRoot = $coreConfig->getNode($area.'/layout/updates');
             $updateFiles = array();
             foreach ($updatesRoot->children() as $updateNode) {
                 if ($updateNode->file) {
-                    $module = $updateNode->getAttribute('module');
+                    $module = $coreConfig->getAttribute($updateNode, 'module');
                     if ($module && AO::getStoreConfigFlag('advanced/modules_disable_output/' . $module)) {
                         continue;
                     }
@@ -294,15 +295,15 @@ class Mage_Core_Model_Layout_Update
                 }
                 $fileStr = file_get_contents($filename);
                 $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
-                $fileXml = simplexml_load_string($fileStr, $elementClass);
+                $fileXml = simplexml_load_string($fileStr);
                 if (!$fileXml instanceof SimpleXMLElement) {
                     continue;
                 }
-                $layoutStr .= $fileXml->innerXml();
+                $layoutStr .= $coreConfig->innerXml($fileXml);
 
                 #$layoutXml->appendChild($fileXml);
             }
-            $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>', $elementClass);
+            $layoutXml = simplexml_load_string('<layouts>'.$layoutStr.'</layouts>');
 
             $this->_packageLayout = $layoutXml;
 
@@ -326,7 +327,8 @@ class Mage_Core_Model_Layout_Update
 #echo '<textarea style="width:600px; height:400px;">'.$handle.':'.print_r($updateXml,1).'</textarea>';
             $this->fetchRecursiveUpdates($updateXml);
 
-            $this->addUpdate($updateXml->innerXml());
+            $updateStr = AO::getConfig()->innerXml($updateXml);
+            $this->addUpdate($updateStr);
         }
 
         if (VPROF) Varien_Profiler::stop($_profilerKey);
@@ -345,7 +347,7 @@ class Mage_Core_Model_Layout_Update
                 return false;
             }
             $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
-            $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
+            $updateXml = simplexml_load_string($updateStr);
             $this->fetchRecursiveUpdates($updateXml);
 
             $this->addUpdate($update);

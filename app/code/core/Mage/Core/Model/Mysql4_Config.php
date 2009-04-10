@@ -112,7 +112,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         $extendSource = $xmlConfig->getNode('default');
         foreach ($websites as $id=>$w) {
             $websiteNode = $xmlConfig->getNode('websites/'.$w['code']);
-            $websiteNode->extend($extendSource);
+            $xmlConfig->extendNode($websiteNode, $extendSource);
         }
 
         $deleteWebsites = array();
@@ -139,7 +139,7 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
                     /**
                      * $extendSource DO NOT need overwrite source
                      */
-                    $storeNode->extend($extendSource, false);
+                    $xmlConfig->extendNode($storeNode, $extendSource, false);
                 }
             }
         }

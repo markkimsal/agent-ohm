@@ -132,7 +132,7 @@ class Mage_Core_Model_Translate
 	$this->_data = array();
 
 	foreach ($this->getModulesConfig() as $moduleName=>$info) {
-	    $info = $info->asArray();
+	    $info = AO::getConfig()->asArray($info);
 	    $this->_loadModuleTranslation($moduleName, $info['files'], $forceReload);
 	}
 

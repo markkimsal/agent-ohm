@@ -174,7 +174,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
 		$modules = $this->getNode('modules')->children();
 		foreach ($modules as $modName=>$module) {
-			if ($module->is('active')) {
+			if ($this->configElementIs($module, 'active')) {
 				if ($disableLocalModules && ('local' === (string)$module->codePool)) {
 					continue;
 				}
@@ -534,13 +534,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
 		foreach ($unsortedConfig->getNode()->children() as $nodeName => $node) {
 			if ($nodeName != 'modules') {
-				$sortedConfig->getNode()->appendChild($node);
+				$sortedConfig->appendChild($sortedConfig->getNode(), $node);
 			}
 		}
 
 		foreach ($moduleDepends as $moduleProp) {
 			$node = $unsortedConfig->getNode('modules/'.$moduleProp['module']);
-			$sortedConfig->getNode('modules')->appendChild($node);
+			$sortedConfig->appendChild($sortedConfig->getNode('modules'), $node);
 		}
 
 		$this->extend($sortedConfig);
