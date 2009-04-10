@@ -22,6 +22,9 @@
  * @package    Varien_Data
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 /**
@@ -214,6 +217,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getSize()
     {
+		if (!$this->isLoaded())
         $this->load();
         return $this->_totalRecords;
     }
@@ -225,6 +229,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getFirstItem()
     {
+		if (!$this->isLoaded())
         $this->load();
 
         if (count($this->_items)) {
@@ -242,6 +247,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getLastItem()
     {
+		if (!$this->isLoaded())
         $this->load();
 
         if (count($this->_items)) {
@@ -258,6 +264,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getItems()
     {
+		if (!$this->isLoaded())
         $this->load();
         return $this->_items;
     }
@@ -270,6 +277,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getColumnValues($colName)
     {
+		if (!$this->isLoaded())
         $this->load();
 
         $col = array();
@@ -288,6 +296,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getItemsByColumnValue($column, $value)
     {
+		if (!$this->isLoaded())
         $this->load();
 
         $res = array();
@@ -308,6 +317,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getItemByColumnValue($column, $value)
     {
+		if (!$this->isLoaded())
         $this->load();
 
         foreach ($this as $item) {
@@ -655,6 +665,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getItemById($idValue)
     {
+		if (!$this->isLoaded())
         $this->load();
         if (isset($this->_items[$idValue])) {
             return $this->_items[$idValue];
@@ -667,6 +678,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getIterator()
     {
+		if (!$this->isLoaded())
         $this->load();
         return new ArrayIterator($this->_items);
     }
@@ -678,6 +690,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function count()
     {
+		if (!$this->isLoaded())
         $this->load();
         return count($this->_items);
     }
