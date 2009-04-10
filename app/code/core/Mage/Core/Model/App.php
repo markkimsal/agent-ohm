@@ -1025,7 +1025,7 @@ class Mage_Core_Model_App
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_ALL);
         }
 
-        Mage::dispatchEvent('application_clean_cache', array('tags' => $tags));
+        $this->dispatchEvent('application_clean_cache', array('tags' => $tags));
         return $this;
     }
 
