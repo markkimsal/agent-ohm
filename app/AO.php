@@ -560,7 +560,7 @@ class AO {
      */
     public static function isInstalled($options = array())
     {
-        $isInstalled = self::registry('_is_installed');
+		static $isInstalled = null;
         if ($isInstalled === null) {
             self::setRoot();
 
@@ -584,7 +584,6 @@ class AO {
                     $isInstalled = true;
                 }
             }
-            self::register('_is_installed', $isInstalled);
         }
         return $isInstalled;
     }
