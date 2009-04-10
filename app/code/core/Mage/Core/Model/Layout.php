@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -83,8 +86,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function __construct($data=array())
     {
-        $this->_elementClass = AO::getConfig()->getModelClassName('core/layout_element');
-        $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
+        //$this->_elementClass = AO::getConfig()->getModelClassName('core/layout_element');
+        //$this->setXml(simplexml_load_string('<layout/>');
         parent::__construct($data);
     }
 
@@ -255,7 +258,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (!empty($node['parent'])) {
             $parentBlock = $this->getBlock((string)$node['parent']);
         } else {
-            $parentName = $parent->getBlockName();
+            $parentName = $this->getBlockName($parent);
             if (!empty($parentName)) {
                 $parentBlock = $this->getBlock($parentName);
             }
@@ -310,7 +313,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if (!empty($node['block'])) {
             $parentName = (string)$node['block'];
         } else {
-            $parentName = $parent->getBlockName();
+            $parentName = $this->getBlockName($parent);
         }
 
         $_profilerKey = 'BLOCK ACTION: '.$parentName.' -> '.$method;
@@ -325,14 +328,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             unset($args['@attributes']);
 
             foreach ($args as $key => $arg) {
-                if (($arg instanceof Mage_Core_Model_Layout_Element)) {
+                if (($arg instanceof SimpleXMLElement)) {
                     if (isset($arg['helper'])) {
                         $helperName = explode('/', (string)$arg['helper']);
                         $helperMethod = array_pop($helperName);
                         $helperName = implode('/', $helperName);
+						/*
                         $arg = $arg->asArray();
                         unset($arg['@']);
                         $args[$key] = call_user_func_array(array(AO::helper($helperName), $helperMethod), $arg);
+						 */
                     } else {
                         /**
                          * if there is no helper we hope that this is assoc array
@@ -602,6 +607,17 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
         return $helper->setLayout($this);
     }
+
+
+    public function getBlockName($node)
+    {
+        $tagName = (string)$node->getName();
+        if ('block'!==$tagName && 'reference'!==$tagName || empty($node['name'])) {
+            return false;
+        }
+        return (string)$node['name'];
+    }
+
 
     /*public function setBlockCache($frontend='Core', $backend='File',
         array $frontendOptions=array(), array $backendOptions=array())

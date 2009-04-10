@@ -27,7 +27,7 @@
  * @ao-copyright 2009 Mark Kimsal
  */
 
-
+//not used anymore
 /**
  * Extends SimpleXML to add valuable functionality to SimpleXMLElement class
  *

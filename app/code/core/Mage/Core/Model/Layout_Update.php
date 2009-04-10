@@ -22,6 +22,9 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
 
@@ -232,7 +235,8 @@ class Mage_Core_Model_Layout_Update
     {
         $updates = trim($this->asString());
         $updates = '<'.'?xml version="1.0"?'.'><layout>'.$updates.'</layout>';
-        return simplexml_load_string($updates, $this->getElementClass());
+        //return simplexml_load_string($updates, $this->getElementClass());
+        return simplexml_load_string($updates);
     }
 
     /**

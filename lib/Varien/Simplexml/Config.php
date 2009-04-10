@@ -148,18 +148,16 @@ class Varien_Simplexml_Config
      */
     public function getNode($path=null)
     {
-        if (!$this->_xml instanceof SimplexmlElement) {
-            return false;
-        } elseif ($path === null) {
+		if ($path === null)
             return $this->_xml;
-        } else {
-			$answer = $this->_xml->xpath($path);
-			if (!isset($answer[0])) {
-				return false;
-			}
-			return $answer[0];
-            return $this->_xml->descend($path);
-        }
+
+		return $this->descend($this->_xml, $path);
+		/*
+		if (!isset($answer[0])) {
+			return false;
+		}
+		return $answer[0];
+		 */
     }
 
     /**
@@ -603,6 +601,75 @@ class Varien_Simplexml_Config
     {
         $this->getNode()->extend($config->getNode(), $overwrite);
         return $this;
+    }
+
+
+
+    /**
+     * Find a descendant of a node by path
+     *
+     * @todo    Do we need to make it xpath look-a-like?
+     * @todo    param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
+     * @param   string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
+     * @return  Varien_Simplexml_Element
+     */
+    public function descend($node, $path)
+    {
+        #$node = $this->xpath($path);
+        #return $node[0];
+        if (is_array($path)) {
+            $pathArr = $path;
+        } else {
+            $pathArr = explode('/', $path);
+        }
+        try {
+            //short cut 1,2,3 depth searches, they are the most common
+			// Only shortcut 1 and 2, there are too many 3 deep paths
+			// which don't exist, resulting in an exception, which slows
+			// down the site.
+            $c = count($pathArr);
+            switch ($c) {
+                case 1:
+                return $node->{$pathArr[0]};
+                case 2:
+                return $node->{$pathArr[0]}->{$pathArr[1]};
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+
+        $desc = $node;
+        foreach ($pathArr as $nodeName) {
+			//I haven't evern seen this XSL like syntax in use.
+			//  it's probably not been tested, it probably doesn't work.
+            /*
+            if (strpos($nodeName, '@')!==false) {
+                $a = explode('@', $nodeName);
+                $b = explode('=', $a[1]);
+                $nodeName = $a[0];
+                $attributeName = $b[0];
+                $attributeValue = $b[1];
+                $found = false;
+                foreach ($node->$nodeName as $desc) {
+                    if ((string)$nodeChild[$attributeName]===$attributeValue) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $desc = false;
+                }
+            } else {
+                $desc = $desc->$nodeName;
+            }
+             */
+            $desc = $desc->$nodeName;
+            if (!$desc) {
+                return false;
+            }
+        }
+        return $desc;
     }
 
 }
