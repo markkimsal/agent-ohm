@@ -100,7 +100,7 @@ class Mage_Core_Model_Cookie
      */
     public function getDomain()
     {
-        $domain = AO::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
+        $domain = $this->getStore()->getConfig(self::XML_PATH_COOKIE_DOMAIN);
         if (empty($domain)) {
             $domain = $this->_getRequest()->getHttpHost();
         }
@@ -114,7 +114,7 @@ class Mage_Core_Model_Cookie
      */
     public function getPath()
     {
-        $path = AO::getStoreConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
+        $path = $this->getStore()->getConfig(self::XML_PATH_COOKIE_PATH);
         if (empty($path)) {
             $path = $this->_getRequest()->getBasePath();
         }
@@ -132,7 +132,7 @@ class Mage_Core_Model_Cookie
             $lifetime = $this->_lifetime;
         }
         else {
-            $lifetime = AO::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
+            $lifetime = $this->getStore()->getConfig(self::XML_PATH_COOKIE_LIFETIME);
         }
         if (!is_numeric($lifetime)) {
             $lifetime = 3600;
@@ -159,7 +159,7 @@ class Mage_Core_Model_Cookie
      */
     public function getHttponly()
     {
-        $httponly = AO::getStoreConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
+        $httponly = $this->getStore()->getConfig(self::XML_PATH_COOKIE_HTTPONLY);
         if (is_null($httponly)) {
             return null;
         }

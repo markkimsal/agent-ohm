@@ -586,35 +586,24 @@ class Mage_Core_Model_App
             return $this->_getDefaultStore();
         }
 
+		/*
         if ($id === true && $this->isSingleStoreMode()) {
             return $this->_store;
         }
+		 */
 
         if (is_null($id) || ''===$id || $id === true) {
             $id = $this->_currentStore;
         }
+
         if ($id instanceof Mage_Core_Model_Store) {
             return $id;
         }
+
         if (is_null($id)) {
             $this->throwStoreException();
         }
 
-        if (empty($this->_stores[$id])) {
-            $store = AO::getModel('core/store');
-            /* @var $store Mage_Core_Model_Store */
-            if (is_numeric($id)) {
-                $store->load($id);
-            } elseif (is_string($id)) {
-                $store->load($id, 'code');
-            }
-
-            if (!$store->getCode()) {
-                $this->throwStoreException();
-            }
-            $this->_stores[$store->getStoreId()] = $store;
-            $this->_stores[$store->getCode()] = $store;
-        }
         return $this->_stores[$id];
     }
 

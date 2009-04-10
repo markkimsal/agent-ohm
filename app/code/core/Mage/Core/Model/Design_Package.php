@@ -111,7 +111,7 @@ class Mage_Core_Model_Design_Package
 	public function getStore()
 	{
 	    if ($this->_store === null) {
-	        return AO::app()->getStore();
+	        $this->_store = AO::app()->getStore();
 	    }
 		return $this->_store;
 	}
@@ -157,7 +157,7 @@ class Mage_Core_Model_Design_Package
     	        $this->_name = $customPackage;
             }
             else {
-                $this->_name = AO::getStoreConfig('design/package/name', $this->getStore());
+                $this->_name = $this->getStore()->getConfig('design/package/name');
             }
         }
         else {
@@ -242,7 +242,7 @@ class Mage_Core_Model_Design_Package
 	public function getTheme($type)
 	{
 		if (!isset($this->_theme[$type])) {
-			$this->_theme[$type] = AO::getStoreConfig('design/theme/'.$type, $this->getStore());
+			$this->_theme[$type] = $this->getStore()->getConfig('design/theme/'.$type);
 			if ($type!=='default' && empty($this->_theme[$type])) {
 				$this->_theme[$type] = $this->getTheme('default');
 				if (empty($this->_theme[$type])) {
@@ -404,7 +404,7 @@ class Mage_Core_Model_Design_Package
 
     public function getFallbackTheme()
     {
-        return AO::getStoreConfig('design/theme/default', $this->getStore());
+        return AO::getConfig('design/theme/default', $this->getStore());
     }
 
     public function getLayoutFilename($file, array $params=array())
@@ -524,7 +524,7 @@ class Mage_Core_Model_Design_Package
             if (!empty(self::$_customThemeTypeCache[$regexpsConfigPath])) {
                 return self::$_customThemeTypeCache[$regexpsConfigPath];
             }
-            $configValueSerialized = AO::getStoreConfig($regexpsConfigPath, $this->getStore());
+            $configValueSerialized = $this->getStore()->getConfig($regexpsConfigPath);
             if ($configValueSerialized) {
                 $regexps = @unserialize($configValueSerialized);
                 if (!empty($regexps)) {
