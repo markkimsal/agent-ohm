@@ -180,7 +180,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         }
 
         $templateName = Mage_Core_Model_Design_Package::getDesign()->getTemplateFilename($this->getTemplate(), $params);
-		$templateName = $this->scrunchName($templateName, 5);
+		$templateName = scrunchName($templateName, 5);
 		//var_dump($templateName);
 		//var_dump(get_class($this));
 
@@ -190,27 +190,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
         return $html;
     }
-
-	public function scrunchName($f, $l=1) {
-		$DS  = '/';
-		$scrunchLevel = $l;
-		$parts = explode($DS, $f);
-		if (count($parts) <= $scrunchLevel) {
-			return $f;
-//			continue;
-		}
-		$basedir = array();
-		while (count($basedir) < $scrunchLevel) {
-			$basedir[] = array_shift($parts);
-		}
-		//echo "basedir 2\n";
-		
-	//	var_dump( implode('/', $basedir));
-	//	var_dump(implode('_', $parts));
-		$newfile = implode($DS, $basedir).$DS;
-		$newfile .= implode('_', $parts);
-		return $newfile;
-	}
 
     /**
      * Render block HTML

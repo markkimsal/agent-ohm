@@ -210,26 +210,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
     }
 
-	public function scrunchName($f, $l=1) {
-		$DS  = '/';
-		$scrunchLevel = $l;
-		$parts = explode($DS, $f);
-		if (count($parts) <= $scrunchLevel) {
-			return $f;
-//			continue;
-		}
-		$basedir = array();
-		while (count($basedir) < $scrunchLevel) {
-			$basedir[] = array_shift($parts);
-		}
-		//echo "basedir 2\n";
-		
-	//	var_dump( implode('/', $basedir));
-	//	var_dump(implode('_', $parts));
-		$newfile = implode($DS, $basedir).$DS;
-		$newfile .= implode('_', $parts);
-		return $newfile;
-	}
 
     /**
      * Enter description here...
