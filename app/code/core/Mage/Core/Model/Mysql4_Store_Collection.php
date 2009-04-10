@@ -115,6 +115,10 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
 
     public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+
         if (!$this->getLoadDefault()) {
             $this->getSelect()->where($this->getConnection()->quoteInto('main_table.store_id>?', 0));
         }
