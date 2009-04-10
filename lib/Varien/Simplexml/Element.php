@@ -153,8 +153,28 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         } else {
             $pathArr = explode('/', $path);
         }
+        try {
+            //short cut 1,2,3 depth searches, they are the most common
+			// Only shortcut 1 and 2, there are too many 3 deep paths
+			// which don't exist, resulting in an exception, which slows
+			// down the site.
+            $c = count($pathArr);
+            switch ($c) {
+                case 1:
+                return $this->{$pathArr[0]};
+                case 2:
+                return $this->{$pathArr[0]}->{$pathArr[1]};
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+
         $desc = $this;
         foreach ($pathArr as $nodeName) {
+			//I haven't evern seen this XSL like syntax in use.
+			//  it's probably not been tested, it probably doesn't work.
+            /*
             if (strpos($nodeName, '@')!==false) {
                 $a = explode('@', $nodeName);
                 $b = explode('=', $a[1]);
@@ -174,6 +194,8 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             } else {
                 $desc = $desc->$nodeName;
             }
+             */
+            $desc = $desc->$nodeName;
             if (!$desc) {
                 return false;
             }
