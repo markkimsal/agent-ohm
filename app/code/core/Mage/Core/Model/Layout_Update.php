@@ -254,7 +254,7 @@ class Mage_Core_Model_Layout_Update
     {
         $elementClass = $this->getElementClass();
 
-        $design = Mage::getSingleton('core/design_package');
+        $design = Mage_Core_Model_Design_Package::getDesign();
         $area = $design->getArea();
         $storeId = Mage::app()->getStore()->getId();
         $cacheKey = 'LAYOUT_'.$area.'_STORE'.$storeId.'_'.$design->getPackageName().'_'.$design->getTheme('layout');

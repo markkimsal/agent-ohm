@@ -151,7 +151,7 @@ class Mage_Core_Model_App_Area
 
     protected function _initDesign()
     {
-        $designPackage = Mage_Core_Model_Design_Package::getDesign('core/design_package');
+        $designPackage = Mage_Core_Model_Design_Package::getDesign();
         if ($designPackage->getArea() != self::AREA_FRONTEND)
             return;
 

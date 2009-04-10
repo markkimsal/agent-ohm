@@ -233,7 +233,8 @@ abstract class Mage_Core_Controller_Varien_Action
         $update->addHandle('STORE_'.Mage::app()->getStore()->getCode());
 
         // load theme handle
-        $package = Mage::getSingleton('core/design_package');
+        $package = Mage_Core_Model_Design_Package::getDesign();
+        //$package = Mage::getSingleton('core/design_package');
         $update->addHandle('THEME_'.$package->getArea().'_'.$package->getPackageName().'_'.$package->getTheme('layout'));
 
         // load action handle

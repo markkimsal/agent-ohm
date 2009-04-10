@@ -241,7 +241,6 @@ class Mage_Core_Model_Design_Package
 
 	public function getTheme($type)
 	{
-		static $customThemeCache = array();
 		if (!isset($this->_theme[$type])) {
 			$this->_theme[$type] = Mage::getStoreConfig('design/theme/'.$type, $this->getStore());
 			if ($type!=='default' && empty($this->_theme[$type])) {
