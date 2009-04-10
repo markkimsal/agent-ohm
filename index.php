@@ -52,4 +52,7 @@ require_once $AOFilename;
 umask(0);
 AO::run();
 $end = microtime(1);
-echo sprintf('%.2f',(microtime(1) - $start)*1000);
+if (! strstr($_SERVER['PHP_SELF'], 'ajax')) {
+	echo sprintf('%.2f',($end - $start)*1000);
+	echo ' - '.memory_get_peak_usage();
+}

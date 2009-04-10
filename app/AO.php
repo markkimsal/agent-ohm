@@ -83,7 +83,7 @@ class AO {
 
     static private $_isDownloader = false;
 
-    static private $_isDeveloperMode = false;
+    static private $_isDeveloperMode = true;
 
     public static $headersSentThrowsException = true;
 
