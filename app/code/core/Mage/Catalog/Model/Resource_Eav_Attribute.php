@@ -185,4 +185,25 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     {
         return 'eav/entity_attribute_source_table';
     }
+
+	/**
+	 * Getter
+	 */
+	public function getGroupSortPath() {
+		return $this->_getData('group_sort_path');
+	}
+
+	/**
+	 * Getter
+	 */
+	public function getSortPath() {
+		return $this->_getData('sort_path');
+	}
+
+	/**
+	 * Getter
+	 */
+	public function getAttributeSetInfo() {
+		return $this->_getData('attribute_set_info');
+	}
 }
