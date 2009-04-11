@@ -114,7 +114,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
         if(!$this->getTemplate()) {
             $this->addTemplateData($this);
             if(!$this->getTemplate()->isPreprocessed()) {
-                $this->getTemplate()->preproccess();
+                $this->getTemplate()->preprocess();
             }
         }
 
