@@ -80,7 +80,7 @@ class AO {
 
     static private $_isDownloader = false;
 
-    static private $_isDeveloperMode = true;
+    static private $_isDeveloperMode = false;
 
     static public $_coreConfig       = null;
 

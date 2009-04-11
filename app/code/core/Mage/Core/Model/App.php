@@ -274,6 +274,10 @@ class Mage_Core_Model_App
             }
             $this->getRequest()->setPathInfo();
         }
+
+
+        $this->_initFrontController();
+
         return $this;
     }
 
@@ -516,8 +520,8 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
+        @include(BP.'/app/code/core/Mage/Core/Controller/Varien/Front.php');
         $this->_frontController = new Mage_Core_Controller_Varien_Front();
-        AO::register('controller', $this->_frontController);
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller');
         $this->_frontController->init();
         if (VPROF) Varien_Profiler::stop('mage::app::init_front_controller');
@@ -582,15 +586,16 @@ class Mage_Core_Model_App
      */
     public function getStore($id=null)
     {
-        if (!AO::isInstalled() || $this->getUpdateMode()) {
+        static $isInstalled =-1; if ($isInstalled == -1) $isInstalled = AO::isInstalled();
+        if (!$isInstalled || $this->getUpdateMode()) {
             return $this->_getDefaultStore();
         }
 
-		/*
+        /*
         if ($id === true && $this->isSingleStoreMode()) {
             return $this->_store;
         }
-		 */
+        */
 
         if (is_null($id) || ''===$id || $id === true) {
             $id = $this->_currentStore;
@@ -850,10 +855,6 @@ class Mage_Core_Model_App
      */
     public function getFrontController()
     {
-        if (!$this->_frontController) {
-            $this->_initFrontController();
-        }
-
         return $this->_frontController;
     }
 
