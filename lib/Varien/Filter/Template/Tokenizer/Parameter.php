@@ -45,24 +45,6 @@ class Varien_Filter_Template_Tokenizer_Parameter extends Varien_Filter_Template_
         $parameters = array();
         $parameterName = '';
 
-		//*
-		$pairs = explode(' ', $this->_string);
-		foreach ($pairs as $_pair) {
-		$parts = explode('=\'', $_pair);
-		if (count($parts) > 1) {
-			$parameterName = trim(str_replace('\'', '', array_shift($parts)));
-			$parameters[$parameterName] = str_replace('\'', '', implode($parts));
-		} else {
-			$parts = explode('="', $_pair);
-			$parameterName = trim(str_replace('"', '', array_shift($parts)));
-			$parameters[$parameterName] = str_replace('"', '', implode($parts));
-		}
-//		var_dump($this->_string);
-//		var_dump($parameters);
-		}
-		return $parameters;
-		// */
-
         while($this->next()) {
             if($this->isWhiteSpace()) {
                 continue;

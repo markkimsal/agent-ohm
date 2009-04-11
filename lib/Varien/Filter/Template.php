@@ -186,9 +186,12 @@ class Varien_Filter_Template implements Zend_Filter_Interface
      */
     protected function _getIncludeParameters($value)
     {
+		$params = $this->_simpleParseParams($value);
+		/*
         $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
         $tokenizer->setString($value);
         $params = $tokenizer->tokenize();
+		 */
         foreach ($params as $key => $value) {
         	if (substr($value, 0, 1) === '$') {
         	    $params[$key] = $this->_getVariable(substr($value, 1), null);
@@ -247,4 +250,20 @@ class Varien_Filter_Template implements Zend_Filter_Interface
         Varien_Profiler::stop("email_template_proccessing_variables");
         return $result;
     }
+
+    public function _simpleParseParams($str) {
+        $pairs = explode(' ', $str);
+        foreach ($pairs as $_pair) {
+        $parts = explode('=\'', $_pair);
+            if (count($parts) > 1) {
+                $parameterName = trim(str_replace('\'', '', array_shift($parts)));
+                $parameters[$parameterName] = str_replace('\'', '', implode($parts));
+            } else {
+                $parts = explode('="', $_pair);
+                $parameterName = trim(str_replace('"', '', array_shift($parts)));
+                $parameters[$parameterName] = str_replace('"', '', implode($parts));
+            }
+        }
+        return $parameters;
+     }
 }
