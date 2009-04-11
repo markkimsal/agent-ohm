@@ -22,8 +22,12 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
-@include(BP.'app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php');
+
+AO::includeFile('Mage/Core/Controller/Varien/Router/Abstract');
 
 class Mage_Core_Controller_Varien_Front extends Varien_Object
 {
@@ -117,14 +121,14 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller::collect_routers');
         foreach ($routersInfo as $routerCode => $routerInfo) {
             if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
-            	continue;
+                continue;
             }
             if (isset($routerInfo['class'])) {
-            	$router = new $routerInfo['class'];
-            	if (isset($routerInfo['area'])) {
-            		$router->collectRoutes($routerInfo['area'], $routerCode);
-            	}
-            	$this->addRouter($routerCode, $router);
+                $router = new $routerInfo['class'];
+                if (isset($routerInfo['area'])) {
+                    $router->collectRoutes($routerInfo['area'], $routerCode);
+                }
+                $this->addRouter($routerCode, $router);
             }
         }
         if (VPROF) Varien_Profiler::stop('mage::app::init_front_controller::collect_routers');

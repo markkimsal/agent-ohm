@@ -22,8 +22,14 @@
  * @package    Mage_Core
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ *
+ * @ao-modified
+ * @ao-copyright 2009 Mark Kimsal
  */
 
+AO::includeLibFile('Zend/Controller/Request/Abstract');
+AO::includeLibFile('Zend/Controller/Request/Http');
+AO::includeLibFile('Zend/Controller/Response/Abstract');
 
 /**
  * Custom Zend_Controller_Request_Http class (formally)

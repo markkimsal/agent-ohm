@@ -520,7 +520,7 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
-        @include(BP.'/app/code/core/Mage/Core/Controller/Varien/Front.php');
+        AO::includeFile('Mage/Core/Controller/Varien/Front');
         $this->_frontController = new Mage_Core_Controller_Varien_Front();
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller');
         $this->_frontController->init();

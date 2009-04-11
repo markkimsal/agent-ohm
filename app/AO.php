@@ -255,16 +255,22 @@ class AO {
     }
 
     /**
-     * Get design package singleton
+     * Load a file w/o trying to guess its customizations.
      *
-     * @return Mage_Core_Model_Design_Package
+     * There's no need to allow for customizing "abstract" classes.
      */
-	/*
-    public static function getDesign()
-    {
-        return AO::getSingleton('core/design_package');
+    public static function includeLibFile($f) {
+        return @include(BP.'/lib/'.$f.'.php');
     }
-	 */
+
+    /**
+     * Load a file w/o trying to guess its customizations.
+     *
+     * There's no need to allow for customizing "abstract" classes.
+     */
+    public static function includeFile($f) {
+        return @include(BP.'/app/code/core/'.$f.'.php');
+    }
 
     /**
      * Get a config object
