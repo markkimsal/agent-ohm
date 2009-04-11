@@ -28,6 +28,7 @@
  */
 
 AO::includeFile('Mage/Core/Controller/Varien/Router/Abstract');
+AO::includeFile('Mage/Core/Controller/Front/Action');
 
 class Mage_Core_Controller_Varien_Front extends Varien_Object
 {

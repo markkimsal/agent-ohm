@@ -391,6 +391,7 @@ class Mage_Core_Model_App
         $websiteCollection = AO::getResourceModel('core/website_collection')
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG))
             ->setLoadDefault(true);
+
         $groupCollection = AO::getModel('core/store_group')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store_Group::CACHE_TAG))
             ->setLoadDefault(true);
@@ -521,6 +522,7 @@ class Mage_Core_Model_App
     protected function _initFrontController()
     {
         AO::includeFile('Mage/Core/Controller/Varien/Front');
+        AO::includeFile('Mage/Core/Model/Session');
         $this->_frontController = new Mage_Core_Controller_Varien_Front();
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller');
         $this->_frontController->init();
@@ -532,12 +534,10 @@ class Mage_Core_Model_App
      * Redeclare custom error handler
      *
      * @param   string $handler
-     * @return  Mage_Core_Model_App
      */
     public function setErrorHandler($handler)
     {
         set_error_handler($handler);
-        return $this;
     }
 
     /**

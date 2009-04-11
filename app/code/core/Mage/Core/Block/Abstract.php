@@ -887,9 +887,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getCacheLifetime()
     {
-        if (!$this->hasData('cache_lifetime')) {
-            return null;
-        }
         return $this->getData('cache_lifetime');
     }
 
