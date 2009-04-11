@@ -153,7 +153,7 @@ class Mage_Catalog_Model_Product_Type
     static public function getTypes()
     {
         if (is_null(self::$_types)) {
-            self::$_types = AO::getConfig()->getNode('global/catalog/product/type')->asArray();
+            self::$_types = AO::getConfig()->asArray(AO::getConfig()->getNode('global/catalog/product/type'));
         }
 
         return self::$_types;

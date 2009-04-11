@@ -243,7 +243,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
                 $url = $this->_getModel()->saveFile()->getUrl();
             }
         } catch( Exception $e ) {
-            $url = AO::getDesign()->getSkinUrl($this->getPlaceholder());
+            $url = Mage_Core_Model_Design_Package::getDesign()->getSkinUrl($this->getPlaceholder());
         }
         return $url;
     }
