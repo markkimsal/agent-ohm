@@ -127,7 +127,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $params['_absolute'] = $this->_useAbsoluteLinks;
 
-        $url = AO::getDesign()->getSkinUrl($params['url'], $params);
+        $url = Mage_Core_Model_Design_Package::getDesign()->getSkinUrl($params['url'], $params);
 
         return $url;
     }
