@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.63</version>
+            <version>0.8.0</version>
         </Mage_Catalog>
     </modules>
 
@@ -693,6 +693,7 @@
             </layer>
 -->
         </catalog>
+		<!--
         <url>
             <convert>
                 <char0038><from>&amp;</from><to>and</to></char0038>
@@ -1014,5 +1015,6 @@
                 <char8482><from>™</from><to>tm</to></char8482>
             </convert>
         </url>
+		-->
     </default>
 </config>
