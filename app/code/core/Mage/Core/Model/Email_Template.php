@@ -476,13 +476,13 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     protected function _applyDesignConfig()
     {
         if ($this->getDesignConfig()) {
-            $design = AO::getDesign();
+            $design = Mage_Core_Model_Design_Package::getDesign();
             $this->getDesignConfig()
                 ->setOldArea($design->getArea())
                 ->setOldStore($design->getStore());
 
             if ($this->getDesignConfig()->getArea()) {
-                AO::getDesign()->setArea($this->getDesignConfig()->getArea());
+                Mage_Core_Model_Design_Package::getDesign()->setArea($this->getDesignConfig()->getArea());
             }
 
             if ($this->getDesignConfig()->getStore()) {
@@ -505,13 +505,13 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         if ($this->getDesignConfig()) {
             if ($this->getDesignConfig()->getOldArea()) {
-                AO::getDesign()->setArea($this->getDesignConfig()->getOldArea());
+                Mage_Core_Model_Design_Package::getDesign()->setArea($this->getDesignConfig()->getOldArea());
             }
 
             if ($this->getDesignConfig()->getOldStore()) {
-                AO::getDesign()->setStore($this->getDesignConfig()->getOldStore());
-                AO::getDesign()->setTheme('');
-                AO::getDesign()->setPackageName('');
+                Mage_Core_Model_Design_Package::getDesign()->setStore($this->getDesignConfig()->getOldStore());
+                Mage_Core_Model_Design_Package::getDesign()->setTheme('');
+                Mage_Core_Model_Design_Package::getDesign()->setPackageName('');
             }
         }
         AO::app()->getLocale()->revert();
