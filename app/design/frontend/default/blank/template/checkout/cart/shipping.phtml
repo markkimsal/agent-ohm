@@ -37,7 +37,7 @@
             <ul class="form-list">
                 <li>
                     <label for="country"><?php echo $this->__('Country') ?></label><br />
-                    <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
+                    <?php echo AO::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
                 </li>
             <?php //if($this->getStateActive()): ?>
                 <li>

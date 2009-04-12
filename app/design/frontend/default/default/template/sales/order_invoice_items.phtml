@@ -59,7 +59,7 @@
                 <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_invoice->getDiscountAmount()) ?></td>
             </tr>
         <?php endif; ?>
-          <?php if (($_invoice->getTaxAmount() > 0)||(Mage::helper('tax')->displayZeroTax())): ?>
+          <?php if (($_invoice->getTaxAmount() > 0)||(AO::helper('tax')->displayZeroTax())): ?>
             <tr>
                 <td colspan="4" class="a-right"><?php echo $this->__('Tax') ?></td>
                 <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>

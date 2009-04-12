@@ -39,19 +39,19 @@
     <div class="col-1 primary-address-list">
         <h4><?php echo $this->__('Default Addresses') ?></h4>
         <ol>
-        <?php if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
+        <?php if($_pAddsses = AO::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
             <li>
                 <h5><?php echo $this->__('Default Billing Address') ?></h5>
                 <address>
-                <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
-                <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></strong></address>
+                <?php echo $this->getAddressHtml(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
+                <strong><a href="<?php echo $this->getAddressEditUrl(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></strong></address>
            </li>
-           <?php elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
+           <?php elseif($_pAddsses = AO::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
            <li>
                 <h5><?php echo $this->__('Default Billing Address') ?></h5>
                 <address>
-                    <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
-                    <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></strong>
+                    <?php echo $this->getAddressHtml(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
+                    <strong><a href="<?php echo $this->getAddressEditUrl(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></strong>
                 </address>
             </li>
             <?php else: ?>
@@ -59,19 +59,19 @@
                 <h5><?php echo $this->__('Default Billing Address') ?></h5>
                 <?php echo $this->__('You have no default billing address in your address book.') ?></li>
             <?php endif ?>
-            <?php if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
+            <?php if($_pAddsses = AO::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
             <li>
                 <h5><?php echo $this->__('Default Shipping Address') ?></h5>
                 <address>
-                    <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
-                    <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></strong>
+                    <?php echo $this->getAddressHtml(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
+                    <strong><a href="<?php echo $this->getAddressEditUrl(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></strong>
                 </address>
             </li>
-            <?php elseif($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
+            <?php elseif($_pAddsses = AO::getSingleton('customer/session')->getCustomer()->getDefaultBilling()): ?>
             <li>
                 <h5><?php echo $this->__('Default Shipping Address') ?></h5><address>
-                <?php echo $this->getAddressHtml(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
-                <strong><a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></strong>
+                <?php echo $this->getAddressHtml(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?><br/>
+                <strong><a href="<?php echo $this->getAddressEditUrl(AO::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></strong>
                 </address>
             </li>
             <?php else: ?>

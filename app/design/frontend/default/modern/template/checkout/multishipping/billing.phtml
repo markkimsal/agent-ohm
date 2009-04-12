@@ -36,7 +36,7 @@
     <h3><?php echo $this->__('Billing Information') ?></h3>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<script src="<?php echo Mage::getBaseUrl('js') ?>varien/payment.js" type="text/javascript"></script>
+<script src="<?php echo AO::getBaseUrl('js') ?>varien/payment.js" type="text/javascript"></script>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="multishipping-billing-form">
         <div class="col2-set">
             <div class="col-1">

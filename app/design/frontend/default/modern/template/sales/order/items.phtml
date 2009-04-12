@@ -69,7 +69,7 @@
                 <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
             </tr>
         <?php endif; ?>
-        <?php if (($_order->getTaxAmount() > 0)||(Mage::helper('tax')->displayZeroTax())): ?>
+        <?php if (($_order->getTaxAmount() > 0)||(AO::helper('tax')->displayZeroTax())): ?>
             <?php echo $this->getChildHtml('tax'); ?>
         <?php endif; ?>
         <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>

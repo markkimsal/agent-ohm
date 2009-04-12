@@ -107,7 +107,7 @@ function giftMessageToogle(giftMessageIdentifier)
             <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
         </tr>
         <?php endif; ?>
-         <?php if (($_creditmemo->getTaxAmount() > 0)||(Mage::helper('tax')->displayZeroTax())): ?>
+         <?php if (($_creditmemo->getTaxAmount() > 0)||(AO::helper('tax')->displayZeroTax())): ?>
         <tr>
             <td colspan="7" class="a-right"><?php echo $this->__('Tax') ?></td>
             <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getTaxAmount()) ?></td>

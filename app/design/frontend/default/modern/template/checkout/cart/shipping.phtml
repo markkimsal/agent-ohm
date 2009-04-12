@@ -30,7 +30,7 @@
 <form action="<?php echo $this->getUrl('checkout/cart/estimatePost') ?>" method="post" id="shipping-zip-form">
     <fieldset>
     <ul class="form-list">
-        <li><label for="country"><?php echo $this->__('Country') ?> <span class="required">*</span></label><br/><span><?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?></span></li>
+        <li><label for="country"><?php echo $this->__('Country') ?> <span class="required">*</span></label><br/><span><?php echo AO::getBlockSingleton('directory/data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?></span></li>
         <li><label for="region_id"><?php echo $this->__('State/Province') ?><?php if ($this->isStateProvinceRequired()):?> <span class="required">*</span><?php endif;?></label><br/>
         <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" style="display:none"<?php echo ($this->isStateProvinceRequired() ? ' class="validate-select"' : '') ?>>
             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>

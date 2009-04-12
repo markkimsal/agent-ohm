@@ -27,7 +27,7 @@
 
 <?php
 $_product = $this->getProduct();
-$_options = Mage::helper('core')->decorateArray($this->getOptions());
+$_options = AO::helper('core')->decorateArray($this->getOptions());
 ?>
 <?php if ($_product->isSaleable()):?>
     <?php if (count($_options)): ?>

@@ -33,7 +33,7 @@
                     <?php echo $this->__('<label>Make Check payable to</label>: %s', $this->getMethod()->getPayableTo()) ?><br />
                 <?php endif; ?>
                 <?php if ($this->getMethod()->getMailingAddress()): ?>
-                    <label><?php echo Mage::helper('payment')->__('Send Check to:') ?></label>
+                    <label><?php echo AO::helper('payment')->__('Send Check to:') ?></label>
                     <div class="checkmo-mailing-address">
                         <?php echo nl2br($this->getMethod()->getMailingAddress()) ?>
                     </div>

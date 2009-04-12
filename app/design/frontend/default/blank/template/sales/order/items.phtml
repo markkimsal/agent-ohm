@@ -70,7 +70,7 @@
             </tr>
         <?php endif; ?>
         <?php //if ($_order->getTaxAmount() > 0): ?>
-         <?php if (($_order->getTaxAmount() > 0)||(Mage::helper('tax')->displayZeroTax())): ?>
+         <?php if (($_order->getTaxAmount() > 0)||(AO::helper('tax')->displayZeroTax())): ?>
             <?php echo $this->getChildHtml('tax'); ?>
         <?php endif; ?>
         <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>

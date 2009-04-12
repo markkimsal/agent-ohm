@@ -27,9 +27,9 @@
 <?php if ($this->isPossibleOnepageCheckout()):?>
 <li>
 <?php if ($this->isDisabled()):?>
-<img src="<?php echo $this->getSkinUrl('images/btn_proceed_to_checkout_dis.gif');?>" alt="<?php echo Mage::helper('checkout')->__('Proceed to Checkout');?>" />
+<img src="<?php echo $this->getSkinUrl('images/btn_proceed_to_checkout_dis.gif');?>" alt="<?php echo $this->helper('checkout')->__('Proceed to Checkout');?>" />
 <?php else: ?>
-<a href="<?php echo $this->getCheckoutUrl()?>"><img src="<?php echo $this->getSkinUrl('images/btn_proceed_to_checkout.gif');?>" alt="<?php echo Mage::helper('checkout')->__('Proceed to Checkout');?>" /></a>
+<a href="<?php echo $this->getCheckoutUrl()?>"><img src="<?php echo $this->getSkinUrl('images/btn_proceed_to_checkout.gif');?>" alt="<?php echo $this->helper('checkout')->__('Proceed to Checkout');?>" /></a>
 <?php endif?>
 </li>
 <?php endif?>

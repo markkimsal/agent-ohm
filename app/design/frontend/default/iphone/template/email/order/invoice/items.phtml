@@ -61,7 +61,7 @@
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_invoice->getShippingAmount()) ?></td>
         </tr>
         <?php endif; ?>
-        <?php if (($_invoice->getTaxAmount() > 0)||(Mage::helper('tax')->displayZeroTax())): ?>
+        <?php if (($_invoice->getTaxAmount() > 0)||(AO::helper('tax')->displayZeroTax())): ?>
         <tr>
             <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Tax') ?></td>
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>

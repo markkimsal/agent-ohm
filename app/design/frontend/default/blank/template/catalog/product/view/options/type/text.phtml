@@ -34,6 +34,6 @@
         <textarea id="options_<?php echo $_option->getId() ?>_text" onchange="opConfig.reloadPrice()" class="<?php echo $_option->getIsRequire() ? ' required-entry' : '' ?> <?php echo $_option->getMaxCharacters() ? ' validate-length maximum-length-'.$_option->getMaxCharacters() : '' ?> product-custom-option" name="options[<?php echo $_option->getId() ?>]" rows="5" cols="25"></textarea>
 <?php endif; ?>
 <?php if ($_option->getMaxCharacters()): ?>
-<p><?php echo Mage::helper('catalog')->__('Maximum number of characters')?>: <strong><?php echo $_option->getMaxCharacters() ?></strong></p>
+<p><?php echo AO::helper('catalog')->__('Maximum number of characters')?>: <strong><?php echo $_option->getMaxCharacters() ?></strong></p>
 <?php endif; ?>
 </dd>

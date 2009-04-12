@@ -41,9 +41,9 @@
                 <?php echo $this->__('There are <a href="%s"><strong>%s items</strong></a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty) ?>
             <?php endif ?>
             <p class="subtotal">
-                <?php echo $this->__('Cart Subtotal:') ?> <strong><?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?></strong>
+                <?php echo $this->__('Cart Subtotal:') ?> <strong><?php echo AO::helper('checkout')->formatPrice($this->getSubtotal()) ?></strong>
                 <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
-                    <br />(<strong><?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?></strong> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+                    <br />(<strong><?php echo AO::helper('checkout')->formatPrice($_subtotalInclTax) ?></strong> <?php echo AO::helper('tax')->getIncExcText(true) ?>)
                 <?php endif; ?>
             </p>
         <?php endif ?>
