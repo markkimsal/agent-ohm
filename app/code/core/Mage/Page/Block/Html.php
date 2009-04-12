@@ -147,9 +147,9 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     {
         $arr = explode('/', $theme);
         if (isset($arr[1])) {
-            AO::getDesign()->setPackageName($arr[0])->setTheme($arr[1]);
+            Mage_Core_Model_Design_Package::getDesign()->setPackageName($arr[0])->setTheme($arr[1]);
         } else {
-            AO::getDesign()->setTheme($theme);
+            Mage_Core_Model_Design_Package::getDesign()->setTheme($theme);
         }
         return $this;
     }

@@ -894,7 +894,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $img = 'error_msg_icon.gif';
         $liStyle = 'background-color:#FDD; ';
         echo '<li style="'.$liStyle.'">';
-        echo '<img src="'.AO::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
+        echo '<img src="'.Mage_Core_Model_Design_Package::getDesign()->getSkinUrl('images/'.$img).'" class="v-middle"/>';
         echo $error;
         if ($line) {
             echo '<small>, Line: <b>'.$line.'</b></small>';

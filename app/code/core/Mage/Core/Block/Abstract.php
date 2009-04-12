@@ -744,7 +744,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
 
         return Mage_Core_Model_Design_Package::getDesign()->getSkinUrl($file, $params);
-//        return AO::getDesign()->getSkinUrl($file, $params);
+//        return Mage_Core_Model_Design_Package::getDesign()->getSkinUrl($file, $params);
     }
 
     /**

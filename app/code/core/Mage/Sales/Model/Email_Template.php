@@ -29,7 +29,7 @@ class Mage_Sales_Model_Email_Template extends Mage_Core_Model_Email_Template
 {
 	public function getInclude($template, array $variables)
 	{
-		$filename = AO::getDesign()->getTemplateFilename($template);
+		$filename = Mage_Core_Model_Design_Package::getDesign()->getTemplateFilename($template);
 		if (!$filename) {
 			return '';
 		}

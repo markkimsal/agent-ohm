@@ -298,7 +298,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             return $this;
         }
 
-        $currentDesign = AO::getDesign()->setAllGetOld(array(
+        $currentDesign = Mage_Core_Model_Design_Package::getDesign()->setAllGetOld(array(
             'package' => AO::getStoreConfig('design/package/name', $this->getStoreId()),
             'store' => $this->getStoreId()
         ));
@@ -367,7 +367,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
 
         $translate->setTranslateInline(true);
 
-        AO::getDesign()->setAllGetOld($currentDesign);
+        Mage_Core_Model_Design_Package::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }
@@ -383,7 +383,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             return $this;
         }
 
-        $currentDesign = AO::getDesign()->setAllGetOld(array(
+        $currentDesign = Mage_Core_Model_Design_Package::getDesign()->setAllGetOld(array(
             'package' => AO::getStoreConfig('design/package/name', $this->getStoreId()),
         ));
 
@@ -450,7 +450,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
 
         $translate->setTranslateInline(true);
 
-        AO::getDesign()->setAllGetOld($currentDesign);
+        Mage_Core_Model_Design_Package::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }

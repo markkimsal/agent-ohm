@@ -92,7 +92,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         $url = false;
         if (!$product->getImage()) {
-            $url = AO::getDesign()->getSkinUrl('images/no_image.jpg');
+            $url = Mage_Core_Model_Design_Package::getDesign()->getSkinUrl('images/no_image.jpg');
         }
         elseif ($attribute = $product->getResource()->getAttribute('image')) {
             $url = $attribute->getFrontend()->getUrl($product);
@@ -109,7 +109,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     {
         $url = false;
         if (!$product->getSmallImage()) {
-            $url = AO::getDesign()->getSkinUrl('images/no_image.jpg');
+            $url = Mage_Core_Model_Design_Package::getDesign()->getSkinUrl('images/no_image.jpg');
         }
         elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($product);

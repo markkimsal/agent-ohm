@@ -216,7 +216,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function customerSaveBeforeObserver($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
-        $isAdmin = AO::getDesign()->getArea()==='adminhtml';
+        $isAdmin = Mage_Core_Model_Design_Package::getDesign()->getArea()==='adminhtml';
         $email = $customer->getEmail();
         $host =  AO::app()->getStore()->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
         $fakeEmail = $customer->getIncrementId().'@'. $host;

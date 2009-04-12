@@ -151,7 +151,7 @@ class Mage_Core_Model_Translate_Inline
 
 <div id="translate-inline-trig"><img src="<?php echo $trigImg ?>" alt="[TR]"/></div>
 <script type="text/javascript">
-    new TranslateInline('translate-inline-trig', '<?php echo $ajaxUrl ?>', '<?php echo AO::getDesign()->getArea() ?>');
+    new TranslateInline('translate-inline-trig', '<?php echo $ajaxUrl ?>', '<?php echo Mage_Core_Model_Design_Package::getDesign()->getArea() ?>');
 </script>
 <?php
         $html = ob_get_clean();

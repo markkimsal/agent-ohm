@@ -659,7 +659,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         // set design parameters, required for email (remember current)
-        $currentDesign = AO::getDesign()->setAllGetOld(array(
+        $currentDesign = Mage_Core_Model_Design_Package::getDesign()->setAllGetOld(array(
             'store'   => $this->getStoreId(),
             'area'    => 'frontend',
             'package' => AO::getStoreConfig('design/package/name', $this->getStoreId()),
@@ -721,7 +721,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $translate->setTranslateInline(true);
 
         // revert current design
-        AO::getDesign()->setAllGetOld($currentDesign);
+        Mage_Core_Model_Design_Package::getDesign()->setAllGetOld($currentDesign);
 
         return $this;
     }

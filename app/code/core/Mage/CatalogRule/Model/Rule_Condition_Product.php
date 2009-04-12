@@ -163,7 +163,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
 
         switch ($this->getAttribute()) {
             case 'sku': case 'category_ids':
-                $image = AO::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
+                $image = Mage_Core_Model_Design_Package::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
                 break;
         }
 
@@ -267,7 +267,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage(AO::getDesign()->getSkinUrl('images/grid-cal.gif'));
+                    $element->setImage(Mage_Core_Model_Design_Package::getDesign()->getSkinUrl('images/grid-cal.gif'));
                     break;
             }
         }

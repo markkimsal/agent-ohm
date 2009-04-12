@@ -245,8 +245,8 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
             return false;
         }
 
-        AO::getDesign()->setStore($storeId);
-        AO::getDesign()->setArea('frontend');
+        Mage_Core_Model_Design_Package::getDesign()->setStore($storeId);
+        Mage_Core_Model_Design_Package::getDesign()->setArea('frontend');
 
         $translate = AO::getSingleton('core/translate');
         /* @var $translate Mage_Core_Model_Translate */

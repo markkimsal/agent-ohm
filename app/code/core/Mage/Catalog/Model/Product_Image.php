@@ -248,14 +248,14 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             }
             else {
                 // replace file with skin or default skin placeholder
-                $skinBaseDir     = AO::getDesign()->getSkinBaseDir();
+                $skinBaseDir     = Mage_Core_Model_Design_Package::getDesign()->getSkinBaseDir();
                 $skinPlaceholder = "/images/catalog/product/placeholder/{$this->getDestinationSubdir()}.jpg";
                 $file = $skinPlaceholder;
                 if (file_exists($skinBaseDir . $file)) {
                     $baseDir = $skinBaseDir;
                 }
                 else {
-                    $baseDir = AO::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
+                    $baseDir = Mage_Core_Model_Design_Package::getDesign()->getSkinBaseDir(array('_theme' => 'default'));
                 }
             }
         }
@@ -391,7 +391,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         } elseif ( file_exists($baseDir . '/watermark/' . $file) ) {
             $filename = $baseDir . '/watermark/' . $file;
         } else {
-            $baseDir = AO::getDesign()->getSkinBaseDir();
+            $baseDir = Mage_Core_Model_Design_Package::getDesign()->getSkinBaseDir();
             if( file_exists($baseDir . $file) ) {
                 $filename = $baseDir . $file;
             }

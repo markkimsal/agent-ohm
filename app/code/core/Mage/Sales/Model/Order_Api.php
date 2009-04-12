@@ -157,17 +157,17 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
 
         try {
             if ($notify && $comment) {
-                $oldStore = AO::getDesign()->getStore();
-                $oldArea = AO::getDesign()->getArea();
-                AO::getDesign()->setStore($order->getStoreId());
-                AO::getDesign()->setArea('frontend');
+                $oldStore = Mage_Core_Model_Design_Package::getDesign()->getStore();
+                $oldArea = Mage_Core_Model_Design_Package::getDesign()->getArea();
+                Mage_Core_Model_Design_Package::getDesign()->setStore($order->getStoreId());
+                Mage_Core_Model_Design_Package::getDesign()->setArea('frontend');
             }
 
             $order->sendOrderUpdateEmail($notify, $comment);
             $order->save();
             if ($notify && $comment) {
-                AO::getDesign()->setStore($oldStore);
-                AO::getDesign()->setArea($oldArea);
+                Mage_Core_Model_Design_Package::getDesign()->setStore($oldStore);
+                Mage_Core_Model_Design_Package::getDesign()->setArea($oldArea);
             }
 
         } catch (Mage_Core_Exception $e) {

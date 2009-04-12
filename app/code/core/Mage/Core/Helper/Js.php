@@ -111,7 +111,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
      */
     public function getJsSkinUrl($file)
     {
-        return AO::getDesign()->getSkinUrl($file, array());
+        return Mage_Core_Model_Design_Package::getDesign()->getSkinUrl($file, array());
     }
 
     /**

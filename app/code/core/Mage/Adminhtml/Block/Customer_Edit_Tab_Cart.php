@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
 
     public function getGridParentHtml()
     {
-        $templateName = AO::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
+        $templateName = Mage_Core_Model_Design_Package::getDesign()->getTemplateFilename($this->_parentTemplate, array('_relative'=>true));
         return $this->fetchView($templateName);
     }
 
