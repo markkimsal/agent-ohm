@@ -90,7 +90,7 @@ class Mage_Payment_Model_Config
      */
     public function getCcTypes()
     {
-        $_types = AO::getConfig()->getNode('global/payment/cc/types')->asArray();
+        $_types = AO::getConfig()->asArray(AO::getConfig()->getNode('global/payment/cc/types'));
 
         uasort($_types, array('Mage_Payment_Model_Config', 'compareCcTypes'));
 

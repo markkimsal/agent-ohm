@@ -564,7 +564,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 while (isset($models[$sort])) {
                     $sort++;
                 }
-                $class = $totalConfig->getClassName();
+                $class = $totalConfig['class']; //AO::getConfig()->getClassName($totalConfig);
                 if ($class && ($model = AO::getModel($class))) {
                     $models[$sort] = $model->setCode($totalCode);
                 }
