@@ -370,8 +370,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             foreach ($children as $child) {
                 $out .= $this->_getChildHtml($child->getBlockAlias(), $useCache);
             }
-			echo $out;
-//            return $out;
+//			echo $out;
+            return $out;
         } else {
             return $this->_getChildHtml($name, $useCache);
         }
@@ -412,6 +412,16 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _getChildHtml($name, $useCache=true)
     {
+		if ($name == 'content') {
+			/*
+        	$child = $this->getChild($name);
+            $this->_beforeChildToHtml($name, $child);
+            $html = $child->toHtml();
+			*/
+//			var_dump($this->getChild($name));
+//			bt_die();
+		}
+
         if ($useCache && isset($this->_childrenHtmlCache[$name])) {
             return $this->_childrenHtmlCache[$name];
         }
@@ -425,7 +435,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             $html = $child->toHtml();
         }
 
-        $this->_childrenHtmlCache[$name] = $html;
+		if ($useCache) {
+	        $this->_childrenHtmlCache[$name] = $html;
+		}
         return $html;
     }
 

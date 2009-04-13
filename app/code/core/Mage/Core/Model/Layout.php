@@ -462,15 +462,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     AO::throwException(AO::helper('core')->__('Invalid block type: %s', $block));
                 }
             }
-			/*
-            $fileName = mageFindClassFile($block);
-            if ($fileName!==false) {
-                include_once ($fileName);
-                $block = new $block($attributes);
-            }
-			 */
-//			$block = clone $this;
-			$block = new Mage_Page_Block_Html($block);
+			if (!strstr($block, 'Cms') && !stristr($block, 'text_list')) {
+				$block = new Mage_Page_Block_Html($block);
+			} else {
+				$fileName = mageFindClassFile($block);
+				if ($fileName!==false) {
+					include_once ($fileName);
+					$block = new $block($attributes);
+				}
+			}
+			// */
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
             AO::throwException(AO::helper('core')->__('Invalid block type: %s', $block));

@@ -50,6 +50,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
 
     protected function _prepareLayout()
     {
+		bt_die();
         $page = $this->getPage();
 
         // show breadcrumbs
