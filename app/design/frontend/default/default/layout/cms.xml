@@ -57,7 +57,7 @@ Default layout, loads most of the pages
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="default_home_page" template="cms/default/home.phtml"/>
+            <block type="core/template" name="default_home_page" template="cms/default_home.phtml"/>
         </reference>
     </cms_index_defaultindex>
 

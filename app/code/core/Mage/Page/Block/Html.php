@@ -49,7 +49,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
         $this->_urls = array(
             'base'      => AO::getBaseUrl('web'),
             'baseSecure'=> AO::getBaseUrl('web', true),
-            'current'   => $this->getRequest()->getRequestUri()
+            'current'   => AO::app()->getRequest()->getRequestUri()
         );
 
         $action = AO::app()->getFrontController()->getAction();

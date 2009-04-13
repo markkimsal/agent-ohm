@@ -144,90 +144,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
 		$this->setData('module_name', $module);
     }
 
-
-    /**
-     * Retrieve request object
-     *
-     * @return Mage_Core_Controller_Request_Http
-     */
-    public function getRequest()
-    {
-        if ($controller = AO::app()->getFrontController()) {
-            $this->_request = $controller->getRequest();
-        }
-        else {
-            throw new Exception(AO::helper('core')->__("Can't retrieve request object"));
-        }
-        return $this->_request;
-    }
-
-    /**
-     * Retrieve parent block
-     *
-     * @return Mage_Core_Block_Abstract
-     */
-    public function getParentBlock()
-    {
-        return $this->_parentBlock;
-    }
-
-    /**
-     * Set parent block
-     *
-     * @param   Mage_Core_Block_Abstract $block
-     * @return  Mage_Core_Block_Abstract
-     */
-    public function setParentBlock(Mage_Core_Block_Abstract $block)
-    {
-        $this->_parentBlock = $block;
-        return $this;
-    }
-
-    /**
-     * Retrieve current action object
-     *
-     * @return Mage_Core_Controller_Varien_Action
-     */
-    public function getAction()
-    {
-        return AO::app()->getFrontController()->getAction();
-    }
-
-    /**
-     * Set layout object
-     *
-     * @param   Mage_Core_Model_Layout $layout
-     * @return  Mage_Core_Block_Abstract
-     */
-    public function setLayout(Mage_Core_Model_Layout $layout)
-    {
-        $this->_layout = $layout;
-        $this->_prepareLayout();
-        return $this;
-    }
-
-    /**
-     * Preparing global layout
-     *
-     * You can redefine this method in child classes for changin layout
-     *
-     * @return Mage_Core_Block_Abstract
-     */
-    protected function _prepareLayout()
-    {
-        return $this;
-    }
-
-    /**
-     * Retrieve layout object
-     *
-     * @return Mage_Core_Model_Layout
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
-    }
-
     public function getIsAnonymous()
     {
         return $this->_isAnonymous;
@@ -454,7 +370,8 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             foreach ($children as $child) {
                 $out .= $this->_getChildHtml($child->getBlockAlias(), $useCache);
             }
-            return $out;
+			echo $out;
+//            return $out;
         } else {
             return $this->_getChildHtml($name, $useCache);
         }
