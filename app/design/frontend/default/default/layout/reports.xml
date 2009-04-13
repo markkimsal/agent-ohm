@@ -32,6 +32,11 @@
         <reference name="right">
             <block type="reports/product_viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="reports/product_viewed.phtml" />
             <block type="reports/product_compared" before="right.permanent.callout" name="right.reports.product.compared" template="reports/product_compared.phtml" />
+
+			<!--
+			<block type="core/template" before="right.permanent.callout" name="right.reports.product.viewed" template="reports/product_viewed.phtml" />
+			<block type="core/template" before="right.permanent.callout" name="right.reports.product.compared" template="reports/product_compared.phtml" />
+			-->
         </reference>
     </default>
 </layout>
