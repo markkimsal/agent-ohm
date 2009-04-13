@@ -96,7 +96,7 @@ function __autoload($class)
 			return;
 	}
 
-    return @include($classFile);
+    return include($classFile);
 }
 
 	function scrunchName($f, $l=1) {

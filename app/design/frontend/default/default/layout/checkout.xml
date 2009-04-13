@@ -35,6 +35,8 @@ Default layout, loads most of the pages
     <default>
 
         <!-- Mage_Checkout -->
+
+		<!--
         <reference name="top.links">
             <block type="checkout/links" name="checkout_cart_link">
                 <action method="addCartLink"></action>
@@ -48,6 +50,7 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
             </block>
         </reference>
+		-->
 
     </default>
 

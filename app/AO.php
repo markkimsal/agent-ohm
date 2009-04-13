@@ -35,7 +35,8 @@ define('VPROF', FALSE);// run varien profiler?
 /**
  * Error reporting
  */
-error_reporting(E_ALL | E_STRICT);
+//error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL &~ E_WARNING &~ E_NOTICE);
 
 AO::register('original_include_path', get_include_path());
 

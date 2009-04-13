@@ -208,18 +208,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         return $this;
     }
 
-    public function getTitle()
-    {
-        if (empty($this->_data['title'])) {
-            $this->_data['title'] = $this->getDefaultTitle();
-        }
-        return htmlspecialchars(html_entity_decode($this->_data['title'], ENT_QUOTES, 'UTF-8'));
-    }
-
-    public function getDefaultTitle()
-    {
-        return AO::getStoreConfig('design/head/default_title');
-    }
 
     public function getDescription()
     {

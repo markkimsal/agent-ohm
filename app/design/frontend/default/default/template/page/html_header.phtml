@@ -24,10 +24,9 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-
 <div class="header-top-container">
     <div class="header-top">
-        <h1 id="logo"><a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+        <h1 id="logo"><a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo Mage_Core_Helper_Layout::getLogoSrc() ?>" alt="<?php echo Mage_Core_Helper_Layout::getLogoAlt() ?>" /></a></h1>
         <p class="no-display"><a href="#main"><strong><?php echo $this->__('Skip to Main Content') ?> &raquo;</strong></a></p>
         <?php echo $this->getChildHtml('topSearch') ?>
         <div class="quick-access">
