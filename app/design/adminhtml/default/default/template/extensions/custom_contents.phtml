@@ -62,8 +62,8 @@
                         <input class="input-text" style="width:150px" name="contents[path][]" value="<?php echo $self->getValue('contents/path/'.$_i) ?>"/>
                      </td><td style="margin-bottom:5px;">
                         <select name="contents[type][]" style="width:100px">
-                            <option value="file" <?php echo $self->getSelected('contents/type/'.$_i, 'file') ?>><?php echo Mage::helper('adminhtml')->__("File") ?></option>
-                            <option value="dir" <?php echo $self->getSelected('contents/type/'.$_i, 'dir') ?>><?php echo Mage::helper('adminhtml')->__("Recursive Dir") ?></option>
+                            <option value="file" <?php echo $self->getSelected('contents/type/'.$_i, 'file') ?>><?php echo AO::helper('adminhtml')->__("File") ?></option>
+                            <option value="dir" <?php echo $self->getSelected('contents/type/'.$_i, 'dir') ?>><?php echo AO::helper('adminhtml')->__("Recursive Dir") ?></option>
                         </select>
                      </td><td style="margin-bottom:5px;">
                         <input class="input-text" style="width:100px" name="contents[include][]" value="<?php echo $self->getValue('contents/include/'.$_i) ?>"/>

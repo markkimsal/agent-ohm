@@ -29,7 +29,7 @@
 
 <?php if ((float) $_source->getDataUsingMethod($this->getSourceField())): ?>
     <tr>
-        <td class="label"><?php echo Mage::helper('sales')->__($this->getLabel()) ?></td>
+        <td class="label"><?php echo AO::helper('sales')->__($this->getLabel()) ?></td>
         <td <?php echo $this->getHtmlClass() ? ('class="' . $this->getHtmlClass() . '"') : '';?>><?php echo $this->displayPriceAttribute($this->getSourceField()) ?></td>
     </tr>
 <?php endif; ?>

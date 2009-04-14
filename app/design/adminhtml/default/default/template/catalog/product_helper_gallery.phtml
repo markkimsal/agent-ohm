@@ -38,7 +38,7 @@ $_block = $this;
     <li class="notice-msg">
         <ul>
             <li>
-            <?php echo Mage::helper('catalog')->__('Image type and information need to be specified for each store view.'); ?>
+            <?php echo AO::helper('catalog')->__('Image type and information need to be specified for each store view.'); ?>
             </li>
         </ul>
     </li>
@@ -55,19 +55,19 @@ $_block = $this;
     <col width="70" />
     <thead>
         <tr class="headings">
-            <th><?php echo Mage::helper('catalog')->__('Image') ?></th>
-            <th><?php echo Mage::helper('catalog')->__('Label') ?></th>
-            <th><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>
+            <th><?php echo AO::helper('catalog')->__('Image') ?></th>
+            <th><?php echo AO::helper('catalog')->__('Label') ?></th>
+            <th><?php echo AO::helper('catalog')->__('Sort Order') ?></th>
             <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
             <th><?php echo $type['label'] ?></th>
             <?php endforeach; ?>
-            <th><?php echo Mage::helper('catalog')->__('Exclude') ?></th>
-            <th class="last"><?php echo Mage::helper('catalog')->__('Remove') ?></th>
+            <th><?php echo AO::helper('catalog')->__('Exclude') ?></th>
+            <th class="last"><?php echo AO::helper('catalog')->__('Remove') ?></th>
         </tr>
     </thead>
     <tbody id="<?php echo $_block->getHtmlId() ?>_list">
         <tr id="<?php echo $_block->getHtmlId() ?>_template" class="template no-display">
-                <td class="cell-image"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('__file__')"><span><?php echo Mage::helper('catalog')->__('Roll Over for preview') ?></span></div><img src="#" width="100" style="display:none;" alt="" /></td>
+                <td class="cell-image"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('__file__')"><span><?php echo AO::helper('catalog')->__('Roll Over for preview') ?></span></div><img src="#" width="100" style="display:none;" alt="" /></td>
                 <td class="cell-label"><input type="text" class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
                 <td class="cell-position"><input type="text" class="input-text validate-number" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
                 <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
@@ -78,7 +78,7 @@ $_block = $this;
         </tr>
         <?php if($_block->hasUseDefault()): ?>
         <tr id="<?php echo $_block->getHtmlId() ?>_default">
-                <td><?php echo Mage::helper('catalog')->__('Use Default Value') ?></td>
+                <td><?php echo AO::helper('catalog')->__('Use Default Value') ?></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <?php foreach ($_block->getMediaAttributes() as $_attribute): ?>
@@ -94,7 +94,7 @@ $_block = $this;
         </tr>
     <?php endif ?>
         <tr id="<?php echo $_block->getHtmlId() ?>-image-0">
-                <td class="cell-image"><?php echo Mage::helper('catalog')->__('No image') ?></td>
+                <td class="cell-image"><?php echo AO::helper('catalog')->__('No image') ?></td>
                 <td class="cell-label"><input type="hidden" />&nbsp;</td>
                 <td class="cell-position"><input type="hidden" />&nbsp;</td>
                 <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>

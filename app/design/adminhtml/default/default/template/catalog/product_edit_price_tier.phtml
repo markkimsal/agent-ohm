@@ -41,11 +41,11 @@
         <col width="75" />
         <thead>
             <tr class="headings">
-                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Customer Group') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
-                <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
-                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo AO::helper('sales')->__('Website') ?></th>
+                <th><?php echo AO::helper('catalog')->__('Customer Group') ?></th>
+                <th><?php echo AO::helper('catalog')->__('Qty') ?></th>
+                <th><?php echo $this->getPriceColumnHeader(AO::helper('catalog')->__('Price')) ?></th>
+                <th class="last"><?php echo AO::helper('catalog')->__('Action') ?></th>
             </tr>
             <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
                 <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>>
@@ -63,7 +63,7 @@
                 </select>
                 </td>
                 <td class="nobr">
-                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'" /> <small class="nobr"><?php echo Mage::helper('catalog')->__('and above')?></small>
+                    <input disabled="no-template" class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price_qty]" value="'#{qty}'" /> <small class="nobr"><?php echo AO::helper('catalog')->__('and above')?></small>
                 </td>
                 <td>
                     <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'" />

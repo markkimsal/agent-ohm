@@ -36,11 +36,11 @@
 
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('sales')->__('Payment Information') ?></h4>
+                <h4 class="icon-head head-payment-method"><?php echo AO::helper('sales')->__('Payment Information') ?></h4>
             </div>
             <fieldset>
                 <div><?php echo $this->getChildHtml('order_payment') ?></div>
-                <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+                <div><?php echo AO::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
             </fieldset>
         </div>
     </div>
@@ -49,7 +49,7 @@
         <!--Shipping Address-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('sales')->__('Shipping Information') ?></h4>
+                <h4 class="icon-head head-shipping-method"><?php echo AO::helper('sales')->__('Shipping Information') ?></h4>
             </div>
             <fieldset>
                 <div>
@@ -70,7 +70,7 @@
                 </div>
                 <?php if ($this->canCreateShipment() && $this->canShipPartiallyItem()): ?>
                 <p class="nm">
-                    <label for="invoice_do_shipment" class="normal"><?php echo Mage::helper('sales')->__('Create Shipment') ?></label>
+                    <label for="invoice_do_shipment" class="normal"><?php echo AO::helper('sales')->__('Create Shipment') ?></label>
                     <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" onclick="if ( this.checked==true ) { document.getElementById('tracking').style.display = 'block'} else { document.getElementById('tracking').style.display = 'none' }"<?php echo $this->hasInvoiceShipmentTypeMismatch()?' disabled="disabled"':'' ?> />
                 </p>
                     <?php if ($this->hasInvoiceShipmentTypeMismatch()): ?>
@@ -86,7 +86,7 @@
 
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items to Invoice') ?></h4>
+            <h4 class="icon-head head-products"><?php echo AO::helper('sales')->__('Items to Invoice') ?></h4>
         </div>
     </div>
     <div id="invoice_item_container">

@@ -25,4 +25,4 @@
  */
 ?>
 <p><?php echo $this->getMethod()->getTitle() ?></p>
-<p><?php echo Mage::helper('payment')->__('Purchase Order Number: %s', $this->htmlEscape($this->getInfo()->getPoNumber())) ?></p>
+<p><?php echo AO::helper('payment')->__('Purchase Order Number: %s', $this->htmlEscape($this->getInfo()->getPoNumber())) ?></p>

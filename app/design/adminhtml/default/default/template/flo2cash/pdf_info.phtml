@@ -26,10 +26,10 @@
 ?>
 <?php echo $this->getMethod()->getTitle() ?>
     {{pdf_row_separator}}
-<?php echo Mage::helper('payment')->__('Name on the Card: %s', $this->htmlEscape($this->getInfo()->getCcOwner())) ?>
+<?php echo AO::helper('payment')->__('Name on the Card: %s', $this->htmlEscape($this->getInfo()->getCcOwner())) ?>
     {{pdf_row_separator}}
-<?php echo Mage::helper('payment')->__('Credit Card Type: %s', $this->htmlEscape($this->getCcTypeName())) ?>
+<?php echo AO::helper('payment')->__('Credit Card Type: %s', $this->htmlEscape($this->getCcTypeName())) ?>
     {{pdf_row_separator}}
-<?php echo Mage::helper('payment')->__('Credit Card Number: xxxx-%s', $this->htmlEscape($this->getInfo()->getCcLast4())) ?>
+<?php echo AO::helper('payment')->__('Credit Card Number: xxxx-%s', $this->htmlEscape($this->getInfo()->getCcLast4())) ?>
     {{pdf_row_separator}}
-<?php echo Mage::helper('payment')->__('Expiration Date: %s/%s', $this->htmlEscape($this->getCcExpMonth()), $this->htmlEscape($this->getInfo()->getCcExpYear())) ?>
+<?php echo AO::helper('payment')->__('Expiration Date: %s/%s', $this->htmlEscape($this->getCcExpMonth()), $this->htmlEscape($this->getInfo()->getCcExpYear())) ?>

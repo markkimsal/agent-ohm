@@ -40,10 +40,10 @@
         <col width="75" />
         <thead>
             <tr class="headings">
-                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
-                <th><?php echo Mage::helper('catalog')->__('Country/State') ?> <span class="required">*</span></th>
-                <th><?php echo Mage::helper('catalog')->__('Tax') ?> <span class="required">*</span></th>
-                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+                <th <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>><?php echo AO::helper('sales')->__('Website') ?></th>
+                <th><?php echo AO::helper('catalog')->__('Country/State') ?> <span class="required">*</span></th>
+                <th><?php echo AO::helper('catalog')->__('Tax') ?> <span class="required">*</span></th>
+                <th class="last"><?php echo AO::helper('catalog')->__('Action') ?></th>
             </tr>
             <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
                 <td <?php if (!$_multiWebsite): ?>style="display:none"<?php endif; ?>>

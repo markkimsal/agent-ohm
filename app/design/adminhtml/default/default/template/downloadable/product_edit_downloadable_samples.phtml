@@ -35,12 +35,12 @@
     <table cellspacing="0" class="form-list">
         <tbody>
             <tr class="headings">
-                <td class="label"><label for="name"><?php echo Mage::helper('downloadable')->__('Title')?></label>
+                <td class="label"><label for="name"><?php echo AO::helper('downloadable')->__('Title')?></label>
                 </td>
                 <td class="value">
                     <input type="text" class="input-text" name="product[samples_title]" value="<?php echo $_product->getId()?$_product->getSamplesTitle():$this->getSamplesTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?> />
                 </td>
-                <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()): ?>[STORE VIEW]<?php endif; ?></td>
+                <td class="scope-label"><?php if (!AO::app()->isSingleStoreMode()): ?>[STORE VIEW]<?php endif; ?></td>
                 <td class="value use-default">
                 <?php if($_product->getStoreId()): ?>
                     <input id="sample_title_default" type="checkbox" name="use_default[]" value="samples_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
@@ -60,9 +60,9 @@
                 <col width="1" />
                 <thead>
                     <tr class="headings">
-                        <th><?php echo Mage::helper('downloadable')->__('Title') ?> <span class="required">*</span></th>
-                        <th><?php echo Mage::helper('downloadable')->__('File') ?></th>
-                        <th><span class="nobr"><?php echo Mage::helper('downloadable')->__('Sort Order') ?></span></th>
+                        <th><?php echo AO::helper('downloadable')->__('Title') ?> <span class="required">*</span></th>
+                        <th><?php echo AO::helper('downloadable')->__('File') ?></th>
+                        <th><span class="nobr"><?php echo AO::helper('downloadable')->__('Sort Order') ?></span></th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -96,7 +96,7 @@ var sampleTemplate = '<tr>'+
                                         '<div id="downloadable_sample_{{id}}_file-new" class="file-row-info new-file"></div>'+
                                         '<div class="buttons">'+
                                             '<div id="downloadable_sample_{{id}}_file-install-flash" style="display:none">'+
-                                                '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                                                '<?php echo AO::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
                                             '</div>'+
                                         '</div>'+
                                         '<div class="clear"></div>'+

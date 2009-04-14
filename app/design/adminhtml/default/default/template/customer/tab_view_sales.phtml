@@ -25,21 +25,21 @@
  */
 ?>
 <div class="entry-edit">
-    <div class="entry-edit-head"><h4 class="icon-head head-customer-sales-statistics"><?php echo Mage::helper('customer')->__('Sales Statistics') ?></h4></div>
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-sales-statistics"><?php echo AO::helper('customer')->__('Sales Statistics') ?></h4></div>
     <div class="grid">
         <table cellspacing="0" class="data">
             <thead>
                 <tr class="headings">
-                    <th><?php echo Mage::helper('customer')->__('Website') ?></th>
-                    <th><?php echo Mage::helper('customer')->__('Store') ?></th>
-                    <th><?php echo Mage::helper('customer')->__('Store View') ?></th>
-                    <th><?php echo Mage::helper('customer')->__('Lifetime Sales') ?></th>
-                    <th><?php echo Mage::helper('customer')->__('Average Sale') ?></th>
+                    <th><?php echo AO::helper('customer')->__('Website') ?></th>
+                    <th><?php echo AO::helper('customer')->__('Store') ?></th>
+                    <th><?php echo AO::helper('customer')->__('Store View') ?></th>
+                    <th><?php echo AO::helper('customer')->__('Lifetime Sales') ?></th>
+                    <th><?php echo AO::helper('customer')->__('Average Sale') ?></th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="3" class="label"><strong><big><?php echo Mage::helper('customer')->__('All Store Views') ?></big></strong></td>
+                    <td colspan="3" class="label"><strong><big><?php echo AO::helper('customer')->__('All Store Views') ?></big></strong></td>
                     <td class="emph"><strong><big><?php echo $this->getPriceFormatted($this->getTotals()->getLifetime()) ?></big></strong></td>
                     <td class="emph"><strong><big><?php echo $this->getPriceFormatted($this->getTotals()->getAvgsale()) ?></big></strong></td>
                 </tr>

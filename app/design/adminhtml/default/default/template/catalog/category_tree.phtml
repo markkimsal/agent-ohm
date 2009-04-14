@@ -26,7 +26,7 @@
 ?>
 <div class="categories-side-col">
     <div class="content-header">
-        <h3 class="icon-head head-categories"><?php echo Mage::helper('catalog')->__('Categories') ?></h3>
+        <h3 class="icon-head head-categories"><?php echo AO::helper('catalog')->__('Categories') ?></h3>
         <?php if ($this->getRoot()): ?>
             <?php echo $this->getAddRootButtonHtml() ?><br />
             <?php echo $this->getAddSubButtonHtml() ?>
@@ -37,7 +37,7 @@
         <?php if($this->getRoot()): ?>
             <?php //echo $this->getCollapseButtonHtml() ?>
             <?php //echo $this->getExpandButtonHtml() ?>
-            <a href="#" onclick="tree.collapseTree(); return false;"><?php echo Mage::helper('catalog')->__('Collapse All'); ?></a> <span class="separator">|</span> <a href="#" onclick="tree.expandTree(); return false;"><?php echo Mage::helper('catalog')->__('Expand All'); ?></a>
+            <a href="#" onclick="tree.collapseTree(); return false;"><?php echo AO::helper('catalog')->__('Collapse All'); ?></a> <span class="separator">|</span> <a href="#" onclick="tree.expandTree(); return false;"><?php echo AO::helper('catalog')->__('Expand All'); ?></a>
         <?php endif; ?>
     </div>
     <?php if ($this->getRoot()): ?>

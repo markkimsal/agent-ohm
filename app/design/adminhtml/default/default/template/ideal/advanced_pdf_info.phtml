@@ -26,4 +26,4 @@
 ?>
 <?php echo $this->getMethod()->getTitle() ?>
     {{pdf_row_separator}}
-<?php echo Mage::helper('ideal')->__('Ideal: %s', $this->htmlEscape($this->getInfo()->getIdealIssuerTitle())) ?>
+<?php echo AO::helper('ideal')->__('Ideal: %s', $this->htmlEscape($this->getInfo()->getIdealIssuerTitle())) ?>

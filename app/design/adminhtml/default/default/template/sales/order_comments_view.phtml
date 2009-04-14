@@ -27,13 +27,13 @@
 <?php if ($_entity = $this->getEntity()): ?>
 <div id="comments_block">
     <span class="field-row">
-        <label class="normal" for="history_comment"><?php echo Mage::helper('sales')->__('Comment Text') ?></label>
+        <label class="normal" for="history_comment"><?php echo AO::helper('sales')->__('Comment Text') ?></label>
         <textarea name="comment[comment]" rows="3" cols="5" style="height:6em; width:99%;" id="history_comment"></textarea>
     </span>
     <?php if ($this->canSendCommentEmail()): ?>
     <div class="f-left">
         <input name="comment[is_customer_notified]" type="checkbox" id="history_notify" value="1" />
-        <label class="normal" for="history_notify"><?php echo Mage::helper('sales')->__('Notify Customer') ?></label>
+        <label class="normal" for="history_notify"><?php echo AO::helper('sales')->__('Notify Customer') ?></label>
     </div>
     <?php endif; ?>
     <div class="f-right">

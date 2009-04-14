@@ -39,11 +39,11 @@
         <!--Payment Method-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('sales')->__('Payment Information') ?></h4>
+                <h4 class="icon-head head-payment-method"><?php echo AO::helper('sales')->__('Payment Information') ?></h4>
             </div>
             <fieldset>
                 <?php echo $this->getPaymentHtml() ?>
-                <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+                <div><?php echo AO::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
             </fieldset>
         </div>
     </div>
@@ -52,7 +52,7 @@
         <!--Shipping Method-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('sales')->__('Shipping &amp; Handling Information') ?></h4>
+                <h4 class="icon-head head-shipping-method"><?php echo AO::helper('sales')->__('Shipping &amp; Handling Information') ?></h4>
             </div>
             <fieldset>
                 <?php  if ($_order->getTracksCollection()->count()) : ?>
@@ -87,7 +87,7 @@
     <div class="clear"></div>
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items Ordered') ?></h4>
+            <h4 class="icon-head head-products"><?php echo AO::helper('sales')->__('Items Ordered') ?></h4>
         </div>
     </div>
     <?php echo $this->getItemsHtml() ?>
@@ -96,13 +96,13 @@
     <div class="box-left">
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4><?php echo Mage::helper('sales')->__('Comments History') ?></h4>
+                <h4><?php echo AO::helper('sales')->__('Comments History') ?></h4>
             </div>
             <fieldset><?php echo $this->getChildHtml('order_history') ?></fieldset>
         </div>
     </div>
     <div class="box-right entry-edit">
-        <div class="entry-edit-head"><h4><?php echo Mage::helper('sales')->__('Order Totals') ?></h4></div>
+        <div class="entry-edit-head"><h4><?php echo AO::helper('sales')->__('Order Totals') ?></h4></div>
         <div class="order-totals"><?php echo $this->getChildHtml('order_totals') ?></div>
     </div>
     <div class="clear"></div>

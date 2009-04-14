@@ -78,9 +78,9 @@ var arrayRow<?php echo $_htmlId ?> = {
             +'<\/td>'
 <?php endforeach;?>
 <?php if ($this->_addAfter):?>
-            +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><?php echo Mage::helper('adminhtml')->__('Add after') ?><\/span><\/button><\/td>'
+            +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><?php echo AO::helper('adminhtml')->__('Add after') ?><\/span><\/button><\/td>'
 <?php endif;?>
-            +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><?php echo Mage::helper('adminhtml')->__('Delete') ?><\/span><\/button><\/td>'
+            +'<td><button onclick="arrayRow<?php echo $_htmlId ?>.del(\'#{_id}\')" class="scalable delete" type="button"><span><?php echo AO::helper('adminhtml')->__('Delete') ?><\/span><\/button><\/td>'
         +'<\/tr>'
     ),
 

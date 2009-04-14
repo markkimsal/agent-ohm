@@ -35,12 +35,12 @@
 ?>
 <tr>
     <td class="label">
-        <label for="conversion_url_<?php echo $_store->getCode() ?>"><?php echo Mage::helper('googleoptimizer')->__('Conversion Page URL') ?> (<?php echo $_store->getName() ?>)</label>
+        <label for="conversion_url_<?php echo $_store->getCode() ?>"><?php echo AO::helper('googleoptimizer')->__('Conversion Page URL') ?> (<?php echo $_store->getName() ?>)</label>
     </td>
     <td class="value">
         <input type="text" class="input-text googleoptimizer conversion_urls" readonly="readonly" name="conversion_url_<?php echo $_store->getCode() ?>" id="conversion_url_<?php echo $_store->getCode() ?>"<?php echo $_disabled ?>/>
     </td>
-    <td class="note"><small><?php echo Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form') ?></small></td>
+    <td class="note"><small><?php echo AO::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form') ?></small></td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
 </tr>

@@ -37,10 +37,10 @@ var firstStepTemplate = '<div class="option-box" id="option_{{id}}">'+
             '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_option_id" name="<?php echo $this->getFieldName() ?>[{{id}}][option_id]" value="{{option_id}}" />'+
             '<thead>'+
                 '<tr>'+
-                    '<th class="opt-title"><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
-                    '<th class="opt-type"><?php echo Mage::helper('catalog')->__('Input Type') ?> <span class="required">*</span></th>'+
-                    '<th class="opt-req"><?php echo Mage::helper('catalog')->__('Is Required') ?></th>'+
-                    '<th class="opt-order"><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>'+
+                    '<th class="opt-title"><?php echo AO::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
+                    '<th class="opt-type"><?php echo AO::helper('catalog')->__('Input Type') ?> <span class="required">*</span></th>'+
+                    '<th class="opt-req"><?php echo AO::helper('catalog')->__('Is Required') ?></th>'+
+                    '<th class="opt-order"><?php echo AO::helper('catalog')->__('Sort Order') ?></th>'+
                     '<th class="a-right"><?php echo $this->getDeleteButtonHtml() ?></th>'+
                 '</tr>'+
             '</thead>'+
@@ -318,7 +318,7 @@ if($('<?php echo $this->getAddButtonId() ?>')){
 
 //validation for selected input type
 Validation.addAllThese([
-    ['required-option-select', '<?php echo Mage::helper('catalog')->__('Select type of option') ?>', function(v, elm) {
+    ['required-option-select', '<?php echo AO::helper('catalog')->__('Select type of option') ?>', function(v, elm) {
         if (elm.getValue() == '') {
             return false;
         }

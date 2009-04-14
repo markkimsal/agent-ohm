@@ -29,11 +29,11 @@
 <?php if($this->getInfo()->getAdditionalData()): ?>
     {{pdf_row_separator}}
     <?php if($this->getPayableTo()): ?>
-        <?php echo Mage::helper('payment')->__('Make Check payable to: %s', $this->htmlEscape($this->getPayableTo())) ?>
+        <?php echo AO::helper('payment')->__('Make Check payable to: %s', $this->htmlEscape($this->getPayableTo())) ?>
         {{pdf_row_separator}}
     <?php endif; ?>
     <?php if($this->getMailingAddress()): ?>
-        <?php echo Mage::helper('payment')->__('Send Check to:') ?>
+        <?php echo AO::helper('payment')->__('Send Check to:') ?>
         {{pdf_row_separator}}
         <?php echo nl2br($this->htmlEscape($this->getMailingAddress())) ?>
         {{pdf_row_separator}}

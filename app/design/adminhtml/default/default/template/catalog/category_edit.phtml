@@ -45,7 +45,7 @@
         }
     }
     function categoryDelete(url, useAjax){
-        if(confirm('<?php echo Mage::helper('catalog')->__('Are you sure you want to delete this category?') ?>')){
+        if(confirm('<?php echo AO::helper('catalog')->__('Are you sure you want to delete this category?') ?>')){
             if(useAjax){
                 tree.nodeForDelete = tree.currentNodeId;
                 updateContent(url, {}, true);

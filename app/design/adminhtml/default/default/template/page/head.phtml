@@ -23,7 +23,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    Fieldset.addToPrefix(<?php echo Mage::helper('adminhtml')->getCurrentUserId() ?>);
+    Fieldset.addToPrefix(<?php echo AO::helper('adminhtml')->getCurrentUserId() ?>);
 </script>
 
 <?php echo $this->helper('core/js')->getTranslatorScript() ?>

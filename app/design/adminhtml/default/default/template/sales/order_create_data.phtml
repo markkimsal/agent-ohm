@@ -26,7 +26,7 @@
 ?>
 <div class="page-create-order">
 <p class="switcher">
-<label for="currency_switcher"><?php echo Mage::helper('sales')->__('Order Currency:') ?></label>
+<label for="currency_switcher"><?php echo AO::helper('sales')->__('Order Currency:') ?></label>
 <select id="currency_switcher" name="order[currency]" class="left-col-block" onchange="order.setCurrencyId(this.value)">
     <?php foreach ($this->getAvailableCurrencies() as $_code): ?>
     <option value="<?php echo $_code ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?>><?php echo $this->getCurrencyName($_code) ?></option>
@@ -58,11 +58,11 @@
         </div>
         <div class="clear"></div>
         <div class="box-left entry-edit">
-            <div class="entry-edit-head"><h4><?php echo Mage::helper('sales')->__('Order History') ?></h4></div>
+            <div class="entry-edit-head"><h4><?php echo AO::helper('sales')->__('Order History') ?></h4></div>
             <fieldset id="order-comment"><?php echo $this->getChildHtml('comment') ?></fieldset>
         </div>
         <div class="box-right entry-edit">
-            <div class="entry-edit-head"><h4><?php echo Mage::helper('sales')->__('Order Totals') ?></h4></div>
+            <div class="entry-edit-head"><h4><?php echo AO::helper('sales')->__('Order Totals') ?></h4></div>
             <div id="order-totals" class="order-totals"><?php echo $this->getChildHtml('totals') ?></div>
         </div>
         <div class="clear"></div>

@@ -26,7 +26,7 @@
 ?>
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Add Product To Websites') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('catalog')->__('Add Product To Websites') ?></h4>
     </div>
     <fieldset id="grop_fields">
     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
@@ -57,13 +57,13 @@
 
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Remove Product From Websites') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('catalog')->__('Remove Product From Websites') ?></h4>
     </div>
     <fieldset id="grop_fields">
         <ul class="messages">
             <li class="notice-msg">
                 <ul>
-                    <li><?php echo Mage::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></li>
+                    <li><?php echo AO::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></li>
                 </ul>
             </li>
         </ul>

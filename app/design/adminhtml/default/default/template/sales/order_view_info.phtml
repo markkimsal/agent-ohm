@@ -39,35 +39,35 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
         endif; ?>
         <div class="entry-edit-head">
         <?php if ($this->getNoUseOrderLink()): ?>
-            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?> (<?php echo $_email ?>)</h4>
+            <h4 class="icon-head head-account"><?php echo AO::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?> (<?php echo $_email ?>)</h4>
         <?php else: ?>
-            <a href="<?php echo $this->getViewUrl($_order->getId()) ?>"><?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?></a>
+            <a href="<?php echo $this->getViewUrl($_order->getId()) ?>"><?php echo AO::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?></a>
             <strong>(<?php echo $_email ?>)</strong>
         <?php endif; ?>
         </div>
         <div class="fieldset">
             <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Order Date') ?></label></td>
                 <td><strong><?php echo $orderAdminDate ?></strong></td>
             </tr>
             <?php if ($orderAdminDate != $orderStoreDate):?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date (%s)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Order Date (%s)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></label></td>
                 <td><strong><?php echo $orderStoreDate ?></strong></td>
             </tr>
             <?php endif;?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Order Status') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Order Status') ?></label></td>
                 <td><strong><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Purchased From') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Purchased From') ?></label></td>
                 <td><strong><?php echo $this->getOrderStoreName() ?></strong></td>
             </tr>
             <?php if($_order->getRelationChildId()): ?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the new order') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Link to the new order') ?></label></td>
                 <td><a href="<?php echo $this->getViewUrl($_order->getRelationChildId()) ?>">
                     <?php echo $_order->getRelationChildRealId() ?>
                 </a></td>
@@ -75,7 +75,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
             <?php endif; ?>
             <?php if($_order->getRelationParentId()): ?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the previous order') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Link to the previous order') ?></label></td>
                 <td><a href="<?php echo $this->getViewUrl($_order->getRelationParentId()) ?>">
                     <?php echo $_order->getRelationParentRealId() ?>
                 </a></td>
@@ -83,19 +83,19 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
             <?php endif; ?>
             <?php if($_order->getRemoteIp()): ?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('Placed from IP') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('Placed from IP') ?></label></td>
                 <td><strong><?php echo $_order->getRemoteIp() ?></strong></td>
             </tr>
             <?php endif; ?>
             <?php if($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('%s / %s rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
                 <td><strong><?php echo $_order->getBaseToGlobalRate() ?></strong></td>
             </tr>
             <?php endif; ?>
             <?php if($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                <td class="label"><label><?php echo AO::helper('sales')->__('%s / %s rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
                 <td><strong><?php echo $_order->getBaseToOrderRate() ?></strong></td>
             </tr>
             <?php endif; ?>
@@ -107,34 +107,34 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
     <!--Account Information-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Account Information') ?></h4>
+            <h4 class="icon-head head-account"><?php echo AO::helper('sales')->__('Account Information') ?></h4>
         </div>
         <div class="fieldset">
             <div class="hor-scroll">
                 <table cellspacing="0" class="form-list">
                 <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Name') ?></label></td>
+                    <td class="label"><label><?php echo AO::helper('sales')->__('Customer Name') ?></label></td>
                     <td><strong><?php echo $this->htmlEscape($_order->getCustomerName()) ?></strong></td>
                 </tr>
                 <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('Email') ?></label></td>
+                    <td class="label"><label><?php echo AO::helper('sales')->__('Email') ?></label></td>
                     <td><a href="mailto:<?php echo $_order->getCustomerEmail() ?>"><strong><?php echo $_order->getCustomerEmail() ?></strong></a></td>
                 </tr>
                 <?php if ($_groupName=$this->getCustomerGroupName()) : ?>
                 <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Group') ?></label></td>
+                    <td class="label"><label><?php echo AO::helper('sales')->__('Customer Group') ?></label></td>
                     <td><strong><?php echo $_groupName ?></strong></td>
                 </tr>
                 <?php endif; ?>
                 <?php if ($_dob=$this->getOrder()->getCustomerDob()) : ?>
                 <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('Date of Birth') ?></label></td>
-                    <td><strong><?php echo Mage::helper('core')->formatDate($_dob, 'medium') ?></strong></td>
+                    <td class="label"><label><?php echo AO::helper('sales')->__('Date of Birth') ?></label></td>
+                    <td><strong><?php echo AO::helper('core')->formatDate($_dob, 'medium') ?></strong></td>
                 </tr>
                 <?php endif; ?>
                 <?php if ($_taxvat = $_order->getCustomerTaxvat()):?>
                 <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('TAX/VAT Number') ?></label></label></td>
+                    <td class="label"><label><?php echo AO::helper('sales')->__('TAX/VAT Number') ?></label></label></td>
                     <td><strong><?php echo $this->htmlEscape($_taxvat)?></strong></td>
                 </tr>
                 <?php endif;?>
@@ -149,7 +149,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
     <!--Billing Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Address') ?></h4>
+            <h4 class="icon-head head-billing-address"><?php echo AO::helper('sales')->__('Billing Address') ?></h4>
         </div>
         <fieldset>
             <address><?php echo $_order->getBillingAddress()->getFormated(true) ?></address>
@@ -161,7 +161,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
     <!--Shipping Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+            <h4 class="icon-head head-shipping-address"><?php echo AO::helper('sales')->__('Shipping Address') ?></h4>
         </div>
         <fieldset>
             <address><?php echo $_order->getShippingAddress()->getFormated(true) ?></address>

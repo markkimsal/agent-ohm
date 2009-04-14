@@ -47,12 +47,12 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
     <!--Order Information-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <?php echo Mage::helper('oscommerce')->__('Order # %s', $_order->getOrdersId()) ?>
+            <?php echo AO::helper('oscommerce')->__('Order # %s', $_order->getOrdersId()) ?>
         </div>
         <fieldset>
             <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label"><label><?php echo Mage::helper('oscommerce')->__('Order Date') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('oscommerce')->__('Order Date') ?></label></td>
                 <td class="value"><strong><?php echo $this->formatDate($_order->getDatePurchased(), 'medium', true) ?></strong></td>
             </tr>
             </table>
@@ -63,16 +63,16 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
     <!--Account Information-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-account"><?php echo Mage::helper('oscommerce')->__('Account Information') ?></h4>
+            <h4 class="icon-head head-account"><?php echo AO::helper('oscommerce')->__('Account Information') ?></h4>
         </div>
         <fieldset>
             <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label"><label><?php echo Mage::helper('oscommerce')->__('Customer Name') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('oscommerce')->__('Customer Name') ?></label></td>
                 <td class="value"><strong><?php echo $this->htmlEscape($_order->getCustomersName()) ?></strong></td>
             </tr>
             <tr>
-                <td class="label"><label><?php echo Mage::helper('oscommerce')->__('Email') ?></label></td>
+                <td class="label"><label><?php echo AO::helper('oscommerce')->__('Email') ?></label></td>
                 <td class="value"><a href="mailto:<?php echo $_order->getCustomersEmailAddress() ?>"><strong><?php echo $_order->getCustomersEmailAddress() ?></strong></a></td>
             </tr>
             </table>
@@ -85,7 +85,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
     <!--Billing Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('oscommerce')->__('Billing Address') ?></h4>
+            <h4 class="icon-head head-billing-address"><?php echo AO::helper('oscommerce')->__('Billing Address') ?></h4>
         </div>
         <fieldset>
             <?php echo $_order->getBillingName() ?><br />
@@ -102,7 +102,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
     <!--Delivery Address-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-Delivery-address"><?php echo Mage::helper('oscommerce')->__('Delivery Address') ?></h4>
+            <h4 class="icon-head head-Delivery-address"><?php echo AO::helper('oscommerce')->__('Delivery Address') ?></h4>
         </div>
         <fieldset>
             <?php echo $_order->getDeliveryName() ?><br />
@@ -120,7 +120,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
     <!--Payment Information-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('oscommerce')->__('Payment Information') ?></h4>
+            <h4 class="icon-head head-billing-address"><?php echo AO::helper('oscommerce')->__('Payment Information') ?></h4>
         </div>
         <fieldset>
             <?php echo $_order->getPaymentMethod(); ?>
@@ -131,7 +131,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
     <!--Shipping & Handling Information-->
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-Delivery-address"><?php echo Mage::helper('oscommerce')->__('Shipping & Handling Information') ?></h4>
+            <h4 class="icon-head head-Delivery-address"><?php echo AO::helper('oscommerce')->__('Shipping & Handling Information') ?></h4>
         </div>
         <fieldset>
             <?php if ($_totals) : ?>
@@ -150,7 +150,7 @@ $currency   = $_order->getCurrencySymbol()?$_order->getCurrencySymbol():$_order-
 
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items Ordered') ?></h4>
+        <h4 class="icon-head head-products"><?php echo AO::helper('sales')->__('Items Ordered') ?></h4>
     </div>
 </div>
 <div>

@@ -61,9 +61,9 @@
         <td class="label">
             <div class="tax-collapse">
             <?php if ($this->helper('tax')->displayFullSummary()): ?>
-                <?php echo Mage::helper('sales')->__('Total Tax') ?>
+                <?php echo AO::helper('sales')->__('Total Tax') ?>
             <?php else: ?>
-                <?php echo Mage::helper('sales')->__('Tax') ?>
+                <?php echo AO::helper('sales')->__('Tax') ?>
             <?php endif;?>
             </div>
         </td>

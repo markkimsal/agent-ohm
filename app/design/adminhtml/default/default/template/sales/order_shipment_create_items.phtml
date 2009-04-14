@@ -60,7 +60,7 @@
     <fieldset>
         <div id="order-history_form">
             <span class="field-row">
-                <label class="normal" for="shipment_comment_text"><?php echo Mage::helper('sales')->__('Shipment Comments') ?></label>
+                <label class="normal" for="shipment_comment_text"><?php echo AO::helper('sales')->__('Shipment Comments') ?></label>
                 <textarea id="shipment_comment_text" name="shipment[comment_text]" rows="3" cols="5" style="height:6em; width:99%;"></textarea>
             </span>
             <div class="clear"></div>
@@ -72,12 +72,12 @@
     <div class="order-totals">
         <div class="order-totals-bottom">
           <p>
-              <label class="normal" for="notify_customer"><?php echo Mage::helper('sales')->__('Append Comments') ?></label>
+              <label class="normal" for="notify_customer"><?php echo AO::helper('sales')->__('Append Comments') ?></label>
               <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox" />
           </p>
           <?php if ($this->canSendShipmentEmail()): ?>
           <p>
-              <label class="normal" for="send_email"><?php echo Mage::helper('sales')->__('Email Copy of Shipment') ?></label>
+              <label class="normal" for="send_email"><?php echo AO::helper('sales')->__('Email Copy of Shipment') ?></label>
               <input id="send_email" name="shipment[send_email]" value="1" type="checkbox" />
           </p>
           <?php endif; ?>

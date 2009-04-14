@@ -1,34 +1,34 @@
 <div id="required_information" style="display: none;">
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('General Information') ?></h4>
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('oscommerce')->__('General Information') ?></h4>
         </div>
         <fieldset>
             <table cellspacing="0" class="form-list" width="100%">
                 <tbody>
                     <tr>
-                        <td class="label"><label for="under_default_website"><?php echo Mage::helper('oscommerce')->__('Create under default website') ?></label></td>
+                        <td class="label"><label for="under_default_website"><?php echo AO::helper('oscommerce')->__('Create under default website') ?></label></td>
                         <td class="value"><?php echo $this->getWebsiteOptionHtml() ?></td>
                         <td><small/></td>
                     </tr>
 
                     <tr>
-                        <td class="label"><label for="under_default_website"><?php echo Mage::helper('oscommerce')->__('Website Code') ?></label></td>
+                        <td class="label"><label for="under_default_website"><?php echo AO::helper('oscommerce')->__('Website Code') ?></label></td>
                         <td class="value"><input type="text" class=" input-text" title="Website Code" value="" name="website_code" id="website_code"/><span style="color: red;display: none" id ="error-for-website_code"></span></td>
                         <td><small/></td>
                     </tr>
                     <tr>
-                        <td class="label"><label for="timezone"><?php echo Mage::helper('oscommerce')->__('Timezone') ?></label></td>
+                        <td class="label"><label for="timezone"><?php echo AO::helper('oscommerce')->__('Timezone') ?></label></td>
                         <td class="value"><?php echo $this->getTimezoneOptionHtml() ?></td>
                         <td><small/></td>
                     </tr>
                     <tr>
-                        <td class="label"><label for="connection_charset"><?php echo Mage::helper('oscommerce')->__('Database Connection Charset') ?></label></td>
+                        <td class="label"><label for="connection_charset"><?php echo AO::helper('oscommerce')->__('Database Connection Charset') ?></label></td>
                         <td class="value"><?php echo $this->getConnectionCharsetOptionHtml(); ?></td>
                         <td><small/></td>
                     </tr>
                     <tr>
-                        <td class="label"><label for="data_charset"><?php echo Mage::helper('oscommerce')->__('Database Data Charset') ?></label></td>
+                        <td class="label"><label for="data_charset"><?php echo AO::helper('oscommerce')->__('Database Data Charset') ?></label></td>
                         <td class="value"><?php echo $this->getDataCharsetOptionHtml(); ?></td>
                         <td><small/></td>
                     </tr>
@@ -40,7 +40,7 @@
 					    <ul class="messages">
 					        <li class="warning-msg">
 					            <ul>
-					                <li><?php echo Mage::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?>
+					                <li><?php echo AO::helper('oscommerce')->__('Notice: Please place all images under MAGENTO_ROOT/media/import/ with writable permission to all files including sub folders.') ?>
 
 					                </li>
 					            </ul>
@@ -53,7 +53,7 @@
     </div>
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('Locale Selection') ?></h4>
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('oscommerce')->__('Locale Selection') ?></h4>
         </div>
 
         <fieldset>
@@ -62,25 +62,25 @@
     </div>
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('oscommerce')->__('Import Options') ?></h4>
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('oscommerce')->__('Import Options') ?></h4>
         </div>
         <fieldset>
     		<ul class="messages">
     		  <li class="warning-msg">
 			     <ul>
-					<li><?php echo Mage::helper('oscommerce')->__('To import orders, Magento requires that customers also be imported.') ?>
+					<li><?php echo AO::helper('oscommerce')->__('To import orders, Magento requires that customers also be imported.') ?>
 					</li>
 			     </ul>
 			   </li>
 			</ul>
             <input type="checkbox" id="import_categories" name="import_categories" class="input-checkbox" />
-           	<label for="import_categories"><?php echo Mage::helper('oscommerce')->__('Categories') ?></label> <br/>
+           	<label for="import_categories"><?php echo AO::helper('oscommerce')->__('Categories') ?></label> <br/>
             <input type="checkbox" id="import_products" name="import_products" class="input-checkbox" />
-            <label for="import_products"><?php echo Mage::helper('oscommerce')->__('Products') ?></label> <br/>
+            <label for="import_products"><?php echo AO::helper('oscommerce')->__('Products') ?></label> <br/>
             <input type="checkbox" id="import_customers" name="import_customers" class="input-checkbox" />
-            <label for="import_customers"><?php echo Mage::helper('oscommerce')->__('Customers') ?></label> <br />
+            <label for="import_customers"><?php echo AO::helper('oscommerce')->__('Customers') ?></label> <br />
             <input type="checkbox" id="import_orders" name="import_orders" class="input-checkbox" />
-            <label for="import_orders"><?php echo Mage::helper('oscommerce')->__('Orders') ?></label>
+            <label for="import_orders"><?php echo AO::helper('oscommerce')->__('Orders') ?></label>
         </fieldset>
     </div>
 </div>
@@ -99,7 +99,7 @@
     <ul class="messages">
         <li class="warning-msg">
             <ul>
-                <li><?php echo Mage::helper('oscommerce')->__('Importing...') ?></li>
+                <li><?php echo AO::helper('oscommerce')->__('Importing...') ?></li>
             </ul>
         </li>
     </ul>
@@ -109,7 +109,7 @@
     <ul class="messages">
         <li class="success-msg">
             <ul>
-                <li><?php echo Mage::helper('oscommerce')->__('Data has been successfully imported') ?></li>
+                <li><?php echo AO::helper('oscommerce')->__('Data has been successfully imported') ?></li>
             </ul>
         </li>
     </ul>
@@ -144,7 +144,7 @@ Event.observe($('run_import'), 'click', function(){
 
     if (selectedWebsite == ''
         && (websiteCode == null || websiteCode.length < 2)) {
-        error += "<?php echo Mage::helper('oscommerce')->__('Please check default website or input website code in General Information\n') ?>";
+        error += "<?php echo AO::helper('oscommerce')->__('Please check default website or input website code in General Information\n') ?>";
     } else {
         if (selectedWebsite) {
             params = '?website_id='+selectedWebsite;
@@ -154,7 +154,7 @@ Event.observe($('run_import'), 'click', function(){
     }
 
     if ($('timezone').value == '') {
-    	error += "<?php echo Mage::helper('oscommerce')->__('Please select a timezone\n') ?>";
+    	error += "<?php echo AO::helper('oscommerce')->__('Please select a timezone\n') ?>";
    	}
    	params += '&timezone='+$('timezone').value;
    	params += '&data_charset='+$('data_charset').value;
@@ -169,10 +169,10 @@ Event.observe($('run_import'), 'click', function(){
 
 
     if (isCheckedImportOptions == false) {
-        error += "<?php echo Mage::helper('oscommerce')->__('Please check at least an option in Import Options\n') ?>";
+        error += "<?php echo AO::helper('oscommerce')->__('Please check at least an option in Import Options\n') ?>";
     } else {
         if (importOrders == true && importCustomers == false) {
-            error += "<?php echo Mage::helper('oscommerce')->__('Need to check Customers for Orders') ?>"
+            error += "<?php echo AO::helper('oscommerce')->__('Need to check Customers for Orders') ?>"
         }
     }
 
@@ -217,7 +217,7 @@ Event.observe($('check_import'), 'click', function(){
             },
             onFailure: function() {
                 // TODO: handle error
-                alert('<?php echo Mage::helper('oscommerce')->__('Error for checking store locale!') ?>');
+                alert('<?php echo AO::helper('oscommerce')->__('Error for checking store locale!') ?>');
             }
         }
     );

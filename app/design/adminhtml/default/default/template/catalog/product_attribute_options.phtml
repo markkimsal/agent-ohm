@@ -35,7 +35,7 @@
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li><?php echo Mage::helper('catalog')->__('If you do not specify an option value for a specific store view then the default (Admin) value will be used.') ?></li>
+            <li><?php echo AO::helper('catalog')->__('If you do not specify an option value for a specific store view then the default (Admin) value will be used.') ?></li>
         </ul>
     </li>
 </ul>
@@ -43,7 +43,7 @@
 
 <div class="entity-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Manage Titles (Size, Color, etc.)') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('catalog')->__('Manage Titles (Size, Color, etc.)') ?></h4>
     </div>
     <div class="box">
 		    <div class="hor-scroll">
@@ -68,7 +68,7 @@
 <br/>
 <div class="entity-edit" id="matage-options-panel">
     <div class="entry-edit-head">
-    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Manage Options (values of your attribute)') ?></h4>
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('catalog')->__('Manage Options (values of your attribute)') ?></h4>
     </div>
     <div class="box">
 		<div class="hor-scroll">
@@ -77,8 +77,8 @@
 		            <?php foreach ($this->getStores() as $_store): ?>
 		                <th><?php echo $_store->getName() ?></th>
 		            <?php endforeach; ?>
-		                <th><?php echo Mage::helper('catalog')->__('Position') ?></th>
-		                <th class="nobr a-center"><?php echo Mage::helper('catalog')->__('Is Default') ?></th>
+		                <th><?php echo AO::helper('catalog')->__('Position') ?></th>
+		                <th class="nobr a-center"><?php echo AO::helper('catalog')->__('Is Default') ?></th>
 		                <th><?php echo $this->getAddNewButtonHtml() ?></th>
 		            </tr>
 		    	    <tr class="no-display template" id="row-template">
@@ -190,11 +190,11 @@ if($('add_new_option_button')){
     Event.observe('add_new_option_button', 'click', attributeOption.add.bind(attributeOption));
 }
 Validation.addAllThese([
-    ['required-option', '<?php echo Mage::helper('catalog')->__('Failed') ?>', function(v) {
+    ['required-option', '<?php echo AO::helper('catalog')->__('Failed') ?>', function(v) {
         return !Validation.get('IsEmpty').test(v);
 }]]);
 Validation.addAllThese([
-    ['required-options-count', '<?php echo Mage::helper('catalog')->__('Options is required') ?>', function(v) {
+    ['required-options-count', '<?php echo AO::helper('catalog')->__('Options is required') ?>', function(v) {
         return !Validation.get('IsEmpty').test(v);
 }]]);
 <?php foreach ($this->getOptionValues() as $_value): ?>

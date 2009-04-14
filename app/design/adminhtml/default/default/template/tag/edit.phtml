@@ -45,7 +45,7 @@
     var tagForm = new varienForm('tag_edit_form');
 
     function tagDelete(){
-        if(confirm('<?php echo Mage::helper('tag')->__('Are you sure that you want to delete this tag?') ?>')){
+        if(confirm('<?php echo AO::helper('tag')->__('Are you sure that you want to delete this tag?') ?>')){
             location.href = '<?php echo $this->getDeleteUrl() ?>'
         }
     }

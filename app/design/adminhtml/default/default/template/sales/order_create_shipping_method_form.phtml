@@ -78,18 +78,18 @@
             <!--input type="text" class="input-text" style="width:70px"/-->
             <br/>
             <a href="#" onclick="$('order-shipping-method-info').hide();$('order-shipping-method-choose').show();return false">
-                <?php echo Mage::helper('sales')->__('Click to change shipping method') ?>
+                <?php echo AO::helper('sales')->__('Click to change shipping method') ?>
             </a>
         </div>
     <?php else: ?>
         <script type="text/javascript">$('order-shipping-method-choose').show();</script>
     <?php endif; ?>
 <?php elseif($this->getIsRateRequest()): ?>
-    <strong><?php echo Mage::helper('sales')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+    <strong><?php echo AO::helper('sales')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
 <?php else: ?>
     <div id="order-shipping-method-summary">
         <a href="#" onclick="order.loadShippingRates();return false">
-            <?php echo Mage::helper('sales')->__('Get shipping methods and rates') ?>
+            <?php echo AO::helper('sales')->__('Get shipping methods and rates') ?>
         </a>
     </div>
 <?php endif; ?>

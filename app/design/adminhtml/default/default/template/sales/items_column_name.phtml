@@ -32,16 +32,16 @@
 
 <?php if ($_item = $this->getItem()): ?>
     <h5 class="title"><?php echo $_item->getName() ?></h5>
-    <div><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('catalog')->splitSku($this->getSku())); ?></div>
+    <div><strong><?php echo $this->helper('sales')->__('SKU') ?>:</strong> <?php echo implode('<br />', AO::helper('catalog')->splitSku($this->getSku())); ?></div>
     <?php if ($this->getOrderOptions()): ?>
         <dl class="item-options">
         <?php foreach ($this->getOrderOptions() as $_option): ?>
             <dt><?php echo $_option['label'] ?></dt>
             <dd>
-            <?php if (Mage::helper('catalog/product_options')->isHtmlFormattedOptionValue($_option['value'])): ?>
+            <?php if (AO::helper('catalog/product_options')->isHtmlFormattedOptionValue($_option['value'])): ?>
                 <?php echo $_option['value'];?>
             <?php else: ?>
-                <?php echo Mage::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
+                <?php echo AO::helper('core/string')->truncate($_option['value'], 55, '', $_remainder);?>
                 <?php if ($_remainder):?>
                     ... <span id="<?php echo $_id = 'id' . uniqid()?>"><?php echo $_remainder ?></span>
                     <script type="text/javascript">

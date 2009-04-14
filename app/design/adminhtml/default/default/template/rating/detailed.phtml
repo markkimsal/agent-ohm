@@ -30,11 +30,11 @@
             <thead>
                 <tr>
                     <th>&nbsp;</th>
-                    <th><span class="nobr"><?php echo Mage::helper('rating')->__('1 star') ?></span></th>
-                    <th><span class="nobr"><?php echo Mage::helper('rating')->__('2 stars') ?></span></th>
-                    <th><span class="nobr"><?php echo Mage::helper('rating')->__('3 stars') ?></span></th>
-                    <th><span class="nobr"><?php echo Mage::helper('rating')->__('4 stars') ?></span></th>
-                    <th><span class="nobr"><?php echo Mage::helper('rating')->__('5 stars') ?></span></th>
+                    <th><span class="nobr"><?php echo AO::helper('rating')->__('1 star') ?></span></th>
+                    <th><span class="nobr"><?php echo AO::helper('rating')->__('2 stars') ?></span></th>
+                    <th><span class="nobr"><?php echo AO::helper('rating')->__('3 stars') ?></span></th>
+                    <th><span class="nobr"><?php echo AO::helper('rating')->__('4 stars') ?></span></th>
+                    <th><span class="nobr"><?php echo AO::helper('rating')->__('5 stars') ?></span></th>
                 </tr>
             </thead>
         <?php $_oddIterator = 1; ?>
@@ -59,7 +59,7 @@
 //<![CDATA[
 	Validation.addAllThese(
     [
-	       ['validate-rating', '<?php echo Mage::helper('rating')->__('Please select one of each ratings above') ?>', function(v) {
+	       ['validate-rating', '<?php echo AO::helper('rating')->__('Please select one of each ratings above') ?>', function(v) {
                 var trs = $('product-review-table').getElementsBySelector('tr');
                 var inputs;
                 var error = 1;
@@ -90,5 +90,5 @@
 //]]>	
 </script>
 <?php else: ?>
-    <?php echo Mage::helper('rating')->__("Rating isn't Available") ?>
+    <?php echo AO::helper('rating')->__("Rating isn't Available") ?>
 <?php endif; ?>

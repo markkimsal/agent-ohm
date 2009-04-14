@@ -26,13 +26,13 @@
 ?>
 <table cellspacing="0">
 <tr>
-<td><label for="coupons:code"><?php echo Mage::helper('sales')->__('Apply Coupon Code') ?></label>
+<td><label for="coupons:code"><?php echo AO::helper('sales')->__('Apply Coupon Code') ?></label>
 <input type="text" class="input-text" id="coupons:code" value="" name="coupon_code" style="width:100px"/></td>
-<td>&nbsp;<?php echo $this->getButtonHtml(Mage::helper('sales')->__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))') ?></td>
+<td>&nbsp;<?php echo $this->getButtonHtml(AO::helper('sales')->__('Apply'), 'order.applyCoupon($F(\'coupons:code\'))') ?></td>
 </tr>
 </table>
 <?php if($this->getCouponCode()): ?>
     <br/>
     <strong><?php echo $this->getCouponCode() ?></strong>
-    [<a href="#" onclick="order.applyCoupon('');return false;" title="<?php echo Mage::helper('sales')->__('Remove Coupon Code') ?>"><?php echo Mage::helper('sales')->__('Remove') ?></a>]
+    [<a href="#" onclick="order.applyCoupon('');return false;" title="<?php echo AO::helper('sales')->__('Remove Coupon Code') ?>"><?php echo AO::helper('sales')->__('Remove') ?></a>]
 <?php endif; ?>

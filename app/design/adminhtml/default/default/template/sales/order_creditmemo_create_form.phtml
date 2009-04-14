@@ -37,14 +37,14 @@
         <!--Billing Address-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('sales')->__('Payment Information') ?></h4>
+                <h4 class="icon-head head-payment-method"><?php echo AO::helper('sales')->__('Payment Information') ?></h4>
             </div>
             <fieldset>
                 <div><?php echo $this->getChildHtml('order_payment') ?></div>
-                <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+                <div><?php echo AO::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
                 <?php /*if ($this->getCreditmemo()->canRefund()): ?>
                 <input type="checkbox" name="creditmemo[do_refund]" id="creditmemo_do_refund" value="1" checked/>
-                <label for="creditmemo_do_refund" class="normal"><?php echo Mage::helper('sales')->__('Refund Amount') ?></label>
+                <label for="creditmemo_do_refund" class="normal"><?php echo AO::helper('sales')->__('Refund Amount') ?></label>
                 <?php endif;*/ ?>
             </fieldset>
         </div>
@@ -54,7 +54,7 @@
         <!--Shipping Address-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('sales')->__('Shipping Information') ?></h4>
+                <h4 class="icon-head head-shipping-method"><?php echo AO::helper('sales')->__('Shipping Information') ?></h4>
             </div>
             <fieldset>
                 <strong><?php echo $_order->getShippingDescription() ?></strong>
@@ -79,7 +79,7 @@
 
     <div class="entry-edit">
       <div class="entry-edit-head">
-          <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items to Refund') ?></h4>
+          <h4 class="icon-head head-products"><?php echo AO::helper('sales')->__('Items to Refund') ?></h4>
       </div>
     </div>
     <div id="creditmemo_item_container">

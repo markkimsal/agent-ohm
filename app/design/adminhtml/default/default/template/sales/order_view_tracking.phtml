@@ -28,13 +28,13 @@
 <span class="field-row" id="order_tracking_info">
 <table cellpadding="0" cellspacing="0" width="100%">
     <tr>
-        <td><label id="tracking_number"><?php echo Mage::helper('sales')->__('Tracking Number') ?></label></td>
+        <td><label id="tracking_number"><?php echo AO::helper('sales')->__('Tracking Number') ?></label></td>
         <td width="100%">
             <?php if($_numbers = $this->getOrder()->getTrackingNumbers()): ?>
 
             <?php foreach ($_numbers as $_number): ?>
                 <a href="#" onclick="<?php echo $this->getViewLinkHtml($_number) ?>"><?php echo $_number ?></a>
-                <a href="#" onclick="<?php echo $this->getRemoveLinkHtml($_number) ?>"><?php echo Mage::helper('sales')->__('Delete') ?></a><br/>
+                <a href="#" onclick="<?php echo $this->getRemoveLinkHtml($_number) ?>"><?php echo AO::helper('sales')->__('Delete') ?></a><br/>
                 <span id="order_tracking_info_response_<?php echo $_number ?>"></span>
             <?php endforeach; ?>
             <?php endif; ?>

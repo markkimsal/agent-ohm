@@ -32,7 +32,7 @@
 ?>
 <tr>
     <td class="label">
-        <label for="target_url"><?php echo Mage::helper('googleoptimizer')->__('Scripts Install URL') ?></label>
+        <label for="target_url"><?php echo AO::helper('googleoptimizer')->__('Scripts Install URL') ?></label>
     </td>
     <td class="value">
         <input type="text" class="input-text googleoptimizer" name="target_url" id="target_url"<?php echo $_disabled ?>/>
@@ -46,7 +46,7 @@
     </td>
     <td class="value a-right">
         <button onclick="pushCodes();" class="scalable googleoptimizer" type="button" id="get_codes"<?php echo $_disabled ?>>
-            <span><?php echo Mage::helper('googleoptimizer')->__('Install Scripts') ?></span>
+            <span><?php echo AO::helper('googleoptimizer')->__('Install Scripts') ?></span>
         </button>
     </td>
     <td class="scope-label"></td>

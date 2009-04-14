@@ -35,12 +35,12 @@
 <table cellspacing="0" class="form-list">
     <tbody>
         <tr class="headings">
-            <td class="label"><label for="name"><?php echo Mage::helper('downloadable')->__('Title')?></label>
+            <td class="label"><label for="name"><?php echo AO::helper('downloadable')->__('Title')?></label>
             </td>
             <td class="value">
                 <input type="text" class="input-text" name="product[links_title]" value="<?php echo $_product->getId()?$_product->getLinksTitle():$this->getLinksTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?> />
             </td>
-            <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()): ?>[STORE VIEW]<?php endif; ?></td>
+            <td class="scope-label"><?php if (!AO::app()->isSingleStoreMode()): ?>[STORE VIEW]<?php endif; ?></td>
             <td class="value use-default">
             <?php if($_product->getStoreId()): ?>
                 <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
@@ -54,12 +54,12 @@
 <table cellspacing="0" class="form-list">
     <tbody>
         <tr class="headings">
-            <td class="label"><label for="name"><?php echo Mage::helper('downloadable')->__('Links can be purchased separately')?></label>
+            <td class="label"><label for="name"><?php echo AO::helper('downloadable')->__('Links can be purchased separately')?></label>
             </td>
             <td class="value">
                     <?php echo $this->getPurchasedSeparatelySelect()?>
                 </td>
-            <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()): ?>[GLOBAL]<?php endif; ?></td>
+            <td class="scope-label"><?php if (!AO::app()->isSingleStoreMode()): ?>[GLOBAL]<?php endif; ?></td>
             <td><small>&nbsp;</small></td>
         </tr>
     </tbody>
@@ -78,13 +78,13 @@
     <col width="1" />
     <thead>
         <tr class="headings">
-            <th><?php echo Mage::helper('downloadable')->__('Title')?> <span class="required">*</span></th>
-            <th><?php echo Mage::helper('downloadable')->__('Price')?></th>
-            <th><span class="nobr"><?php echo Mage::helper('downloadable')->__('Max. Downloads')?></span></th>
-            <th><?php echo Mage::helper('downloadable')->__('Shareable')?></th>
-            <th><?php echo Mage::helper('downloadable')->__('Sample')?></th>
-            <th><?php echo Mage::helper('downloadable')->__('File')?></th>
-            <th><span class="nobr"><?php echo Mage::helper('downloadable')->__('Sort Order')?></span></th>
+            <th><?php echo AO::helper('downloadable')->__('Title')?> <span class="required">*</span></th>
+            <th><?php echo AO::helper('downloadable')->__('Price')?></th>
+            <th><span class="nobr"><?php echo AO::helper('downloadable')->__('Max. Downloads')?></span></th>
+            <th><?php echo AO::helper('downloadable')->__('Shareable')?></th>
+            <th><?php echo AO::helper('downloadable')->__('Sample')?></th>
+            <th><?php echo AO::helper('downloadable')->__('File')?></th>
+            <th><span class="nobr"><?php echo AO::helper('downloadable')->__('Sort Order')?></span></th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -111,7 +111,7 @@ var linkTemplate = '<tr>'+
     '</td>'+
     '<td class="input-price">'+
         '<input type="text" class="input-text validate-number link-prices" name="downloadable[link][{{id}}][price]" value="{{price}}" /> '+
-        '<label>[<?php echo Mage::app()->getBaseCurrencyCode() ?>]</label>'+
+        '<label>[<?php echo AO::app()->getBaseCurrencyCode() ?>]</label>'+
         '<?php echo $_product->getStoreId() && $this->getIsPriceWebsiteScope()?'<br /><input type="checkbox" id="downloadable_link_{{id}}_price" name="downloadable[link][{{id}}][use_default_price]" value="1" /> <label for="downloadable_link_{{id}}_price">Use Default Value</label>':'' ?>'+
     '</td>'+
     '<td><input type="text" id="downloadable_link_{{id}}_downloads" name="downloadable[link][{{id}}][number_of_downloads]" class="input-text downloads" value="{{number_of_downloads}}" />'+
@@ -133,7 +133,7 @@ var linkTemplate = '<tr>'+
                     '<div id="downloadable_link_{{id}}_sample_file-new" class="file-row-info"></div>'+
                     '<div class="buttons">'+
                         '<div id="downloadable_link_{{id}}_sample_file-install-flash" style="display:none">'+
-                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                            '<?php echo AO::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
                         '</div>'+
                     '</div>'+
                     '<div class="clear"></div>'+
@@ -157,7 +157,7 @@ var linkTemplate = '<tr>'+
                     '<div id="downloadable_link_{{id}}_file-new" class="file-row-info new-file"></div>'+
                     '<div class="buttons">'+
                         '<div id="downloadable_link_{{id}}_file-install-flash" style="display:none">'+
-                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                            '<?php echo AO::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
                         '</div>'+
                     '</div>'+
                     '<div class="clear"></div>'+

@@ -27,7 +27,7 @@
 <div class="content-header">
     <table cellspacing="0">
         <tr>
-            <td><h3 class="icon-head head-tax-rate-importExport"><?php echo Mage::helper('tax')->__('Import / Export Tax Rates') ?></h3></td>
+            <td><h3 class="icon-head head-tax-rate-importExport"><?php echo AO::helper('tax')->__('Import / Export Tax Rates') ?></h3></td>
         </tr>
     </table>
 </div>
@@ -36,10 +36,10 @@
         <form id="import_form" action="<?php echo $this->getUrl('*/*/importPost') ?>" method="post" enctype="multipart/form-data">
             <?php echo $this->getBlockHtml('formkey')?>
             <div class="entry-edit-head">
-                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('tax')->__('Import Tax Rates') ?></h4>
+                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('tax')->__('Import Tax Rates') ?></h4>
             </div>
             <fieldset>
-                <legend><?php echo Mage::helper('tax')->__('Import Tax Rates') ?></legend>
+                <legend><?php echo AO::helper('tax')->__('Import Tax Rates') ?></legend>
                 <input type="file" name="import_rates_file" class="input-file required-entry"/>
                 <?php echo $this->getButtonHtml('Import Tax Rates', "this.form.submit()") ?>
             </fieldset>
@@ -52,10 +52,10 @@
         <form id="export_form" action="<?php echo $this->getUrl('*/*/exportPost') ?>" method="post" enctype="multipart/form-data">
             <?php echo $this->getBlockHtml('formkey')?>
             <div class="entry-edit-head">
-                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('tax')->__('Export Tax Rates') ?></h4>
+                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('tax')->__('Export Tax Rates') ?></h4>
             </div>
             <fieldset>
-                <legend><?php echo Mage::helper('tax')->__('Export Tax Rates') ?></legend>
+                <legend><?php echo AO::helper('tax')->__('Export Tax Rates') ?></legend>
                 <?php echo $this->getButtonHtml('Export Tax Rates', "this.form.submit()") ?>
             </fieldset>
         </form>

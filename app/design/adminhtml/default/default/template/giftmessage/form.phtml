@@ -36,17 +36,17 @@
     <?php endif; ?>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
-<h3><?php echo Mage::helper('giftmessage')->__('Your gift message successfully saved') ?></h3>
+<h3><?php echo AO::helper('giftmessage')->__('Your gift message successfully saved') ?></h3>
 <br /><?php echo $this->getCloseButtonHtml() ?>
 <?php else: ?>
-<h3><?php echo Mage::helper('giftmessage')->__('Your gift message successfully removed') ?></h3>
+<h3><?php echo AO::helper('giftmessage')->__('Your gift message successfully removed') ?></h3>
 <br /><?php echo $this->getCloseButtonHtml() ?>
 <?php endif; ?>
 <script type="text/javascript">
 <!--
 <?php if(!$this->getSaveMode()): ?>
     var giftMessageWindowObject = new GiftMessageWindow('<?php echo $this->getUniqueId() ?>','message-form', '<?php echo $this->getRemoveUrl() ?>');
-    giftMessageWindowObject.confirmMessage = '<?php echo $this->getEscapedForJs(Mage::helper('giftmessage')->__('Are you sure?')) ?>';
+    giftMessageWindowObject.confirmMessage = '<?php echo $this->getEscapedForJs(AO::helper('giftmessage')->__('Are you sure?')) ?>';
 <?php else: ?>
     var giftMessageWindowObject = new GiftMessageWindow('<?php echo $this->getUniqueId() ?>', null, '<?php echo $this->getRemoveUrl() ?>');
     Event.observe(window, 'load', function(evt) {

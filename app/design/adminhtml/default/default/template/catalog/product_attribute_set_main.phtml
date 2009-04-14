@@ -47,13 +47,13 @@
             <table cellspacing="0">
                     <tbody>
                         <tr>
-                            <td><h3><?php echo Mage::helper('catalog')->__('Groups') ?></h3></td>
+                            <td><h3><?php echo AO::helper('catalog')->__('Groups') ?></h3></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
              <p><?php echo $this->getAddGroupButton() ?>&nbsp;<?php echo $this->getDeleteGroupButton() ?></p>
-            <p class="note-block"><?php echo Mage::helper('catalog')->__('Double click on a group to rename it') ?></p>
+            <p class="note-block"><?php echo AO::helper('catalog')->__('Double click on a group to rename it') ?></p>
             <?php echo $this->getSetsFilterHtml() ?>
             <?php echo $this->getGroupTreeHtml() ?>
         </td>
@@ -62,7 +62,7 @@
                 <table cellspacing="0">
                     <tbody>
                         <tr>
-                            <td><h3><?php echo Mage::helper('catalog')->__('Unassigned Attributes') ?></h3></td>
+                            <td><h3><?php echo AO::helper('catalog')->__('Unassigned Attributes') ?></h3></td>
                         </tr>
                     </tbody>
                 </table>
@@ -103,7 +103,7 @@
 
                         this.ge = new Ext.tree.TreeEditor(tree, {
                             allowBlank:false,
-                            blankText:'<?php echo Mage::helper('catalog')->__('A name is required') ?>',
+                            blankText:'<?php echo AO::helper('catalog')->__('A name is required') ?>',
                             selectOnFocus:true,
                             cls:'folder'
                         });
@@ -221,12 +221,12 @@
                         }
 
                         if( editSet.SystemNodesExists(editSet.currentNode) ) {
-                            alert('<?php echo Mage::helper('catalog')->__('This group contains system attributes. Please move system attributes to another group and try again.') ?>');
+                            alert('<?php echo AO::helper('catalog')->__('This group contains system attributes. Please move system attributes to another group and try again.') ?>');
                             return;
                         }
 
                         if (editSet.ConfigurableNodeExists(editSet.currentNode)) {
-                            alert('<?php echo Mage::helper('catalog')->__('This group contains attributes, used in configurable products. Please move these attributes to another group and try again.') ?>');
+                            alert('<?php echo AO::helper('catalog')->__('This group contains attributes, used in configurable products. Please move these attributes to another group and try again.') ?>');
                             return;
                         }
 
@@ -275,7 +275,7 @@
                     },
 
                     addGroup : function() {
-                        var group_name = prompt("<?php echo Mage::helper('catalog')->__('Please enter a new group name') ?>","");
+                        var group_name = prompt("<?php echo AO::helper('catalog')->__('Please enter a new group name') ?>","");
 
                         if( group_name == '' ) {
                             this.addGroup();
@@ -283,7 +283,7 @@
 
                             for (var i=0; i < TreePanels.root.childNodes.length; i++) {
                                 if (TreePanels.root.childNodes[i].text.toLowerCase() == group_name.toLowerCase()) {
-                                    errorText = "<?php echo Mage::helper('catalog')->__('Attribute group with the \"/name/\" name already exists') ?>";
+                                    errorText = "<?php echo AO::helper('catalog')->__('Attribute group with the \"/name/\" name already exists') ?>";
                                     alert(errorText.replace("/name/",group_name));
                                     return;
                                 }
@@ -333,7 +333,7 @@
                     },
 
                     failure : function(o) {
-                        alert('<?php echo Mage::helper('catalog')->__('Unable to complete request. Please try again later.') ?>');
+                        alert('<?php echo AO::helper('catalog')->__('Unable to complete request. Please try again later.') ?>');
                     },
 
                     groupBeforeMove : function(tree, nodeThis, oldParent, newParent) {
@@ -350,7 +350,7 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
-                            alert('<?php echo Mage::helper('catalog')->__('You cannot remove system attribute from this set.') ?>');
+                            alert('<?php echo AO::helper('catalog')->__('You cannot remove system attribute from this set.') ?>');
                             return false;
                         }
                     },
@@ -364,7 +364,7 @@
                         if( node.attributes.is_user_defined == 1 ) {
                             return true;
                         } else {
-                            alert('<?php echo Mage::helper('catalog')->__('You cannot remove system attribute from this set.') ?>');
+                            alert('<?php echo AO::helper('catalog')->__('You cannot remove system attribute from this set.') ?>');
                             return false;
                         }
                     },
@@ -385,7 +385,7 @@
                     rightRemove : function(tree, nodeThis, node) {
                         if( nodeThis.firstChild == null && node.id != 'empty' ) {
                             var newNode = new Ext.tree.TreeNode({
-                                    text : '<?php echo Mage::helper('catalog')->__('Empty') ?>',
+                                    text : '<?php echo AO::helper('catalog')->__('Empty') ?>',
                                     id : 'empty',
                                     cls : 'folder',
                                     is_user_defined : 1,

@@ -81,7 +81,7 @@
                     <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
                 <?php endif; ?>
 
-                <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
+                <?php if (AO::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                     <?php
                     echo $this->displayPrices(
                         $_item->getBasePrice()+$_item->getBaseWeeeTaxAppliedAmount()+$_item->getBaseWeeeTaxDisposition(),
@@ -93,29 +93,29 @@
                 <?php endif; ?>
 
 
-                <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+                <?php if (AO::helper('weee')->getApplied($_item)): ?>
                     <br />
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_amount'], $tax['amount']); ?></span>
                         <?php endforeach; ?>
                         </small>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></small></span>
                         <?php endforeach; ?>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></span>
                         <?php endforeach; ?>
                         </small>
                     <?php endif; ?>
 
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
                         <br />
-                        <span class="nobr"><?php echo Mage::helper('weee')->__('Total'); ?>:<br />
+                        <span class="nobr"><?php echo AO::helper('weee')->__('Total'); ?>:<br />
                         <?php
                         echo $this->displayPrices(
                             $_item->getBasePrice()+$_item->getBaseWeeeTaxAppliedAmount()+$_item->getBaseWeeeTaxDisposition(),
@@ -136,35 +136,35 @@
                 <?php $_incl = $this->helper('checkout')->getPriceInclTax($_item); ?>
                 <?php $_baseIncl = $this->helper('checkout')->getBasePriceInclTax($_item); ?>
 
-                <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
+                <?php if (AO::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                     <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?>
                 <?php else: ?>
                     <?php echo $this->displayPrices($_baseIncl-$_item->getBaseWeeeTaxDisposition(), $_incl-$_item->getWeeeTaxDisposition()) ?>
                 <?php endif; ?>
 
-                <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+                <?php if (AO::helper('weee')->getApplied($_item)): ?>
                     <br />
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_amount'], $tax['amount']); ?></span>
                         <?php endforeach; ?>
                         </small>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></small></span>
                         <?php endforeach; ?>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_amount_incl_tax'], $tax['amount_incl_tax']); ?></span>
                         <?php endforeach; ?>
                         </small>
                     <?php endif; ?>
 
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
                         <br />
-                        <span class="nobr"><?php echo Mage::helper('weee')->__('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                        <span class="nobr"><?php echo AO::helper('weee')->__('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                     <?php endif; ?>
                 <?php endif; ?>
             </span>
@@ -180,7 +180,7 @@
                     <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
                 <?php endif; ?>
 
-                <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
+                <?php if (AO::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                     <?php
                     echo $this->displayPrices(
                         $_item->getBaseRowTotal()+$_item->getBaseWeeeTaxAppliedRowAmount()+$_item->getBaseWeeeTaxRowDisposition(),
@@ -192,28 +192,28 @@
                 <?php endif; ?>
 
 
-                <?php if (Mage::helper('weee')->getApplied($_item)): ?>
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
+                <?php if (AO::helper('weee')->getApplied($_item)): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_row_amount'], $tax['row_amount']); ?></span>
                         <?php endforeach; ?>
                         </small>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></small></span>
                         <?php endforeach; ?>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></span>
                         <?php endforeach; ?>
                         </small>
                     <?php endif; ?>
 
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
                         <br />
-                        <span class="nobr"><?php echo Mage::helper('weee')->__('Total'); ?>:<br />
+                        <span class="nobr"><?php echo AO::helper('weee')->__('Total'); ?>:<br />
                         <?php
                         echo $this->displayPrices(
                             $_item->getBaseRowTotal()+$_item->getBaseWeeeTaxAppliedRowAmount()+$_item->getBaseWeeeTaxRowDisposition(),
@@ -233,36 +233,36 @@
                 <?php endif; ?>
                 <?php $_incl = $this->helper('checkout')->getSubtotalInclTax($_item); ?>
                 <?php $_baseIncl = $this->helper('checkout')->getBaseSubtotalInclTax($_item); ?>
-                <?php if (Mage::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
+                <?php if (AO::helper('weee')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                     <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmount(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
                 <?php else: ?>
                     <?php echo $this->displayPrices($_baseIncl-$_item->getBaseWeeeTaxRowDisposition(), $_incl-$_item->getWeeeTaxRowDisposition()) ?>
                 <?php endif; ?>
 
 
-                <?php if (Mage::helper('weee')->getApplied($_item)): ?>
+                <?php if (AO::helper('weee')->getApplied($_item)): ?>
 
                     <br />
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 1, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_row_amount'], $tax['row_amount']); ?></span>
                         <?php endforeach; ?>
                         </small>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></small></span>
                         <?php endforeach; ?>
-                    <?php elseif (Mage::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
+                    <?php elseif (AO::helper('weee')->typeOfDisplay($_item, 4, 'sales')): ?>
                         <small>
-                        <?php foreach (Mage::helper('weee')->getApplied($_item) as $tax): ?>
+                        <?php foreach (AO::helper('weee')->getApplied($_item) as $tax): ?>
                             <span class="nobr"><?php echo $tax['title']; ?>: <?php echo $this->displayPrices($tax['base_row_amount_incl_tax'], $tax['row_amount_incl_tax']); ?></span>
                         <?php endforeach; ?>
                         </small>
                     <?php endif; ?>
 
-                    <?php if (Mage::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
-                        <br /><span class="nobr"><?php echo Mage::helper('weee')->__('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmount(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                    <?php if (AO::helper('weee')->typeOfDisplay($_item, 2, 'sales')): ?>
+                        <br /><span class="nobr"><?php echo AO::helper('weee')->__('Total'); ?>:<br /> <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmount(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                     <?php endif; ?>
                 <?php endif; ?>
             </span>

@@ -27,7 +27,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
-    <title><?php echo Mage::helper('adminhtml')->__('Log into Magento Admin Page') ?></title>
+    <title><?php echo AO::helper('adminhtml')->__('Log into Magento Admin Page') ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" ></meta>
     <link type="text/css" rel="stylesheet" href="<?php echo $this->getSkinUrl('reset.css') ?>" media="all" />
     <link type="text/css" rel="stylesheet" href="<?php echo $this->getSkinUrl('boxes.css') ?>" media="all" />
@@ -46,20 +46,20 @@
             <form method="post" action="" id="loginForm">
                 <div class="login-form">
                     <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-                    <h2><?php echo Mage::helper('adminhtml')->__('Log in to Admin Panel') ?></h2>
+                    <h2><?php echo AO::helper('adminhtml')->__('Log in to Admin Panel') ?></h2>
                     <div id="messages">
                         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
                     </div>
-                    <div class="input-box input-left"><label for="username"><?php echo Mage::helper('adminhtml')->__('User Name:') ?></label><br/>
+                    <div class="input-box input-left"><label for="username"><?php echo AO::helper('adminhtml')->__('User Name:') ?></label><br/>
                         <input type="text" id="username" name="login[username]" value="" class="required-entry input-text" /></div>
-                    <div class="input-box input-right"><label for="login"><?php echo Mage::helper('adminhtml')->__('Password:') ?></label><br />
+                    <div class="input-box input-right"><label for="login"><?php echo AO::helper('adminhtml')->__('Password:') ?></label><br />
                         <input type="password" id="login" name="login[password]" class="required-entry input-text" value="" /></div>
                     <div class="clear"></div>
                     <div class="form-buttons">
-                        <a class="left" href="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/index/forgotpassword') ?>"><?php echo Mage::helper('adminhtml')->__('Forgot your password?') ?></a>
-                        <input type="submit" onclick="loginForm.submit()" class="form-button" value="<?php echo Mage::helper('adminhtml')->__('Login') ?>" title="<?php echo Mage::helper('adminhtml')->__('Login') ?>" /></div>
+                        <a class="left" href="<?php echo AO::helper('adminhtml')->getUrl('adminhtml/index/forgotpassword') ?>"><?php echo AO::helper('adminhtml')->__('Forgot your password?') ?></a>
+                        <input type="submit" onclick="loginForm.submit()" class="form-button" value="<?php echo AO::helper('adminhtml')->__('Login') ?>" title="<?php echo AO::helper('adminhtml')->__('Login') ?>" /></div>
                 </div>
-                <p class="legal"><?php echo Mage::helper('adminhtml')->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></p>
+                <p class="legal"><?php echo AO::helper('adminhtml')->__('Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright &copy; %s Irubin Consulting Inc.', date('Y')) ?></p>
             </form>
             <div class="bottom"></div>
             <script type="text/javascript">

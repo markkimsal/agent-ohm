@@ -34,11 +34,11 @@
         <!--Billing Address-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('sales')->__('Payment Information') ?></h4>
+                <h4 class="icon-head head-payment-method"><?php echo AO::helper('sales')->__('Payment Information') ?></h4>
             </div>
             <fieldset>
                 <div><?php echo $this->getPaymentHtml() ?></div>
-                <div><?php echo Mage::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+                <div><?php echo AO::helper('sales')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
             </fieldset>
         </div>
     </div>
@@ -46,7 +46,7 @@
         <!--Shipping Address-->
         <div class="entry-edit">
             <div class="entry-edit-head">
-                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('sales')->__('Shipping Information') ?></h4>
+                <h4 class="icon-head head-shipping-method"><?php echo AO::helper('sales')->__('Shipping Information') ?></h4>
             </div>
             <fieldset>
                 <div>
@@ -73,7 +73,7 @@
 
     <div class="entry-edit">
         <div class="entry-edit-head">
-            <h4 class="icon-head head-products"><?php echo Mage::helper('sales')->__('Items to Ship') ?></h4>
+            <h4 class="icon-head head-products"><?php echo AO::helper('sales')->__('Items to Ship') ?></h4>
         </div>
     </div>
     <div id="ship_items_container">

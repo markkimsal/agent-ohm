@@ -31,11 +31,11 @@ OptionTemplateSelect = '<table class="border" cellpadding="0" cellspacing="0">'+
         '<input type="hidden" class="required-option-select-type-rows" name="validation_{{option_id}}_result" value="" >'+
         '<thead>'+
         '<tr class="headings">'+
-            '<th class="type-title"><?php echo Mage::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
-            '<th class="type-price"><?php echo Mage::helper('catalog')->__('Price') ?></th>'+
-            '<th class="type-type"><?php echo Mage::helper('catalog')->__('Price Type') ?></th>'+
-            '<th class="type-sku"><?php echo Mage::helper('catalog')->__('SKU') ?></th>'+
-            '<th class="type-order"><?php echo Mage::helper('catalog')->__('Sort Order') ?></th>'+
+            '<th class="type-title"><?php echo AO::helper('catalog')->__('Title') ?> <span class="required">*</span></th>'+
+            '<th class="type-price"><?php echo AO::helper('catalog')->__('Price') ?></th>'+
+            '<th class="type-type"><?php echo AO::helper('catalog')->__('Price Type') ?></th>'+
+            '<th class="type-sku"><?php echo AO::helper('catalog')->__('SKU') ?></th>'+
+            '<th class="type-order"><?php echo AO::helper('catalog')->__('Sort Order') ?></th>'+
             '<th class="type-butt last">&nbsp;</th>'+
         '</tr>'+
         '</thead>'+
@@ -146,7 +146,7 @@ if ($('option_panel_type_select')) {
 selectOptionType.bindRemoveButtons();
 
 Validation.addAllThese([
-    ['required-option-select-type-rows', '<?php echo Mage::helper('catalog')->__('Please add rows to option.') ?>', function(v, elm) {
+    ['required-option-select-type-rows', '<?php echo AO::helper('catalog')->__('Please add rows to option.') ?>', function(v, elm) {
             var optionContainerElm = elm.up('div.grid');
             var selectTypesFlag = false;
             selectTypeElements = $$('#'+optionContainerElm.id+' .select-type-title');

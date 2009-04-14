@@ -26,14 +26,14 @@
 ?>
 <div class="entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product In Websites') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo AO::helper('catalog')->__('Product In Websites') ?></h4>
     </div>
     <fieldset id="grop_fields">
     <?php if($this->getProductId()): ?>
         <ul class="messages">
             <li class="notice-msg">
                 <ul>
-                    <li><?php echo Mage::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></li>
+                    <li><?php echo AO::helper('catalog')->__("Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.") ?></li>
                 </ul>
             </li>
         </ul>
@@ -55,7 +55,7 @@
                     <td>
                     <?php if($this->getWebsites() && !$this->hasWebsite($_website->getId())): ?>
                         <span class="website-<?php echo $_website->getId() ?>-select" style="display:none">
-                        <?php echo Mage::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml($_store)) ?>
+                        <?php echo AO::helper('catalog')->__('(Copy data from: %s)', $this->getChooseFromStoreHtml($_store)) ?>
                         </span>
                     <?php endif; ?>
                     </td>

@@ -28,7 +28,7 @@
 <div class="content-header">
 <table cellspacing="0">
     <tr>
-        <td><h3 class="icon-head head-categories"><?php echo $this->getHeader() . ($this->getCategoryId() ? ' (' . Mage::helper('catalog')->__('ID: %s', $this->getCategoryId()) . ')' : '') ?></h3></td>
+        <td><h3 class="icon-head head-categories"><?php echo $this->getHeader() . ($this->getCategoryId() ? ' (' . AO::helper('catalog')->__('ID: %s', $this->getCategoryId()) . ')' : '') ?></h3></td>
         <td class="form-buttons">
             <?php echo $this->getResetButtonHtml() ?>
             <?php if($this->getCategoryId()): ?>
@@ -44,7 +44,7 @@
     <?php echo $this->getTabsHtml() ?>
 <?php else: ?>
 <div class="messages warning-msg">
-    <?php echo Mage::helper('catalog')->__('Set root category for this store in the <a href="%s">configuration</a>', $this->getStoreConfigurationUrl()) ?>
+    <?php echo AO::helper('catalog')->__('Set root category for this store in the <a href="%s">configuration</a>', $this->getStoreConfigurationUrl()) ?>
 </div>
 <?php endif; ?>
 <iframe name="iframeSave" style="display:none; width:100%;" src="<?php echo $this->getJsUrl() ?>blank.html"></iframe>

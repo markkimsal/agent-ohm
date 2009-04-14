@@ -32,9 +32,9 @@
     <tr>
         <td class="label">
             <?php if ($_order->getCouponCode()): ?>
-                <?php echo Mage::helper('sales')->__('Discount (%s)', $_order->getCouponCode()) ?>
+                <?php echo AO::helper('sales')->__('Discount (%s)', $_order->getCouponCode()) ?>
             <?php else: ?>
-                <?php echo Mage::helper('sales')->__('Discount') ?>
+                <?php echo AO::helper('sales')->__('Discount') ?>
             <?php endif; ?>
         </td>
         <td><?php echo $this->displayPriceAttribute('discount_amount') ?></td>

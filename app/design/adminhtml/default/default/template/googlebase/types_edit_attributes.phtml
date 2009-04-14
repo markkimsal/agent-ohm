@@ -81,8 +81,8 @@ var attributesSelectTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{ind
     '<table class="option-header" cellpadding="0" cellspacing="0">' +
         '<thead>' +
             '<tr>' +
-                '<th class="opt-type"><?php echo Mage::helper('googlebase')->__('Attribute') ?></th>' +
-                '<th class="opt-req"><?php echo Mage::helper('googlebase')->__('Google Base Attribute') ?></th>' +
+                '<th class="opt-type"><?php echo AO::helper('googlebase')->__('Attribute') ?></th>' +
+                '<th class="opt-req"><?php echo AO::helper('googlebase')->__('Google Base Attribute') ?></th>' +
                 '<th>&nbsp;</th>' +
             '</tr>' +
         '</thead>' +
@@ -121,5 +121,5 @@ gBaseAttribute = new Gbase.Attribute(attributesSelectTemplate);
 <?php endif; ?>
 
 <?php else: ?>
-    <?php echo Mage::helper('googlebase')->__("Please, select Attribute Set and Google Item Type to load attributes") ?>
+    <?php echo AO::helper('googlebase')->__("Please, select Attribute Set and Google Item Type to load attributes") ?>
 <?php endif; ?>

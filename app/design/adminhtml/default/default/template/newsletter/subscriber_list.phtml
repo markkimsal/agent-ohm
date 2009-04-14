@@ -27,7 +27,7 @@
 <div class="content-header">
 	<table cellspacing="0">
 		<tr>
-			<td style="width:50%;"><h3><?php echo Mage::helper('newsletter')->__('Newsletter Subscribers') ?></h3></td>
+			<td style="width:50%;"><h3><?php echo AO::helper('newsletter')->__('Newsletter Subscribers') ?></h3></td>
 		</tr>
 	</table>
 </div>
@@ -41,7 +41,7 @@
 		<option value="<?php echo $_queue['value'] ?>"><?php echo $_queue['label'] ?> #<?php echo $_queue['value'] ?></option>
 	<?php endforeach; ?>
 	</select>
-	<button class="scalable" onclick="subscriberController.addToQueue();"><span><?php echo Mage::helper('newsletter')->__('Add to Queue'); ?></span></button>
+	<button class="scalable" onclick="subscriberController.addToQueue();"><span><?php echo AO::helper('newsletter')->__('Add to Queue'); ?></span></button>
 </div>
 <?php endif ?>
 <script type="text/javascript">
