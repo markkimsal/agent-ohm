@@ -108,7 +108,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
     protected function _loadStoreCollection()
     {
         $this->_storeCollection = array();
-        foreach (AO::getModel('core/store')->getCollection() as $store) {
+        foreach (AO::getResourceModel('core/store_collection') as $store) {
             $this->_storeCollection[$store->getId()] = $store;
         }
         $this->_cleanupCollection();

@@ -194,7 +194,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
             ));
 
             if (AO::registry('store_action') == 'edit') {
-                $stores = AO::getModel('core/store')->getCollection()->addGroupFilter($groupModel->getId())->toOptionArray();
+                $stores = AO::getResourceModel('core/store_collection')->addGroupFilter($groupModel->getId())->toOptionArray();
                 //array_unshift($stores, array('label'=>'', 'value'=>0));
                 $fieldset->addField('group_default_store_id', 'select', array(
                     'name'      => 'group[default_store_id]',

@@ -255,7 +255,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
 
         $stores = array();
         $unset = array();
-        $storeCollection = AO::getModel('core/store')->getCollection()->setLoadDefault(false);
+        $storeCollection = AO::getResourceModel('core/store_collection')->setLoadDefault(false);
         for ($i=5; $i<count($csvData[0]); $i++) {
             $header = $csvData[0][$i];
             $found = false;
