@@ -97,6 +97,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
      */
     protected function _initObjects()
     {
+        $this->_coreConfig = AO::getConfig();
         $this->_configRoot = AO::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
 
         $this->_configData = AO::getModel('adminhtml/config_data')
@@ -220,7 +221,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     $data = $this->_configData[$path];
                     $inherit = false;
                 } else {
-                    $data = $this->_configRoot->descend($path);
+                    $data = $this->_coreConfig->descend($this->_configRoot, $path);
                     $inherit = true;
                 }
                 if ($e->frontend_model) {

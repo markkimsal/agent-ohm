@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         return $this->_buildMenuArray();
     }
 
-    protected function _getHelperValue(Varien_Simplexml_Element $child)
+    protected function _getHelperValue(SimplexmlElement $child)
     {
         $helperName         = 'adminhtml';
         $titleNodeName      = 'title';
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         return AO::helper($helperName)->__((string)$child->$titleNodeName);
     }
 
-    protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
+    protected function _buildMenuArray(SimplexmlElement $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
             $parent = AO::getConfig()->getNode('adminhtml/menu');
@@ -139,12 +139,12 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
         return $a['sort_order']<$b['sort_order'] ? -1 : ($a['sort_order']>$b['sort_order'] ? 1 : 0);
     }
 
-    protected function _checkDepends(Varien_Simplexml_Element $depends)
+    protected function _checkDepends(SimplexmlElement $depends)
     {
         if ($depends->module) {
             $modulesConfig = AO::getConfig()->getNode('modules');
             foreach ($depends->module as $module) {
-                if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
+                if (!$modulesConfig->$module || !AO::getConfig()->configElementIs($modulesConfig->$module, 'active')) {
                     return false;
                 }
             }

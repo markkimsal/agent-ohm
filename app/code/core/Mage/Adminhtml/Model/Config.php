@@ -92,7 +92,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
         $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
 
         foreach ($modules as $modName=>$module) {
-            if ($module->is('active')) {
+            if ($config->configElementIs($module, 'active')) {
                 if ($disableLocalModules && ('local' === (string)$module->codePool)) {
                     continue;
                 }
