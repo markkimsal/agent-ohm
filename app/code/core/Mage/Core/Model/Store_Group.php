@@ -145,8 +145,7 @@ class Mage_Core_Model_Store_Group extends Mage_Core_Model_Abstract
      */
     public function getStoreCollection()
     {
-        return AO::getModel('core/store')
-            ->getCollection()
+        return AO::getResourceModel('core/store_collection')
             ->addGroupFilter($this->getId());
     }
 
