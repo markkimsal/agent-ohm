@@ -57,7 +57,7 @@ class Mage_CatalogIndex_Model_Retreiver extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $config = AO::getConfig()->getNode('global/catalog/product/type')->asArray();
+        $config = AO::getConfig()->asArray(AO::getConfig()->getNode('global/catalog/product/type'));
         foreach ($config as $type=>$data) {
             if (isset($data['index_data_retreiver'])) {
                 $this->_retreivers[$type] = $data['index_data_retreiver'];

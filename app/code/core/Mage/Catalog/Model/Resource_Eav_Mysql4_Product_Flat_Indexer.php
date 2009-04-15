@@ -145,7 +145,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                 ->getNode(self::XML_NODE_ATTRIBUTE_NODES)
                 ->children();
             foreach ($attributeNodes as $node) {
-                $attributes = AO::getConfig()->getNode((string)$node)->asArray();
+                $attributes = AO::getConfig()->asArray(AO::getConfig()->getNode((string)$node));
                 $attributes = array_keys($attributes);
                 $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
             }
