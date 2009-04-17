@@ -43,12 +43,17 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
 
     public function getConvertTable()
     {
+		/*
         if (is_null($this->_convertTable)) {
             $convertNode = AO::getConfig()->getNode('default/url/convert');
-            foreach ($convertNode->children() as $node) {
-                $this->_convertTable[strval($node->from)] = strval($node->to);
-            }
+			if (is_object($convertNode)) {
+				foreach ($convertNode->children() as $node) {
+					$this->_convertTable[strval($node->from)] = strval($node->to);
+				}
+			}
         }
+		 */
+		return array();
         return $this->_convertTable;
     }
 

@@ -43,7 +43,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     protected $_urlCache = array();
 
-    const XML_STORE_ROUTERS_PATH = 'web/routers';
+    const XML_STORE_ROUTERS_PATH = 'frontend/routers';
 
     public function setDefault($key, $value=null)
     {
@@ -117,7 +117,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     {
         AO::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
-        $routersInfo = AO::app()->getStore()->getConfig(self::XML_STORE_ROUTERS_PATH);
+        $routersInfo = AO::app()->getConfig()->getNode(self::XML_STORE_ROUTERS_PATH);
 
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller::collect_routers');
         foreach ($routersInfo as $routerCode => $routerInfo) {

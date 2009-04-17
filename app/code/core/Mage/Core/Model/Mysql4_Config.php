@@ -108,12 +108,12 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
             $value = str_replace($subst_from, $subst_to, $r['value']);
             $xmlConfig->setNode('default/'.$r['path'], $value);
         }
-        // inherit default config values to all websites
-        $extendSource = $xmlConfig->getNode('default');
         foreach ($websites as $id=>$w) {
             $websiteNode = $xmlConfig->getNode('websites/'.$w['code']);
-            $xmlConfig->extendNode($websiteNode, $extendSource);
         }
+
+        // inherit default config values to all websites
+		$this->inheritXml($xmlConfig);
 
         $deleteWebsites = array();
         // set websites config values from database
@@ -175,6 +175,17 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
 
         return $this;
     }
+
+	/*
+	 */
+	public function inheritXml($xmlConfig) {
+		//*
+        $extendSource = $xmlConfig->getNode('default');
+        $xmlConfig->extendNode($xmlConfig->getNode('websites'), $extendSource);
+		// 
+	}
+
+
 
     /**
      * Save config value

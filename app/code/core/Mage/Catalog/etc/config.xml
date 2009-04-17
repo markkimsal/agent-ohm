@@ -693,7 +693,6 @@
             </layer>
 -->
         </catalog>
-		<!--
         <url>
             <convert>
                 <char0038><from>&amp;</from><to>and</to></char0038>
@@ -1015,6 +1014,7 @@
                 <char8482><from>™</from><to>tm</to></char8482>
             </convert>
         </url>
+		<!--
 		-->
     </default>
 </config>

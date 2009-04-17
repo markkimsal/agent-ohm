@@ -154,6 +154,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 				if (VPROF) Varien_Profiler::stop('mage::app::init::config::load_cache');
 				if ($loaded) {
 					$this->_useCache = true;
+					$dbConf = $this->getResourceModel();
+					$dbConf->inheritXml($this);
 					return $this;
 				}
 			}
@@ -222,10 +224,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			if (VPROF) Varien_Profiler::stop('config/load-db');
 		}
 
+
 		if (AO::app()->useCache('config')) {
 			$this->saveCache(array(self::CACHE_TAG));
 		}
 
+		$dbConf->inheritXml($this);
 		return $this;
 	}
 
