@@ -119,12 +119,13 @@ if (version_compare(phpversion(), '5.2.0', '<')===true) {
     die('ERROR: Whoops, it looks like you have an invalid PHP version. Magento supports PHP 5.2.0 or newer.');
 }
 
-require 'app/Mage.php';
+require 'app/AO.php';
 
 try {
-    $app = Mage::app('default');
+    AO::initApp('default');
+	$app = AO::app();
 
-    $installer = Mage::getSingleton('install/installer_console');
+    $installer = AO::getSingleton('install/installer_console');
     /* @var $installer Mage_Install_Model_Installer_Console */
 
     if ($installer->init($app)          // initialize installer
@@ -137,7 +138,7 @@ try {
     }
 
 } catch (Exception $e) {
-    Mage::printException($e);
+    AO::printException($e);
 }
 
 // print all errors if there were any

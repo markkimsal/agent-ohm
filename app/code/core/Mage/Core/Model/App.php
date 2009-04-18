@@ -662,9 +662,8 @@ class Mage_Core_Model_App
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
-            $this->_store = AO::getModel('core/store')
-                ->setId(self::DISTRO_STORE_ID)
-                ->setCode(self::DISTRO_STORE_CODE);
+			$nullParams = array('store_id'=>self::DISTRO_STORE_ID, 'code'=>self::DISTRO_STORE_CODE);
+            $this->_store = AO::getModel('core/store', $nullParams);
         }
         return $this->_store;
     }

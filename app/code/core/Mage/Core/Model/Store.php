@@ -183,12 +183,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->_storeConfig = $store;
         }
 
-
         if (!empty($store)) {
-            $this->setCode($code);
-            $id = (int)$store->system->store->id;
-            $this->setId($id)->setStoreId($id);
-            $this->setWebsiteId((int)$store->system->website->id);
+        	if (empty($store->system)) {
+				//$this->setStoreId(1);
+				$this->setId(1);
+				$this->setWebsiteId(1);
+			} else {
+				$this->setCode($code);
+				$id = (int)$store->system->store->id;
+				$this->setId($id)->setStoreId($id);
+				$this->setWebsiteId((int)$store->system->website->id);
+			}
         }
         return $this;
     }

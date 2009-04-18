@@ -942,4 +942,14 @@ class Varien_Simplexml_Config
         }
         return $out;
     }
+
+    public function getClassName($n)
+    {
+        $classname = '';
+		if (isset($n->class)) {
+			return (string)$n->class;
+		}
+        return $classname;
+    }
+
 }
