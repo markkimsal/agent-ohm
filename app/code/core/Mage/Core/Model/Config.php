@@ -27,7 +27,8 @@
  * @ao-copyright 2009 Mark Kimsal
  */
 
-AO::includeFile('Mage/Model/Config_Base');
+AO::includeFile('Mage/Core/Model/Config_Base');
+
 /**
  * Core configuration class
  *
