@@ -150,13 +150,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 		if (AO::isInstalled()) {
 			if (AO::app()->useCache('config')) {
 				if (VPROF) Varien_Profiler::start('mage::app::init::config::load_cache');
-				$loaded = $this->loadCache();
-				if (VPROF) Varien_Profiler::stop('mage::app::init::config::load_cache');
-				if ($loaded) {
+				if ($this->loadCache()) {
+					if (VPROF) Varien_Profiler::stop('mage::app::init::config::load_cache');
 					$this->_useCache = true;
-					$dbConf = $this->getResourceModel();
-					$dbConf->inheritXml($this);
 					return $this;
+				} else {
+					if (VPROF) Varien_Profiler::stop('mage::app::init::config::load_cache');
 				}
 			}
 		}
