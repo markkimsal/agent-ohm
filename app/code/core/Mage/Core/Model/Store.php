@@ -227,25 +227,27 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getConfig($path)
     {
+        //if a node cannot be found under /stores/$code/$path
+        //then check /default/$path
         static $config ; if (!$config) $config = AO::getConfig(); 
         if (isset($this->_configCache[$path])) {
             return $this->_configCache[$path];
         }
 
-		$code = $this->getCode();
+        $code = $this->getCode();
         $fullPath = 'stores/'.$code.'/'.$path;
         $data = $config->getNode($fullPath);
         //$data = $this->_storeConfig->descend($path);
 //        $data = $config->getNode()->stores->{$code}->descend($path);
         if (!$data && !AO::isInstalled()) {
             $data = $config->getNode('default/' . $path);
-		} elseif (!$data) {
-			$fullPath = 'websites/'.$path;
-        	$data = $config->getNode($fullPath);
-		}
-		if(!$data) {
-			return NULL;
-		}
+        } elseif (!$data) {
+            $fullPath = 'default/'.$path;
+        $data = $config->getNode($fullPath);
+        }
+        if(!$data) {
+            return NULL;
+        }
         return $this->_processConfigValue($fullPath, $path, $data);
     }
 

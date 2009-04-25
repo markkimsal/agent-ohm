@@ -176,14 +176,14 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
-	/*
-	 */
-	public function inheritXml($xmlConfig) {
-		//*
+    /*
+     */
+    public function inheritXml($xmlConfig) {
+        /*
         $extendSource = $xmlConfig->getNode('default');
         $xmlConfig->extendNode($xmlConfig->getNode('websites'), $extendSource);
-		// 
-	}
+        //  */
+    }
 
 
 
