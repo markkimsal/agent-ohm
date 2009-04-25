@@ -228,7 +228,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 			$this->saveCache(array(self::CACHE_TAG));
 		}
 
-		$dbConf->inheritXml($this);
 		return $this;
 	}
 
