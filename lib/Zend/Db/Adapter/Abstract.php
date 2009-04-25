@@ -771,11 +771,8 @@ abstract class Zend_Db_Adapter_Abstract
      */
     protected function _quote($value)
     {
-        if (is_int($value)) {
-            return $value;
-        } elseif (is_float($value)) {
-            return sprintf('%F', $value);
-        }
+		//int/float checks were already done in the call to "float", 
+		//in fact, much better checks for int/float escaping.
         return "'" . addcslashes($value, "\000\n\r\\'\"\032") . "'";
     }
 
@@ -791,8 +788,6 @@ abstract class Zend_Db_Adapter_Abstract
      */
     public function quote($value, $type = null)
     {
-        $this->_connect();
-
         if ($value instanceof Zend_Db_Select) {
             return '(' . $value->assemble() . ')';
         }
@@ -977,8 +972,8 @@ abstract class Zend_Db_Adapter_Abstract
      */
     protected function _quoteIdentifier($value, $auto=false)
     {
+		static $q; if (!$q) $q = $this->getQuoteIdentifierSymbol();
         if ($auto === false || $this->_autoQuoteIdentifiers === true) {
-            $q = $this->getQuoteIdentifierSymbol();
             return ($q . str_replace($q, $q.$q, $value) . $q);
         }
         return $value;
