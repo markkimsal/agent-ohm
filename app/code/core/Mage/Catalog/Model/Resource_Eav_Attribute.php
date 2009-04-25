@@ -95,11 +95,21 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
      */
     public function getApplyTo()
     {
-        if ($this->getData('apply_to')) {
-            return explode(',', $this->getData('apply_to'));
+        if ($d = $this->getData('apply_to')) {
+            return explode(',', $d);
         } else {
             return array();
         }
+    }
+
+    public function setSortPath($p)
+    {
+		$this->setData('sort_path', $p);
+    }
+
+    public function setGroupSortPath($p)
+    {
+		$this->setData('group_sort_path', $p);
     }
 
     /**
