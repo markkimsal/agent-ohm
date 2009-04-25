@@ -239,10 +239,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 //        $data = $config->getNode()->stores->{$code}->descend($path);
         if (!$data && !AO::isInstalled()) {
             $data = $config->getNode('default/' . $path);
-        }
-        if (!$data) {
-            return null;
-        }
+		} elseif (!$data) {
+			$fullPath = 'websites/'.$path;
+        	$data = $config->getNode($fullPath);
+		}
+		if(!$data) {
+			return NULL;
+		}
         return $this->_processConfigValue($fullPath, $path, $data);
     }
 

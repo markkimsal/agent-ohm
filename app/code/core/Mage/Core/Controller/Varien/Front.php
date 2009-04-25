@@ -43,7 +43,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     protected $_urlCache = array();
 
-    const XML_STORE_ROUTERS_PATH = 'frontend/routers';
+    const XML_STORE_ROUTERS_PATH = 'default/web/routers';
+    //const XML_STORE_ROUTERS_PATH = 'web/routers';
 
     public function setDefault($key, $value=null)
     {
@@ -94,7 +95,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     public function addRouter($name, Mage_Core_Controller_Varien_Router_Abstract $router)
     {
-//        $router->setFront($this);
         $this->_routers[$name] = $router;
         return $this;
     }
@@ -118,16 +118,18 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         AO::dispatchEvent('controller_front_init_before', array('front'=>$this));
 
         $routersInfo = AO::app()->getConfig()->getNode(self::XML_STORE_ROUTERS_PATH);
+		$routersInfo = $routersInfo->children();
 
         if (VPROF) Varien_Profiler::start('mage::app::init_front_controller::collect_routers');
-        foreach ($routersInfo as $routerCode => $routerInfo) {
-            if (isset($routerInfo['disabled']) && $routerInfo['disabled']) {
+        foreach ($routersInfo as $routerCode => $routerTag) {
+            if (isset($routerTag->disabled) && $routerTag->disabled) {
                 continue;
             }
-            if (isset($routerInfo['class'])) {
-                $router = new $routerInfo['class'];
-                if (isset($routerInfo['area'])) {
-                    $router->collectRoutes($routerInfo['area'], $routerCode);
+            if (isset($routerTag->class)) {
+				$className = (string)$routerTag->class;
+                $router = new $className();
+                if (isset($routerTag->area)) {
+                    $router->collectRoutes($routerTag->area, $routerCode);
                 }
                 $this->addRouter($routerCode, $router);
             }
