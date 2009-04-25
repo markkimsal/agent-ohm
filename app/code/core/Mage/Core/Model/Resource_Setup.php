@@ -108,7 +108,7 @@ class Mage_Core_Model_Resource_Setup
             }
             $className = __CLASS__;
             if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
+                $className = AO::getConfig()->getClassName($resource->setup);
             }
             $setupClass = new $className($resName);
             $setupClass->applyUpdates();
