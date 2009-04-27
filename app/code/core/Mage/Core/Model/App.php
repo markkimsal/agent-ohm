@@ -383,6 +383,9 @@ class Mage_Core_Model_App
      */
     protected function _initStores()
     {
+
+        AO::includeFile('Mage/Core/Model/Mysql4_Abstract');
+        AO::includeFile('Mage/Core/Model/Resource_Type_Db_Pdo_Mysql');
         $this->_stores   = array();
         $this->_groups   = array();
         $this->_website  = null;
@@ -1091,6 +1094,7 @@ class Mage_Core_Model_App
     public function getRequest()
     {
         if (empty($this->_request)) {
+			AO::includeFile('Mage/Core/Controller/Request/Http');
             $this->_request = new Mage_Core_Controller_Request_Http();
         }
         return $this->_request;
