@@ -161,12 +161,16 @@ class Mage_Core_Controller_Varien_Front
     }
 
     public function output() {
-        if ($this->_action->outputHandler == 'output') {
-            $this->_action->loadLayout();
-            $this->_action->renderLayout();
-        } else {
-            $this->_action->{$this->_action->outputHandler}();
-        }
+		//if not no_dispatch, then do regular templating
+		if(!$this->_action->getFlag('', Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH)) {
+			if ($this->_action->outputHandler == 'output') {
+				$this->_action->loadLayout();
+				$this->_action->renderLayout();
+			} else {
+				$this->_action->{$this->_action->outputHandler}();
+			}
+		}
+		//otherwise, send output, probably 304 redirect headers
         if (VPROF) Varien_Profiler::start('mage::app::dispatch::send_response');
         $this->_action->getResponse()->sendResponse();
         if (VPROF) Varien_Profiler::stop('mage::app::dispatch::send_response');
