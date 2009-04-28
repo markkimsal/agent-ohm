@@ -30,6 +30,7 @@
 AO::includeFile('Mage/Core/Controller/Varien/Router/Abstract');
 AO::includeFile('Mage/Core/Controller/Front/Action');
 
+//bt_die();
 class Mage_Core_Controller_Varien_Front 
 {
     protected $_defaults = array();
@@ -57,7 +58,6 @@ class Mage_Core_Controller_Varien_Front
 	}
 
 	public function getNoRender() {
-		return $this->_action->getFlag('', 'no-render');
 		return NULL;
 	}
 
@@ -160,23 +160,13 @@ class Mage_Core_Controller_Varien_Front
         return $this;
     }
 
-	/**
-	 * Performs regular templating and $_response->sendResponse();
-	 *
-	 * Check if the action has FLAG_NO_DISPATCH, if flagged, then skip
-	 * layout/templating.
-	 */
     public function output() {
-		//if not no_dispatch, then do regular templating
-		if(!$this->_action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)) {
-			if ($this->_action->outputHandler == 'output') {
-				$this->_action->loadLayout();
-				$this->_action->renderLayout();
-			} else {
-				$this->_action->{$this->_action->outputHandler}();
-			}
-		}
-		//otherwise, send output, probably 304 redirect headers
+        if ($this->_action->outputHandler == 'output') {
+            $this->_action->loadLayout();
+            $this->_action->renderLayout();
+        } else {
+            $this->_action->{$this->_action->outputHandler}();
+        }
         if (VPROF) Varien_Profiler::start('mage::app::dispatch::send_response');
         $this->_action->getResponse()->sendResponse();
         if (VPROF) Varien_Profiler::stop('mage::app::dispatch::send_response');
