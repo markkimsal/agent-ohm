@@ -55,7 +55,7 @@ AO::setIsDeveloperMode(true);
 /*
 register_tick_function('tick_profiler');
 declare(ticks=2);
- */
+// */
 
 
 umask(0);
@@ -67,6 +67,7 @@ $end = microtime(1);
 if (! strstr($_SERVER['PHP_SELF'], 'ajax')) {
 	echo '<div style="position:absolute;top:0px;background-color:#cfc">';
 	echo sprintf('%.2f',($end - $start)*1000). 'ms';
+//	echo ' - '. memory_get_peak_usage().' kb';
 	echo ' - '. number_format(memory_get_peak_usage()/1024).' kb';
 	echo '</div>';
 }
@@ -77,11 +78,13 @@ if (! strstr($_SERVER['PHP_SELF'], 'ajax')) {
 /*
 function tick_profiler($return=false) {
 	   static $m=0;
+	   static $lm=0;
 //	   if ($return) return "$m bytes";
 	   if (($mem=memory_get_usage())>$m) $m = $mem;
-//	   if ($mem >1850000) {echo $mem ." "; bt_die();}
+	   if ($mem >10300000) {echo "diff = ". (sprintf("%.2f", ($mem-$lm)/1024))." last = ".$lm." mem = ".$mem ." "; bt_die();}
+	   $lm = $mem;
 }
 
 
 echo tick_profiler(true);
- */
+// */
