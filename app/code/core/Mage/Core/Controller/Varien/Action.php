@@ -84,6 +84,9 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     protected $_flags = array();
 
+
+    public $outputHandler = 'output'; //the default view function
+
     /**
      * Constructor
      *
@@ -91,8 +94,11 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param Zend_Controller_Response_Abstract $response
      * @param array $invokeArgs
      */
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
-    {
+    public function __construct(
+            Zend_Controller_Request_Abstract $request, 
+            Zend_Controller_Response_Abstract $response, 
+            array $invokeArgs = array()
+    ) {
         $this->_request = $request;
         $this->_response= $response;
 
@@ -342,7 +348,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         $output = $this->getLayout()->getOutput();
 
-        $this->getResponse()->appendBody($output);
+        $this->_response->appendBody($output);
         if (VPROF) Varien_Profiler::stop("$_profilerKey::layout_render");
 
         return $this;
@@ -441,6 +447,7 @@ abstract class Mage_Core_Controller_Varien_Action
         );
         AO::dispatchEvent('controller_action_postdispatch', array('controller_action'=>$this));
     }
+
 
     public function norouteAction($coreRoute = null)
     {
@@ -712,3 +719,8 @@ abstract class Mage_Core_Controller_Varien_Action
         return true;
     }
 }
+
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+

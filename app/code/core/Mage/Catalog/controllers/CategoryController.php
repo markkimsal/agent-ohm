@@ -87,7 +87,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $update->addHandle($category->getLayoutUpdateHandle());
             $update->addHandle('CATEGORY_'.$category->getId());
 
-            $this->loadLayoutUpdates();
+//            $this->loadLayoutUpdates();
 
             $update->addUpdate($category->getCustomLayoutUpdate());
 
@@ -100,7 +100,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('checkout/session');
-            $this->renderLayout();
+//            $this->renderLayout();
         }
         else {
             $this->_forward('noRoute');

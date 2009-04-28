@@ -30,7 +30,8 @@
 AO::includeFile('Mage/Core/Controller/Varien/Router/Abstract');
 AO::includeFile('Mage/Core/Controller/Front/Action');
 
-class Mage_Core_Controller_Varien_Front extends Varien_Object
+//bt_die();
+class Mage_Core_Controller_Varien_Front 
 {
     protected $_defaults = array();
 
@@ -43,8 +44,22 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     protected $_urlCache = array();
 
+	protected $_action   = '';
+
     const XML_STORE_ROUTERS_PATH = 'default/web/routers';
     //const XML_STORE_ROUTERS_PATH = 'web/routers';
+
+	public function setAction($a) {
+		$this->_action = $a;
+	}
+
+	public function getAction() {
+		return $this->_action;
+	}
+
+	public function getNoRender() {
+		return NULL;
+	}
 
     public function setDefault($key, $value=null)
     {
@@ -145,6 +160,18 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         return $this;
     }
 
+    public function output() {
+        if ($this->_action->outputHandler == 'output') {
+            $this->_action->loadLayout();
+            $this->_action->renderLayout();
+        } else {
+            $this->_action->{$this->_action->outputHandler}();
+        }
+        if (VPROF) Varien_Profiler::start('mage::app::dispatch::send_response');
+        $this->_action->getResponse()->sendResponse();
+        if (VPROF) Varien_Profiler::stop('mage::app::dispatch::send_response');
+    }
+
     public function dispatch()
     {
         $request = $this->getRequest();
@@ -162,7 +189,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
             foreach ($this->_routers as $router) {
-                if ($router->match($this->getRequest())) {
+                if ($router->match($request)) {
                     break;
                 }
             }
@@ -171,10 +198,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if ($i>100) {
             AO::throwException('Front controller reached 100 router match iterations');
         }
-
-        if (VPROF) Varien_Profiler::start('mage::app::dispatch::send_response');
-        $this->getResponse()->sendResponse();
-        if (VPROF) Varien_Profiler::stop('mage::app::dispatch::send_response');
 
         return $this;
     }

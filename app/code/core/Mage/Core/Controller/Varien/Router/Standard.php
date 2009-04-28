@@ -72,7 +72,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
     public function fetchDefault()
     {
         $d = explode('/', AO::getStoreConfig('web/default/front'));
-		AO::app()->getFrontController()->setDefault(array(
+        AO::app()->getFrontController()->setDefault(array(
             'module'     => !empty($d[0]) ? $d[0] : 'core',
             'controller' => !empty($d[1]) ? $d[1] : 'index',
             'action'     => !empty($d[2]) ? $d[2] : 'index'
@@ -112,7 +112,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
         $this->fetchDefault();
 
-		$front = AO::app()->getFrontController();
+        $front = AO::app()->getFrontController();
 
         $p = explode('/', trim($request->getPathInfo(), '/'));
 

@@ -119,7 +119,7 @@ class AO {
             if ($graceful) {
                 return;
             }
-			AO::throwException('Mage registry key "'.$key.'" already exists');
+            AO::throwException('Mage registry key "'.$key.'" already exists');
         }
         self::$_registry[$key] = $value;
     }
@@ -166,9 +166,9 @@ class AO {
         $appRoot = realpath($appRoot);
 
         if (is_dir($appRoot) and is_readable($appRoot)) {
-			AO::register('appRoot', $appRoot);
+            AO::register('appRoot', $appRoot);
         } else {
-			AO::throwException($appRoot.' is not a directory or not readable by this user');
+            AO::throwException($appRoot.' is not a directory or not readable by this user');
         }
     }
 
@@ -352,7 +352,7 @@ class AO {
     {
         $registryKey = '_singleton/'.$modelClass;
         if (!AO::registry($registryKey)) {
-			AO::register($registryKey, AO::getModel($modelClass, $arguments));
+            AO::register($registryKey, AO::getModel($modelClass, $arguments));
         }
         return AO::registry($registryKey);
     }
@@ -366,28 +366,27 @@ class AO {
      */
     public static function getResourceModel($modelClass, $arguments=array())
     {
-		$classArr = explode('/', $modelClass);
+        $classArr = explode('/', $modelClass);
 
-		$resourceModel = false;
+        $resourceModel = false; 
+        if (!isset(AO::$_coreConfig->_xml->global->models->{$classArr[0]})) {
+            return false;
+        }
 
-		if (!isset(AO::$_coreConfig->_xml->global->models->{$classArr[0]})) {
-			return false;
-		}
+        $module = AO::$_coreConfig->_xml->global->models->{$classArr[0]};
 
-		$module = AO::$_coreConfig->_xml->global->models->{$classArr[0]};
+        if ((count($classArr)==2)
+            && isset($module->{$classArr[1]}->resourceModel)
+            && $resourceInfo = $module->{$classArr[1]}->resourceModel) {
+            $resourceModel = (string) $resourceInfo;
+        }
+        elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
+            $resourceModel = (string) $resourceInfo;
+        }
 
-		if ((count($classArr)==2)
-			&& isset($module->{$classArr[1]}->resourceModel)
-			&& $resourceInfo = $module->{$classArr[1]}->resourceModel) {
-			$resourceModel = (string) $resourceInfo;
-		}
-		elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
-			$resourceModel = (string) $resourceInfo;
-		}
-
-		if (!$resourceModel) {
-			return false;
-		}
+        if (!$resourceModel) {
+            return false;
+        }
         $className = AO::$_coreConfig->getModelClassName($resourceModel.'/'.$classArr[1]);
         if (VPROF) Varien_Profiler::start('CORE::create_object_of::'.$className);
         $obj = new $className($arguments);
@@ -464,26 +463,27 @@ class AO {
      */
     public static function initApp($code = '', $type = 'store', $options=array())
     {
-		include BP.'/lib/Varien/Object.php';
-		include BP.'/app/code/core/Mage/Core/Model/App.php';
-		include BP.'/app/code/core/Mage/Core/Model/App_Area.php';
-		include BP.'/app/code/core/Mage/Core/Model/Config.php';
-		include BP.'/app/code/core/Mage/Core/Model/Store.php';
-		include BP.'/lib/Varien/Event/Collection.php';
+        include BP.'/lib/Varien/Object.php';
+        include BP.'/app/code/core/Mage/Core/Model/App.php';
+        include BP.'/app/code/core/Mage/Core/Model/App_Area.php';
+        include BP.'/app/code/core/Mage/Core/Model/Config.php';
+        include BP.'/app/code/core/Mage/Core/Model/Store.php';
+        include BP.'/lib/Varien/Event/Collection.php';
         if (VPROF) Varien_Profiler::start('mage::app::construct');
         self::$_app = new Mage_Core_Model_App();
         if (VPROF) Varien_Profiler::stop('mage::app::construct');
 
-		AO::setRoot();
-		AO::register('events', new Varien_Event_Collection());
+        AO::setRoot();
+        AO::register('events', new Varien_Event_Collection());
 
 
         if (VPROF) Varien_Profiler::start('mage::app::register_config');
-		AO::$_coreConfig = new Mage_Core_Model_Config();
+        AO::$_coreConfig = new Mage_Core_Model_Config();
         if (VPROF) Varien_Profiler::stop('mage::app::register_config');
 
         if (VPROF) Varien_Profiler::start('mage::app::init');
         self::$_app->init($code, $type, $options);
+        self::$_app->_initFrontController();
         if (VPROF) Varien_Profiler::stop('mage::app::init');
 
         self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
@@ -510,17 +510,21 @@ class AO {
     public static function run($code = '', $type = 'store', $options=array())
     {
         try {
-            Varien_Profiler::start('mage');
+            if (VPROF) Varien_Profiler::start('mage');
 
-            Varien_Profiler::start('mage::app');
+            if (VPROF) Varien_Profiler::start('mage::app');
             self::initApp($code, $type, $options);
             Varien_Profiler::stop('mage::app');
 
-            Varien_Profiler::start('mage::dispatch');
-            self::$_app->getFrontController()->dispatch();
-            Varien_Profiler::stop('mage::dispatch');
+            $fc = self::$_app->getFrontController();
+            if (VPROF) Varien_Profiler::start('mage::dispatch');
+            $fc->dispatch();
+            if (VPROF) Varien_Profiler::stop('mage::dispatch');
 
-            Varien_Profiler::stop('mage');
+            //call output handler.
+            $fc->output();
+
+            if (VPROF) Varien_Profiler::stop('mage');
         }
         catch (Mage_Core_Model_Session_Exception $e) {
             header('Location: ' . AO::getBaseUrl());
@@ -566,7 +570,7 @@ class AO {
      */
     public static function isInstalled($options = array())
     {
-		static $isInstalled = null;
+        static $isInstalled = null;
         if ($isInstalled === null) {
             self::setRoot();
 
@@ -740,3 +744,7 @@ class AO {
         self::$_isDownloader = $flag;
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+

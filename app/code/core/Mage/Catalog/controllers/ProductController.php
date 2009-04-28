@@ -102,7 +102,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $update->addHandle('PRODUCT_TYPE_'.$product->getTypeId());
         $update->addHandle('PRODUCT_'.$product->getId());
 
-        $this->loadLayoutUpdates();
+//        $this->loadLayoutUpdates();
 
         $update->addUpdate($product->getCustomLayoutUpdate());
 
@@ -139,7 +139,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             $this->_initLayoutMessages('catalog/session');
             $this->_initLayoutMessages('tag/session');
             $this->_initLayoutMessages('checkout/session');
-            $this->renderLayout();
+//            $this->renderLayout();
         }
         else {
             if (isset($_GET['store'])  && $this->getRequest()->isDispatched()) {

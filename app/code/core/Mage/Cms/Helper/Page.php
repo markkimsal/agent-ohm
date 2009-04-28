@@ -40,7 +40,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     * @param integer $pageId
     * @return boolean
     */
-    public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId=null)
+    public function hasPage(Mage_Core_Controller_Front_Action $action, $pageId=null)
     {
         $page = AO::getSingleton('cms/page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
@@ -70,21 +70,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                     ->setTheme($theme);
             }
         }
+		return $page;
 
-        $action->loadLayout(array('default', 'cms_page'), false, false);
-        $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
-        $action->generateLayoutXml()->generateLayoutBlocks();
-
-        if ($storage = AO::getSingleton('catalog/session')) {
-            $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
-        }
-
-        if ($storage = AO::getSingleton('checkout/session')) {
-            $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
-        }
-
-        $action->renderLayout();
-
-        return true;
     }
 }

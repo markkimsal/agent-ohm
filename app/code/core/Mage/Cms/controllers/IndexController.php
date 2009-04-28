@@ -26,21 +26,40 @@
 
 class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
 {
-	public function indexAction($coreRoute = null)
+    public $outputHandler = 'output';
+    public $cmsPage = null;
+
+    public function indexAction($coreRoute = null)
     {
     	$pageId = AO::getStoreConfig('web/default/cms_home_page');
-        if (!AO::helper('cms/page')->renderPage($this, $pageId)) {
+        if ($page = AO::helper('cms/page')->hasPage($this, $pageId)) {
+            $this->outputHandler = 'cmsOutput';
+            $this->cmsPage = $page;
+        } else {
             $this->_forward('defaultIndex');
         }
+    }
+
+    public function cmsOutput() {
+        $this->loadLayout(array('default', 'cms_page'), false, false);
+        $this->getLayout()->getUpdate()->addUpdate($this->cmsPage->getLayoutUpdateXml());
+        $this->generateLayoutXml()->generateLayoutBlocks();
+
+        if ($storage = AO::getSingleton('catalog/session')) {
+            $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        }
+
+        if ($storage = AO::getSingleton('checkout/session')) {
+            $this->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        }
+        $this->renderLayout();
+        return true;
     }
 
     public function defaultIndexAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
         $this->getResponse()->setHeader('Status','404 File not found');
-
-    	$this->loadLayout();
-    	$this->renderLayout();
     }
 
     public function noRouteAction($coreRoute = null)
@@ -49,7 +68,8 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setHeader('Status','404 File not found');
 
         $pageId = AO::getStoreConfig('web/default/cms_no_route');
-        if (!AO::helper('cms/page')->renderPage($this, $pageId)) {
+        if ($page = AO::helper('cms/page')->hasPage($this, $pageId)) {
+        } else {
             $this->_forward('defaultNoRoute');
         }
     }
@@ -58,8 +78,9 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
         $this->getResponse()->setHeader('Status','404 File not found');
-
-    	$this->loadLayout();
-    	$this->renderLayout();
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+

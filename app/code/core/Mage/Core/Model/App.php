@@ -236,6 +236,8 @@ class Mage_Core_Model_App
         $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
         date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
 
+        //TODO: this is junk code, if argument needs to be array and it's not
+        //error out and fix calling code
         if (is_string($options)) {
             $options = array('etc_dir'=>$options);
         }
@@ -274,9 +276,6 @@ class Mage_Core_Model_App
             }
             $this->getRequest()->setPathInfo();
         }
-
-
-        $this->_initFrontController();
 
         return $this;
     }
@@ -522,7 +521,7 @@ class Mage_Core_Model_App
      *
      * @return Mage_Core_Model_App
      */
-    protected function _initFrontController()
+    public function _initFrontController()
     {
         AO::includeFile('Mage/Core/Controller/Varien/Front');
         AO::includeFile('Mage/Core/Model/Session');
@@ -665,7 +664,7 @@ class Mage_Core_Model_App
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
-			$nullParams = array('store_id'=>self::DISTRO_STORE_ID, 'code'=>self::DISTRO_STORE_CODE);
+            $nullParams = array('store_id'=>self::DISTRO_STORE_ID, 'code'=>self::DISTRO_STORE_CODE);
             $this->_store = AO::getModel('core/store', $nullParams);
         }
         return $this->_store;
@@ -1094,7 +1093,7 @@ class Mage_Core_Model_App
     public function getRequest()
     {
         if (empty($this->_request)) {
-			AO::includeFile('Mage/Core/Controller/Request/Http');
+            AO::includeFile('Mage/Core/Controller/Request/Http');
             $this->_request = new Mage_Core_Controller_Request_Http();
         }
         return $this->_request;
@@ -1213,3 +1212,7 @@ class Mage_Core_Model_App
         return $this->_useSessionVar;
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+

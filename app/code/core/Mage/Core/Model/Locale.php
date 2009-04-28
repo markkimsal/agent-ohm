@@ -129,13 +129,10 @@ class Mage_Core_Model_Locale
      * @param   string $locale
      * @return  Mage_Core_Model_Locale
      */
-    public function setLocale($locale = null)
+    public function setLocale($locale)
     {
         AO::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
         Zend_Locale_Data::setCache(AO::app()->getCache());
-        if ($locale === null) {
-        	$locale = $this->_localeCode;
-        }
         $this->_locale = new Zend_Locale($locale);
         return $this;
     }
@@ -167,10 +164,13 @@ class Mage_Core_Model_Locale
      */
     public function getLocale()
     {
+        static $count =0;
         if (!$this->_locale) {
-            $this->setLocale();
+            if ($count > 0 ) { die(' ' .$count); }
+            $this->setLocale($this->_localeCode);
+            $count++;
         } elseif ($this->_locale->__toString() != $this->_localeCode) {
-        	$this->setLocale($this->_localeCode);
+            $this->setLocale($this->_localeCode);
         }
 
         return $this->_locale;
@@ -687,7 +687,7 @@ class Mage_Core_Model_Locale
         return $this->getLocale()->getTranslation($value, $path, $this->getLocale());
     }
 
-/**
+    /**
      * Returns the localized country name
      *
      * @param  string             $value  Name to get detailed information about
@@ -708,3 +708,6 @@ class Mage_Core_Model_Locale
         return $this->getLocale()->getCountryTranslationList($this->getLocale());
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
