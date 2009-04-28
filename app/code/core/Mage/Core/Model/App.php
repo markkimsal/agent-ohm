@@ -131,6 +131,7 @@ class Mage_Core_Model_App
      * @var Zend_Cache_Core
      */
     protected $_cache;
+    protected $_localecache;
 
     /**
      * Helpers array
@@ -959,6 +960,35 @@ class Mage_Core_Model_App
         }
         return $this->_cache;
     }
+
+    /**
+     * Retrieve cache object just for locale data
+     *
+     * @return Zend_Cache_Core
+     */
+    public function getLocaleCache()
+    {
+        if (!$this->_localecache) {
+            $backend = 'File';
+            $backendAttributes = array(
+                'cache_dir'                 => BP.'/var/localecache/',
+                'hashed_directory_level'    => 1,
+                'hashed_directory_umask'    => 0777,
+                'file_name_prefix'          => 'mage',
+            );
+            $lifetime = 7200;
+            $this->_localecache = Zend_Cache::factory('Core', $backend,
+                array(
+                    'caching'                   => true,
+                    'lifetime'                  => $lifetime,
+                    'automatic_cleaning_factor' => 0,
+                ),
+                $backendAttributes
+            );
+        }
+        return $this->_localecache;
+    }
+
 
     /**
      * Loading cache data

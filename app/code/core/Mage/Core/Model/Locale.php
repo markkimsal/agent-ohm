@@ -132,7 +132,7 @@ class Mage_Core_Model_Locale
     public function setLocale($locale)
     {
         AO::dispatchEvent('core_locale_set_locale', array('locale'=>$this));
-        Zend_Locale_Data::setCache(AO::app()->getCache());
+        Zend_Locale_Data::setCache(AO::app()->getLocaleCache());
         $this->_locale = new Zend_Locale($locale);
         return $this;
     }
