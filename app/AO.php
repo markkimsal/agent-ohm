@@ -218,7 +218,12 @@ class AO {
 
     public static function getStoreConfig($path, $id=null)
     {
-        return self::$_app->getStore($id)->getConfig($path);
+        //FIXME: just take one data type, don't make all these decisions
+        if (is_object($id)) {
+            return $id->getConfig($path);
+        } else {
+            return self::$_app->getStore($id)->getConfig($path);
+        }
     }
 
     public static function getStoreConfigFlag($path, $id=null)

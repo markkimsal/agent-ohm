@@ -593,23 +593,16 @@ class Mage_Core_Model_App
             return $this->_getDefaultStore();
         }
 
-        /*
-        if ($id === true && $this->isSingleStoreMode()) {
-            return $this->_store;
-        }
-        */
-
         if (is_null($id) || ''===$id || $id === true) {
             $id = $this->_currentStore;
         }
-
+        //FIXME: this shouldn't ever happen
+        /*
         if ($id instanceof Mage_Core_Model_Store) {
+            bt_die();
             return $id;
         }
-
-        if (is_null($id)) {
-            $this->throwStoreException();
-        }
+         */
 
         return $this->_stores[$id];
     }

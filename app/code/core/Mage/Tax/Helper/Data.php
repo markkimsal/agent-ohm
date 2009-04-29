@@ -62,7 +62,12 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function priceIncludesTax($store=null)
     {
-        $storeId = AO::app()->getStore($store)->getId();
+        //FIXME: just take one data type, don't make all these decisions
+        if (!is_object($store)) {
+            $storeId = AO::app()->getStore(null)->getId();
+        } else {
+            $storeId = $store->getId();
+        }
         if (!isset($this->_priceIncludesTax[$storeId])) {
             $this->_priceIncludesTax[$storeId] = (int)AO::getStoreConfig(
                 Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX,
@@ -80,6 +85,13 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function applyTaxAfterDiscount($store=null)
     {
+        //FIXME: just take one data type, don't make all these decisions
+        if (!is_object($store)) {
+            $storeId = AO::app()->getStore(null)->getId();
+        } else {
+            $storeId = $store->getId();
+        }
+
         $storeId = AO::app()->getStore($store)->getId();
         if (!isset($this->_applyTaxAfterDiscount[$storeId])) {
             $this->_applyTaxAfterDiscount[$storeId] = (int)AO::getStoreConfig(
@@ -116,7 +128,12 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPriceDisplayType($store = null)
     {
-        $storeId = AO::app()->getStore($store)->getId();
+        //FIXME: just take one data type, don't make all these decisions
+        if (!is_object($store)) {
+            $storeId = AO::app()->getStore(null)->getId();
+        } else {
+            $storeId = $store->getId();
+        }
         if (!isset($this->_priceDisplayType[$storeId])) {
             $this->_priceDisplayType[$storeId] = (int)AO::getStoreConfig(
                 Mage_Tax_Model_Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE,
@@ -520,3 +537,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return ((int) AO::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store) == 1);
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+

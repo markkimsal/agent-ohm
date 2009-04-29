@@ -276,7 +276,11 @@ class Mage_Core_Model_Url extends Varien_Object
 
     public function setStore($data)
     {
-        $this->setData('store', AO::app()->getStore($data));
+        if ($data === null) {
+            $this->setData('store', AO::app()->getStore($data));
+        } else {
+            $this->setData('store', $data);
+        }
         return $this;
     }
 
@@ -869,19 +873,37 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function useSessionIdForUrl($secure = false)
     {
-        $key = 'use_session_id_for_url_' . (int)$secure;
-        if (is_null($this->getData($key))) {
+        static $secureValue = -1;
+        static $plainValue  = -1;
+
+        if ($secure && $secureValue === -1) {
             $httpHost = AO::app()->getFrontController()->getRequest()->getHttpHost();
             $urlHost = parse_url(AO::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure), PHP_URL_HOST);
 
             if ($httpHost != $urlHost) {
-                $this->setData($key, true);
+                $secureValue = true;
             }
             else {
-                $this->setData($key, false);
+                $secureValue = false;
             }
         }
-        return $this->getData($key);
+        if (!$secure && $plainValue === -1) {
+            $httpHost = AO::app()->getFrontController()->getRequest()->getHttpHost();
+            $urlHost = parse_url(AO::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure), PHP_URL_HOST);
+
+            if ($httpHost != $urlHost) {
+                $plainValue = true;
+            }
+            else {
+                $plainValue = false;
+            }
+        }
+        if ($secure) {
+            return $secureValue;
+        }
+        if (!$secure) {
+            return $plainValue;
+        }
     }
 
     /**
@@ -917,3 +939,7 @@ class Mage_Core_Model_Url extends Varien_Object
         return '';
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+

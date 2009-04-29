@@ -79,45 +79,41 @@ function __autoload($class)
 {
 
     $classFile = str_replace('_', DS, $class).'.php';
-	if (strstr($classFile, 'Model') && substr($classFile, 0, 4) === 'Mage') {
-		$classFile = scrunchName($classFile, 3);
-	}
-	if (strstr($classFile, 'Block') && substr($classFile, 0, 4) === 'Mage') {
-		$classFile = scrunchName($classFile, 3);
-	}
+    if (strstr($classFile, 'Model') && substr($classFile, 0, 4) === 'Mage') {
+        $classFile = scrunchName($classFile, 3);
+    }
+    if (strstr($classFile, 'Block') && substr($classFile, 0, 4) === 'Mage') {
+        $classFile = scrunchName($classFile, 3);
+    }
 
-	$s = substr($classFile, 0, 4);
-	switch ($s) {
-		case 'Zend':
-			include(BP.DS.'lib'.DS.$classFile);
-			return;
-		case 'Varien':
-			include(BP.DS.'lib'.DS.$classFile);
-			return;
-	}
+    $s = substr($classFile, 0, 4);
+    switch ($s) {
+        case 'Zend':
+            include(BP.DS.'lib'.DS.$classFile);
+            return;
+        case 'Varien':
+            include(BP.DS.'lib'.DS.$classFile);
+            return;
+    }
 
     return @include($classFile);
 }
 
-	function scrunchName($f, $l=1) {
-		$DS  = '/';
-		$scrunchLevel = $l;
-		$parts = explode($DS, $f);
-		if (count($parts) <= $scrunchLevel) {
-			return $f;
-		}
-		$basedir = array();
-		while (count($basedir) < $scrunchLevel) {
-			$basedir[] = array_shift($parts);
-		}
-		//echo "basedir 2\n";
-		
-	//	var_dump( implode('/', $basedir));
-	//	var_dump(implode('_', $parts));
-		$newfile = implode($DS, $basedir).$DS;
-		$newfile .= implode('_', $parts);
-		return $newfile;
-	}
+    function scrunchName($f, $scrunchLevel=1) {
+        $DS  = '/';
+        $parts = explode($DS, $f);
+        $basedir = array();
+        while (count($basedir) < $scrunchLevel) {
+            $basedir[] = array_shift($parts);
+        }
+//echo "basedir 2\n";
+        
+//	var_dump( implode('/', $basedir));
+//	var_dump(implode('_', $parts));
+        $newfile = implode($DS, $basedir).$DS;
+        $newfile .= implode('_', $parts);
+        return $newfile;
+    }
 
 
 /**
@@ -190,7 +186,7 @@ function is_empty_date($date)
 function mageFindClassFile($class)
 {
     $classFile = uc_words($class, DS).'.php';
-	$classFile = scrunchName($classFile, 3);
+    $classFile = scrunchName($classFile, 3);
 
     $found = false;
     foreach (explode(PS, get_include_path()) as $path) {
@@ -405,3 +401,7 @@ if ( !function_exists('sys_get_temp_dir') ) {
         }
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
+
