@@ -165,11 +165,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if ($blockName = (string)$attributes->name) {
                 $ignoreNodes = $xml->xpath("//block[@name='".$blockName."']");
                 foreach ($ignoreNodes as $block) {
-                    $block->addAttribute('ignore', true);
+                    $block['ignore'] = true;
+                    //$block->addAttribute('ignore', true);
                 }
                 $ignoreNodes = $xml->xpath("//reference[@name='".$blockName."']");
                 foreach ($ignoreNodes as $block) {
-                    $block->addAttribute('ignore', true);
+                    $block['ignore'] = true;
+                    //$block->addAttribute('ignore', true);
                 }
             }
         }

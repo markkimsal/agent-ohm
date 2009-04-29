@@ -278,6 +278,8 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         if ($data === null) {
             $this->setData('store', AO::app()->getStore($data));
+        } elseif (is_numeric($data)) {
+            $this->setData('store', AO::app()->getStore($data));
         } else {
             $this->setData('store', $data);
         }
@@ -291,9 +293,6 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getStore()
     {
-        if (!$this->hasData('store')) {
-            $this->setStore(null);
-        }
         return $this->_getData('store');
     }
 
@@ -315,7 +314,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setSecure($params['_secure']);
         }
 
-        return $this->getStore()->getBaseUrl($this->getType(), $this->getSecure());
+        return $this->_getData('store')->getBaseUrl($this->getType(), $this->getSecure());
     }
 
     /**

@@ -448,8 +448,24 @@ abstract class Mage_Core_Controller_Front_Action
             array('controller_action'=>$this)
         );
         AO::dispatchEvent('controller_action_postdispatch', array('controller_action'=>$this));
+
+        if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
+            AO::getSingleton('core/session')->setLastUrl(AO::getUrl('*/*/*'), array('_current'=>true));
+        }
     }
 
+    /**
+     * Translate a phrase
+     *
+     * @return string
+     */
+    public function __()
+    {
+        $args = func_get_args();
+        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
+        array_unshift($args, $expr);
+        return AO::app()->getTranslator()->translate($args);
+    }
 
     public function norouteAction($coreRoute = null)
     {

@@ -127,6 +127,13 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
          */
         $this->_getSession()->setCartWasUpdated(true);
 
+		$this->outputHandler = 'indexOutput';
+	}
+	
+	/**
+	 * Show the index page, change the title to "Shopping Cart"
+	 */
+	public function indexOutput() {
         if (VPROF) Varien_Profiler::start(__METHOD__ . 'cart_display');
         $this->loadLayout();
         $this->_initLayoutMessages('checkout/session');
