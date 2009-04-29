@@ -256,7 +256,8 @@ class AO {
      */
     public static function getUrl($route='', $params=array())
     {
-        return AO::getModel('core/url')->getUrl($route, $params);
+        return Mage_Core_Model_Url::getUrl($route, $params);
+//        return AO::getModel('core/url')->getUrl($route, $params);
     }
 
     /**

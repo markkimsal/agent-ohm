@@ -602,7 +602,7 @@ class Mage_Core_Model_App
             bt_die();
             return $id;
         }
-         */
+        // */
 
         return $this->_stores[$id];
     }

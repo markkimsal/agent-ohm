@@ -114,6 +114,8 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     protected $_useSession = true;
 
+    static protected $_fly;
+
     protected function _construct()
     {
         $this->setStore(null);
@@ -737,6 +739,14 @@ class Mage_Core_Model_Url extends Varien_Object
         return $this->_getData('fragment');
     }
 
+
+    public static function getFlyweight() {
+        if (!isset(Mage_Core_Model_Url::$_fly)) {
+            Mage_Core_Model_Url::$_fly = AO::getModel('core/url');
+        }
+        return clone Mage_Core_Model_Url::$_fly;
+    }
+
     /**
      * Build url by requested path and parameters
      *
@@ -744,8 +754,10 @@ class Mage_Core_Model_Url extends Varien_Object
      * @param   array $routeParams
      * @return  string
      */
-    public function getUrl($routePath=null, $routeParams=null)
+    public static function getUrl($routePath=null, $routeParams=null)
     {
+        $fly = Mage_Core_Model_Url::getFlyweight();
+
         $escapeQuery = false;
 
         /**
@@ -754,7 +766,7 @@ class Mage_Core_Model_Url extends Varien_Object
          * in case when we have params
          */
         if (isset($routeParams['_fragment'])) {
-            $this->setFragment($routeParams['_fragment']);
+            $fly->setFragment($routeParams['_fragment']);
             unset($routeParams['_fragment']);
         }
 
@@ -768,32 +780,32 @@ class Mage_Core_Model_Url extends Varien_Object
             $query = $routeParams['_query'];
             unset($routeParams['_query']);
         }
-        $url = $this->getRouteUrl($routePath, $routeParams);
+        $url = $fly->getRouteUrl($routePath, $routeParams);
         /**
          * Apply query params, need call after getRouteUrl for rewrite _current values
          */
         if ($query !== null) {
             if (is_string($query)) {
-                $this->setQuery($query);
+                $fly->setQuery($query);
             } elseif (is_array($query)) {
-                $this->setQueryParams($query, !empty($routeParams['_current']));
+                $fly->setQueryParams($query, !empty($routeParams['_current']));
             }
             if ($query === false) {
-                $this->setQueryParams(array());
+                $fly->setQueryParams(array());
             }
         }
 
-        $this->_prepareSessionUrl($url);
+        $fly->_prepareSessionUrl($url);
 
-        if ($query = $this->getQuery($escapeQuery)) {
+        if ($query = $fly->getQuery($escapeQuery)) {
             $url .= '?'.$query;
         }
 
-        if ($this->getFragment()) {
-            $url .= '#'.$this->getFragment();
+        if ($fly->getFragment()) {
+            $url .= '#'.$fly->getFragment();
         }
 
-        return $this->escape($url);
+        return $fly->escape($url);
     }
 
     /**
