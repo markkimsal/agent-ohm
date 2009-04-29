@@ -102,16 +102,9 @@ function __autoload($class)
     function scrunchName($f, $scrunchLevel=1) {
         $DS  = '/';
         $parts = explode($DS, $f);
-        $basedir = array();
-        while (count($basedir) < $scrunchLevel) {
-            $basedir[] = array_shift($parts);
-        }
-//echo "basedir 2\n";
-        
-//	var_dump( implode('/', $basedir));
-//	var_dump(implode('_', $parts));
-        $newfile = implode($DS, $basedir).$DS;
-        $newfile .= implode('_', $parts);
+
+        $newfile = implode($DS, array_slice($parts, 0, $scrunchLevel)).$DS;
+        $newfile .= implode('_', array_slice($parts, $scrunchLevel));
         return $newfile;
     }
 
