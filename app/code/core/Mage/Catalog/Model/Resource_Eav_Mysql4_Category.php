@@ -833,9 +833,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
      */
     public function getParentCategories($category)
     {
+        //FIXME: this might not be the correct setStore() param
+        // we might need ->setStore(AO::app()->getStore())
+        // UPDATE: should be correct, setStore just calls getStore with params
         $pathIds = array_reverse(explode(',', $category->getPathInStore()));
         $categories = AO::getResourceModel('catalog/category_collection')
-            ->setStore(AO::app()->getStore())
+            ->setStore(null)
+            //->setStore(AO::app()->getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('url_key')
             ->addFieldToFilter('entity_id', array('in'=>$pathIds))
@@ -959,3 +963,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 //        return true;
     }
 }
+# vim: set expandtab:
+# vim: set sw=4:
+# vim: set ts=4:
