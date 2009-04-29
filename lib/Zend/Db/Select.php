@@ -654,9 +654,9 @@ class Zend_Db_Select
         $sql = self::SQL_SELECT;
         foreach (array_keys(self::$_partsInit) as $part) {
             $method = '_render' . ucfirst($part);
-            if (method_exists($this, $method)) {
-                $sql = $this->$method($sql);
-            }
+//            if (method_exists($this, $method)) {
+            $sql = $this->$method($sql);
+//            }
         }
         return $sql;
     }
@@ -1160,6 +1160,10 @@ class Zend_Db_Select
             $sql = trim($this->_adapter->limit($sql, $count, $offset));
         }
 
+        return $sql;
+    }
+
+    protected function _renderLimitcount($sql) {
         return $sql;
     }
 
