@@ -427,7 +427,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if (is_null($store)) {
             $store = $this->getStoreId();
         }
-        $store = AO::app()->getStore($store);
+        //the getStore() method used to take any kind of argument, store object
+        // store id integer, or null.  I change this to only take an integer.
+        // there's no point in centralized is_object() calls inside the function
+        // when it could be done sparingly outside the function getStore().
+        if (!is_object($store))
+            $store = AO::app()->getStore($store);
 
         if ($this->isEnabledFlat()) {
             if ($store->getId() != $this->getStoreId()) {
