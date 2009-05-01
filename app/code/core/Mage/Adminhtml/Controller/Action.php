@@ -31,7 +31,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
+class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
 {
 
     const FLAG_IS_URLS_CHECKED = 'check_url_settings';
@@ -40,6 +40,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      * Used module name in current adminhtml controller
      */
     protected $_usedModuleName = 'adminhtml';
+    public    $defaultArea     = 'adminhtml';
+
 
     protected function _isAllowed()
     {
@@ -119,11 +121,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     public function preDispatch()
     {
-		Mage_Core_Model_Design_Package::getDesign()->setArea('adminhtml')
+
+        Mage_Core_Model_Design_Package::getDesign()->setArea($this->defaultArea)
             ->setPackageName((string)AO::getConfig()->getNode('stores/admin/design/package/name'))
             ->setTheme((string)AO::getConfig()->getNode('stores/admin/design/theme/default'));
-
-        $this->getLayout()->setArea('adminhtml');
 
         AO::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
 
@@ -141,6 +142,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
                 $_keyErrorMsg = 'Invalid Secret Key';
             }
         }
+
         if (!$_isValidFormKey || !$_isValidSecretKey) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);

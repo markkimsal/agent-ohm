@@ -30,7 +30,6 @@
 AO::includeFile('Mage/Core/Controller/Varien/Router/Abstract');
 AO::includeFile('Mage/Core/Controller/Front/Action');
 
-//bt_die();
 class Mage_Core_Controller_Varien_Front 
 {
     protected $_defaults = array();
@@ -166,6 +165,8 @@ class Mage_Core_Controller_Varien_Front
 			if ($this->_action->outputHandler == 'output') {
 				$this->_action->loadLayout();
 				$this->_action->renderLayout();
+			} elseif ($this->_action->outputHandler == 'none') {
+				//do nothing
 			} else {
 				$this->_action->{$this->_action->outputHandler}();
 			}

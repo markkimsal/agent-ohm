@@ -86,6 +86,7 @@ abstract class Mage_Core_Controller_Front_Action
 
 
     public $outputHandler = 'output'; //the default view function
+    public $defaultArea   = 'frontend';
 
     /**
      * Constructor
@@ -395,8 +396,7 @@ abstract class Mage_Core_Controller_Front_Action
      */
     public function preDispatch()
     {
-
-        $this->getLayout()->setArea('frontend');
+        $this->getLayout()->setArea($this->defaultArea);
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
             if (!AO::isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);

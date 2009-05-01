@@ -30,6 +30,8 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
      */
     const SECRET_KEY_PARAM_NAME = 'key';
 
+    static protected $_fly;
+
     /**
      * Retrieve is secure mode for ULR logic
      *
@@ -59,31 +61,42 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
     }
 
     /**
+     * Return a clone of 1 static Url object
+     */
+    public static function getFlyweight() {
+        if (!isset(Mage_Adminhtml_Model_Url::$_fly)) {
+            Mage_Adminhtml_Model_Url::$_fly = AO::getModel('adminhtml/url');
+        }
+        return clone Mage_Adminhtml_Model_Url::$_fly;
+    }
+
+    /**
      * Custom logic to retrieve Urls
      *
      * @param string $routePath
      * @param array $routeParams
      * @return string
      */
-    public function getUrl($routePath=null, $routeParams=null)
+    public static function getUrl($routePath=null, $routeParams=null)
     {
         $result = parent::getUrl($routePath, $routeParams);
+        $fly = self::getFlyweight();
 
-        if (!$this->useSecretKey() || $this->getNoSecret()) {
+        if (!$fly->useSecretKey() || $fly->getNoSecret()) {
             return $result;
         }
 
-        $_route = $this->getRouteName() ? $this->getRouteName() : '*';
-        $_controller = $this->getControllerName() ? $this->getControllerName() : $this->getDefaultControllerName();
-        $_action = $this->getActionName() ? $this->getActionName() : $this->getDefaultActionName();
-        $secret = array(self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($_controller, $_action));
+        $_route = $fly->getRouteName() ? $fly->getRouteName() : '*';
+        $_controller = $fly->getControllerName() ? $fly->getControllerName() : $fly->getDefaultControllerName();
+        $_action = $fly->getActionName() ? $fly->getActionName() : $fly->getDefaultActionName();
+        $secret = array(self::SECRET_KEY_PARAM_NAME => $fly->getSecretKey($_controller, $_action));
         if (is_array($routeParams)) {
             $routeParams = array_merge($secret, $routeParams);
         } else {
             $routeParams = $secret;
         }
-        if (is_array($this->getRouteParams())) {
-            $routeParams = array_merge($this->getRouteParams(), $routeParams);
+        if (is_array($fly->getRouteParams())) {
+            $routeParams = array_merge($fly->getRouteParams(), $routeParams);
         }
         return parent::getUrl("{$_route}/{$_controller}/{$_action}", $routeParams);
     }

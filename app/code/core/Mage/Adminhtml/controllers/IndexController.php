@@ -29,6 +29,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 {
     protected function _outTemplate($tplName, $data=array())
     {
+        $this->outputHandler='none';
         $this->_initLayoutMessages('adminhtml/session');
         $block = $this->getLayout()->createBlock('adminhtml/template')->setTemplate("$tplName.phtml");
         foreach ($data as $index=>$value) {
@@ -43,6 +44,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
 
         $this->_redirect($url);
         return;
+        /*
 
         $this->loadLayout();
         $block = $this->getLayout()->createBlock('adminhtml/template', 'system.info')
@@ -51,6 +53,7 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         $this->_addContent($block);
 
         $this->renderLayout();
+        */
     }
 
     public function loginAction()
