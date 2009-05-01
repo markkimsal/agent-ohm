@@ -79,16 +79,12 @@ class Varien_Object implements ArrayAccess
      * This behaviour may change in child classes
      *
      */
-    public function __construct()
+    public function __construct($data = array())
     {
-        $args = func_get_args();
-        if (empty($args[0])) {
-            $args[0] = array();
-        }
-        $this->_data = $args[0];
-
+		$this->_data = $data;
         $this->_construct();
     }
+
 
     /**
      * Enter description here...
