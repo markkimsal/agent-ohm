@@ -164,7 +164,25 @@ class Mage_Core_Controller_Varien_Front
 		if(!$this->_action->getFlag('', Mage_Core_Controller_Front_Action::FLAG_NO_DISPATCH)) {
 			if ($this->_action->outputHandler == 'output') {
 				$this->_action->loadLayout();
+
+				//this command should really be in a separate front controller only 
+				//for the admin.
+
+				//the active menu function needs the layout loaded
+				if (isset($this->_action->activeMenu) && $this->_action->activeMenu != '') {
+			        $this->_action->_setActiveMenu($this->_action->activeMenu);
+				}
+				//the breadcrumbs feature  needs the layout loaded
+				if (isset($this->_action->breadCrumbs)) {
+					$bc = $this->_action->breadCrumbs;
+					foreach ($bc as $_bc) {
+				        $this->_action->_addBreadcrumb(AO::helper('adminhtml')->__($_bc), AO::helper('adminhtml')->__($_bc));
+					}
+				}
 				$this->_action->renderLayout();
+			} elseif ($this->_action->outputHandler == 'redirect') {
+				$this->_action->getResponse()->sendResponse();
+				die('redir');
 			} elseif ($this->_action->outputHandler == 'none') {
 				//do nothing
 			} else {

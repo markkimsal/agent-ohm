@@ -35,10 +35,12 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 {
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_setActiveMenu('dashboard');
-        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Dashboard'), AO::helper('adminhtml')->__('Dashboard'));
-        $this->renderLayout();
+        $this->activeMenu = 'dashboard';
+        $this->breadCrumbs = array('Dashboard');
+//        $this->loadLayout();
+//        $this->_setActiveMenu('dashboard');
+//        $this->_addBreadcrumb(AO::helper('adminhtml')->__('Dashboard'), AO::helper('adminhtml')->__('Dashboard'));
+//        $this->renderLayout();
     }
 
     public function productsViewedAction()

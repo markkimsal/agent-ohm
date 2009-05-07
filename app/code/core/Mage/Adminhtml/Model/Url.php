@@ -79,8 +79,8 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
      */
     public static function getUrl($routePath=null, $routeParams=null)
     {
-        $result = parent::getUrl($routePath, $routeParams);
-        $fly = self::getFlyweight();
+        $fly = AO::getSingleton('adminhtml/url');
+        $result = parent::getUrl($routePath, $routeParams, $fly);
 
         if (!$fly->useSecretKey() || $fly->getNoSecret()) {
             return $result;
@@ -90,6 +90,7 @@ class Mage_Adminhtml_Model_Url extends Mage_Core_Model_Url
         $_controller = $fly->getControllerName() ? $fly->getControllerName() : $fly->getDefaultControllerName();
         $_action = $fly->getActionName() ? $fly->getActionName() : $fly->getDefaultActionName();
         $secret = array(self::SECRET_KEY_PARAM_NAME => $fly->getSecretKey($_controller, $_action));
+
         if (is_array($routeParams)) {
             $routeParams = array_merge($secret, $routeParams);
         } else {

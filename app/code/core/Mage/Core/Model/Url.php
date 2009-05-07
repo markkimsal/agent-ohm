@@ -754,10 +754,13 @@ class Mage_Core_Model_Url extends Varien_Object
      * @param   array $routeParams
      * @return  string
      */
-    public static function getUrl($routePath=null, $routeParams=null)
+    public static function getUrl($routePath=null, $routeParams=null, $urlModel = null)
     {
-        $fly = Mage_Core_Model_Url::getFlyweight();
-
+        if ($urlModel === null) {
+            $fly = Mage_Core_Model_Url::getFlyweight();
+        } else {
+            $fly = $urlModel;
+        }
         $escapeQuery = false;
 
         /**

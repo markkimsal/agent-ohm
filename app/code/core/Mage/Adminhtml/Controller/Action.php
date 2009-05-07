@@ -41,6 +41,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
      */
     protected $_usedModuleName = 'adminhtml';
     public    $defaultArea     = 'adminhtml';
+	public    $activeMenu      = '';
+	public    $breadCrumbs     = '';
 
 
     protected function _isAllowed()
@@ -73,7 +75,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
      *
      * @return Mage_Adminhtml_Controller_Action
      */
-    protected function _setActiveMenu($menuPath)
+    public function _setActiveMenu($menuPath)
     {
         $this->getLayout()->getBlock('menu')->setActive($menuPath);
         return $this;
@@ -82,7 +84,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
     /**
      * @return Mage_Adminhtml_Controller_Action
      */
-    protected function _addBreadcrumb($label, $title, $link=null)
+    public function _addBreadcrumb($label, $title, $link=null)
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
         return $this;
@@ -231,8 +233,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
             $this->_redirect('*/index/login');
             return;
         }
-        $this->loadLayout(array('default', 'adminhtml_denied'));
-        $this->renderLayout();
+//        $this->loadLayout(array('default', 'adminhtml_denied'));
+//        $this->renderLayout();
     }
 
     public function loadLayout($ids=null, $generateBlocks=true, $generateXml=true)
@@ -246,8 +248,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
         $this->getResponse()->setHeader('Status','404 File not found');
-        $this->loadLayout(array('default', 'adminhtml_noroute'));
-        $this->renderLayout();
+//        $this->loadLayout(array('default', 'adminhtml_noroute'));
+//        $this->renderLayout();
     }
 
 
@@ -339,6 +341,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
      */
     protected function _redirect($path, $arguments=array())
     {
+        $this->outputHandler = 'redirect';
         $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
         $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
         return $this;
@@ -381,7 +384,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
     protected function _validateSecretKey()
     {
         $url = AO::getSingleton('adminhtml/url');
-
+//        $url = Mage_Core_Model_Url::getFlyweight();
         if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
             || $secretKey != $url->getSecretKey($url->getOriginalControllerName(), $url->getOriginalActionName())) {
             return false;

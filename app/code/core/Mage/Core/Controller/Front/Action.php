@@ -532,6 +532,7 @@ abstract class Mage_Core_Controller_Front_Action
      */
     protected function _redirectUrl($url)
     {
+        $this->outputHandler = 'redirect';
         $this->getResponse()->setRedirect($url);
         return $this;
     }
@@ -544,6 +545,7 @@ abstract class Mage_Core_Controller_Front_Action
      */
     protected function _redirect($path, $arguments=array())
     {
+        $this->outputHandler = 'redirect';
         $this->getResponse()->setRedirect(AO::getUrl($path, $arguments));
         return $this;
     }
@@ -555,6 +557,7 @@ abstract class Mage_Core_Controller_Front_Action
      */
     protected function _redirectSuccess($defaultUrl)
     {
+        $this->outputHandler = 'redirect';
         $successUrl = $this->getRequest()->getParam(self::PARAM_NAME_SUCCESS_URL);
         if (empty($successUrl)) {
             $successUrl = $defaultUrl;
