@@ -92,6 +92,8 @@ class Mage_Cms_Model_Mysql4_Block extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
+		//FIXME: what does this do? can't this be a left join?
+		return;
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('cms/block_store'))
             ->where('block_id = ?', $object->getId());
