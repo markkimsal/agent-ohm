@@ -163,6 +163,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 //                AO::app()->getStore(Mage_Core_Model_Design_Package::getDesign()->getStore())->getId()
             );
         }
+		self::$_urlInstance->setUseSession(false);
         $_urlInstanceOldStore = null;
         if (!empty($path) && !AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
             && !AO::app()->isSingleStoreMode())

@@ -364,6 +364,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
             if ($httpHost !== $urlHost && !$this->isValidForHost($urlHost)) {
                 $sessionId = $this->getEncryptedSessionId();
             } else {
+                $sessionId = $this->getEncryptedSessionId();
                 $sessionId = '';
             }
             self::$_urlHostCache[$urlHost] = $sessionId;

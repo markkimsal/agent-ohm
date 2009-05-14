@@ -56,8 +56,9 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
                 'onclick'  => $onclickJs,
             ));
             // see if order has non-editable products as items
+			$config = AO::getConfig();
             $nonEditableTypes = array_keys(AO::getResourceSingleton('sales/order')->aggregateProductsByTypes(
-                $this->getOrder()->getId(), array_keys(AO::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()), false
+                $this->getOrder()->getId(), array_keys($config->asArray($config->getNode('adminhtml/sales/order/create/available_product_types'))), false
             ));
             if ($nonEditableTypes) {
                 $this->_updateButton('order_edit', 'onclick',
