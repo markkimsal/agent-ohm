@@ -163,6 +163,10 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 //                AO::app()->getStore(Mage_Core_Model_Design_Package::getDesign()->getStore())->getId()
             );
         }
+		//you never want to put the session in here, this may cause problems for some 
+		//sections of the site, but they should use another template filter, not this one.
+		//E-mails go to other people, adding SID pretty much guarantees that someone will 
+		//be logged in as the person sending the e-mail.
 		self::$_urlInstance->setUseSession(false);
         $_urlInstanceOldStore = null;
         if (!empty($path) && !AO::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
