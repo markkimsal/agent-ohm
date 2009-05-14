@@ -269,11 +269,10 @@ class Mage_Core_Model_Translate
      */
     protected function _loadThemeTranslation($forceReload = false)
     {
-
 		$d = Mage_Core_Model_Design_Package::getDesign();
-	$file = $d->getLocaleFileName('translate.csv');
-	$this->_addData($this->_getFileData($file), false, $forceReload);
-	return $this;
+		$file = $d->getLocaleFileName('translate.csv');
+		$this->_addData($this->_getFileData($file), false, $forceReload);
+		return $this;
     }
 
     /**

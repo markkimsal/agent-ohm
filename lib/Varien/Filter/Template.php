@@ -186,12 +186,12 @@ class Varien_Filter_Template implements Zend_Filter_Interface
      */
     protected function _getIncludeParameters($value)
     {
-		$params = $this->_simpleParseParams($value);
-		/*
+		//$params = $this->_simpleParseParams($value);
+		//*
         $tokenizer = new Varien_Filter_Template_Tokenizer_Parameter();
         $tokenizer->setString($value);
         $params = $tokenizer->tokenize();
-		 */
+		// */
         foreach ($params as $key => $value) {
         	if (substr($value, 0, 1) === '$') {
         	    $params[$key] = $this->_getVariable(substr($value, 1), null);

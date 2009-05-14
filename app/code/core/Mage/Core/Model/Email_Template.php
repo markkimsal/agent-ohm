@@ -286,6 +286,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             $this->_cancelDesignConfig();
             throw $e;
         }
+
         $this->_cancelDesignConfig();
         return $processedResult;
     }
@@ -488,7 +489,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
             if ($this->getDesignConfig()->getStore()) {
                 AO::app()->getLocale()->emulate($this->getDesignConfig()->getStore());
-                $design->setStore($this->getDesignConfig()->getStore());
+                $design->setStore(AO::app()->getStore($this->getDesignConfig()->getStore()));
                 $design->setTheme('');
                 $design->setPackageName('');
             }

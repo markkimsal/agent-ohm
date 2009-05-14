@@ -471,7 +471,8 @@ class Mage_Core_Model_Locale
      */
     public function storeDate($store=null, $date=null, $includeTime=false)
     {
-        $timezone = AO::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        if ($store === null) $store = AO::app()->getStore();
+        $timezone = $store->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
         $date = new Zend_Date($date, null, $this->getLocale());
         $date->setTimezone($timezone);
         if (!$includeTime) {

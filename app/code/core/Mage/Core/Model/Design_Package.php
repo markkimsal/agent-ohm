@@ -310,8 +310,8 @@ class Mage_Core_Model_Design_Package
 	public function getLocaleBaseDir(array $params=array())
 	{
 		$this->updateParamDefaults($params);
-		$baseDir = (empty($params['_relative']) ? AO::getBaseDir('design').DS : '').
-			$params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS .
+		$baseDir = (empty($params['_relative']) ? AO::getBaseDir('design').DS : '');
+		$baseDir .= $params['_area'].DS.$params['_package'].DS.$params['_theme'] . DS . 'locale' . DS .
 			AO::app()->getLocale()->getLocaleCode();
 		return $baseDir;
 	}
@@ -352,7 +352,7 @@ class Mage_Core_Model_Design_Package
     			break;
 
     		case 'locale':
-    			$fileName = $this->getLocaleBasedir($params);
+    			$fileName = $this->getLocaleBaseDir($params);
     			break;
 
     		default:
@@ -404,7 +404,7 @@ class Mage_Core_Model_Design_Package
 
     public function getFallbackTheme()
     {
-        return AO::getConfig('design/theme/default', $this->getStore());
+        return (string)$this->getStore()->getStoreConfig('design/theme/default');
     }
 
     public function getLayoutFilename($file, array $params=array())

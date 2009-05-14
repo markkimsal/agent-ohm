@@ -268,6 +268,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             }
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
+			$this->outputHandler = 'none';
         }
     }
 
@@ -293,6 +294,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
+		$this->outputHandler = 'none';
     }
 
     public function saveShippingMethodAction()
@@ -318,7 +320,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             }
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
-
+		$this->outputHandler = 'none';
     }
 
     public function savePaymentAction()
@@ -361,6 +363,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 
             $this->getResponse()->setBody(Zend_Json::encode($result));
         }
+		$this->outputHandler = 'none';
     }
 
     public function saveOrderAction()
@@ -400,7 +403,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             AO::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $result['success']  = false;
             $result['error']    = true;
-            $result['error_messages'] = $this->__('There was an error processing your order. Please contact us or try again later.');
+            $result['error_messages'] = $this->__($e. ' There was an error processing your order. Please contact us or try again later.');
             $this->getOnepage()->getQuote()->save();
         }
 
@@ -413,6 +416,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($result));
+		$this->outputHandler = 'none';
     }
 
 }

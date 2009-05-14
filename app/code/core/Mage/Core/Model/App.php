@@ -597,7 +597,7 @@ class Mage_Core_Model_App
             $id = $this->_currentStore;
         }
         //FIXME: this shouldn't ever happen
-        /*
+        //*
         if ($id instanceof Mage_Core_Model_Store) {
             bt_die();
             return $id;
