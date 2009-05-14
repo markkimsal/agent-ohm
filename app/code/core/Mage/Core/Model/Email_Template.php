@@ -186,7 +186,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     static public function getDefaultTemplates()
     {
         if(is_null(self::$_defaultTemplates)) {
-            self::$_defaultTemplates = AO::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
+			$config = AO::getConfig();
+            self::$_defaultTemplates = $config->asArray($config->getNode(self::XML_PATH_TEMPLATE_EMAIL));
         }
 
         return self::$_defaultTemplates;

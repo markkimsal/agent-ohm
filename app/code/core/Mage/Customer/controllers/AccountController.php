@@ -71,16 +71,21 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-//        $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('catalog/session');
 
+		$this->outputHandler = 'indexOutput';
+    }
+
+	public function indexOutput() {
+        $this->loadLayout();
         $this->getLayout()->getBlock('content')->append(
             $this->getLayout()->createBlock('customer/account_dashboard')
         );
         $this->getLayout()->getBlock('head')->setTitle($this->__('My Account'));
-//        $this->renderLayout();
-    }
+        $this->renderLayout();
+	}
+
 
     /**
      * Customer login form page
@@ -193,8 +198,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             $customer = AO::getModel('customer/customer')->setId(null);
 
-            foreach (AO::getConfig()->getFieldset('customer_account') as $code=>$node) {
-                if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
+			$config = AO::getConfig();
+            foreach ($config->getFieldset('customer_account') as $code=>$node) {
+                if ($config->configElementIs($node,'create') && ($value = $this->getRequest()->getParam($code)) !== null) {
                     $customer->setData($code, $value);
                 }
             }

@@ -214,7 +214,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      * @param   Mage_Core_Controller_Varien_Action $action
      * @return  bool
      */
-    public function authenticate(Mage_Core_Controller_Varien_Action $action, $loginUrl = null)
+    public function authenticate(Mage_Core_Controller_Front_Action $action, $loginUrl = null)
     {
         if (!$this->isLoggedIn()) {
             $this->setBeforeAuthUrl(AO::getUrl('*/*/*', array('_current'=>true)));
