@@ -212,6 +212,8 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         $request = $this->_getProductRequest($info);
 
 
+        AO::dispatchEvent('checkout_cart_product_add_before', array('buy_request'=>$request, 'product'=>$product));
+
         if ($product->getId()) {
 
             $result = $this->getQuote()->addProduct($product, $request);
