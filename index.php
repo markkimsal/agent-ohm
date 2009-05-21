@@ -67,7 +67,7 @@ $end = microtime(1);
 if (! strstr($_SERVER['PHP_SELF'], 'ajax')) {
 	echo '<div style="position:absolute;top:0px;background-color:#cfc">';
 	echo sprintf('%.2f',($end - $start)*1000). 'ms';
-//	echo ' - '. memory_get_peak_usage().' kb';
+	//echo ' - '. number_format(memory_get_peak_usage()).' b';
 	echo ' - '. number_format(memory_get_peak_usage()/1024).' kb';
 	echo '</div>';
 }

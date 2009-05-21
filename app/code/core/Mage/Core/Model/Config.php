@@ -161,7 +161,7 @@ class Mage_Core_Model_Config
 			}
 		}
 
-		$mergeConfig = new Mage_Core_Model_Config_Base();
+		$mergeConfig = new Varien_Simplexml_Config();
 
 		/**
 		 * Load base configuration data
@@ -505,9 +505,9 @@ class Mage_Core_Model_Config
 
 		if (VPROF) Varien_Profiler::start('config/load-modules-declaration');
 
-		$unsortedConfig = new Mage_Core_Model_Config_Base();
+		$unsortedConfig = new Varien_Simplexml_Config();
 		$unsortedConfig->loadString('<config/>');
-		$fileConfig = new Mage_Core_Model_Config_Base();
+		$fileConfig = new Varien_Simplexml_Config();
 
 		// load modules declarations
 		foreach ($moduleFiles as $file) {
@@ -533,7 +533,7 @@ class Mage_Core_Model_Config
 		$moduleDepends = $this->_sortModuleDepends($moduleDepends);
 
 		// create sorted config
-		$sortedConfig = new Mage_Core_Model_Config_Base();
+		$sortedConfig = new Varien_Simplexml_Config();
 		$sortedConfig->loadString('<config><modules/></config>');
 
 		foreach ($unsortedConfig->getNode()->children() as $nodeName => $node) {
