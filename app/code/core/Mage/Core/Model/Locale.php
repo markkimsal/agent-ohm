@@ -492,7 +492,10 @@ class Mage_Core_Model_Locale
      */
     public function storeTimeStamp($store=null)
     {
-        $timezone = AO::app()->getStore($store)->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
+        if (!is_object($store))
+            $store = AO::app()->getStore($store);
+
+        $timezone = $store->getConfig(self::XML_PATH_DEFAULT_TIMEZONE);
         $currentTimezone = @date_default_timezone_get();
         @date_default_timezone_set($timezone);
         $date = date('Y-m-d H:i:s');
