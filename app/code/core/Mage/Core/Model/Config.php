@@ -27,7 +27,6 @@
  * @ao-copyright 2009 Mark Kimsal
  */
 
-AO::includeFile('Mage/Core/Model/Config_Base');
 
 /**
  * Core configuration class
@@ -38,7 +37,8 @@ AO::includeFile('Mage/Core/Model/Config_Base');
  * @author		Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
+class Mage_Core_Model_Config 
+	extends Varien_Simplexml_Config
 {
 	const CACHE_TAG			= 'config';
 
@@ -103,6 +103,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 	public function __construct($sourceData=null)
 	{
 		$this->setCacheId('config_global');
+        $this->_elementClass = 'Mage_Core_Model_Config_Element';
 		parent::__construct($sourceData);
 	}
 
