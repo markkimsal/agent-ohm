@@ -161,14 +161,13 @@ class Mage_Core_Model_Config
 			}
 		}
 
-		$mergeConfig = new Varien_Simplexml_Config();
 
 		/**
 		 * Load base configuration data
 		 */
 		$configFile = $etcDir.DS.'config.xml';
 		$this->loadFile($configFile);
-		$this->_loadDeclaredModules($mergeConfig);
+		$this->_loadDeclaredModules();
 
 		/**
 		 * Load modules configuration data
@@ -177,6 +176,9 @@ class Mage_Core_Model_Config
 
 		$modules = $this->getNode('modules')->children();
 		foreach ($modules as $modName=>$module) {
+			//@TODO: don't place all modules in the same config file.
+			unset($mergeConfig);
+			$mergeConfig = new Varien_Simplexml_Config();
 			if ($this->configElementIs($module, 'active')) {
 				if ($disableLocalModules && ('local' === (string)$module->codePool)) {
 					continue;
@@ -224,11 +226,9 @@ class Mage_Core_Model_Config
 			if (VPROF) Varien_Profiler::stop('config/load-db');
 		}
 
-
 		if (AO::app()->useCache('config')) {
 			$this->saveCache(array(self::CACHE_TAG));
 		}
-
 		return $this;
 	}
 
@@ -493,10 +493,9 @@ class Mage_Core_Model_Config
 	/**
 	 * Load declared modules configuration
 	 *
-	 * @param	$mergeConfig
 	 * @return	Mage_Core_Model_Config
 	 */
-	protected function _loadDeclaredModules($mergeConfig)
+	protected function _loadDeclaredModules()
 	{
 		$moduleFiles = $this->_getDeclaredModuleFiles();
 		if (!$moduleFiles) {

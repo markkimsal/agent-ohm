@@ -27,6 +27,10 @@
  * @ao-copyright 2009 Mark Kimsal
  */
 
+
+AO::includeFile('Mage/Core/Model/Mysql4_Abstract');
+AO::includeFile('Mage/Core/Model/Resource_Type_Db_Pdo_Mysql');
+
 /**
  * Application model
  *
@@ -276,7 +280,6 @@ class Mage_Core_Model_App
             }
             $this->getRequest()->setPathInfo();
         }
-
         return $this;
     }
 
@@ -382,9 +385,6 @@ class Mage_Core_Model_App
      */
     protected function _initStores()
     {
-
-        AO::includeFile('Mage/Core/Model/Mysql4_Abstract');
-        AO::includeFile('Mage/Core/Model/Resource_Type_Db_Pdo_Mysql');
         $this->_stores   = array();
         $this->_groups   = array();
         $this->_website  = null;

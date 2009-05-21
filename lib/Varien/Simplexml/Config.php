@@ -490,10 +490,9 @@ class Varien_Simplexml_Config
             return false;
         }
 
-        $fileData = file_get_contents($filePath);
-        $fileData = $this->processFileData($fileData);
-//		die('loadString param error in '.__FILE__);
-        return $this->loadString($fileData);
+        //$fileData = file_get_contents($filePath);
+        //$fileData = $this->processFileData($fileData);
+        return $this->loadString(file_get_contents($filePath));
     }
 
     /**
