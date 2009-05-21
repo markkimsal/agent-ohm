@@ -776,6 +776,13 @@ abstract class Zend_Db_Adapter_Abstract
         return "'" . addcslashes($value, "\000\n\r\\'\"\032") . "'";
     }
 
+    public function quoteArray($value, $type = null) {
+        foreach ($value as &$val) {
+            $val = $this->quote($val, $type);
+        }
+        return implode(', ', $value);
+    }
+
     /**
      * Safely quotes a value for an SQL statement.
      *
@@ -788,23 +795,6 @@ abstract class Zend_Db_Adapter_Abstract
      */
     public function quote($value, $type = null)
     {
-		/*
-        if ($value instanceof Zend_Db_Select) {
-            return '(' . $value->assemble() . ')';
-        }
-
-        if ($value instanceof Zend_Db_Expr) {
-            return $value->__toString();
-        }
-		 */
-
-        if (is_array($value)) {
-            foreach ($value as &$val) {
-                $val = $this->quote($val, $type);
-            }
-            return implode(', ', $value);
-        }
-
         if ($type !== null) {
 			return $this->_quote(null);
         }
@@ -868,6 +858,21 @@ abstract class Zend_Db_Adapter_Abstract
             while ($count > 0) {
                 if (strpos($text, '?') != false) {
                     $text = substr_replace($text, $this->quote($value, $type), strpos($text, '?'), 1);
+                }
+                --$count;
+            }
+            return $text;
+        }
+    }
+
+    public function quoteIntoArray($text, $value, $type = null, $count = null)
+    {
+        if ($count === null) {
+            return str_replace('?', $this->quoteArray($value, $type), $text);
+        } else {
+            while ($count > 0) {
+                if (strpos($text, '?') != false) {
+                    $text = substr_replace($text, $this->quoteArray($value, $type), strpos($text, '?'), 1);
                 }
                 --$count;
             }

@@ -797,8 +797,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     public function quoteInto($text, $value, $type = null, $count = null)
     {
-        if (is_array($value) && empty($value)) {
-            $value = new Zend_Db_Expr('NULL');
+		if (is_array($value)) {
+		   	if(empty($value)) {
+	            $value = new Zend_Db_Expr('NULL');
+			} else {
+				//handle arrays differently so we're not checking for 
+				//is_array() every time at the base
+        		return parent::quoteIntoArray($text, $value, $type, $count);
+			}
         }
         return parent::quoteInto($text, $value, $type, $count);
     }
