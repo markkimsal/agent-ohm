@@ -276,7 +276,7 @@ class Mage_Core_Model_Config
 				unset($xml->$sectionName);
 			}
 			$xmlStr = $xml->asNiceXml('', false);
-			$this->_saveCache($xmlStr, $this->getCacheId(), $tags, $this->getCacheLifetime());
+			AO::app()->saveCache($xmlStr, $this->getCacheId(), $tags, $this->getCacheLifetime());
 		} else {
 			parent::saveCache($tags);
 		}
@@ -303,7 +303,7 @@ class Mage_Core_Model_Config
 				}
 			}
 			$xmlStr = $source->$sectionName->asNiceXml('', false);
-			$this->_saveCache($xmlStr, $cacheId, $tags, $this->getCacheLifetime());
+			AO::app()->saveCache($xmlStr, $cacheId, $tags, $this->getCacheLifetime());
 		}
 		return $this;
 	}
@@ -317,7 +317,7 @@ class Mage_Core_Model_Config
 	protected function _loadSectionCache($sectionName)
 	{
 		$cacheId = $this->getCacheId() . '_' . $sectionName;
-		$xmlString = $this->_loadCache($cacheId);
+		$xmlString = AO::app()->loadCache($id);
 
 		/**
 		 * If we can't load section cache (problems with cache storage)
@@ -330,31 +330,6 @@ class Mage_Core_Model_Config
 			$xml = simplexml_load_string($xmlString, $this->_elementClass);
 			return $xml;
 		}
-	}
-
-	/**
-	 * Load cached data by identifier
-	 *
-	 * @param	string $id
-	 * @return	string
-	 */
-	protected function _loadCache($id)
-	{
-		return AO::app()->loadCache($id);
-	}
-
-	/**
-	 * Save cache data
-	 *
-	 * @param	string $data
-	 * @param	string $id
-	 * @param	array $tags
-	 * @param	false|int $lifetime
-	 * @return	Mage_Core_Model_Config
-	 */
-	protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
-	{
-		return AO::app()->saveCache($data, $id, $tags, $lifetime);
 	}
 
 	/**
