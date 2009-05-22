@@ -1,7 +1,7 @@
 *~
-app/etc/local.xml
-app/etc/use_cache.ser
-var/cache/*
-var/report
-var/session/*
-media/catalog
+src/app/etc/local.xml
+src/app/etc/use_cache.ser
+src/var/cache/*
+src/var/report
+src/var/session/*
+src/media/catalog
