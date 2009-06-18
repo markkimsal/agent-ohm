@@ -828,6 +828,8 @@ abstract class Zend_Db_Adapter_Abstract
 		return $quotedValue;
 		}
 
+		if (is_array($value))
+			return $this->quoteArray($value);
         return $this->_quote($value);
     }
 
