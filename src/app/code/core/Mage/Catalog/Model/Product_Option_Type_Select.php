@@ -202,7 +202,11 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
             }
             $result = implode($skuDelimiter, $skus);
         } elseif ($this->_isSingleSelection()) {
-            $result = $option->getValueById($optionValue)->getSku();
+			//FIXME this is a huge bug, it shouldn't pass 
+			//prepareOptionsForCart and then fail here
+            $optVal = $option->getValueById($optionValue);
+			if (is_object($optVal))
+	            $result = $option->getValueById($optionValue)->getSku();
         } else {
             $result = parent::getOptionSku($optionValue, $skuDelimiter);
         }
