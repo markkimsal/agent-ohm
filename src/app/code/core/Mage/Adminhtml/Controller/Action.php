@@ -42,7 +42,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Front_Action
     protected $_usedModuleName = 'adminhtml';
     public    $defaultArea     = 'adminhtml';
 	public    $activeMenu      = '';
-	public    $breadCrumbs     = '';
+	public    $breadCrumbs     = array();
 
 
     protected function _isAllowed()

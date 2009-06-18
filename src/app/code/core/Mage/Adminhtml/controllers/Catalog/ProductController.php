@@ -152,9 +152,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_setActiveMenu('catalog/products');
-        $this->renderLayout();
+//        $this->loadLayout();
+        $this->activeMenu = 'catalog/products';
+//        $this->renderLayout();
     }
 
     /**
