@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
 
     public function getRefererParamName()
     {
-        return Mage_Core_Controller_Varien_Action::PARAM_NAME_URL_ENCODED;
+		return Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
     }
 
     public function getLanguageSelect()
