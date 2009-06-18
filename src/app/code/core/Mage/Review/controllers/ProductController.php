@@ -178,7 +178,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
                 $breadcrumbsBlock->addCrumb('reviews', array('label' => AO::helper('review')->__('Product Reviews')));
             }
 
-            $this->renderLayout();
+//            $this->renderLayout();
         } elseif ($this->getRequest()->isDispatched()) {
             $this->_forward('noRoute');
         }
