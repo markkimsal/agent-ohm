@@ -191,6 +191,13 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         }
         else {
             $request = new Varien_Object($requestInfo);
+            if (is_string($request->getData('qty'))) {
+                $request->setData('qty', (int)
+                    Zend_Locale_Format::getNumber(
+                        $request->getData('qty'), 
+                        array('locale' => AO::app()->getLocale()->getLocaleCode(), 'precision'=>4)
+                    ));
+            }
         }
 
         if (!$request->hasQty()) {
