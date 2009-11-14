@@ -619,7 +619,9 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
         $root = $this->_options['cache_dir'];
         $prefix = $this->_options['file_name_prefix'];
         if ($this->_options['hashed_directory_level']>0) {
-            $hash = hash('adler32', $id);
+			//md4 is the fastest, and md5 is way faster than adler32
+            //$hash = hash('md5', $id);
+            $hash = hash('md4', $id);
             for ($i=0 ; $i < $this->_options['hashed_directory_level'] ; $i++) {
                 $root = $root . $prefix . '--' . substr($hash, 0, $i + 1) . DIRECTORY_SEPARATOR;
             }
