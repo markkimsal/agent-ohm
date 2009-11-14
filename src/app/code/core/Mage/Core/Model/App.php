@@ -28,7 +28,10 @@
  */
 
 
+AO::includeFile('Mage/Core/Model/Resource_Abstract');
+AO::includeFile('Mage/Core/Model/Resource_Type_Abstract');
 AO::includeFile('Mage/Core/Model/Mysql4_Abstract');
+AO::includeFile('Mage/Core/Model/Resource_Type_Db');
 AO::includeFile('Mage/Core/Model/Resource_Type_Db_Pdo_Mysql');
 
 /**
@@ -1101,7 +1104,7 @@ class Mage_Core_Model_App
     {
         if (empty($this->_response)) {
             $this->_response = new Mage_Core_Controller_Response_Http();
-            $this->_response->headersSentThrowsException = AO::$headersSentThrowsException;
+//            $this->_response->headersSentThrowsException = AO::$headersSentThrowsException;
             $this->_response->setHeader("Content-Type", "text/html; charset=UTF-8");
         }
         return $this->_response;
