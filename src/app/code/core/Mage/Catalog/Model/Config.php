@@ -245,9 +245,11 @@ class Mage_Catalog_Model_Config extends Mage_Eav_Model_Config
      * @return array
      */
     public function getProductCollectionAttributes() {
-        $attributes = AO::getConfig()
+		$attributes = AO::getConfig()->asArray(
+			AO::getConfig()
             ->getNode(self::XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES)
-            ->asArray();
+		);
+//            ->asArray();
         return array_keys($attributes);;
     }
 
