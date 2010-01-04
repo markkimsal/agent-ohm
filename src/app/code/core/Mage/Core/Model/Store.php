@@ -127,6 +127,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function __construct($datarec) {
         self::_construct();
+		//FIXME: wow this is really bad, why would 
+		//you ever load a store w/o database info?
+		//  Whatever is needed w/o DB info should be changed to 
+		//  static methods
+		if (count($datarec)  < 1) return;
         $this->storeId   = (int)$datarec['store_id'];
         $this->storeCode = $datarec['code'];
         $this->loadConfig($this->storeCode);
