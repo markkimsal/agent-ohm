@@ -266,7 +266,7 @@ class AO {
      * There's no need to allow for customizing "abstract" classes.
      */
     public static function includeLibFile($f) {
-        return @include(BP.'/lib/'.$f.'.php');
+        return include_once(BP.'/lib/'.$f.'.php');
     }
 
     /**
@@ -275,7 +275,7 @@ class AO {
      * There's no need to allow for customizing "abstract" classes.
      */
     public static function includeFile($f) {
-        return @include(BP.'/app/code/core/'.$f.'.php');
+        return include(BP.'/app/code/core/'.$f.'.php');
     }
 
     /**
