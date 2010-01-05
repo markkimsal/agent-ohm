@@ -852,6 +852,8 @@ class Mage_Core_Model_App
      */
     public function getFrontController()
     {
+        if (!$this->_frontController)
+            $this->_initFrontController();
         return $this->_frontController;
     }
 

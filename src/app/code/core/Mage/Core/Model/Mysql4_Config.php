@@ -76,7 +76,12 @@ class Mage_Core_Model_Mysql4_Config extends Mage_Core_Model_Mysql4_Abstract
         }
 
         $websites = array();
-        $rows = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
+        try {
+            $rows = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
+        } catch (Exception $e) {
+            Mage_Core_Model_Resource_Setup::applyAllUpdates();
+            $rows = $read->fetchAssoc("select website_id, code, name from ".$this->getTable('website'));
+        }
         foreach ($rows as $w) {
             $xmlConfig->setNode('websites/'.$w['code'].'/system/website/id', $w['website_id']);
             $xmlConfig->setNode('websites/'.$w['code'].'/system/website/name', $w['name']);

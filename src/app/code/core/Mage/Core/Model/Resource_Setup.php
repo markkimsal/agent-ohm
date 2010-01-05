@@ -283,11 +283,7 @@ class Mage_Core_Model_Resource_Setup
                 }
                 catch (Exception $e){
                     //echo "<pre>".print_r($e,1)."</pre>";
-					//
-					//you can't throw an exception here, otherwise any check 
-					//for a missing table will halt the installation
-					//??? how did this work before?
-                    //throw AO::exception('Mage_Core', AO::helper('core')->__('Error in file: "%s" - %s', $sqlFile, $e->getMessage()));
+                    throw AO::exception('Mage_Core', AO::helper('core')->__('Error in file: "%s" - %s', $sqlFile, $e->getMessage()));
                 }
             }
 

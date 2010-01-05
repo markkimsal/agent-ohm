@@ -217,7 +217,7 @@ class Mage_Core_Model_Config
 			if (VPROF) Varien_Profiler::start('dbUpdates');
 			Mage_Core_Model_Resource_Setup::applyAllUpdates();
 			if (VPROF) Varien_Profiler::stop('dbUpdates');
-			*/
+			/*/
 
 			if (VPROF) Varien_Profiler::start('config/load-db');
 			$dbConf = $this->getResourceModel();
