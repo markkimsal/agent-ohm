@@ -29,6 +29,17 @@
  */
 class Mage_Install_WizardController extends Mage_Install_Controller_Action
 {
+
+    public $defaultArea   = 'install';
+    public $outputHandler = 'installWizardOutput'; //the default view function
+
+	/**
+	 * Do nothing, output is already sent to the browser
+	 */
+	public function installWizardOutput() {
+	 // Do nothing, output is already sent to the browser
+	}
+
     public function preDispatch()
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
