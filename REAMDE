@@ -3,3 +3,14 @@ Agent-Ohm E-commerce Platform
 
 This program was originally a fork of Magento version 1.3.0.  Only the 
 un-optimized files have been changed to protect the innocent.
+
+**DO NOT EXTRACT THIS OVER AN EXISTING MAGENTO INSTALLATION**
+
+Doing that would probably cause some major damage to:
+
+index.php
+code/core/Mage/Core/functions.php
+code/core/Mage/Core/Model/App.php
+code/core/Mage/Core/Model/*
+... and lots more files.
+
