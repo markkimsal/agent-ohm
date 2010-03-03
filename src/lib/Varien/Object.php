@@ -477,11 +477,13 @@ class Varien_Object implements ArrayAccess
      * @param  string $valueSeparator
      * @return string
      */
+	/*
     public function __toString(array $arrAttributes = array(), $valueSeparator=',')
     {
         $arrData = $this->toArray($arrAttributes);
         return implode($valueSeparator, $arrData);
     }
+	 */
 
     /**
      * Public wrapper for __toString

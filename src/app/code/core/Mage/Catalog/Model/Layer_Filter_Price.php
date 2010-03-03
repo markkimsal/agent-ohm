@@ -136,7 +136,8 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
             . '_LOC_'
             ;
         $taxReq = AO::getSingleton('tax/calculation')->getRateRequest(false, false, false);
-        $key.= $taxReq->__toString(array(), '_');
+        //$key.= $taxReq->__toString(array(), '_');
+		$key .= implode( $taxReq->__toArray(), '_');
         return $key;
     }
 
