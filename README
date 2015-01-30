@@ -1,3 +1,10 @@
+This project was started to optimize Magento.  It succeeded in getting ~10%
+performance improvement.  It then ran into an impassible problem relating to the
+template sytem.  No solution other than a complete rewrite could have cured the
+template system of its slowness.
+
+This project is abandonded due to lack of interest.
+
 Agent-Ohm E-commerce Platform
 ================================================================================
 
